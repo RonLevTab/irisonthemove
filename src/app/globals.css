@@ -30,8 +30,8 @@
   /* Nav (align with wordmark — same hue as --color-primary) */
   --nav-link: var(--color-primary);
   --nav-link-muted: color-mix(in srgb, var(--color-primary) 78%, #ffffff);
-  /* Sticky bar (min row + vertical padding) — keep in sync with `Navbar` */
-  --nav-stack-height: 5.25rem;
+  /* Sticky bar (min row + vertical padding) — keep in sync with `.nav-bar-row` */
+  --nav-stack-height: 6rem;
 
   /*
    * About page — drop cap “M” (`.about-lead-drop-cap-m`). Edit these only; rules below use them.
@@ -86,6 +86,8 @@
 html {
   scroll-behavior: smooth;
   overflow-x: clip;
+  /* Same as page bottom / footer so gaps and Safari subpixels never show browser white */
+  background-color: var(--color-surface-strong);
 }
 
 body {
@@ -94,7 +96,7 @@ body {
   background:
     radial-gradient(circle at top right, rgba(214, 161, 101, 0.18), transparent 24%),
     radial-gradient(circle at 18% 72%, rgba(232, 201, 181, 0.35), transparent 42%),
-    linear-gradient(180deg, #fdf8f3 0%, var(--color-background) 28%, #f3e9de 100%);
+    linear-gradient(180deg, #fdf8f3 0%, var(--color-background) 28%, var(--color-surface-strong) 100%);
   color: var(--color-foreground);
 }
 
@@ -157,8 +159,354 @@ textarea {
   @apply flex-1;
 }
 
+/*
+ * Homepage hero — Mac (reference): design clamps. Windows: iets kleiner zodat breedte/terugloop
+ * visueel overeenkomt (DirectWrite / metrics ogen vaak groter); platformOsScript zet os-windows op <html>.
+ */
+.hero-home-headline {
+  font-size: clamp(1.08rem, 3.9vw, 2.55rem);
+}
+.hero-home-subhead {
+  font-size: clamp(1.1rem, calc(2.4vw + 0.7rem), 1.28rem);
+}
+html.os-windows .hero-home-headline {
+  font-size: clamp(0.94rem, 3.32vw, 2.12rem);
+}
+html.os-windows .hero-home-subhead {
+  font-size: clamp(1.02rem, calc(2.05vw + 0.55rem), 1.12rem);
+}
+
+/*
+ * About page photo strip: tile sizes in `PhotoGallery.tsx`; Mac (`os-mac`) gets another step up.
+ */
+html.os-mac .about-photo-gallery-shell {
+  min-height: 13.5rem;
+}
+@media (min-width: 640px) {
+  html.os-mac .about-photo-gallery-shell {
+    min-height: 15.75rem;
+  }
+}
+@media (min-width: 768px) {
+  html.os-mac .about-photo-gallery-shell {
+    min-height: 18rem;
+  }
+}
+@media (min-width: 1024px) {
+  html.os-mac .about-photo-gallery-shell {
+    min-height: 20.5rem;
+  }
+}
+
+html.os-mac .about-photo-gallery-tile {
+  width: 11.75rem !important;
+  height: 11.75rem !important;
+  max-width: 11.75rem !important;
+}
+@media (min-width: 640px) {
+  html.os-mac .about-photo-gallery-tile {
+    width: 14rem !important;
+    height: 14rem !important;
+    max-width: 14rem !important;
+  }
+}
+@media (min-width: 768px) {
+  html.os-mac .about-photo-gallery-tile {
+    width: 16.25rem !important;
+    height: 16.25rem !important;
+    max-width: 16.25rem !important;
+  }
+}
+@media (min-width: 1024px) {
+  html.os-mac .about-photo-gallery-tile {
+    width: 18.5rem !important;
+    height: 18.5rem !important;
+    max-width: 18.5rem !important;
+  }
+}
+
+/* Pull-quote: single loaded weight is light on ClearType — nudge without changing Mac */
+html.os-windows .about-bordeaux-story .about-philosophy-quote {
+  font-weight: 500;
+}
+
+/*
+ * Navbar row: centered strip when <html> has no OS class yet; mac/windows override below.
+ */
+.nav-bar-row {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 4.25rem;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: min(100%, 96rem);
+  padding: 1rem 1.75rem;
+}
+@media (min-width: 640px) {
+  .nav-bar-row {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+@media (min-width: 1024px) {
+  .nav-bar-row {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+}
+html.os-mac .nav-bar-row {
+  margin-left: 0;
+  margin-right: 0;
+  max-width: none;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+@media (min-width: 640px) {
+  html.os-mac .nav-bar-row {
+    gap: 0.75rem;
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+  }
+}
+@media (min-width: 768px) {
+  html.os-mac .nav-bar-row {
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
+  }
+}
+@media (min-width: 1024px) {
+  html.os-mac .nav-bar-row {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+@media (min-width: 1280px) {
+  html.os-mac .nav-bar-row {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+}
+
+.nav-mobile-menu {
+  padding: 1.125rem 1.5rem;
+}
+@media (min-width: 640px) {
+  .nav-mobile-menu {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+html.os-mac .nav-mobile-menu {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+@media (min-width: 640px) {
+  html.os-mac .nav-mobile-menu {
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+  }
+}
+@media (min-width: 768px) {
+  html.os-mac .nav-mobile-menu {
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
+  }
+}
+
+/*
+ * Footer inner — centered strip fallback; mac/windows = full-bleed + matched insets.
+ */
+.footer-align {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: min(100%, 96rem);
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+}
+@media (min-width: 640px) {
+  .footer-align {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+@media (min-width: 1024px) {
+  .footer-align {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+}
+html.os-mac .footer-align {
+  margin-left: 0;
+  margin-right: 0;
+  max-width: none;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+@media (min-width: 640px) {
+  html.os-mac .footer-align {
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+  }
+}
+@media (min-width: 768px) {
+  html.os-mac .footer-align {
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
+  }
+}
+@media (min-width: 1024px) {
+  html.os-mac .footer-align {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+@media (min-width: 1280px) {
+  html.os-mac .footer-align {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+}
+
+/* Windows: zelfde full-bleed + zij-insets als Mac — menu gebruikt dan dezelfde Tailwind-gaps als op Mac. */
+html.os-windows .nav-bar-row {
+  margin-left: 0;
+  margin-right: 0;
+  max-width: none;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+@media (min-width: 640px) {
+  html.os-windows .nav-bar-row {
+    gap: 0.75rem;
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+  }
+}
+@media (min-width: 768px) {
+  html.os-windows .nav-bar-row {
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
+  }
+}
+@media (min-width: 1024px) {
+  html.os-windows .nav-bar-row {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+@media (min-width: 1280px) {
+  html.os-windows .nav-bar-row {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+}
+
+html.os-windows .nav-mobile-menu {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+@media (min-width: 640px) {
+  html.os-windows .nav-mobile-menu {
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+  }
+}
+@media (min-width: 768px) {
+  html.os-windows .nav-mobile-menu {
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
+  }
+}
+
+html.os-windows .footer-align {
+  margin-left: 0;
+  margin-right: 0;
+  max-width: none;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+@media (min-width: 640px) {
+  html.os-windows .footer-align {
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+  }
+}
+@media (min-width: 768px) {
+  html.os-windows .footer-align {
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
+  }
+}
+@media (min-width: 1024px) {
+  html.os-windows .footer-align {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+@media (min-width: 1280px) {
+  html.os-windows .footer-align {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+}
+
+/*
+ * Navbar — Windows: kleinere logo / links / iconen zodat het visueel aansluit bij Mac (fonts renderen anders).
+ */
+html.os-windows .nav-bar-brand .brand-wordmark > span:nth-child(1) {
+  font-size: 2.25rem !important;
+  line-height: 0.88 !important;
+}
+@media (min-width: 640px) {
+  html.os-windows .nav-bar-brand .brand-wordmark > span:nth-child(1) {
+    font-size: 2.875rem !important;
+  }
+}
+html.os-windows .nav-bar-brand .brand-wordmark > span:nth-child(2) {
+  font-size: 0.6875rem !important;
+}
+@media (min-width: 640px) {
+  html.os-windows .nav-bar-brand .brand-wordmark > span:nth-child(2) {
+    font-size: 0.75rem !important;
+  }
+}
+
+html.os-windows .nav-pill-link {
+  font-size: 0.8125rem !important;
+}
+@media (min-width: 640px) {
+  html.os-windows .nav-pill-link {
+    font-size: 0.875rem !important;
+  }
+}
+@media (min-width: 1024px) {
+  html.os-windows .nav-pill-link {
+    font-size: 0.9375rem !important;
+    padding-top: 0.625rem !important;
+    padding-bottom: 0.625rem !important;
+  }
+}
+
+html.os-windows .nav-social-link {
+  width: 2.25rem !important;
+  height: 2.25rem !important;
+}
+@media (min-width: 640px) {
+  html.os-windows .nav-social-link {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+  }
+}
+html.os-windows .nav-social-link svg {
+  width: 1.05rem !important;
+  height: 1.05rem !important;
+}
+
 .section-shell {
-  @apply mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-12 lg:py-20;
+  @apply mx-auto w-full max-w-[min(100%,96rem)] px-6 py-16 sm:px-10 lg:px-12 lg:py-20;
 }
 
 /*
@@ -209,7 +557,10 @@ textarea {
 
 .card-shell {
   background: rgba(255, 251, 247, 0.88);
-  border: 1px solid var(--color-border);
+  border-top: none;
+  border-bottom: none;
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
   border-radius: 2rem;
   box-shadow:
     0 22px 60px rgba(58, 36, 32, 0.07),
@@ -223,15 +574,132 @@ textarea {
 }
 
 /*
- * Flush under the gallery and above the footer: no extra rules or inset highlight;
- * footer `border-t` is the only seam so the cream sheet reads as one block to the footer.
+ * Flush under the gallery and above the footer: no card top/bottom border;
+ * footer has no top rule — transition is color-only (see body gradient end).
  */
 .about-main-card-flush-top.card-shell {
   border-top: none;
   border-bottom: none;
-  box-shadow:
-    0 20px 50px rgba(58, 36, 32, 0.06),
-    0 28px 70px rgba(58, 36, 32, 0.08);
+  box-shadow: none;
+}
+
+/* About sheet — squared-off bottom so it meets the footer in a straight line; no side/bottom glow */
+.card-shell.about-main-card-flush-top.about-bordeaux-story {
+  border-radius: 2rem 2rem 0 0;
+  box-shadow: none;
+}
+
+/* About — één subtiele contour; geen dubbele “lijn” door zware inset */
+.card-shell.about-bordeaux-story {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  /* Avoid Safari light fringes / “white bars” at edges with backdrop + multilayer paints */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-top: none;
+  border-bottom: none;
+  border-left: 1px solid color-mix(in srgb, var(--color-border) 82%, var(--color-foreground) 6%);
+  border-right: 1px solid color-mix(in srgb, var(--color-border) 82%, var(--color-foreground) 6%);
+  background-color: rgba(255, 250, 246, 0.92);
+  background-image:
+    radial-gradient(ellipse 120% 70% at 108% -12%, color-mix(in srgb, var(--color-primary) 18%, transparent), transparent 58%),
+    radial-gradient(ellipse 90% 65% at -12% 108%, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 55%),
+    radial-gradient(ellipse 45% 35% at 72% 42%, color-mix(in srgb, var(--color-secondary) 8%, transparent), transparent 70%),
+    linear-gradient(
+      168deg,
+      rgba(255, 253, 251, 0.97) 0%,
+      rgba(255, 247, 242, 0.88) 42%,
+      rgba(252, 244, 240, 0.94) 100%
+    );
+  box-shadow: none;
+}
+
+.about-bordeaux-heading {
+  position: relative;
+  /* Equal gap title → stripe (padding) and stripe → body (margin); ::after sits on bottom edge */
+  --about-heading-stripe-inset: 0.5rem;
+  padding-bottom: var(--about-heading-stripe-inset);
+  margin-bottom: var(--about-heading-stripe-inset);
+  /* Same as homepage hero tagline (`.hero-home-headline` uses `text-black`) */
+  color: #000;
+}
+
+.about-bordeaux-heading::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: min(9.25rem, 88%);
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary) 0%,
+    color-mix(in srgb, var(--color-primary) 42%, transparent) 72%,
+    transparent 100%
+  );
+  transform: skewX(-5deg);
+  transform-origin: left center;
+  opacity: 1;
+}
+
+/* No extra margin collapse — body sits one inset below the stripe, matching the inset above */
+.about-bordeaux-story h1.about-bordeaux-heading + p,
+.about-bordeaux-story h2.about-bordeaux-heading + p {
+  margin-top: 0;
+}
+
+.about-bordeaux-story .about-lead-cap-below-sentence:not(.about-lead-cap-below-sentence--first) {
+  margin-top: 1.45em;
+}
+
+.about-bordeaux-masthead {
+  position: relative;
+}
+
+.about-bordeaux-body {
+  /* Same as homepage hero description (`.hero-home-subhead` uses `text-[var(--color-primary)]`) */
+  color: var(--color-primary);
+}
+
+/*
+ * Story copy: full justification (both margins), last line natural left.
+ * Applied to `.about-bordeaux-body` + lead blocks so flex/float innards still line out.
+ */
+.about-bordeaux-story .about-bordeaux-body,
+.about-bordeaux-story .about-lead-cap-below-sentence {
+  text-align: justify;
+  text-align-last: left;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* Text column beside the row drop-cap (flex child) */
+.about-bordeaux-story .about-lead-drop-cap-m--row + span {
+  text-align: justify;
+  text-align-last: left;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+.about-bordeaux-story .about-lead-drop-cap-m,
+.about-bordeaux-story .about-lead-drop-cap-m.about-lead-drop-cap-m--row {
+  color: var(--color-primary);
+  /* Soft depth — lighter than the previous heavy glow */
+  text-shadow:
+    0 0.03em 0 color-mix(in srgb, #fffdfb 70%, transparent),
+    0 1px 12px color-mix(in srgb, var(--color-primary) 22%, transparent);
+  filter: drop-shadow(0 2px 8px color-mix(in srgb, var(--color-primary) 12%, transparent));
+}
+
+.about-philosophy-icon-row svg {
+  box-sizing: content-box;
+  padding: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 32%, transparent);
+  background: color-mix(in srgb,var(--color-primary) 11%, transparent);
+  box-shadow: none;
 }
 
 /* About lead drop cap — values: see `--about-drop-cap-*` on `:root` */
@@ -338,7 +806,10 @@ textarea {
 }
 
 .secondary-button {
-  border: 1px solid var(--color-border);
+  border-top: none;
+  border-bottom: none;
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
   color: var(--color-primary);
   background: rgba(255, 252, 248, 0.9);
 }
@@ -458,17 +929,69 @@ textarea {
   white-space: nowrap;
 }
 
-/*
- * About philosophy card — neutral hairline border, soft lift shadow (no oak/gold rim, no motion).
- */
+/* About philosophy card — flat surface, bordeaux frame (no shadows; only About uses this) */
 .philosophy-quote-card {
-  z-index: 1;
-  background: rgba(255, 251, 247, 0.98);
-  border: 1px solid var(--color-border);
-  box-shadow:
-    0 6px 20px rgba(90, 45, 50, 0.07),
-    0 14px 36px rgba(58, 36, 32, 0.09),
-    0 1px 0 rgba(255, 255, 255, 0.65) inset;
+  background: linear-gradient(
+    168deg,
+    color-mix(in srgb, #fffaf6 85%, var(--color-primary) 15%),
+    color-mix(in srgb, #fef6f0 82%, var(--color-primary) 18%)
+  );
+  border: 2px solid color-mix(in srgb, var(--color-primary) 45%, var(--color-border) 55%);
+  box-shadow: none;
+}
+
+.about-philosophy-quote {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  border-left: none;
+  color: color-mix(in srgb, var(--color-primary) 26%, var(--color-foreground) 74%);
+}
+
+.about-bordeaux-story .about-philosophy-quote {
+  color: color-mix(in srgb, var(--color-primary) 38%, var(--color-foreground) 62%);
+}
+
+.philosophy-quote-card.philosophy-quote-card--accent {
+  /* Stronger bordeaux frame + warmer fill — flat, no shadow */
+  border-width: 3px;
+  border-color: color-mix(in srgb, var(--color-primary) 62%, var(--color-border) 38%);
+  background: linear-gradient(
+    168deg,
+    color-mix(in srgb, #fff7f2 78%, var(--color-primary) 22%),
+    color-mix(in srgb, #fdede8 72%, var(--color-primary) 28%)
+  );
+  box-shadow: none;
+}
+
+/* Philosophy on About — zelfde contour-logica als het grote vlak: dun, strak */
+.philosophy-quote-card.philosophy-quote-card--invert {
+  border-width: 1px;
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--color-border) 72%, var(--color-primary) 28%);
+  background: linear-gradient(
+    168deg,
+    color-mix(in srgb, var(--color-primary) 62%, #cda9ae) 0%,
+    color-mix(in srgb, var(--color-primary) 56%, #b89297) 45%,
+    color-mix(in srgb, var(--color-primary-mid) 58%, #a88288) 100%
+  );
+  box-shadow: none;
+}
+
+.philosophy-quote-card.philosophy-quote-card--invert .about-philosophy-quote {
+  color: rgba(255, 252, 251, 0.96);
+}
+
+.philosophy-quote-card.philosophy-quote-card--invert .about-philosophy-icon-row {
+  color: rgba(255, 252, 251, 0.96);
+}
+
+.philosophy-quote-card.philosophy-quote-card--invert .about-philosophy-icon-row svg {
+  padding: 0.55rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, #fff 40%, transparent);
+  background: color-mix(in srgb, #fff 8%, transparent);
+  box-shadow: none;
 }
 
 /*

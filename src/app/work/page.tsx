@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 /**
  * Work categories follow the same section shell as the homepage
- * (e.g. `ServicesOverviewSection`: oak edge-fade rules + `max-w-7xl` inner).
+ * (e.g. `ServicesOverviewSection`: oak edge-fade rules + wide inner shell).
  */
 export default async function WorkPage() {
   const work = await getWorkPageContent();
@@ -62,7 +62,7 @@ export default async function WorkPage() {
             )}
           >
             <div
-              className="mx-auto flex max-w-7xl flex-col gap-6 px-6 pt-10 pb-12 sm:px-10 lg:gap-7 lg:px-12 lg:pt-12 lg:pb-16"
+              className="mx-auto flex w-full max-w-[min(100%,96rem)] flex-col gap-6 px-6 pt-10 pb-12 sm:px-10 lg:gap-7 lg:px-12 lg:pt-12 lg:pb-16"
             >
               <ScrollReveal className="flex w-full flex-col items-center text-center">
                 <SectionHeading
@@ -70,6 +70,7 @@ export default async function WorkPage() {
                   eyebrow={work.intro.eyebrow}
                   title={category.title}
                   titleVariant="editorialDual"
+                  editorialDualEyebrowClassName="text-[0.64rem] sm:text-[0.74rem] md:text-[0.84rem] lg:text-[0.94rem]"
                   stackGapClassName="gap-3 sm:gap-4"
                   className="w-full max-w-5xl"
                   innerClassName="!max-w-2xl"
@@ -90,9 +91,10 @@ export default async function WorkPage() {
                   <div
                     className={cn(
                       "mx-auto flex w-full min-h-0 min-w-0",
-                      "min-[900px]:max-h-full min-[900px]:max-w-full",
+                      "min-[900px]:max-w-full",
+                      !isDualGrids && "min-[900px]:max-h-full",
                       isDualGrids
-                        ? "min-[1200px]:min-h-0"
+                        ? "lg:min-h-0"
                         : isHotels
                           ? "min-[900px]:min-h-0"
                           : isTravelSpecial

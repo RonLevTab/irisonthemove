@@ -15,14 +15,19 @@ export type GradientSocialMenuItem = {
 
 type GradientSocialMenuProps = {
   items: GradientSocialMenuItem[];
+  /** Larger hit targets and icons (e.g. contact page). */
+  size?: "default" | "lg";
 };
 
 /**
  * Expanding gradient menu: icon at rest → gradient fill + full label on hover/focus.
  * Ring uses the same gradient as the primary CTA (`--color-primary` → `--color-secondary`).
  */
-const gradientButtonClassName =
-  "group relative flex h-[60px] w-[60px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[var(--color-surface)] shadow-[0_18px_40px_rgba(90,45,50,0.2)] transition-all duration-500 md:hover:w-[200px] md:hover:shadow-none md:focus-visible:w-[200px] md:focus-visible:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]";
+const gradientButtonClasses = {
+  default:
+    "group relative flex h-[60px] w-[60px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[var(--color-surface)] shadow-[0_18px_40px_rgba(90,45,50,0.2)] transition-all duration-500 md:hover:w-[200px] md:hover:shadow-none md:focus-visible:w-[200px] md:focus-visible:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]",
+  lg: "group relative flex h-[72px] w-[72px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[var(--color-surface)] shadow-[0_22px_48px_rgba(90,45,50,0.22)] transition-all duration-500 md:hover:w-[232px] md:hover:shadow-none md:focus-visible:w-[232px] md:focus-visible:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]",
+} as const;
 
 function GradientMenuButton({
   href,
@@ -30,7 +35,14 @@ function GradientMenuButton({
   icon,
   gradientFrom,
   gradientTo,
-}: GradientSocialMenuItem) {
+  buttonClassName,
+  iconClassName,
+  labelClassName,
+}: GradientSocialMenuItem & {
+  buttonClassName: string;
+  iconClassName: string;
+  labelClassName: string;
+}) {
   const style = {
     "--gradient-from": gradientFrom ?? "var(--color-primary)",
     "--gradient-to": gradientTo ?? "var(--color-secondary)",
@@ -48,12 +60,14 @@ function GradientMenuButton({
       />
 
       <span className="relative z-10 transition-all duration-500 group-hover:scale-0 group-hover:delay-0 group-focus-visible:scale-0">
-        <span className="pointer-events-auto text-2xl text-[var(--color-primary)] [&>svg]:block [&>svg]:h-7 [&>svg]:w-7">
+        <span className={iconClassName}>
           {icon}
         </span>
       </span>
 
-      <span className="pointer-events-none absolute z-10 px-2 text-center text-sm font-semibold uppercase tracking-wide text-white transition-all duration-500 delay-150 scale-0 group-hover:scale-100 group-hover:delay-150 group-focus-visible:scale-100 group-focus-visible:delay-150">
+      <span
+        className={`pointer-events-none absolute z-10 px-2 text-center font-semibold uppercase tracking-wide text-white transition-all duration-500 delay-150 scale-0 group-hover:scale-100 group-hover:delay-150 group-focus-visible:scale-100 group-focus-visible:delay-150 ${labelClassName}`}
+      >
         {title}
       </span>
     </>
@@ -66,7 +80,7 @@ function GradientMenuButton({
       <a
         href={href}
         style={style}
-        className={gradientButtonClassName}
+        className={buttonClassName}
         aria-label={`Send email (opens your default mail app to ${href.replace(/^mailto:/i, "")})`}
       >
         {inner}
@@ -80,7 +94,7 @@ function GradientMenuButton({
       target="_blank"
       rel="noopener noreferrer"
       style={style}
-      className={gradientButtonClassName}
+      className={buttonClassName}
       aria-label={`${title} (opens in a new tab)`}
     >
       {inner}
@@ -88,9 +102,18 @@ function GradientMenuButton({
   );
 }
 
-export function GradientSocialMenu({ items }: GradientSocialMenuProps) {
+export function GradientSocialMenu({ items, size = "default" }: GradientSocialMenuProps) {
+  const isLg = size === "lg";
+  const buttonClassName = isLg ? gradientButtonClasses.lg : gradientButtonClasses.default;
+  const iconClassName = isLg
+    ? "pointer-events-auto text-3xl text-[var(--color-primary)] [&>svg]:block [&>svg]:h-8 [&>svg]:w-8"
+    : "pointer-events-auto text-2xl text-[var(--color-primary)] [&>svg]:block [&>svg]:h-7 [&>svg]:w-7";
+  const labelClassName = isLg ? "text-base" : "text-sm";
+
   return (
-    <ul className="flex w-full flex-wrap items-center justify-center gap-6 overflow-x-clip">
+    <ul
+      className={`flex w-full flex-wrap items-center justify-center overflow-x-clip ${isLg ? "gap-8" : "gap-6"}`}
+    >
       {items.map(({ href, title, icon, gradientFrom, gradientTo }, idx) => (
         <li key={`${title}-${idx}`} className="list-none">
           <GradientMenuButton
@@ -99,6 +122,9 @@ export function GradientSocialMenu({ items }: GradientSocialMenuProps) {
             icon={icon}
             gradientFrom={gradientFrom}
             gradientTo={gradientTo}
+            buttonClassName={buttonClassName}
+            iconClassName={iconClassName}
+            labelClassName={labelClassName}
           />
         </li>
       ))}

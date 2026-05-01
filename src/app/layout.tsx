@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { getSiteConfig } from "@/lib/content";
+import { platformOsScript } from "@/lib/platformOsScript";
 import {
   fontBrandSubtitle,
   fontCormorant,
@@ -73,6 +75,11 @@ export default async function RootLayout({
       className={`${dmSans.variable} ${fontCormorant.variable} ${fontLogoScript.variable} ${fontBrandSubtitle.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
+        <Script
+          id="platform-os"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: platformOsScript }}
+        />
         <Navbar
           instagramUrl={site.socialLinks.instagram}
           tiktokUrl={site.socialLinks.tiktok}

@@ -80,18 +80,18 @@
     "instagram": {
       "profileHandle": "@irisonthemove",
       "platformLabel": "Instagram",
-      "period30d": "Last 30 days (Mar 24 – Apr 22)",
-      "totalViews30d": 263871,
-      "accountsReached": 133740,
-      "reachChangePercent": 714.6,
-      "totalViewsLabel": "263.9K",
-      "statsPillLabel": "133K",
-      "viewsFromFollowersPercent": 24.5,
-      "viewsFromNonFollowersPercent": 75.5,
+      "period30d": "Last month (Apr 1 – Apr 30, 2026)",
+      "totalViews30d": 300450,
+      "accountsReached": 158383,
+      "reachChangePercent": 618.1,
+      "totalViewsLabel": "300.5K",
+      "statsPillLabel": "158K",
+      "viewsFromFollowersPercent": 22.7,
+      "viewsFromNonFollowersPercent": 77.3,
       "contentMix": [
-        { "label": "Reels", "percent": 69.5 },
-        { "label": "Stories", "percent": 21.0 },
-        { "label": "Posts", "percent": 9.4 }
+        { "label": "Reels", "percent": 74.7 },
+        { "label": "Stories", "percent": 16.7 },
+        { "label": "Posts", "percent": 8.6 }
       ],
       "singleReel": {
         "reelName": "Rocco",
@@ -120,7 +120,7 @@
     }
   },
   "cta": {
-    "title": "Let's create in your location",
+    "title": "Let's create\nin your location",
     "buttonLabel": "Work with me",
     "buttonHref": "/contact",
     "backgroundImage": "/images/home/home-video-cta-2026-04-24-001720.jpeg"

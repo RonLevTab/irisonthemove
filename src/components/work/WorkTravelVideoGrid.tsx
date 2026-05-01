@@ -16,8 +16,8 @@ type WorkTravelVideoGridProps = {
  * Six self-hosted MP4s in a **2×3** grid — same reel-style card shell and playback behavior as
  * {@link WorkCategoryTripleVideoRow} (muted, loop, in-view play/pause). Videos use
  * `object-bottom` so on-screen text at the lower edge is not cropped by the 3:4 frame.
- * Width matches the restaurant/hotel work strips: `max-w-[min(100%,64rem)]` (see
- * {@link WorkDualGridsWithTripleVideos}).
+ * Width matches the restaurant/hotel work strips: full width of the section shell
+ * (see {@link WorkDualGridsWithTripleVideos}).
  */
 export function WorkTravelVideoGrid({
   videos,
@@ -56,7 +56,7 @@ export function WorkTravelVideoGrid({
     <div className="flex w-full justify-center">
       <div
         className={cn(
-          "grid min-w-0 w-full max-w-[min(100%,64rem)] grid-cols-1 gap-4",
+          "grid min-w-0 w-full max-w-full grid-cols-1 gap-4",
           "min-[640px]:grid-cols-2",
           "min-[1024px]:grid-cols-3 sm:gap-5 min-[1200px]:gap-6",
           className,

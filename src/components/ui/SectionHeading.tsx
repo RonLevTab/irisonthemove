@@ -25,6 +25,8 @@ type SectionHeadingProps = {
   description?: string;
   /** Extra classes on the description paragraph (e.g. uppercase + tracking). */
   descriptionClassName?: string;
+  /** Extra classes on the eyebrow when `titleVariant` is `editorialDual` (e.g. larger “Portfolio” on Work). */
+  editorialDualEyebrowClassName?: string;
   align?: "left" | "center";
   action?: ReactNode;
   /** Extra classes on the root wrapper (e.g. responsive alignment). */
@@ -47,6 +49,7 @@ export function SectionHeading({
   action,
   className,
   innerClassName,
+  editorialDualEyebrowClassName,
 }: SectionHeadingProps) {
   const alignment =
     align === "center" ? "items-center text-center" : "items-start text-left";
@@ -75,7 +78,13 @@ export function SectionHeading({
         )}
       >
         {eyebrow && titleVariant === "editorialDual" ? (
-          <span className="font-text-3 whitespace-nowrap text-[0.62rem] font-medium uppercase leading-none tracking-[0.28em] text-[var(--color-primary)] sm:text-[0.74rem] sm:tracking-[0.26em]">
+          <span
+            className={cn(
+              "font-text-3 whitespace-nowrap font-medium uppercase leading-none tracking-[0.28em] text-[var(--color-primary)] sm:tracking-[0.26em]",
+              editorialDualEyebrowClassName ??
+                "text-[0.62rem] sm:text-[0.74rem]",
+            )}
+          >
             {eyebrow}
           </span>
         ) : eyebrow && titleVariant !== "editorialDual" ? (

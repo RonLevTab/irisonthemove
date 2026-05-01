@@ -45,8 +45,9 @@ export const latestContentSectionStyle: CSSProperties = {
   backgroundImage: `
       linear-gradient(
         180deg,
-        #fdf8f3 0%,
-        rgba(253, 248, 243, 0.98) 28%,
+        #f3e9de 0%,
+        rgba(253, 248, 243, 0.97) 20%,
+        rgba(253, 248, 243, 0.98) 40%,
         #f3e9de 100%
       ),
       radial-gradient(ellipse 110% 70% at 90% 8%, rgba(214, 161, 101, 0.07), transparent 58%),
@@ -62,7 +63,11 @@ export const oakSectionBorderClassName = "section-divider-edge-fade-bottom";
 export const oakSectionBorderTopClassName = "section-divider-edge-fade-top";
 
 export const oakSectionInnerClassName =
-  "mx-auto max-w-7xl px-6 pt-16 pb-10 sm:px-10 lg:px-12 lg:pt-20 lg:pb-12";
+  "mx-auto w-full max-w-[min(100%,96rem)] px-6 pt-16 pb-10 sm:px-10 lg:px-12 lg:pt-20 lg:pb-12";
+
+/** Follows homepage hero — less top padding + same top tone as hero gradient end for a seamless join */
+export const oakSectionInnerAfterHeroClassName =
+  "mx-auto w-full max-w-[min(100%,96rem)] px-6 pt-8 pb-10 sm:px-10 sm:pt-10 lg:px-12 lg:pt-12 lg:pb-12";
 
 /** Section titles aligned with Latest content: tagline + uppercase + tracking. */
 export const oakSectionTitleClassName = "uppercase not-italic tracking-[0.22em]";

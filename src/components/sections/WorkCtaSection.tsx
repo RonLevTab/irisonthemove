@@ -12,19 +12,77 @@ type WorkCtaSectionProps = {
   backgroundImage: string;
 };
 
+const workCtaTitleClassName = cn(
+  "font-text-3 text-balance text-center text-[clamp(1.4rem,3.6vw+0.2rem,2.35rem)] font-medium italic leading-[1.12] tracking-[0.04em] text-[var(--color-primary)]",
+);
+
+/** One line: word after "Let's " is bold; optional remainder after that word stays italic. */
+function WorkCtaTitleLine({ line }: { line: string }) {
+  const restOfLine = line.match(/^(Let's\s+)(\S+)(\s+.+)$/i);
+  if (restOfLine) {
+    return (
+      <>
+        {restOfLine[1]}
+        <strong className="font-bold not-italic">{restOfLine[2]}</strong>
+        {restOfLine[3]}
+      </>
+    );
+  }
+  const letsOnlyTwo = line.match(/^(Let's\s+)(\S+)$/i);
+  if (letsOnlyTwo) {
+    return (
+      <>
+        {letsOnlyTwo[1]}
+        <strong className="font-bold not-italic">{letsOnlyTwo[2]}</strong>
+      </>
+    );
+  }
+  return <>{line}</>;
+}
+
 /**
- * "Let's {emphasis} …" — first word after "Let's " is bold/roman, rest italic (matches hero tagline: one word stands out).
+ * "Let's {emphasis} …" — first word after "Let's " is bold/roman (hero-style).
+ * Use a newline in `title` for two stacked lines (see work-page.json cta).
  */
 function WorkCtaTitle({ title }: { title: string }) {
-  const m = title.match(/^(Let's\s+)(\S+)(\s+.+)$/i);
+  const lines = title
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter(Boolean);
+
+  if (lines.length > 1) {
+    const ariaLabel = lines.join(" ");
+    const last = lines.length - 1;
+    return (
+      <h2 aria-label={ariaLabel} className={workCtaTitleClassName}>
+        <span className="flex flex-col items-center gap-1 sm:gap-1.5">
+          <span className="block text-pretty">
+            <span aria-hidden className="select-none">
+              {"\u201c"}
+            </span>
+            <WorkCtaTitleLine line={lines[0]} />
+          </span>
+          {lines.slice(1, last).map((line, i) => (
+            <span key={`cta-title-mid-${i}`} className="block text-pretty">
+              <WorkCtaTitleLine line={line} />
+            </span>
+          ))}
+          <span className="block text-pretty">
+            <WorkCtaTitleLine line={lines[last]} />
+            <span aria-hidden className="select-none">
+              {"\u201d"}
+            </span>
+          </span>
+        </span>
+      </h2>
+    );
+  }
+
+  const single = lines[0] ?? title;
+  const m = single.match(/^(Let's\s+)(\S+)(\s+.+)$/i);
   if (m) {
     return (
-      <h2
-        aria-label={title}
-        className={cn(
-          "font-text-3 text-balance text-center text-[clamp(1.4rem,3.6vw+0.2rem,2.35rem)] font-medium italic leading-[1.12] tracking-[0.04em] text-[var(--color-primary)]",
-        )}
-      >
+      <h2 aria-label={single} className={workCtaTitleClassName}>
         <span aria-hidden className="select-none">
           {"\u201c"}
         </span>
@@ -38,14 +96,11 @@ function WorkCtaTitle({ title }: { title: string }) {
     );
   }
   return (
-    <h2
-      aria-label={title}
-      className="font-text-3 text-balance text-center text-[clamp(1.4rem,3.6vw+0.2rem,2.35rem)] font-medium italic leading-[1.12] tracking-[0.04em] text-[var(--color-primary)]"
-    >
+    <h2 aria-label={single} className={workCtaTitleClassName}>
       <span aria-hidden className="select-none">
         {"\u201c"}
       </span>
-      {title}
+      {single}
       <span aria-hidden className="select-none">
         {"\u201d"}
       </span>
@@ -89,7 +144,7 @@ export function WorkCtaSection({
           aria-hidden
         />
 
-        <div className="absolute inset-0 z-10 flex items-center justify-center px-4 py-6 min-[400px]:px-6 sm:px-8 sm:py-8 lg:px-10">
+        <div className="absolute inset-0 z-10 flex items-center justify-center px-6 py-6 min-[400px]:px-8 sm:px-10 sm:py-8 lg:px-12">
           <ScrollReveal className="flex w-full max-w-md justify-center sm:max-w-lg">
             <div
               className={cn(

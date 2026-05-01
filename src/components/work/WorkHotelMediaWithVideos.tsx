@@ -14,9 +14,9 @@ type WorkHotelMediaWithVideosProps = {
 };
 
 /**
- * Same layout contract as {@link WorkDualGridsWithTripleVideos}: photo strip measured with
- * `ResizeObserver`, then three default-framed reels below with matching width — only the
- * grid component differs (6×2 hotels vs dual 3×3).
+ * Same layout contract as {@link WorkDualGridsWithTripleVideos}: the photo strip uses the
+ * full section width, is measured with `ResizeObserver`, then three default-framed reels sit
+ * below at matching width — only the grid differs (6×2 hotels vs dual 3×3).
  */
 export function WorkHotelMediaWithVideos({
   stripAriaLabel,
@@ -50,7 +50,7 @@ export function WorkHotelMediaWithVideos({
           ref={stripRef}
           role="region"
           aria-label={stripAriaLabel}
-          className="flex min-h-0 min-w-0 w-full flex-col min-[900px]:w-[min(100%,64rem)] min-[1200px]:items-center min-[1200px]:justify-center"
+          className="flex min-h-0 min-w-0 w-full flex-col min-[1200px]:items-center min-[1200px]:justify-center"
         >
           <WorkHotelSixByTwoGrid items={items} />
         </div>

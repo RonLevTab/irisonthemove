@@ -5,7 +5,6 @@ import React from "react";
 import { VISITED_COUNTRIES } from "@/lib/destinationGalleryCountries";
 import {
   brandSubtitleClassName,
-  brandWordmarkNavSubtitleTextSizeClassName,
 } from "@/lib/brandFonts";
 import { cn } from "@/lib/utils";
 
@@ -25,17 +24,22 @@ const MARQUEE_LOOP_SEGMENTS = 4;
 const SEPARATOR_FADE =
   "linear-gradient(to bottom, transparent 0%, transparent 10%, rgba(90,45,50,0.05) 28%, rgba(90,45,50,0.34) 50%, rgba(90,45,50,0.05) 72%, transparent 90%, transparent 100%)";
 
-const SEPARATOR_FADE_H =
-  "linear-gradient(to right, transparent 0%, rgba(90,45,50,0.12) 22%, rgba(90,45,50,0.28) 50%, rgba(90,45,50,0.12) 78%, transparent 100%)";
+/** Narrow edge fade — wide fades read as empty margin on Safari; keep soft feather only. */
+const TICKER_MASK_EDGES =
+  "linear-gradient(90deg, transparent 0%, black 3%, black 97%, transparent 100%)";
 
-const TICKER_HORIZONTAL_MASK =
-  "linear-gradient(90deg, transparent 0%, black 9%, black 91%, transparent 100%)";
+/**
+ * Same edge fades + soft “hole” in the middle so labels vanish at the vertical rules
+ * and reappear past them (nothing reads through the stat).
+ */
+const TICKER_MASK_EDGES_AND_CENTER =
+  "linear-gradient(90deg, transparent 0%, black 3%, black 38%, transparent 42%, transparent 58%, black 62%, black 97%, transparent 100%)";
 
 function SeparatorDot() {
-  /* Fixed rem so size stays visible when country labels use small logo-matched type */
+  /* Subtle middle dots — same spacing as country labels, lower contrast so landen leidend blijven */
   return (
     <span
-      className="mx-3 inline-flex shrink-0 select-none items-center justify-center px-0.5 text-[1.75rem] leading-none text-[#8a6d50] sm:mx-4 sm:px-1 sm:text-[2.05rem]"
+      className="mx-3 inline-flex shrink-0 select-none items-center justify-center px-0.5 text-[1.2rem] font-light leading-none text-[var(--color-primary)]/28 sm:mx-4 sm:px-1 sm:text-[1.32rem] sm:text-[var(--color-primary)]/30 md:text-[1.42rem] md:text-[var(--color-primary)]/32"
       aria-hidden
     >
       ·
@@ -78,17 +82,15 @@ function CountriesVisitedPanel() {
 
   return (
     <div
-      className="inline-flex shrink-0 flex-col items-center justify-center gap-1 py-1 text-center sm:min-w-[6.5rem] sm:gap-1.5 sm:px-3"
+      className="inline-flex shrink-0 flex-col items-center justify-center gap-1 text-center sm:gap-1.5 sm:px-1 [&_span]:[text-shadow:0_0_10px_#f4efe9,0_0_18px_#f2ede6,0_1px_0_rgba(255,255,255,0.8)] [&_p]:[text-shadow:0_0_8px_#f4efe9,0_0_14px_#f2ede6]"
       role="status"
       aria-live="polite"
       aria-label={`${VISITED_COUNTRY_COUNT} countries visited`}
     >
-      <div className="flex h-10 min-w-[2.5ch] items-center justify-center overflow-hidden sm:h-11">
-        <span className="inline-block text-center font-text-3 text-3xl font-bold tabular-nums leading-none tracking-normal text-[var(--color-primary)] sm:text-4xl">
-          {displayCount}
-        </span>
-      </div>
-      <p className="font-text-3 max-w-[9rem] text-[0.55rem] font-bold uppercase leading-tight tracking-[0.18em] text-[var(--color-primary)] sm:text-[0.62rem]">
+      <span className="inline-block min-w-[2.5ch] text-center font-text-3 text-3xl font-bold tabular-nums leading-none tracking-normal text-[var(--color-primary)] sm:text-4xl md:text-5xl">
+        {displayCount}
+      </span>
+      <p className="font-text-3 mb-0 max-w-[10rem] text-[0.62rem] font-bold uppercase leading-tight tracking-[0.18em] text-[var(--color-primary)] sm:text-[0.68rem] md:text-xs">
         countries visited
       </p>
     </div>
@@ -108,7 +110,16 @@ function CountryListRow({ loopKey }: { loopKey: string }) {
   );
 }
 
-function CountryMarqueeStrip({ reduceMotion }: { reduceMotion: boolean }) {
+function CountryMarqueeStrip({
+  reduceMotion,
+  className,
+  clearTickerInCenter = false,
+}: {
+  reduceMotion: boolean;
+  className?: string;
+  /** Fade ticker out at center (paired vertical rules + stat). */
+  clearTickerInCenter?: boolean;
+}) {
   const loopShiftPercent = 100 / MARQUEE_LOOP_SEGMENTS;
 
   const keyframesBlock = `
@@ -129,28 +140,32 @@ function CountryMarqueeStrip({ reduceMotion }: { reduceMotion: boolean }) {
   const maskStyle = React.useMemo(
     () =>
       ({
-        maskImage: TICKER_HORIZONTAL_MASK,
-        WebkitMaskImage: TICKER_HORIZONTAL_MASK,
+        maskImage: clearTickerInCenter ? TICKER_MASK_EDGES_AND_CENTER : TICKER_MASK_EDGES,
+        WebkitMaskImage: clearTickerInCenter ? TICKER_MASK_EDGES_AND_CENTER : TICKER_MASK_EDGES,
         maskSize: "100% 100%",
         WebkitMaskSize: "100% 100%",
+        maskRepeat: "no-repeat",
+        WebkitMaskRepeat: "no-repeat",
       }) as const,
-    [],
+    [clearTickerInCenter],
   );
 
   return (
     <div
-      className="relative flex min-h-[2.25rem] w-full min-w-0 items-center overflow-hidden py-1 sm:min-h-[2.5rem]"
+      className={cn(
+        "relative flex min-h-[2.5rem] w-full min-w-0 items-center overflow-hidden py-1 sm:min-h-[2.65rem] md:min-h-[2.85rem]",
+        className,
+      )}
       style={maskStyle}
       role="region"
       aria-label="Countries visited list"
     >
       {reduceMotion ? (
-        <div className="flex w-full min-h-[2rem] items-center justify-center overflow-x-auto overflow-y-hidden sm:min-h-[2.25rem]">
+        <div className="flex w-full min-h-[2.5rem] items-center justify-center overflow-x-auto overflow-y-hidden sm:min-h-[2.65rem]">
           <div
             className={cn(
               brandSubtitleClassName,
-              brandWordmarkNavSubtitleTextSizeClassName,
-              "flex w-max items-center gap-0 px-1 font-normal uppercase tracking-[0.18em] text-[var(--color-primary)]/90",
+              "flex w-max items-center gap-0 px-1 text-xs font-normal uppercase tracking-[0.17em] text-[var(--color-primary)]/90 sm:text-sm md:text-[0.95rem]",
             )}
           >
             <CountryListRow loopKey="static" />
@@ -159,13 +174,12 @@ function CountryMarqueeStrip({ reduceMotion }: { reduceMotion: boolean }) {
       ) : (
         <div className="relative w-full min-w-0">
           <style dangerouslySetInnerHTML={{ __html: keyframesBlock }} />
-          <div className="relative flex min-h-[2rem] items-center justify-center overflow-hidden sm:min-h-[2.25rem]">
+          <div className="relative flex min-h-[2.5rem] items-center justify-start overflow-hidden sm:min-h-[2.65rem] md:min-h-[2.85rem]">
             <div
               className={cn(
                 MARQUEE_CLASS,
                 brandSubtitleClassName,
-                brandWordmarkNavSubtitleTextSizeClassName,
-                "flex w-max items-center gap-0 px-1 font-normal uppercase tracking-[0.18em] text-[var(--color-primary)]/90",
+                "flex w-max items-center gap-0 px-1 text-xs font-normal uppercase tracking-[0.17em] text-[var(--color-primary)]/90 sm:text-sm md:text-[0.95rem]",
               )}
             >
               {Array.from({ length: MARQUEE_LOOP_SEGMENTS }, (_, i) => (
@@ -197,35 +211,40 @@ export function DestinationsCountryMarquee({
   return (
     <div
       className={cn(
-        "mx-auto flex w-full max-w-7xl flex-col items-center gap-3 sm:gap-4",
+        "flex w-full min-w-0 max-w-none flex-col items-center gap-3 sm:gap-4",
         className,
       )}
     >
-      <div className="flex w-full flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 md:gap-5 lg:gap-6">
-        <div className="w-full min-w-0 sm:flex-1">
-          <CountryMarqueeStrip reduceMotion={reduceMotion} />
-        </div>
-
-        <div
-          className="ml-auto mr-0 block h-px w-full max-w-[14rem] shrink-0 sm:hidden"
-          style={{ background: SEPARATOR_FADE_H }}
-          aria-hidden
-        />
-
-        <div className="flex w-full flex-col items-center gap-0 sm:w-auto sm:flex-row sm:items-center sm:gap-4 md:gap-6 lg:gap-8">
-          <div
-            className="hidden h-14 w-px shrink-0 sm:block sm:self-center"
-            style={{ background: SEPARATOR_FADE }}
-            aria-hidden
+      <div
+        className="relative w-full min-h-[2.5rem] overflow-hidden sm:min-h-[2.65rem] md:min-h-[2.85rem]"
+        role="presentation"
+      >
+        <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
+          <CountryMarqueeStrip
+            reduceMotion={reduceMotion}
+            className="w-full py-0"
+            clearTickerInCenter
           />
-          <div className="flex w-full shrink-0 justify-center sm:w-auto sm:justify-end">
+        </div>
+        <div className="pointer-events-none relative z-10 flex min-h-[2.5rem] items-center justify-center py-1 sm:min-h-[2.65rem] md:min-h-[2.85rem]">
+          <div className="pointer-events-auto flex items-center justify-center gap-2.5 sm:gap-4 md:gap-5">
+            <div
+              className="h-11 w-px shrink-0 sm:h-14 sm:self-center md:h-[3.75rem]"
+              style={{ background: SEPARATOR_FADE }}
+              aria-hidden
+            />
             <CountriesVisitedPanel />
+            <div
+              className="h-11 w-px shrink-0 sm:h-14 sm:self-center md:h-[3.75rem]"
+              style={{ background: SEPARATOR_FADE }}
+              aria-hidden
+            />
           </div>
         </div>
       </div>
 
       {note ? (
-        <p className="max-w-2xl px-0 text-center font-text-3 text-sm font-bold leading-relaxed text-[var(--color-foreground-muted)] sm:text-[0.95rem]">
+        <p className="max-w-2xl px-4 text-center font-text-3 text-sm font-bold leading-relaxed text-[var(--color-foreground-muted)] sm:px-6 sm:text-[0.95rem]">
           <span className="block text-pretty break-words">{note}</span>
         </p>
       ) : null}

@@ -16,34 +16,40 @@ import { displayAspectRatio } from "@/lib/galleryTileDisplay";
 import type { DestinationGalleryItem } from "@/types/content";
 import { cn } from "@/lib/utils";
 
-function useGalleryColumnCount(): number {
-  const [n, setN] = React.useState(1);
+/** Pick column count from the gallery’s real width (not the whole window), so Windows laptops with narrower browser chrome still get 5 columns when there’s room. */
+function galleryColumnsForContainerWidth(widthPx: number): number {
+  if (!Number.isFinite(widthPx) || widthPx < 420) {
+    return 1;
+  }
+  if (widthPx < 640) {
+    return 2;
+  }
+  if (widthPx < 660) {
+    return 3;
+  }
+  return 5;
+}
+
+function useGalleryColumnCount(containerRef: React.RefObject<HTMLElement | null>): number {
+  const [n, setN] = React.useState(2);
 
   React.useLayoutEffect(() => {
-    function read() {
-      if (window.matchMedia("(min-width: 1280px)").matches) {
-        setN(5);
-      } else if (window.matchMedia("(min-width: 1024px)").matches) {
-        setN(3);
-      } else if (window.matchMedia("(min-width: 640px)").matches) {
-        setN(2);
-      } else {
-        setN(1);
-      }
+    const el = containerRef.current;
+    if (!el) {
+      return;
     }
+
+    const read = () =>
+      setN(galleryColumnsForContainerWidth(el.getBoundingClientRect().width));
+
     read();
-    const xl = window.matchMedia("(min-width: 1280px)");
-    const lg = window.matchMedia("(min-width: 1024px)");
-    const sm = window.matchMedia("(min-width: 640px)");
-    xl.addEventListener("change", read);
-    lg.addEventListener("change", read);
-    sm.addEventListener("change", read);
-    return () => {
-      xl.removeEventListener("change", read);
-      lg.removeEventListener("change", read);
-      sm.removeEventListener("change", read);
-    };
-  }, []);
+    const ro = new ResizeObserver((entries) => {
+      const w = entries[0]?.contentRect.width;
+      setN(galleryColumnsForContainerWidth(w ?? el.getBoundingClientRect().width));
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [containerRef]);
 
   return n;
 }
@@ -57,7 +63,8 @@ export function DestinationsHeroGallery({
   items,
   className,
 }: DestinationsHeroGalleryProps) {
-  const columnCount = useGalleryColumnCount();
+  const gridRef = React.useRef<HTMLDivElement>(null);
+  const columnCount = useGalleryColumnCount(gridRef);
 
   const orderedItems = React.useMemo(
     () => orderGalleryItemsForMasonry(items),
@@ -89,25 +96,24 @@ export function DestinationsHeroGallery({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col items-center px-4 pb-8 sm:pb-10",
+        "relative flex w-full flex-col items-center px-0 pb-8 sm:pb-10",
         className,
       )}
     >
       <div
+        ref={gridRef}
         className={cn(
-          "mx-auto flex w-full gap-6",
-          columnCount === 5 && "max-w-7xl",
-          columnCount === 3 && "max-w-6xl",
-          columnCount === 2 && "max-w-4xl",
-          columnCount === 1 && "max-w-2xl",
-          columnCount === 1 ? "flex-col" : "flex-row",
+          "mx-auto flex w-full gap-4 sm:gap-5 lg:gap-6",
+          columnCount >= 2 && "max-w-none",
+          columnCount === 1 && "max-w-2xl flex-col",
+          columnCount > 1 && "flex-row",
         )}
       >
         {columns.map((col, colIndex) => (
           <div
             key={colIndex}
             className={cn(
-              "flex min-w-0 flex-col gap-6",
+              "flex min-w-0 flex-col gap-4 sm:gap-5 lg:gap-6",
               columnCount > 1 && "flex-1",
             )}
           >
@@ -157,13 +163,13 @@ function GalleryTile({ item, priority }: GalleryTileProps) {
         className="pointer-events-none absolute inset-0 z-[1] rounded-[inherit] bg-gradient-to-t from-[rgba(50,43,39,0.82)] via-[rgba(50,43,39,0.15)] to-transparent"
         aria-hidden
       />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] px-3 pb-3 pt-10 text-center sm:px-4 sm:pb-4">
-        <p className="font-text-3 text-sm font-semibold tracking-wide text-[#fffbf7] drop-shadow-sm sm:text-base">
+      <div className="pointer-events-none absolute inset-x-0 bottom-2.5 z-[2] px-3 pb-2 pt-8 text-center sm:bottom-4 sm:px-4 sm:pb-2.5 sm:pt-9 md:bottom-5 md:pb-3">
+        <p className="font-text-3 text-base font-semibold tracking-wide text-[#fffbf7] drop-shadow-sm sm:text-lg md:text-[1.125rem]">
           {item.caption}
         </p>
         {item.captionLine2 ? (
           <p
-            className={`${brandSubtitleClassName} mt-0.5 text-[0.62rem] font-normal uppercase tracking-[0.18em] text-[#fffbf7]/90 sm:text-xs`}
+            className={`${brandSubtitleClassName} mt-0.5 text-[0.78rem] font-normal uppercase tracking-[0.16em] text-[#fffbf7]/90 sm:text-[0.875rem] md:text-[0.95rem]`}
           >
             {item.captionLine2}
           </p>

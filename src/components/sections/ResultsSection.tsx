@@ -54,8 +54,8 @@ const resultCardBase =
 /** One of two Instagram cards in the top row (50/50 on sm+) */
 const resultCardInstagramClass = cn(resultCardBase, "h-full w-full min-w-0");
 
-/** Full-width row below the Instagram pair; same total width as the two columns above */
-const resultCardTiktokClass = cn(resultCardBase, "w-full");
+/** Full-width row below the Instagram pair; min-w-0 avoids Safari flex overflow stretching */
+const resultCardTiktokClass = cn(resultCardBase, "w-full min-w-0");
 
 /** Instagram brand gradient (icon chip) — size applied per use so headers stay aligned */
 const igIconChipClass =
@@ -89,8 +89,8 @@ const resultHeaderClusterClass =
 const resultHeaderTextColClass = "flex min-w-0 flex-col items-start gap-1 text-left";
 
 /**
- * Results — top row: two Instagram cards side by side. Below: one TikTok card full width
- * (span matches the combined width of the row above). TikTok metrics read in a horizontal row.
+ * Results — one full-width grid (same content width as work category strips / triple videos).
+ * Two Instagram cells on row 1; TikTok `sm:col-span-2` below.
  */
 export function ResultsSection(data: ResultsSectionProps) {
   const { eyebrow, title, description, instagram, tiktok } = data;
@@ -114,10 +114,10 @@ export function ResultsSection(data: ResultsSectionProps) {
         "bg-[var(--color-background)]",
         oakSectionBorderTopClassName,
         "overflow-x-clip",
-        "scroll-mt-[calc(var(--nav-stack-height,5.25rem)+0.5rem)]",
+        "scroll-mt-[calc(var(--nav-stack-height,6rem)+0.5rem)]",
       )}
     >
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 pt-10 pb-12 sm:px-10 lg:gap-7 lg:px-12 lg:pt-12 lg:pb-16">
+      <div className="mx-auto flex w-full max-w-[min(100%,96rem)] flex-col gap-6 px-6 pt-10 pb-12 sm:px-10 lg:gap-7 lg:px-12 lg:pt-12 lg:pb-16">
         <ScrollReveal className="flex w-full flex-col items-center text-center">
           <SectionHeading
             align="center"
@@ -135,10 +135,9 @@ export function ResultsSection(data: ResultsSectionProps) {
           ) : null}
         </ScrollReveal>
 
-        {/* Same sibling relationship as category sections: title block, then content (no extra mt) */}
+        {/* Full width of section inner — aligns with Travel dual grids + 3-video row above */}
         <div className="relative isolate w-full min-h-0 min-w-0">
-          <div className="mx-auto flex w-full flex-col gap-4 sm:gap-5">
-            <div className="mx-auto grid w-full min-w-0 max-w-2xl grid-cols-1 gap-4 sm:max-w-none sm:grid-cols-2 sm:gap-5">
+          <div className="grid w-full min-w-0 max-w-full grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-6 lg:gap-x-10">
             {/* 1 — Instagram account / period overview */}
             <div className={resultCardInstagramClass}>
               <div className="mb-3 border-b border-[color-mix(in_srgb,var(--color-border)_55%,transparent)] pb-3">
@@ -309,10 +308,9 @@ export function ResultsSection(data: ResultsSectionProps) {
                 ))}
               </div>
             </div>
-            </div>
 
-            {/* 3 — TikTok: one wide row, same content width as the two Instagram columns combined */}
-            <div className={resultCardTiktokClass}>
+            {/* 3 — TikTok: spans both columns (same total width as Instagram row + gutter) */}
+            <div className={cn(resultCardTiktokClass, "sm:col-span-2")}>
               <div className="mb-4 border-b border-[color-mix(in_srgb,var(--color-border)_55%,transparent)] pb-3 sm:mb-5 sm:pb-4">
                 <div className={resultHeaderClusterClass}>
                   <div className={cn(tiktokIconChipClass, resultHeaderLogoChipClass)} aria-hidden>
@@ -339,7 +337,7 @@ export function ResultsSection(data: ResultsSectionProps) {
                   </div>
                 </div>
               </div>
-              <ul className="grid w-full grid-cols-1 gap-6 text-center sm:grid-cols-3 sm:gap-4 sm:gap-y-0">
+              <ul className="grid w-full min-w-0 grid-cols-1 gap-6 text-center sm:grid-cols-3 sm:gap-4 sm:gap-y-0">
                 {tiktok.metrics.map((m) => (
                   <li
                     key={m.label}

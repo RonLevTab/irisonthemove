@@ -49,7 +49,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
 
   return (
     <div className="w-full overflow-x-hidden">
-      <div className="mx-auto flex w-full max-w-4xl flex-col gap-3 md:gap-0">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 md:gap-0">
         <div className="flex flex-col gap-3 md:hidden">
           {items.map((item) => (
             <article
@@ -72,7 +72,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                 className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black from-[8%] via-black/75 to-transparent"
                 aria-hidden
               />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] px-4 pb-5 text-white drop-shadow-[0_1px_10px_rgba(0,0,0,0.9)]">
+              <div className="pointer-events-none absolute inset-x-0 bottom-3 z-[2] px-4 pb-4 text-white drop-shadow-[0_1px_10px_rgba(0,0,0,0.9)] sm:bottom-4">
                 <p className="text-[1.18rem] font-semibold leading-tight">{item.title}</p>
                 <p className="mt-1.5 text-[1.03rem] leading-snug text-white/90">{item.description}</p>
               </div>

@@ -54,7 +54,7 @@ export function WorkTravelInstagramReels({
 
   return (
     <div className={cn("flex w-full justify-center", className)} aria-label={stripAriaLabel}>
-      <div className="w-full min-w-0 max-w-[min(100%,64rem)] px-0">
+      <div className="w-full min-w-0 max-w-full px-0">
         <Script
           id={`ig-embed-travel-${scriptUid}`}
           src="https://www.instagram.com/embed.js"

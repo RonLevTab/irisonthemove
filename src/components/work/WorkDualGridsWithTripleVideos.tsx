@@ -45,16 +45,16 @@ export function WorkDualGridsWithTripleVideos({
 
   return (
     <div className="flex w-full justify-center">
-      <div className="flex w-full max-w-full flex-col items-center gap-3 pb-2 min-[1200px]:gap-6 min-[1200px]:pb-3">
+      <div className="flex w-full max-w-full flex-col items-center gap-3 pb-2 lg:gap-6 lg:pb-3">
         <div
           ref={stripRef}
-          className="flex min-h-0 min-w-0 w-full flex-col gap-3 min-[1200px]:w-[min(100%,64rem)] min-[1200px]:flex-row min-[1200px]:items-center min-[1200px]:justify-center min-[1200px]:gap-6"
+          className="flex min-h-0 min-w-0 w-full flex-col gap-3 lg:flex-row lg:items-center lg:justify-center lg:gap-6"
           aria-label={stripAriaLabel}
         >
-          <div className="min-[1200px]:w-[calc((100%_-_1.5rem)/2)] min-[1200px]:[aspect-ratio:3/4]">
+          <div className="lg:w-[calc((100%_-_1.5rem)/2)] lg:[aspect-ratio:3/4]">
             <WorkExpandingImageGrid gridSlot="half" items={items.slice(0, 9)} />
           </div>
-          <div className="min-[1200px]:w-[calc((100%_-_1.5rem)/2)] min-[1200px]:[aspect-ratio:3/4]">
+          <div className="lg:w-[calc((100%_-_1.5rem)/2)] lg:[aspect-ratio:3/4]">
             <WorkExpandingImageGrid gridSlot="half" items={items.slice(9, 18)} />
           </div>
         </div>

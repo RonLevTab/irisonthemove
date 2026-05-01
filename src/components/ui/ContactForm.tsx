@@ -5,14 +5,17 @@ import { ValidationError, useForm } from "@formspree/react";
 import { brandScriptClassName } from "@/lib/brandFonts";
 
 /** DM Sans (`--font-body` / Tailwind `font-sans`) for fields inside the card. */
-const inputDmSansClassName = "font-sans text-base text-[var(--color-foreground)]";
+const inputDmSansClassName = "font-sans text-lg text-[var(--color-foreground)]";
 
 /** Same as `SectionHeading` editorialDual eyebrow (e.g. “Contact” above “Let’s work together”). */
 const contactSectionEyebrowClassName =
-  "font-text-3 whitespace-nowrap text-[0.62rem] font-bold uppercase leading-none tracking-[0.28em] text-[var(--color-primary)] sm:text-[0.74rem] sm:tracking-[0.26em]";
+  "font-text-3 whitespace-nowrap text-[0.72rem] font-bold uppercase leading-none tracking-[0.28em] text-[var(--color-primary)] sm:text-[0.86rem] sm:tracking-[0.26em]";
 
-/** Aligns titles with typed text / placeholder (`form-input` uses `px-4`). */
-const contactLabelAlignClassName = "pl-4";
+const contactFieldComfortClassName =
+  "px-5 py-4 sm:py-[1.125rem] rounded-[1.35rem]";
+
+/** Centers eyebrow labels above fields (matches centered placeholder and input text). */
+const contactLabelAlignClassName = "block w-full text-center";
 
 type ContactFormProps = {
   formId: string;
@@ -26,15 +29,15 @@ export function ContactForm({ formId, variant = "default" }: ContactFormProps) {
 
   const formShell = isModal
     ? "flex flex-col gap-5"
-    : "card-shell flex flex-col gap-4 p-5 sm:gap-5 sm:p-6";
+    : "card-shell flex flex-col gap-5 p-6 sm:gap-6 sm:p-8";
 
   const labelClassName = isModal
-    ? "flex flex-col gap-3 text-sm font-bold text-[var(--color-primary)]"
-    : "flex flex-col gap-2";
+    ? "flex flex-col items-center gap-3 text-center text-sm font-bold text-[var(--color-primary)]"
+    : "flex flex-col items-center gap-3 text-center";
 
   const inputClassName = isModal
-    ? "form-input"
-    : `form-input ${inputDmSansClassName}`;
+    ? "form-input text-center"
+    : `form-input text-center ${contactFieldComfortClassName} ${inputDmSansClassName}`;
 
   if (state.succeeded) {
     const successInner = (
@@ -43,16 +46,18 @@ export function ContactForm({ formId, variant = "default" }: ContactFormProps) {
           isModal ? "flex flex-col gap-3 pt-1" : "flex flex-col gap-3"
         }
       >
-        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[var(--color-gold)]">
+        <p
+          className={`font-semibold uppercase tracking-[0.3em] text-[var(--color-gold)] ${isModal ? "text-sm" : "text-base"}`}
+        >
           Message sent
         </p>
         <h3
-          className={`${brandScriptClassName} text-3xl text-[var(--color-primary)] sm:text-4xl`}
+          className={`${brandScriptClassName} text-[var(--color-primary)] ${isModal ? "text-3xl sm:text-4xl" : "text-4xl sm:text-5xl"}`}
         >
           Thank you
         </h3>
         <p
-          className={`text-base leading-7 text-[var(--color-foreground-muted)] ${!isModal ? "font-sans" : ""}`}
+          className={`leading-7 text-[var(--color-foreground-muted)] ${!isModal ? "font-sans text-lg leading-8" : "text-base"}`}
         >
           Iris will get back to you as soon as possible.
         </p>
@@ -60,12 +65,12 @@ export function ContactForm({ formId, variant = "default" }: ContactFormProps) {
     );
 
     if (isModal) return successInner;
-    return <div className="card-shell p-5 sm:p-6">{successInner}</div>;
+    return <div className="card-shell p-6 sm:p-8">{successInner}</div>;
   }
 
   const textareaClassName = isModal
-    ? "form-input resize-y min-h-40"
-    : `form-input resize-y min-h-36 sm:min-h-44 ${inputDmSansClassName}`;
+    ? "form-input resize-y min-h-40 text-center"
+    : `form-input resize-y min-h-44 text-center sm:min-h-52 ${contactFieldComfortClassName} ${inputDmSansClassName}`;
 
   const formInner = (
     <form onSubmit={handleSubmit} className={formShell}>
@@ -73,7 +78,7 @@ export function ContactForm({ formId, variant = "default" }: ContactFormProps) {
         className={
           isModal
             ? "grid gap-5 sm:grid-cols-2"
-            : "grid gap-4 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-4"
+            : "grid gap-5 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-5"
         }
       >
         <label className={labelClassName}>
@@ -134,7 +139,7 @@ export function ContactForm({ formId, variant = "default" }: ContactFormProps) {
           id="message"
           name="message"
           required
-          placeholder="Tell Iris about your brand, campaign, or idea."
+          placeholder={"Collaborations or just a quick hello?\nFeel free to reach out!"}
         />
         <ValidationError
           prefix="Message"
@@ -146,7 +151,7 @@ export function ContactForm({ formId, variant = "default" }: ContactFormProps) {
       <button
         type="submit"
         disabled={state.submitting}
-        className="primary-button w-full justify-center disabled:cursor-not-allowed disabled:opacity-70"
+        className="primary-button w-full justify-center px-8 py-4 text-base disabled:cursor-not-allowed disabled:opacity-70"
       >
         {state.submitting ? "Sending..." : "Send message"}
       </button>

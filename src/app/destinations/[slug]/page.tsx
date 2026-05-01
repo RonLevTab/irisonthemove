@@ -13,7 +13,7 @@ import { latestContentSectionStyle } from "@/lib/sectionOakTheme";
 
 /** Matches About: room below the main card before the footer. */
 const destinationPageInnerClassName =
-  "relative mx-auto max-w-7xl overflow-visible px-6 pb-6 pt-0 sm:px-10 sm:pb-8 sm:pt-1 lg:px-12 lg:pt-1";
+  "relative mx-auto w-full max-w-[min(100%,96rem)] overflow-visible px-6 pb-6 pt-0 sm:px-10 sm:pb-8 sm:pt-1 lg:px-12 lg:pt-1";
 
 const excerptClassName =
   "font-text-3 max-w-2xl text-[1.02rem] font-normal leading-[1.62] text-[var(--color-foreground)]/88 sm:text-[1.08rem] sm:leading-[1.66]";

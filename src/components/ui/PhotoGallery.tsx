@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 /** Valid `calc()` spacing — small squares under the nav. */
 const viewportSlideStyle: CSSProperties = {
   width:
-    "min(17vw, max(4.25rem, calc(100dvh - var(--nav-stack-height, 5.25rem) - 10.5rem)))",
+    "min(17vw, max(4.25rem, calc(100dvh - var(--nav-stack-height, 6rem) - 10.5rem)))",
   aspectRatio: "1",
   flexShrink: 0,
 };
@@ -119,7 +119,7 @@ export function PhotoGallery({ layout = "strip", className }: PhotoGalleryProps)
       <style dangerouslySetInnerHTML={{ __html: keyframesBlock }} />
 
       <div
-        className="relative w-full overflow-hidden py-2"
+        className="about-photo-gallery-shell relative flex min-h-[12.5rem] w-full items-center overflow-hidden py-3 sm:min-h-[14.75rem] sm:py-3.5 md:min-h-[17rem] md:py-4 lg:min-h-[19rem] lg:py-4"
         style={{
           maskImage: EDGE_MASK,
           WebkitMaskImage: EDGE_MASK,
@@ -132,20 +132,20 @@ export function PhotoGallery({ layout = "strip", className }: PhotoGalleryProps)
         <div
           className={cn(
             marqueeId,
-            "flex w-max gap-4 md:gap-6 lg:gap-8",
+            "flex w-max items-center gap-4 md:gap-6 lg:gap-8",
           )}
         >
           {loop.map((src, index) => (
             <div
               key={`${src}-${index}`}
-              className="group relative h-40 w-40 shrink-0 overflow-hidden rounded-2xl transition-[transform,filter] duration-300 ease-out hover:z-10 hover:scale-[1.04] hover:brightness-[1.05] sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-64 lg:w-64"
+              className="about-photo-gallery-tile group relative h-44 w-44 shrink-0 overflow-hidden rounded-2xl transition-[transform,filter] duration-300 ease-out hover:z-10 hover:scale-[1.04] hover:brightness-[1.05] sm:h-52 sm:w-52 md:h-60 md:w-60 lg:h-[17rem] lg:w-[17rem]"
             >
               <Image
                 src={src}
                 alt=""
                 fill
                 className="object-cover"
-                sizes="(max-width: 640px) 160px, (max-width: 1024px) 224px, 256px"
+                sizes="(max-width: 640px) 176px, (max-width: 1024px) 240px, 272px"
                 loading={index < 2 ? "eager" : "lazy"}
                 draggable={false}
               />

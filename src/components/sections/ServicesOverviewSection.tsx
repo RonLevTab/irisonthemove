@@ -26,7 +26,7 @@ export function ServicesOverviewSection({
     <section
       className={`relative isolate w-full ${oakSectionBorderClassName} bg-[var(--color-background)]`}
     >
-      <div className="mx-auto max-w-7xl px-6 pt-10 pb-12 sm:px-10 lg:px-12 lg:pt-12 lg:pb-16">
+      <div className="mx-auto w-full max-w-[min(100%,96rem)] px-6 pt-10 pb-12 sm:px-10 lg:px-12 lg:pt-12 lg:pb-16">
         <ScrollReveal className="flex flex-col items-center gap-6 text-center lg:gap-7">
           <SectionHeading
             align="center"
@@ -36,7 +36,7 @@ export function ServicesOverviewSection({
             stackGapClassName="gap-3 sm:gap-4"
           />
 
-          <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-stretch gap-6 lg:grid-cols-3 lg:gap-8">
+          <div className="mx-auto grid w-full max-w-none grid-cols-1 auto-rows-fr items-stretch gap-6 sm:gap-8 lg:grid-cols-3 lg:gap-10">
             {items.map((item, index) => (
               <PricingCard
                 key={item.title}
