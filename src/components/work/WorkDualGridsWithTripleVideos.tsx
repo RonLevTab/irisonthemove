@@ -11,6 +11,7 @@ type WorkDualGridsWithTripleVideosProps = {
   stripAriaLabel: string;
   items: WorkGalleryItem[];
   tripleVideos?: WorkCategoryTripleVideo[];
+  priorityFirstImages?: number;
 };
 
 /**
@@ -22,6 +23,7 @@ export function WorkDualGridsWithTripleVideos({
   stripAriaLabel,
   items,
   tripleVideos,
+  priorityFirstImages = 0,
 }: WorkDualGridsWithTripleVideosProps) {
   const stripRef = useRef<HTMLDivElement>(null);
   const [stripWidthPx, setStripWidthPx] = useState<number | undefined>(undefined);
@@ -52,7 +54,11 @@ export function WorkDualGridsWithTripleVideos({
           aria-label={stripAriaLabel}
         >
           <div className="lg:w-[calc((100%_-_1.5rem)/2)] lg:[aspect-ratio:3/4]">
-            <WorkExpandingImageGrid gridSlot="half" items={items.slice(0, 9)} />
+            <WorkExpandingImageGrid
+              gridSlot="half"
+              items={items.slice(0, 9)}
+              priorityFirstImages={priorityFirstImages}
+            />
           </div>
           <div className="lg:w-[calc((100%_-_1.5rem)/2)] lg:[aspect-ratio:3/4]">
             <WorkExpandingImageGrid gridSlot="half" items={items.slice(9, 18)} />

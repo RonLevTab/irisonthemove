@@ -77,7 +77,7 @@ export function PhotoGallery({ layout = "strip", className }: PhotoGalleryProps)
           className,
         )}
         style={{
-          height: "calc(100dvh - var(--nav-stack-height, 5.25rem))",
+          height: "calc(100dvh - var(--nav-stack-height, 6rem))",
           minHeight: "20rem",
         }}
       >
@@ -104,6 +104,7 @@ export function PhotoGallery({ layout = "strip", className }: PhotoGalleryProps)
                   sizes="(max-width: 640px) 18vw, (max-width: 1024px) 15vw, 12vw"
                   loading={index < 2 ? "eager" : "lazy"}
                   priority={index === 0}
+                  fetchPriority={index < 2 ? "high" : "auto"}
                   draggable={false}
                 />
               </div>
@@ -147,6 +148,8 @@ export function PhotoGallery({ layout = "strip", className }: PhotoGalleryProps)
                 className="object-cover"
                 sizes="(max-width: 640px) 176px, (max-width: 1024px) 240px, 272px"
                 loading={index < 2 ? "eager" : "lazy"}
+                priority={index === 0}
+                fetchPriority={index < 2 ? "high" : "auto"}
                 draggable={false}
               />
               <div

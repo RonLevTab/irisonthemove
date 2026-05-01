@@ -30,13 +30,18 @@ const OUTER_CORNER_AT_INDEX: Record<number, string> = {
 
 type WorkHotelSixByTwoGridProps = {
   items: WorkGalleryItem[];
+  /** Number of initially visible images to preload for the first work section. */
+  priorityFirstImages?: number;
 };
 
 /**
  * Hotels: **6×2** portrait tiles on desktop; below the `min-[900px]` breakpoint a **3×4** grid
  * (same 12 cells, narrow gutters).
  */
-export function WorkHotelSixByTwoGrid({ items }: WorkHotelSixByTwoGridProps) {
+export function WorkHotelSixByTwoGrid({
+  items,
+  priorityFirstImages = 0,
+}: WorkHotelSixByTwoGridProps) {
   const slice = items.slice(0, CELLS);
 
   return (
@@ -55,6 +60,7 @@ export function WorkHotelSixByTwoGrid({ items }: WorkHotelSixByTwoGridProps) {
         const label = item.location.trim();
         const { line1, line2, line3 } = label ? locationToThreeLines(label) : { line1: "", line2: "", line3: "" };
         const hasCaption = Boolean(line1 || line2 || line3);
+        const isPriorityImage = index < priorityFirstImages;
         const objectPositionClass =
           item.objectPosition === "top"
             ? "object-top"
@@ -82,6 +88,8 @@ export function WorkHotelSixByTwoGrid({ items }: WorkHotelSixByTwoGridProps) {
                 OUTER_CORNER_AT_INDEX[index] ?? "rounded-none",
               )}
               sizes={SIZES_HOTEL}
+              priority={isPriorityImage}
+              loading={isPriorityImage ? "eager" : "lazy"}
             />
             {hasCaption ? (
               <>

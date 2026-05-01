@@ -24,7 +24,14 @@ export function ContentBlock({ block }: ContentBlockProps) {
       return (
         <figure className="card-shell overflow-hidden">
           <div className="relative aspect-[4/3] overflow-hidden">
-            <Image src={block.src} alt={block.alt} fill className="object-cover" />
+            <Image
+              src={block.src}
+              alt={block.alt}
+              fill
+              className="object-cover"
+              sizes="(max-width: 896px) 100vw, 52rem"
+              loading="lazy"
+            />
           </div>
           {block.caption ? (
             <figcaption className="px-6 py-5 text-sm leading-7 text-[var(--color-foreground-muted)]">
@@ -40,7 +47,14 @@ export function ContentBlock({ block }: ContentBlockProps) {
           {block.images.map((image) => (
             <figure key={`${image.src}-${image.alt}`} className="card-shell overflow-hidden">
               <div className="relative aspect-[4/5] overflow-hidden">
-                <Image src={image.src} alt={image.alt} fill className="object-cover" />
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 767px) 100vw, 26rem"
+                  loading="lazy"
+                />
               </div>
               {image.caption ? (
                 <figcaption className="px-6 py-4 text-sm leading-7 text-[var(--color-foreground-muted)]">

@@ -29,6 +29,8 @@ type WorkExpandingImageGridProps = {
   items: WorkGalleryItem[];
   /** Slightly different `sizes` hint when a pair sits side by side. */
   gridSlot?: "single" | "half";
+  /** Number of initially visible images to preload for the first work section. */
+  priorityFirstImages?: number;
 };
 
 /**
@@ -50,6 +52,7 @@ const OUTER_CORNER_AT_INDEX: Record<number, string> = {
 export function WorkExpandingImageGrid({
   items,
   gridSlot = "single",
+  priorityFirstImages = 0,
 }: WorkExpandingImageGridProps) {
   const slice = items.slice(0, CELLS);
   const sizeHint = gridSlot === "half" ? SIZES_HALF : SIZES_SINGLE;
@@ -81,6 +84,7 @@ export function WorkExpandingImageGrid({
           const label = item.location.trim();
           const { line1, line2, line3 } = label ? locationToThreeLines(label) : { line1: "", line2: "", line3: "" };
           const hasCaption = Boolean(line1 || line2 || line3);
+          const isPriorityImage = index < priorityFirstImages;
           const objectPositionClass =
             item.objectPosition === "top"
               ? "object-top"
@@ -108,6 +112,8 @@ export function WorkExpandingImageGrid({
                   OUTER_CORNER_AT_INDEX[index] ?? "rounded-none",
                 )}
                 sizes={sizeHint}
+                priority={isPriorityImage}
+                loading={isPriorityImage ? "eager" : "lazy"}
               />
               {hasCaption ? (
                 <>

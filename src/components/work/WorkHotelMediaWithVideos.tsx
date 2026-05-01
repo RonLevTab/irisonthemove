@@ -11,6 +11,7 @@ type WorkHotelMediaWithVideosProps = {
   stripAriaLabel: string;
   items: WorkGalleryItem[];
   tripleVideos?: WorkCategoryTripleVideo[];
+  priorityFirstImages?: number;
 };
 
 /**
@@ -22,6 +23,7 @@ export function WorkHotelMediaWithVideos({
   stripAriaLabel,
   items,
   tripleVideos,
+  priorityFirstImages = 0,
 }: WorkHotelMediaWithVideosProps) {
   const stripRef = useRef<HTMLDivElement>(null);
   const [stripWidthPx, setStripWidthPx] = useState<number | undefined>(undefined);
@@ -52,7 +54,10 @@ export function WorkHotelMediaWithVideos({
           aria-label={stripAriaLabel}
           className="flex min-h-0 min-w-0 w-full flex-col min-[1200px]:items-center min-[1200px]:justify-center"
         >
-          <WorkHotelSixByTwoGrid items={items} />
+          <WorkHotelSixByTwoGrid
+            items={items}
+            priorityFirstImages={priorityFirstImages}
+          />
         </div>
         {showVideos && tripleVideos ? (
           <div

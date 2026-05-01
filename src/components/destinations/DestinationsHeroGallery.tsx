@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -89,7 +90,7 @@ export function DestinationsHeroGallery({
   );
 
   const priorityKeys = React.useMemo(
-    () => new Set(orderedItems.slice(0, 10).map((it) => it.stableKey ?? it.src)),
+    () => new Set(orderedItems.slice(0, 5).map((it) => it.stableKey ?? it.src)),
     [orderedItems],
   );
 
@@ -150,12 +151,13 @@ function GalleryTile({ item, priority }: GalleryTileProps) {
       ratio={displayAspectRatio(item)}
       className="bg-[var(--color-surface-strong)] rounded-xl border border-[var(--color-border)] shadow-[0_10px_32px_rgba(58,36,32,0.07)] transition-shadow duration-300 sm:rounded-2xl group-hover:shadow-[0_14px_40px_rgba(58,36,32,0.11)]"
     >
-      <img
+      <Image
         alt={item.alt}
         src={imgSrc}
+        fill
         className="absolute inset-0 z-0 block size-full min-h-0 min-w-0 origin-center rounded-[inherit] object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
+        sizes="(max-width: 419px) 100vw, (max-width: 639px) 50vw, (max-width: 659px) 33vw, 20vw"
+        priority={priority}
         fetchPriority={priority ? "high" : "auto"}
         onError={handleError}
       />
