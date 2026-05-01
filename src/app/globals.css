@@ -601,17 +601,8 @@ html.os-windows .nav-social-link svg {
   border-bottom: none;
   border-left: 1px solid color-mix(in srgb, var(--color-border) 82%, var(--color-foreground) 6%);
   border-right: 1px solid color-mix(in srgb, var(--color-border) 82%, var(--color-foreground) 6%);
-  background-color: rgba(255, 250, 246, 0.92);
-  background-image:
-    radial-gradient(ellipse 120% 70% at 108% -12%, color-mix(in srgb, var(--color-primary) 18%, transparent), transparent 58%),
-    radial-gradient(ellipse 90% 65% at -12% 108%, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 55%),
-    radial-gradient(ellipse 45% 35% at 72% 42%, color-mix(in srgb, var(--color-secondary) 8%, transparent), transparent 70%),
-    linear-gradient(
-      168deg,
-      rgba(255, 253, 251, 0.97) 0%,
-      rgba(255, 247, 242, 0.88) 42%,
-      rgba(252, 244, 240, 0.94) 100%
-    );
+  background-color: var(--color-surface);
+  background-image: none;
   box-shadow: none;
 }
 

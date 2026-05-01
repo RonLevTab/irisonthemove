@@ -42,7 +42,7 @@ const aboutPageSectionTitleClassName =
   "font-text-3 about-bordeaux-heading max-w-full text-[clamp(0.48rem,calc(1.62vw+0.20rem),1.26rem)] font-medium uppercase leading-[1.12] tracking-[0.18em] text-black";
 
 /** Card horizontal padding */
-const cardPadX = "px-5 sm:px-8";
+const cardPadX = "px-8 sm:px-12 lg:px-16 xl:px-20";
 
 /** Invisible split: first segment beside the M, rest full width under the M (no float wrap). */
 const LEAD_UNDER_CAP_BREAK = "\u2063";
@@ -166,15 +166,15 @@ export default async function AboutPage() {
 
   return (
     <>
-      <PhotoGallery className="mx-auto w-full mt-5 mb-3 sm:mt-7 sm:mb-4 lg:mt-9 lg:mb-5" />
+      <PhotoGallery className="mx-auto w-full mt-2 mb-3 sm:mt-3 sm:mb-4 lg:mt-4 lg:mb-5" />
       <section className="relative isolate z-10 mt-0 w-full scroll-mt-20 sm:scroll-mt-24 bg-transparent pb-0">
         <div className={aboutPageInnerClassName}>
           <ScrollReveal className="overflow-visible">
             <article
               lang="en"
-              className={`card-shell about-main-card-flush-top about-bordeaux-story relative z-10 mx-auto mb-0 w-full max-w-none overflow-visible pt-0 pb-16 sm:pt-1 sm:pb-20 lg:pt-2 lg:pb-24 ${cardPadX}`}
+              className={`card-shell about-main-card-flush-top about-bordeaux-story relative z-10 mx-auto mb-0 w-full max-w-none overflow-visible pt-10 pb-16 sm:pt-12 sm:pb-20 lg:pt-16 lg:pb-24 ${cardPadX}`}
             >
-            <header className="about-bordeaux-masthead mb-10 flex w-full max-w-none flex-col pt-4 sm:mb-12 sm:pt-5 lg:mb-14 lg:pt-6">
+            <header className="about-bordeaux-masthead mb-10 flex w-full max-w-none flex-col pt-0 sm:mb-12 lg:mb-14">
               <p className={aboutPageEyebrowClassName}>About me</p>
             </header>
 
