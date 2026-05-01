@@ -62,7 +62,7 @@ export default async function WorkPage() {
             )}
           >
             <div
-              className="mx-auto flex w-full max-w-[min(100%,96rem)] flex-col gap-6 px-6 pt-10 pb-12 sm:px-10 lg:gap-7 lg:px-12 lg:pt-12 lg:pb-16"
+              className="mx-auto flex w-full max-w-[min(100%,94rem)] flex-col gap-6 px-7 pt-10 pb-12 sm:px-10 lg:gap-7 lg:px-16 lg:pt-12 lg:pb-16 xl:px-18"
             >
               <ScrollReveal className="flex w-full flex-col items-center text-center">
                 <SectionHeading

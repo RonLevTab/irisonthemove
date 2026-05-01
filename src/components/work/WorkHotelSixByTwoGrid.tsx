@@ -13,6 +13,7 @@ import {
 import {
   locationToThreeLines,
   workHoverLineClampClass,
+  workHoverVenueNameClass,
 } from "@/lib/workGalleryLocationLines";
 
 import type { WorkGalleryItem } from "@/components/work/WorkExpandingImageGrid";
@@ -100,7 +101,7 @@ export function WorkHotelSixByTwoGrid({
                 />
                 <div className={workGalleryCaptionWrapClass} aria-hidden>
                   {line1 ? (
-                    <span className={cn(workGalleryCaptionPrimaryClass, workHoverLineClampClass)}>
+                    <span className={cn(workGalleryCaptionPrimaryClass, workHoverVenueNameClass)}>
                       {line1}
                     </span>
                   ) : null}

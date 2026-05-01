@@ -48,6 +48,10 @@ export function locationToThreeLines(raw: string): WorkLocationThreeLines {
   return { line1: text, line2: "", line3: "" };
 }
 
-/** One line of hover text: no automatic wrapping; ellipsis if it doesn’t fit. */
+/** Venue names can wrap so long restaurant / hotel names stay readable. */
+export const workHoverVenueNameClass =
+  "block max-w-full whitespace-normal text-balance break-words";
+
+/** City / country lines stay compact. */
 export const workHoverLineClampClass =
   "block max-w-full overflow-hidden text-ellipsis whitespace-nowrap";
