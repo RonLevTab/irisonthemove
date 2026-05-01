@@ -45,10 +45,6 @@ public/            — Static assets (images, videos, fonts)
 - Push to any other branch → Vercel creates a preview URL automatically.
 - No env vars are needed in Vercel.
 
-### DNS
-The domain `irisonthemove.nl` is registered at Mijndomein, but DNS points to Vercel:
-- **A** record on `@` → `76.76.21.21`
-- **CNAME** on `www` → `cname.vercel-dns.com`
 
 ### Notes
 - AGENTS.md and `.cursor/rules/iris-workflow.mdc` exist so Cursor's AI agent assists Iris with edits + git in plain English.
