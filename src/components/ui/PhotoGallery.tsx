@@ -20,15 +20,15 @@ const viewportSlideStyle: CSSProperties = {
  */
 const GALLERY_IMAGES = [
   "/images/about-gallery/01.jpeg",
-  "/images/about-gallery/02.jpeg",
-  "/images/about-gallery/03.jpeg",
   "/images/about-gallery/04.jpeg",
+  "/images/about-gallery/02.jpeg",
   "/images/about-gallery/05.jpeg",
-  "/images/about-gallery/06.jpeg",
-  "/images/about-gallery/07.jpeg",
-  "/images/about-gallery/08.jpeg",
   "/images/about-gallery/09.jpeg",
+  "/images/about-gallery/06.jpeg",
+  "/images/about-gallery/03.jpeg",
+  "/images/about-gallery/07.jpeg",
   "/images/about-gallery/10.jpeg",
+  "/images/about-gallery/08.jpeg",
 ] as const;
 
 const marqueeId = "about-gallery-marquee";
