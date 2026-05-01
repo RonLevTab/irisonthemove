@@ -1,0 +1,19 @@
+{
+  "name": "Iris",
+  "title": "Iris on the Move",
+  "tagline": "Cinematic storytelling\nthrough video and photography",
+  "description": "A romantic and refined travel journal sharing luxury, adventure, and solo female travel across Europe, with room to grow into Asia next year.",
+  "email": "info@irisonthemove.nl",
+  "formspreeId": "xlgoobvr",
+  "socialLinks": {
+    "instagram": "https://www.instagram.com/irisonthemove/",
+    "tiktok": "https://www.tiktok.com/@irisonthemove"
+  },
+  "stats": {
+    "countriesVisited": 23
+  },
+  "seo": {
+    "siteUrl": "https://irisonthemove.nl",
+    "ogImage": "/images/placeholder/hero-romantic-europe.svg"
+  }
+}

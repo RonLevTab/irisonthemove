@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850">
+  <rect width="1200" height="850" fill="#eef1eb" />
+  <rect x="0" y="0" width="1200" height="180" fill="#d8e0d0" />
+  <path d="M160 850V120" stroke="#4f5d41" stroke-width="90" stroke-linecap="round" />
+  <path d="M340 850V80" stroke="#60744f" stroke-width="64" stroke-linecap="round" />
+  <path d="M860 850V130" stroke="#506046" stroke-width="82" stroke-linecap="round" />
+  <path d="M1030 850V95" stroke="#5d6d51" stroke-width="62" stroke-linecap="round" />
+  <path d="M460 850c72-140 154-216 246-312 76-80 96-150 98-236" fill="none" stroke="#7f6849" stroke-width="110" stroke-linecap="round" />
+  <text x="120" y="180" fill="#334028" font-family="Georgia, serif" font-size="54">Mullerthal Trail</text>
+</svg>

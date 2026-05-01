@@ -1,26 +1,487 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Hopeless Romantic Society";
+  src: url("/fonts/HopelessRomanticSociety.woff2") format("woff2");
+  font-display: swap;
+}
+
+/*
+ * Palette derived from brand art (burgundy script, terracotta suitcase, cream highlights)
+ * and warm earthy accents (terracotta, ochre, peach — e.g. #B06D4D, #D6A165, #E8C9B5).
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-background: #faf4ed;
+  --color-surface: #fffbf7;
+  --color-surface-strong: #f0e4d8;
+  --color-primary: #5a2d32;
+  --color-primary-mid: #6e3a40;
+  --color-primary-soft: rgba(90, 45, 50, 0.22);
+  --color-secondary: #b06d4d;
+  --color-accent-soft: rgba(214, 161, 101, 0.34);
+  --color-accent-peach: #e8c9b5;
+  --color-accent-rose: #b48c8b;
+  --color-accent-cool: #9c94a1;
+  --color-foreground: #322b27;
+  --color-foreground-muted: #6b5e52;
+  --color-border: rgba(90, 45, 50, 0.13);
+  --color-gold: #d6a165;
+
+  /* Nav (align with wordmark — same hue as --color-primary) */
+  --nav-link: var(--color-primary);
+  --nav-link-muted: color-mix(in srgb, var(--color-primary) 78%, #ffffff);
+  /* Sticky bar (min row + vertical padding) — keep in sync with `Navbar` */
+  --nav-stack-height: 5.25rem;
+
+  /*
+   * About page — drop cap “M” (`.about-lead-drop-cap-m`). Edit these only; rules below use them.
+   * Units: `em` = relative to the paragraph’s font-size (story column body).
+   *
+   * --about-drop-cap-color           e.g. var(--color-primary) or var(--color-foreground)
+   * --about-drop-cap-font-weight     100–900 (400 = normal, 600 = semibold, 700 = bold)
+   * --about-drop-cap-letter-spacing  e.g. 0, -0.02em, 0.02em
+   * --about-drop-cap-padding-right   Space between M and text (max ~0.06em if you want tight)
+   *
+   * Float layout (single `<p>`, cap floats; used when no \u2063 split in copy):
+   * --about-drop-cap-float-font-size
+   * --about-drop-cap-float-line-height
+   * --about-drop-cap-float-margin-top
+   * --about-drop-cap-float-margin-right
+   *
+   * Row layout (`--row`: M + first lines, then full-width sentences under):
+   * --about-drop-cap-row-font-size
+   * --about-drop-cap-row-line-height
+   * --about-drop-cap-row-band-height  Optional min-height for M row (0 = size with text, no forced gap)
+   * (Gap M ↔ text: Tailwind `gap-2 sm:gap-3` on the row in `about/page.tsx`.)
+   *
+   * Full-width sentence blocks under the row band:
+   * --about-drop-cap-below-first-margin-top   First line under M (e.g. “trips…”) — keep small
+   * --about-drop-cap-below-sentence-margin-top  Following sentences
+   */
+  --about-drop-cap-color: var(--color-primary);
+  --about-drop-cap-font-weight: 700;
+  --about-drop-cap-letter-spacing: -0.02em;
+  --about-drop-cap-padding-right: 0.06em;
+
+  --about-drop-cap-float-font-size: 3.2em;
+  --about-drop-cap-float-line-height: 0.82;
+  --about-drop-cap-float-margin-top: 0.08em;
+  --about-drop-cap-float-margin-right: 0.06em;
+
+  --about-drop-cap-row-font-size: 3.2em;
+  --about-drop-cap-row-line-height: 1;
+  /* 0: row height follows the text column so “trips…” isn’t pushed down by a tall empty M box */
+  --about-drop-cap-row-band-height: 0;
+
+  --about-drop-cap-below-first-margin-top: 0;
+  --about-drop-cap-below-sentence-margin-top: 1em;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --font-sans: var(--font-body);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  overflow-x: clip;
+  background:
+    radial-gradient(circle at top right, rgba(214, 161, 101, 0.18), transparent 24%),
+    radial-gradient(circle at 18% 72%, rgba(232, 201, 181, 0.35), transparent 42%),
+    linear-gradient(180deg, #fdf8f3 0%, var(--color-background) 28%, #f3e9de 100%);
+  color: var(--color-foreground);
+}
+
+a {
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+/*
+ * Prefer `brandScriptClassName` (Cormorant) / `brandSubtitleClassName` from @/lib/brandFonts.
+ * Fallbacks if a utility only uses the variable name:
+ */
+.font-iris-script {
+  font-family: var(--font-brand-script), ui-serif, Georgia, serif;
+}
+
+.font-iris-subtitle {
+  font-family: var(--font-brand-subtitle), ui-serif, Georgia, serif;
+}
+
+/* Back-compat: display headings use Cormorant (`--font-text-3`) */
+.font-display {
+  font-family: var(--font-text-3), ui-serif, Georgia, serif;
+}
+
+/* Text tier 3: Cormorant — supporting serif for taglines and emphasis (hero tagline, etc.). */
+.font-text-3 {
+  font-family: var(--font-text-3), ui-serif, Georgia, serif;
+}
+
+/* Hero + `SectionHeading` descriptions — one size scale site-wide */
+.text-body-lead {
+  @apply text-lg leading-8 text-[var(--color-foreground-muted)] sm:text-xl;
+}
+
+.brand-wordmark {
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 0.95;
+}
+
+/* Tighter two-line logo when centered (hero). */
+.brand-wordmark--lockup {
+  gap: 0;
+  line-height: 1;
+}
+
+/* Nav / footer: pyramid lockup — wide “Iris” over narrower line, left edges aligned. */
+.brand-wordmark--pyramid {
+  gap: 0;
+  line-height: 1;
+}
+
+.page-shell {
+  @apply flex-1;
+}
+
+.section-shell {
+  @apply mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-12 lg:py-20;
+}
+
+/*
+ * Stacked section separators — low-contrast hairline; strongest near center,
+ * fully transparent at left/right edges (no hard border).
+ */
+.section-divider-edge-fade-bottom::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 5%,
+    color-mix(in srgb, var(--color-primary) 24%, var(--color-border) 76%) 18%,
+    color-mix(in srgb, var(--color-primary) 28%, var(--color-border) 72%) 50%,
+    color-mix(in srgb, var(--color-primary) 24%, var(--color-border) 76%) 82%,
+    transparent 95%,
+    transparent 100%
+  );
+}
+
+.section-divider-edge-fade-top::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 5%,
+    color-mix(in srgb, var(--color-primary) 24%, var(--color-border) 76%) 18%,
+    color-mix(in srgb, var(--color-primary) 28%, var(--color-border) 72%) 50%,
+    color-mix(in srgb, var(--color-primary) 24%, var(--color-border) 76%) 82%,
+    transparent 95%,
+    transparent 100%
+  );
+}
+
+.card-shell {
+  background: rgba(255, 251, 247, 0.88);
+  border: 1px solid var(--color-border);
+  border-radius: 2rem;
+  box-shadow:
+    0 22px 60px rgba(58, 36, 32, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px);
+}
+
+/* About main sheet — square corners (overrides `.card-shell` radius) */
+.about-main-card-square.card-shell {
+  border-radius: 0;
+}
+
+/*
+ * Flush under the gallery and above the footer: no extra rules or inset highlight;
+ * footer `border-t` is the only seam so the cream sheet reads as one block to the footer.
+ */
+.about-main-card-flush-top.card-shell {
+  border-top: none;
+  border-bottom: none;
+  box-shadow:
+    0 20px 50px rgba(58, 36, 32, 0.06),
+    0 28px 70px rgba(58, 36, 32, 0.08);
+}
+
+/* About lead drop cap — values: see `--about-drop-cap-*` on `:root` */
+.about-lead-drop-cap-m {
+  display: block;
+  float: left;
+  box-sizing: border-box;
+  height: auto;
+  margin: var(--about-drop-cap-float-margin-top) var(--about-drop-cap-float-margin-right) 0 0;
+  padding: 0 var(--about-drop-cap-padding-right) 0 0;
+  overflow: visible;
+  font-family: var(--font-text-3), ui-serif, Georgia, serif;
+  font-size: var(--about-drop-cap-float-font-size);
+  font-weight: var(--about-drop-cap-font-weight);
+  line-height: var(--about-drop-cap-float-line-height);
+  letter-spacing: var(--about-drop-cap-letter-spacing);
+  color: var(--about-drop-cap-color);
+}
+
+.about-lead-drop-cap-m.about-lead-drop-cap-m--row {
+  float: none;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  align-self: flex-start;
+  width: auto;
+  min-width: 0;
+  height: auto;
+  min-height: var(--about-drop-cap-row-band-height);
+  max-height: none;
+  margin: 0;
+  padding: 0 var(--about-drop-cap-padding-right) 0 0;
+  overflow: visible;
+  font-family: var(--font-text-3), ui-serif, Georgia, serif;
+  font-size: var(--about-drop-cap-row-font-size);
+  font-weight: var(--about-drop-cap-font-weight);
+  line-height: var(--about-drop-cap-row-line-height);
+  letter-spacing: var(--about-drop-cap-letter-spacing);
+  color: var(--about-drop-cap-color);
+}
+
+.about-lead-cap-below-sentence {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin-top: var(--about-drop-cap-below-sentence-margin-top);
+}
+
+.about-lead-cap-below-sentence.about-lead-cap-below-sentence--first {
+  margin-top: var(--about-drop-cap-below-first-margin-top);
+}
+
+/* `/destinations` region → country `<details>` dropdowns */
+.dest-explorer-details > summary {
+  list-style: none;
+}
+.dest-explorer-details > summary::-webkit-details-marker {
+  display: none;
+}
+.dest-explorer-details > summary::marker {
+  content: "";
+}
+.dest-explorer-details[open] > summary .dest-explorer-chevron {
+  transform: rotate(180deg);
+}
+.dest-explorer-chevron {
+  display: inline-block;
+  transition: transform 0.2s ease;
+  font-size: 0.65em;
+  line-height: 1;
+  color: var(--color-primary);
+}
+
+.spotlight-shell {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.spotlight-shell::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background:
+    radial-gradient(circle at top left, rgba(214, 161, 101, 0.2), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(90, 45, 50, 0.14), transparent 26%);
+  z-index: -1;
+}
+
+.primary-button,
+.secondary-button {
+  @apply inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] transition duration-300;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: white;
+  box-shadow: 0 18px 40px rgba(90, 45, 50, 0.2);
+}
+
+.primary-button:hover {
+  transform: translateY(-2px);
+}
+
+.secondary-button {
+  border: 1px solid var(--color-border);
+  color: var(--color-primary);
+  background: rgba(255, 252, 248, 0.9);
+}
+
+.secondary-button:hover {
+  border-color: rgba(176, 109, 77, 0.45);
+  background: rgba(255, 248, 242, 1);
+}
+
+.tag-chip {
+  @apply rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em];
+  background: rgba(214, 161, 101, 0.18);
+  color: var(--color-primary);
+}
+
+.glass-badge {
+  @apply inline-flex items-center rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em];
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  background: rgba(255, 250, 244, 0.45);
+  backdrop-filter: blur(12px);
+  color: var(--color-primary);
+}
+
+.form-input {
+  @apply w-full rounded-[1.25rem] border px-4 py-3 outline-none transition;
+  border-color: var(--color-border);
+  background: rgba(255, 253, 250, 0.92);
+}
+
+.form-input:focus {
+  border-color: rgba(90, 45, 50, 0.42);
+  box-shadow: 0 0 0 4px rgba(90, 45, 50, 0.09);
+}
+
+.prose-shell :where(h2, h3) {
+  @apply mb-4 mt-8 text-[var(--color-primary)];
+}
+
+.prose-shell :where(h2) {
+  @apply text-5xl leading-none;
+  font-family: "Hopeless Romantic Society", var(--font-body), serif;
+}
+
+.prose-shell :where(h3) {
+  @apply text-2xl font-semibold;
+}
+
+.prose-shell :where(p, li) {
+  @apply text-base leading-8 text-[var(--color-foreground-muted)] sm:text-lg;
+}
+
+.prose-shell :where(ul) {
+  @apply ml-5 list-disc space-y-2;
+}
+
+.video-embed iframe {
+  @apply min-h-[420px] w-full rounded-[1.5rem] border-0;
+}
+
+.section-grid-shell {
+  position: relative;
+}
+
+.section-grid-shell::after {
+  content: "";
+  position: absolute;
+  inset: -2rem 10% auto;
+  height: 18rem;
+  background: radial-gradient(circle, rgba(214, 161, 101, 0.14), transparent 60%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* COBE globe + polaroids (shuding/cobe anchor positioning — see 21st.dev Globe Polaroids) */
+.globe-polaroids-root {
+  isolation: isolate;
+}
+
+.globe-polaroid {
+  position: absolute;
+  width: 6.75rem;
+  bottom: anchor(top);
+  left: anchor(center);
+  transform: translate(-50%, calc(-100% - 10px));
+}
+
+.globe-polaroid-frame {
+  background: #fffef9;
+  padding: 0.4rem 0.4rem 0.5rem;
+  border-radius: 3px;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.12),
+    0 14px 28px rgba(45, 32, 28, 0.22),
+    0 0 0 1px rgba(0, 0, 0, 0.06);
+  transform: rotate(-2deg);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.globe-polaroid--selected .globe-polaroid-frame {
+  transform: rotate(-1deg) scale(1.06);
+  box-shadow:
+    0 0 0 2px var(--color-gold),
+    0 18px 36px rgba(45, 32, 28, 0.28);
+}
+
+.globe-polaroid-caption {
+  margin-top: 0.35rem;
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #5c534c;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/*
+ * About philosophy card — neutral hairline border, soft lift shadow (no oak/gold rim, no motion).
+ */
+.philosophy-quote-card {
+  z-index: 1;
+  background: rgba(255, 251, 247, 0.98);
+  border: 1px solid var(--color-border);
+  box-shadow:
+    0 6px 20px rgba(90, 45, 50, 0.07),
+    0 14px 36px rgba(58, 36, 32, 0.09),
+    0 1px 0 rgba(255, 255, 255, 0.65) inset;
+}
+
+/*
+ * Work / Travel (guides) — Instagram oEmbed inside the same reel-style card shell as
+ * `WorkCategoryTripleVideoRow` (border + radius + shadow). Embed script sets iframe size.
+ */
+.work-travel-ig-card .instagram-media,
+.work-travel-ig-card iframe {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.work-travel-ig-card .instagram-media {
+  margin: 0 !important;
 }

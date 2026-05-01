@@ -1,0 +1,116 @@
+[
+  {
+    "slug": "lisbon-portugal",
+    "title": "Lisbon, Portugal",
+    "region": "Europe",
+    "country": "Portugal",
+    "excerpt": "Golden-hour rooftops, tiled streets, and warm nights made for cinematic city wandering.",
+    "coverImage": "/images/placeholder/lisbon-postcard.svg",
+    "coverAlt": "Romantic Lisbon travel illustration with warm evening colors",
+    "season": "Spring",
+    "tags": ["city escape", "luxury", "food"],
+    "featured": true,
+    "blocks": [
+      {
+        "type": "text",
+        "body": "## Why Lisbon stays with you\nLisbon feels effortless in the best way: bright facades, golden light, and a pace that still leaves room to linger. It is perfect for solo travelers who want beauty, culture, and elegant corners to discover at their own speed."
+      },
+      {
+        "type": "image",
+        "src": "/images/placeholder/lisbon-postcard.svg",
+        "alt": "Illustrated Lisbon postcard in burgundy and gold",
+        "caption": "A warm city with a timeless glow."
+      },
+      {
+        "type": "quote",
+        "text": "Lisbon is the kind of city that turns an ordinary walk into a memory.",
+        "author": "Iris"
+      },
+      {
+        "type": "cta",
+        "text": "Interested in destination features, hotel storytelling, or travel content partnerships in Portugal?",
+        "buttonText": "Start a Collaboration",
+        "buttonLink": "/contact"
+      }
+    ]
+  },
+  {
+    "slug": "puglia-italy",
+    "title": "Puglia, Italy",
+    "region": "Europe",
+    "country": "Italy",
+    "excerpt": "Stone alleys, coastal calm, and slow luxury moments along southern Italy's warm edges.",
+    "coverImage": "/images/placeholder/puglia-coast.svg",
+    "coverAlt": "Coastal Puglia inspired travel illustration",
+    "season": "Summer",
+    "tags": ["coastal", "slow travel", "boutique stays"],
+    "featured": true,
+    "blocks": [
+      {
+        "type": "text",
+        "body": "## A softer side of adventure\nPuglia blends understated luxury with small discoveries: quiet courtyards, textured stone, and sea views that reward slow mornings. It is the kind of destination that photographs beautifully and feels even better in person."
+      },
+      {
+        "type": "gallery",
+        "images": [
+          {
+            "src": "/images/placeholder/puglia-coast.svg",
+            "alt": "Puglia coast illustration"
+          },
+          {
+            "src": "/images/placeholder/italy-courtyard.svg",
+            "alt": "Romantic Italian courtyard illustration"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "luxembourg-trail",
+    "title": "Mullerthal Trail, Luxembourg",
+    "region": "Europe",
+    "country": "Luxembourg",
+    "excerpt": "Forest paths, moody light, and a grounded adventure for the traveler who loves nature with atmosphere.",
+    "coverImage": "/images/placeholder/luxembourg-trail.svg",
+    "coverAlt": "Misty forest trail illustration inspired by Luxembourg",
+    "season": "Autumn",
+    "tags": ["hiking", "adventure", "solo female travel"],
+    "featured": true,
+    "blocks": [
+      {
+        "type": "text",
+        "body": "## For the traveler who wants movement\nThe Mullerthal Trail offers a quieter, more intimate kind of luxury: time, space, and the feeling of having a dramatic landscape unfold around you."
+      },
+      {
+        "type": "image",
+        "src": "/images/placeholder/luxembourg-trail.svg",
+        "alt": "Luxembourg hiking trail illustration",
+        "caption": "Adventure, but with a romantic point of view."
+      }
+    ]
+  },
+  {
+    "slug": "versailles-france",
+    "title": "Versailles, France",
+    "region": "Europe",
+    "country": "France",
+    "excerpt": "Gilded interiors, dramatic symmetry, and a day trip that feels like stepping inside a painting.",
+    "coverImage": "/images/placeholder/versailles-hall.svg",
+    "coverAlt": "Golden Versailles hall illustration",
+    "season": "Year-round",
+    "tags": ["palace", "culture", "luxury"],
+    "featured": true,
+    "blocks": [
+      {
+        "type": "text",
+        "body": "## Grandeur with a story\nVersailles captures the refined side of travel: rich detail, iconic architecture, and the kind of visual drama that pairs naturally with editorial-style storytelling."
+      },
+      {
+        "type": "image",
+        "src": "/images/placeholder/versailles-hall.svg",
+        "alt": "Versailles interior illustration",
+        "caption": "A classic stop for timeless imagery."
+      }
+    ]
+  }
+]

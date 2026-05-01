@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850">
+  <rect width="1200" height="850" fill="#f7f0e8" />
+  <rect x="130" y="120" width="940" height="610" rx="34" fill="#fff9f2" />
+  <path d="M280 245c100-70 200-102 310-102 182 0 310 70 392 182-124-44-244-54-362-30-126 26-240 78-340 154Z" fill="#d9b998" />
+  <circle cx="730" cy="295" r="26" fill="#5a2d32" />
+  <circle cx="600" cy="400" r="26" fill="#b06d4d" />
+  <circle cx="450" cy="310" r="26" fill="#d6a165" />
+  <text x="200" y="775" fill="#5a2d32" font-family="Georgia, serif" font-size="52">Plan the feeling first</text>
+</svg>

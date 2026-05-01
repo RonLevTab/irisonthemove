@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850">
+  <rect width="1200" height="850" fill="#f9f3ea" />
+  <rect x="250" y="130" width="700" height="570" rx="44" fill="#fff9f2" />
+  <rect x="330" y="220" width="540" height="390" rx="30" fill="#eadcc8" />
+  <circle cx="600" cy="350" r="82" fill="#d6a165" opacity="0.8" />
+  <rect x="565" y="420" width="70" height="95" rx="30" fill="#5a2d32" opacity="0.82" />
+  <text x="240" y="770" fill="#5a2d32" font-family="Georgia, serif" font-size="52">Choose one beautiful thing</text>
+</svg>

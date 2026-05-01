@@ -1,0 +1,22 @@
+import type { Metadata } from "next";
+
+import { ContactPageView } from "@/components/sections/ContactPageView";
+import { getSiteConfig } from "@/lib/content";
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description: "Get in touch with Iris on the Move for collaborations and inquiries.",
+};
+
+export default async function ContactPage() {
+  const site = await getSiteConfig();
+
+  return (
+    <ContactPageView
+      formId={site.formspreeId}
+      email={site.email}
+      instagramUrl={site.socialLinks.instagram}
+      tiktokUrl={site.socialLinks.tiktok}
+    />
+  );
+}

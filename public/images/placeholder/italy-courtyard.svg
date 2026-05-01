@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850">
+  <rect width="1200" height="850" fill="#f8f1e7" />
+  <rect x="140" y="120" width="230" height="520" rx="22" fill="#f1e4d7" />
+  <rect x="830" y="120" width="230" height="520" rx="22" fill="#f1e4d7" />
+  <rect x="370" y="140" width="460" height="500" rx="36" fill="#fffaf4" />
+  <path d="M470 590c0-115 60-190 120-190s120 75 120 190" fill="none" stroke="#d5b59a" stroke-width="26" stroke-linecap="round" />
+  <circle cx="605" cy="315" r="66" fill="#c98274" opacity="0.8" />
+  <rect x="505" y="620" width="200" height="80" rx="40" fill="#5a2d32" opacity="0.85" />
+  <text x="210" y="760" fill="#5a2d32" font-family="Georgia, serif" font-size="56">Courtyard light</text>
+</svg>

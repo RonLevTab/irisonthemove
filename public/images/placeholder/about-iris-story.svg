@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" role="img" aria-labelledby="title desc">
+  <title id="title">About Iris placeholder</title>
+  <desc id="desc">Stylized portrait scene for a travel storyteller standing in a warm-toned courtyard.</desc>
+  <rect width="900" height="1100" fill="#f8f1e7" />
+  <rect x="85" y="140" width="730" height="820" rx="32" fill="#ead6c0" />
+  <rect x="160" y="220" width="580" height="620" rx="28" fill="#fdf9f4" />
+  <circle cx="450" cy="380" r="98" fill="#d7b79a" />
+  <path d="M330 545c24-90 90-128 120-128s96 38 120 128v146H330Z" fill="#5a2d32" />
+  <path d="M275 850c72-56 162-84 175-84s103 28 175 84" fill="none" stroke="#b06d4d" stroke-width="30" stroke-linecap="round" />
+  <circle cx="690" cy="248" r="24" fill="#5a2d32" opacity="0.9" />
+  <circle cx="734" cy="210" r="14" fill="#d6a165" opacity="0.95" />
+  <circle cx="170" cy="860" r="34" fill="#5a2d32" opacity="0.15" />
+  <text x="120" y="1030" fill="#5a2d32" font-family="Georgia, serif" font-size="54">Iris on the Move</text>
+</svg>

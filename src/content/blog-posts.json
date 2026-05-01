@@ -1,0 +1,55 @@
+[
+  {
+    "slug": "packing-for-a-romantic-city-escape",
+    "title": "Packing for a Romantic City Escape",
+    "excerpt": "A simple, elegant approach to packing for stylish weekend travel without overpacking.",
+    "coverImage": "/images/placeholder/blog-packing.svg",
+    "coverAlt": "Suitcase and travel essentials illustration",
+    "date": "2026-04-01",
+    "tags": ["packing", "style", "city breaks"],
+    "featured": true,
+    "blocks": [
+      {
+        "type": "text",
+        "body": "## Travel light, still feel polished\nFor a romantic city escape, I focus on pieces that feel effortless, elevated, and easy to repeat in new ways. Think soft layers, one strong coat, comfortable shoes, and accessories that photograph beautifully."
+      },
+      {
+        "type": "quote",
+        "text": "The best suitcase is the one that leaves room for spontaneity.",
+        "author": "Iris"
+      }
+    ]
+  },
+  {
+    "slug": "how-i-plan-solo-trips-in-europe",
+    "title": "How I Plan Solo Trips in Europe",
+    "excerpt": "My current framework for choosing destinations, stays, and experiences that feel safe, special, and worth documenting.",
+    "coverImage": "/images/placeholder/blog-solo-trip.svg",
+    "coverAlt": "European map and notebook illustration",
+    "date": "2026-03-20",
+    "tags": ["solo travel", "planning", "europe"],
+    "featured": true,
+    "blocks": [
+      {
+        "type": "text",
+        "body": "## Start with mood, then logistics\nI usually begin with how I want a place to feel. Do I want romance, drama, softness, or movement? From there I narrow the city, the neighborhood, and the stay."
+      }
+    ]
+  },
+  {
+    "slug": "creating-a-luxury-feel-on-a-short-trip",
+    "title": "Creating a Luxury Feel on a Short Trip",
+    "excerpt": "Luxury does not always mean excess. Sometimes it means choosing one beautiful thing and building the trip around it.",
+    "coverImage": "/images/placeholder/blog-luxury-short-trip.svg",
+    "coverAlt": "Boutique hotel detail illustration",
+    "date": "2026-03-08",
+    "tags": ["luxury travel", "weekend trips", "hotels"],
+    "featured": false,
+    "blocks": [
+      {
+        "type": "text",
+        "body": "## Focus on one signature moment\nA beautiful hotel room, a memorable dinner, or a sunrise viewpoint can shape the tone of the whole trip. I plan around one anchor experience and let everything else support it."
+      }
+    ]
+  }
+]

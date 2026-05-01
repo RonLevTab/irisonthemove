@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Iris on the Move
 
-## Getting Started
+Personal travel content site for **[irisonthemove.nl](https://irisonthemove.nl)** — Next.js 16 + Tailwind, deployed on Vercel.
 
-First, run the development server:
+## For Iris (the editor)
 
+Open **[EDITING.md](./EDITING.md)** — it's a step-by-step in plain English for editing this site from your MacBook using Cursor.
+
+## For developers
+
+### Stack
+- Next.js 16.2 (App Router) + React 19
+- Tailwind CSS v4
+- Framer Motion
+- Formspree for the contact form
+- Content stored as JSON in `src/content/*.json`
+- Hosted on Vercel (auto-deploy from `main`)
+
+### Local dev
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+Open [http://localhost:3000](http://localhost:3000). No env vars required.
+
+### Build
+```bash
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Project layout
+```
+src/
+  app/             — App Router routes (page.tsx, layout.tsx, etc.)
+  components/      — UI components
+  content/         — Site content (JSON files, edited by Iris via Cursor)
+  lib/             — Helpers (content readers, fonts, theme, animations)
+  types/           — Shared TypeScript types
+public/            — Static assets (images, videos, fonts)
+.cursor/rules/     — Cursor agent rules for the Iris workflow
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Deploys
+- Push to `main` → Vercel deploys to production (`irisonthemove.nl`).
+- Push to any other branch → Vercel creates a preview URL automatically.
+- No env vars are needed in Vercel.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### DNS
+The domain `irisonthemove.nl` is registered at Mijndomein, but DNS points to Vercel:
+- **A** record on `@` → `76.76.21.21`
+- **CNAME** on `www` → `cname.vercel-dns.com`
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Notes
+- AGENTS.md and `.cursor/rules/iris-workflow.mdc` exist so Cursor's AI agent assists Iris with edits + git in plain English.
+- This is **Next.js 16** — APIs differ from older versions. Consult `node_modules/next/dist/docs/01-app/` before writing code (this is documented in `AGENTS.md`).

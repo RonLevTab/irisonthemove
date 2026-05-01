@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850">
+  <rect width="1200" height="850" fill="#f7efe4" />
+  <rect x="70" y="70" width="1060" height="710" rx="32" fill="#fff9f2" />
+  <rect x="70" y="540" width="1060" height="240" rx="0" fill="#7fb0b8" />
+  <path d="M110 610c130-110 240-150 350-115s195 75 320 10 190-110 280-110v355H110Z" fill="#d6be9e" />
+  <path d="M280 530c15-130 88-185 148-185h128c72 0 117 22 164 82l65 103Z" fill="#f2e6d8" />
+  <circle cx="860" cy="215" r="72" fill="#f5d899" />
+  <text x="150" y="180" fill="#5a2d32" font-family="Georgia, serif" font-size="62">Puglia</text>
+</svg>

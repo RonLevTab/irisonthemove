@@ -1,0 +1,43 @@
+{
+  "regions": [
+    {
+      "id": "europe",
+      "label": "Europe",
+      "countries": [
+        "Netherlands",
+        "Monaco",
+        "Greece",
+        "Poland",
+        "Turkey",
+        "United Kingdom",
+        "Germany",
+        "France",
+        "Italy",
+        "Spain",
+        "Luxembourg",
+        "Portugal",
+        "Belgium"
+      ]
+    },
+    {
+      "id": "caribbean",
+      "label": "Caribbean",
+      "countries": []
+    },
+    {
+      "id": "southeast-asia",
+      "label": "Southeast Asia",
+      "countries": []
+    },
+    {
+      "id": "north-america",
+      "label": "North America",
+      "countries": []
+    },
+    {
+      "id": "middle-east",
+      "label": "Middle East",
+      "countries": []
+    }
+  ]
+}

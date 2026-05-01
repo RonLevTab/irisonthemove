@@ -1,0 +1,92 @@
+{
+  "hero": {
+    "eyebrow": "Luxury adventure travel",
+    "title": "Iris on the Move",
+    "tagline": "Cinematic storytelling\nthrough video and photography",
+    "description": "Bringing your travel brand to life through content creation, UGC and authentic digital creativity ~ Iris",
+    "primaryCta": {
+      "label": "Work With Me",
+      "href": "/contact"
+    },
+    "secondaryCta": {
+      "label": "View portfolio",
+      "href": "/work"
+    },
+    "backgroundImage": "/images/hero/hero-background.jpg",
+    "image": "/images/hero/hero-foreground.jpg",
+    "imageAlt": "Iris — travel creator portrait",
+    "tiles": [
+      {
+        "src": "/images/hero-tiles/tile-left.jpg",
+        "alt": "Travel moment — Iris on the Move"
+      },
+      {
+        "src": "/images/hero-tiles/tile-center.jpg",
+        "alt": "Destination storytelling — Iris on the Move"
+      },
+      {
+        "src": "/images/hero-tiles/tile-right.jpg",
+        "alt": "Lifestyle and content — Iris on the Move"
+      }
+    ]
+  },
+  "socialProof": {
+    "eyebrow": "Latest content",
+    "title": "What I have been creating lately",
+    "reels": [
+      {
+        "videoSrc": "/videos/social/reel-1.mp4",
+        "title": "On location",
+        "description": "Reel — brand storytelling"
+      },
+      {
+        "videoSrc": "/videos/social/reel-2.mp4",
+        "title": "On location",
+        "description": "Reel — cinematic travel guide"
+      },
+      {
+        "videoSrc": "/videos/social/reel-3.mp4",
+        "title": "On location",
+        "description": "Reel — brand storytelling"
+      },
+      {
+        "videoSrc": "/videos/social/reel-4.mp4?v=202604061",
+        "title": "On location",
+        "description": "Reel — cinematic travel guide"
+      },
+      {
+        "videoSrc": "/videos/social/reel-5.mp4",
+        "title": "On location",
+        "description": "Reel — cinematic travel guide"
+      },
+      {
+        "videoSrc": "/videos/social/reel-6.mp4",
+        "title": "On location",
+        "description": "Reel — brand storytelling"
+      }
+    ]
+  },
+  "services": {
+    "eyebrow": "Services",
+    "title": "Here is what I offer",
+    "items": [
+      {
+        "title": "UGC Content",
+        "description": "Real, human content that highlights your brand in an authentic way"
+      },
+      {
+        "title": "Short-Form Video",
+        "description": "Creative short form videos usable for social media pages or your website"
+      },
+      {
+        "title": "Photography",
+        "description": "Visuals that capture the mood, feel and personality of your brand"
+      }
+    ]
+  },
+  "videoCta": {
+    "posterImage": "/images/work/work-cta-2026-04-24-003556.jpeg",
+    "quote": "Let's make your brand\nimpossible to scroll past",
+    "ctaLabel": "Contact me"
+  }
+}

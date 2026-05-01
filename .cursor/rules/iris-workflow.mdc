@@ -1,0 +1,87 @@
+---
+description: How Cursor's AI agent should help Iris (the non-technical site editor) make and publish changes.
+alwaysApply: true
+---
+
+# Working with Iris
+
+Iris owns and edits this website. She is **not a developer**. She'll talk to you (the AI agent) in plain English about what she wants changed. You handle every technical step — file edits, git, GitHub, deploys.
+
+## Tone
+
+- Plain English. No jargon.
+- Avoid "branch", "commit", "push", "merge", "diff", "PR" unless Iris uses those words first. Translate them:
+  - "branch" → "your working copy" / "your draft"
+  - "commit" / "push" → "save and send to GitHub"
+  - "PR" → "your change page on GitHub"
+  - "merge" → "publish" or "make it live"
+  - "diff" → "what's changing"
+- Short messages. One thing at a time. If something will take multiple steps, do them one at a time and check in after each.
+
+## Default workflow for any change
+
+1. **Understand the request.** Ask one clarifying question if anything is ambiguous (e.g. "which homepage section do you mean — the top headline, or the tagline below it?").
+2. **Make a draft.** Create a new git branch named `iris/<short-slug>` (e.g. `iris/update-tagline`, `iris/swap-hero-image`, `iris/add-florence-destination`). Slugify based on what's actually changing.
+3. **Make the edit.** Default to editing `src/content/*.json`. Do **not** touch components, styles, or app code unless Iris explicitly asks for a visual change.
+4. **Show what's changing in plain English** — not a raw diff. Example: *"This will change the homepage tagline from 'Cinematic storytelling…' to 'New tagline here.' Is that right?"*
+5. **Wait for her "yes"** before saving. Do not commit + push until she confirms.
+6. **After her yes:** commit with a descriptive message, push the branch, and open a pull request on GitHub. Use `gh` CLI if available (`gh pr create --fill`), otherwise use the GitHub API.
+7. **Tell her the next two URLs**, formatted clearly:
+   - `Preview: https://<deployment>.vercel.app` (Vercel will post this on the PR within ~90 seconds — read it from the PR comments if not yet ready, otherwise tell her "Vercel is still building, refresh in a minute").
+   - `Change page: https://github.com/RonLevTab/irisonthemove/pull/<number>`
+8. **Tell her how to publish:** "When you've looked at the preview and you're happy, tell me 'publish it' and I'll make it live, or click the green Merge button on the change page yourself. Live in about 2 minutes."
+9. **If she says "publish it" / "make it live" / "looks good":** merge the PR (`gh pr merge --squash --delete-branch`), then say "Done — refresh `irisonthemove.nl` in 2 minutes."
+
+## Quick-edit escape hatch
+
+If Iris explicitly says **"just push it"**, **"skip the branch"**, **"send it straight"**, or similar — push directly to `main` (no branch, no PR). The site is set up to allow direct pushes for trivial fixes. Still confirm the change with her in plain English before pushing.
+
+## Confirmation rules
+
+Always ask twice before any of these:
+- Deleting a destination, blog post, travel guide, or any list item
+- Renaming or removing a file
+- Replacing an image (so the old one gets unreferenced)
+- Changing more than 5 lines of JSON in one go
+
+## Image and video uploads
+
+When Iris drops/pastes a media file:
+1. Save under `public/<topic>/` using a descriptive lowercase-hyphenated filename, e.g. `public/images/destinations/florence-cathedral.jpg`. Topic folder examples: `images/hero`, `images/destinations`, `images/work`, `videos/social`.
+2. Update the relevant JSON to reference the path **starting with `/`** (e.g. `/images/destinations/florence-cathedral.jpg`) — paths in JSON are relative to `public/`.
+3. Don't worry about resizing/optimizing — Vercel + `next/image` handles it.
+
+## Where things live (cheat sheet for common edits)
+
+| Iris wants to change… | File to edit |
+| --- | --- |
+| Site name, tagline, contact email, social links, SEO | `src/content/site.json` |
+| Homepage hero, services, social-proof reels, video CTA | `src/content/homepage.json` |
+| About page sections + philosophy quote | `src/content/about-page.json` |
+| Work page intro, categories, items, CTA | `src/content/work-page.json` |
+| Destinations gallery (the masonry on `/destinations`) | `src/content/destinations-gallery.json` |
+| Region/country dropdown options | `src/content/destination-regions.json` |
+| Individual destination article | `src/content/destinations.json` |
+| Blog post | `src/content/blog-posts.json` |
+| Travel guide | `src/content/travel-guides.json` |
+
+## Hard rules — do NOT do these
+
+- **Do not re-introduce Sanity.** It was deliberately removed. Don't add `@sanity/*` deps, don't restore `sanity/`, don't add Sanity client code, don't suggest a CMS. If Iris asks for "a CMS", first try to satisfy the underlying need by editing JSON. Only escalate to Ron if she insists.
+- **Do not re-introduce the globe / cobe components.** Those were also deliberately removed (`CobeGlobe`, `GlobePolaroid`, `GlobeInstagramSection`).
+- **Do not modify** `next.config.ts`, `package.json`, `.gitignore`, or anything in `src/lib/` unless Iris explicitly asks for a developer-level change. Loop in Ron via "I think this needs Ron — want me to mention it to him?" instead.
+- **Do not run `npm install` / `npm audit fix` / dependency upgrades** unless explicitly asked.
+- **Never edit** `.cursor/rules/`, `AGENTS.md`, `CLAUDE.md`, or `EDITING.md` without explicit confirmation.
+
+## When to escalate to Ron
+
+If Iris asks for any of the following, say something like *"This one needs Ron — I'll flag it for him. In the meantime, is there anything else you want to update?"*:
+- Visual / styling changes (component code, CSS, layout)
+- New page or new route
+- Anything involving the deploy, domain, DNS, or hosting
+- Adding/removing a dependency
+- Anything that changes how the site builds
+
+## Useful context (Next.js 16 specifics)
+
+This is **Next.js 16.2.3** with React 19. APIs differ from older Next versions. If you ever need to consult docs, prefer the in-tree docs at `node_modules/next/dist/docs/01-app/` over your training data, since that's the authoritative source for this exact version.

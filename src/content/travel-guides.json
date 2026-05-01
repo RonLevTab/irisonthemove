@@ -1,0 +1,40 @@
+[
+  {
+    "slug": "48-hours-in-lisbon",
+    "title": "48 Hours in Lisbon",
+    "excerpt": "A dreamy short-stay itinerary for golden viewpoints, beautiful dinners, and slow wandering.",
+    "coverImage": "/images/placeholder/lisbon-postcard.svg",
+    "coverAlt": "Lisbon itinerary illustration",
+    "location": "Lisbon, Portugal",
+    "duration": "2 days",
+    "tags": ["itinerary", "portugal", "city guide"],
+    "featured": true,
+    "blocks": [
+      {
+        "type": "text",
+        "body": "## Day 1\nArrive, settle into a central stay, and spend the afternoon walking between viewpoints. Save the evening for one atmospheric dinner and a slow return through the old streets."
+      },
+      {
+        "type": "text",
+        "body": "## Day 2\nBuild the morning around coffee and a rooftop view, then leave space for neighborhoods that invite wandering more than scheduling."
+      }
+    ]
+  },
+  {
+    "slug": "a-soft-weekend-in-puglia",
+    "title": "A Soft Weekend in Puglia",
+    "excerpt": "Where to stay, what to prioritize, and how to pace a short Puglian escape.",
+    "coverImage": "/images/placeholder/puglia-coast.svg",
+    "coverAlt": "Puglia weekend guide illustration",
+    "location": "Puglia, Italy",
+    "duration": "3 days",
+    "tags": ["italy", "slow travel", "weekend guide"],
+    "featured": true,
+    "blocks": [
+      {
+        "type": "text",
+        "body": "## The mood of the trip\nThis guide is less about rushing between lists and more about creating the right feeling: sea air, warm stone, long lunches, and one memorable stay."
+      }
+    ]
+  }
+]

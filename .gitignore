@@ -19,6 +19,16 @@
 
 # production
 /build
+/dist
+/irisonthemove
+
+# logs
+*.log
+
+# local tool state (not part of the project)
+/.agents/
+/.claude/
+/.sanity/
 
 # misc
 .DS_Store

@@ -1,0 +1,364 @@
+import { FaInstagram, FaTiktok } from "react-icons/fa6";
+
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import type { WorkPageResultsContent } from "@/types/content";
+import {
+  oakSectionBorderClassName,
+  oakSectionBorderTopClassName,
+} from "@/lib/sectionOakTheme";
+import { cn } from "@/lib/utils";
+
+function formatInt(n: number) {
+  return new Intl.NumberFormat("nl-NL").format(Math.round(n));
+}
+
+function formatPct(n: number, fraction = 1) {
+  return new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: fraction,
+    maximumFractionDigits: fraction,
+  }).format(n);
+}
+
+function instagramProfileHref(handle: string) {
+  const name = handle.replace(/^@/, "").trim();
+  return `https://www.instagram.com/${name}/`;
+}
+
+/** Strips parenthetical (e.g. “(single-reel performance)”) for a clean location line under the header. */
+function reelLocationFromContext(context: string) {
+  const t = context.trim();
+  const open = t.indexOf("(");
+  if (open > 0) {
+    return t.slice(0, open).replace(/[.,]\s*$/, "").trim() || t;
+  }
+  return t;
+}
+
+function handleFromTiktokProfileUrl(url: string) {
+  try {
+    const path = new URL(url).pathname.replace(/\/$/, "");
+    const seg = path.split("/").filter(Boolean).pop() ?? "";
+    return seg.startsWith("@") ? seg : `@${seg}`;
+  } catch {
+    return "@irisonthemove";
+  }
+}
+
+type ResultsSectionProps = WorkPageResultsContent;
+
+/** Warm border + light lift; width applied per card variant */
+const resultCardBase =
+  "rounded-2xl border border-[color-mix(in_srgb,var(--color-border)_88%,#d4c4b8)] bg-[var(--color-surface)]/95 p-4 text-center shadow-[0_8px_28px_rgba(75,64,56,0.05)] sm:p-5";
+
+/** One of two Instagram cards in the top row (50/50 on sm+) */
+const resultCardInstagramClass = cn(resultCardBase, "h-full w-full min-w-0");
+
+/** Full-width row below the Instagram pair; same total width as the two columns above */
+const resultCardTiktokClass = cn(resultCardBase, "w-full");
+
+/** Instagram brand gradient (icon chip) — size applied per use so headers stay aligned */
+const igIconChipClass =
+  "flex shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#f9ce34] via-[#e6683c] to-[#c13584] text-white shadow-sm";
+
+/** TikTok: black with official cyan / pink accent (icon chip) */
+const tiktokIconChipClass =
+  "flex shrink-0 items-center justify-center rounded-2xl bg-black text-white shadow-sm ring-1 ring-white/10";
+
+/**
+ * Slightly larger squares so the chip aligns with the header text block
+ * (label → @ → date [→ pill]) for both Instagram cards and TikTok.
+ */
+const resultHeaderLogoChipClass =
+  "h-[3.75rem] w-[3.75rem] rounded-2xl sm:h-16 sm:w-16";
+
+const resultHeaderLogoIconClass = "h-7 w-7 sm:h-8 sm:w-8";
+
+/**
+ * Middle tone between Teal link accent (#0a6d78) and body “data” color (--color-foreground)
+ * so +% and @ line stay readable on warm surface without being too light or too dark.
+ */
+const tiktokAccentMiddleClass =
+  "text-[color-mix(in_srgb,_#0a6d78_44%,_var(--color-foreground))]";
+const tiktokAccentUnderlineClass =
+  "decoration-[color-mix(in_srgb,_#0a6d78_50%,_var(--color-foreground))]/50";
+
+/** Logo left, text right; whole cluster centered in the card (matches TikTok + Instagram) */
+const resultHeaderClusterClass =
+  "flex w-full max-w-full flex-row items-start justify-center gap-3 sm:gap-4";
+const resultHeaderTextColClass = "flex min-w-0 flex-col items-start gap-1 text-left";
+
+/**
+ * Results — top row: two Instagram cards side by side. Below: one TikTok card full width
+ * (span matches the combined width of the row above). TikTok metrics read in a horizontal row.
+ */
+export function ResultsSection(data: ResultsSectionProps) {
+  const { eyebrow, title, description, instagram, tiktok } = data;
+  const ig = instagram;
+  const profileDisplay = ig.profileHandle.startsWith("@")
+    ? ig.profileHandle
+    : `@${ig.profileHandle.replace(/^@/, "")}`;
+  const profileHref = instagramProfileHref(ig.profileHandle);
+  const donutDeg = (ig.viewsFromFollowersPercent / 100) * 360;
+  const mixPink = "color-mix(in srgb, #e1306c 70%, #e8c9b5)";
+  const mixPurple = "color-mix(in srgb, #833ab4 55%, #b48c8b)";
+  const igDonutGrad = `conic-gradient(from -90deg, ${mixPink} 0deg ${donutDeg}deg, ${mixPurple} ${donutDeg}deg 360deg)`;
+  const tiktokTagDisplay = handleFromTiktokProfileUrl(tiktok.profileUrl);
+
+  return (
+    <section
+      id="results"
+      className={cn(
+        "relative isolate w-full",
+        oakSectionBorderClassName,
+        "bg-[var(--color-background)]",
+        oakSectionBorderTopClassName,
+        "overflow-x-clip",
+        "scroll-mt-[calc(var(--nav-stack-height,5.25rem)+0.5rem)]",
+      )}
+    >
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 pt-10 pb-12 sm:px-10 lg:gap-7 lg:px-12 lg:pt-12 lg:pb-16">
+        <ScrollReveal className="flex w-full flex-col items-center text-center">
+          <SectionHeading
+            align="center"
+            eyebrow={eyebrow}
+            title={title}
+            titleVariant="editorialDual"
+            stackGapClassName="gap-3 sm:gap-4"
+            className="w-full max-w-5xl"
+            innerClassName="!max-w-2xl"
+          />
+          {description?.trim() ? (
+            <p className="mx-auto mt-3 max-w-md font-sans text-sm leading-relaxed text-[var(--color-foreground-muted)]">
+              {description.trim()}
+            </p>
+          ) : null}
+        </ScrollReveal>
+
+        {/* Same sibling relationship as category sections: title block, then content (no extra mt) */}
+        <div className="relative isolate w-full min-h-0 min-w-0">
+          <div className="mx-auto flex w-full flex-col gap-4 sm:gap-5">
+            <div className="mx-auto grid w-full min-w-0 max-w-2xl grid-cols-1 gap-4 sm:max-w-none sm:grid-cols-2 sm:gap-5">
+            {/* 1 — Instagram account / period overview */}
+            <div className={resultCardInstagramClass}>
+              <div className="mb-3 border-b border-[color-mix(in_srgb,var(--color-border)_55%,transparent)] pb-3">
+                <div className={resultHeaderClusterClass}>
+                  <div className={cn(igIconChipClass, resultHeaderLogoChipClass)} aria-hidden>
+                    <FaInstagram className={resultHeaderLogoIconClass} />
+                  </div>
+                  <div className={resultHeaderTextColClass}>
+                    <p className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-foreground)]">
+                      {ig.platformLabel}
+                    </p>
+                    <a
+                      href={profileHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-sans text-sm font-semibold text-[#E1306C] underline decoration-[#E1306C]/25 underline-offset-2 transition-opacity hover:opacity-90"
+                    >
+                      {profileDisplay}
+                    </a>
+                    <p className="font-sans text-xs text-[var(--color-foreground-muted)]">{ig.period30d}</p>
+                    <span className="mt-0.5 inline-flex rounded-full border border-[color-mix(in_srgb,var(--color-border)_70%,#d4c4b8)] bg-[var(--color-surface-strong)]/90 px-2.5 py-1 font-sans text-[0.65rem] text-[var(--color-foreground-muted)]">
+                      <span className="text-[#3d7a5c]">+</span>
+                      {formatPct(ig.reachChangePercent, 1)}% reach
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mx-auto flex w-full max-w-md flex-col items-center gap-3 pb-3 sm:max-w-2xl sm:flex-row sm:justify-center sm:gap-8">
+                <div>
+                  <p className="font-sans text-[0.6rem] uppercase tracking-[0.14em] text-[var(--color-foreground-muted)]">
+                    30d views
+                  </p>
+                  <p className="mt-0.5 font-sans text-2xl font-semibold tabular-nums text-[var(--color-foreground)] sm:text-3xl">
+                    {formatInt(ig.totalViews30d)}
+                  </p>
+                </div>
+                <div className="flex items-center justify-center gap-2 sm:gap-4">
+                  <div className="relative h-16 w-16 shrink-0 sm:h-[4.5rem] sm:w-[4.5rem]">
+                    <div className="h-full w-full rounded-full p-0.5" style={{ background: igDonutGrad }}>
+                      <div className="flex h-full w-full items-center justify-center rounded-full bg-[var(--color-surface)]">
+                        <div>
+                          <p className="font-sans text-sm font-semibold tabular-nums text-[var(--color-foreground)]">
+                            {ig.statsPillLabel}
+                          </p>
+                          <p className="mt-0.5 font-sans text-[0.5rem] uppercase tracking-wider text-[var(--color-foreground-muted)]">
+                            mix
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <ul className="max-w-[12rem] space-y-1 text-left font-sans text-[0.7rem] text-[var(--color-foreground)]">
+                    <li className="flex items-center justify-between gap-3">
+                      <span className="text-[var(--color-foreground-muted)]">Followers</span>
+                      <span className="font-medium tabular-nums text-[#E1306C]">
+                        {formatPct(ig.viewsFromFollowersPercent, 1)}%
+                      </span>
+                    </li>
+                    <li className="flex items-center justify-between gap-3">
+                      <span className="text-[var(--color-foreground-muted)]">Non-followers</span>
+                      <span className="font-medium tabular-nums text-[#833AB4]">
+                        {formatPct(ig.viewsFromNonFollowersPercent, 1)}%
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="mx-auto w-full max-w-md space-y-1.5 pt-1 sm:max-w-lg">
+                <p className="font-sans text-[0.6rem] uppercase tracking-[0.12em] text-[var(--color-foreground-muted)]">
+                  Views by type
+                </p>
+                {ig.contentMix.map((row) => (
+                  <div key={row.label} className="space-y-0.5 text-left">
+                    <div className="flex items-center justify-between font-sans text-[0.7rem]">
+                      <span className="text-[var(--color-foreground-muted)]">{row.label}</span>
+                      <span className="font-medium tabular-nums text-[var(--color-foreground)]">
+                        {formatPct(row.percent, 1)}%
+                      </span>
+                    </div>
+                    <div className="h-1 w-full overflow-hidden rounded-full bg-[color-mix(in_srgb,var(--color-border)_50%,transparent)]">
+                      <div
+                        className="h-full rounded-full bg-gradient-to-r from-[#f9ce34]/90 via-[#e6683c] to-[#c13584]"
+                        style={{ width: `${Math.min(100, row.percent)}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p className="mt-3 font-sans text-[0.65rem] text-[var(--color-foreground-muted)]">
+                {formatInt(ig.accountsReached)} accounts reached · ~{ig.totalViewsLabel} (dashboard)
+              </p>
+            </div>
+
+            {/* 2 — Reel: header matches card 1 (label, @, date, impact); Rocco/location under the divider */}
+            <div className={resultCardInstagramClass}>
+              <div className="mb-3 border-b border-[color-mix(in_srgb,var(--color-border)_55%,transparent)] pb-3">
+                <div className={resultHeaderClusterClass}>
+                  <div className={cn(igIconChipClass, resultHeaderLogoChipClass)} aria-hidden>
+                    <FaInstagram className={resultHeaderLogoIconClass} />
+                  </div>
+                  <div className={resultHeaderTextColClass}>
+                    <p className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-foreground)]">
+                      Reel highlight
+                    </p>
+                    <a
+                      href={profileHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-sans text-sm font-semibold text-[#E1306C] underline decoration-[#E1306C]/25 underline-offset-2 transition-opacity hover:opacity-90"
+                    >
+                      {profileDisplay}
+                    </a>
+                    <p className="font-sans text-xs text-[var(--color-foreground-muted)]">{ig.period30d}</p>
+                    <span className="mt-0.5 inline-flex rounded-full border border-[color-mix(in_srgb,var(--color-border)_70%,#d4c4b8)] bg-[var(--color-surface-strong)]/90 px-2.5 py-1 font-sans text-[0.65rem] text-[var(--color-foreground-muted)]">
+                      <span className="text-[#3d7a5c]">+</span>
+                      {formatInt(ig.singleReel.followersFromReel)} new followers
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="mx-auto mb-3 max-w-md space-y-0.5 text-center sm:max-w-lg">
+                <p className="font-sans text-sm font-semibold text-[var(--color-foreground)]">
+                  {ig.singleReel.reelName}
+                </p>
+                <p className="text-[0.65rem] font-sans text-[var(--color-foreground-muted)]">
+                  Single reel (same account)
+                </p>
+                <p className="font-sans text-sm text-[var(--color-foreground)]">
+                  {reelLocationFromContext(ig.singleReel.context)}
+                </p>
+              </div>
+              {ig.singleReel.reelUrl ? (
+                <a
+                  href={ig.singleReel.reelUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex max-w-full items-center justify-center gap-1.5 break-words font-sans text-sm font-medium text-[#E1306C] underline decoration-[#E1306C]/30 underline-offset-2 transition-opacity hover:opacity-85"
+                >
+                  <FaInstagram className="h-4 w-4 shrink-0" aria-hidden />
+                  Watch on Instagram
+                </a>
+              ) : null}
+              <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                {[
+                  { k: "Views", v: formatInt(ig.singleReel.views) },
+                  { k: "Reach", v: formatInt(ig.singleReel.accountsReached) },
+                  { k: "Watch", v: `${ig.singleReel.avgWatchSeconds}s` },
+                  { k: "New f.", v: formatInt(ig.singleReel.followersFromReel) },
+                  { k: "Likes", v: formatInt(ig.singleReel.likes) },
+                  { k: "Comments", v: formatInt(ig.singleReel.comments) },
+                  { k: "Saves", v: formatInt(ig.singleReel.saves) },
+                  { k: "Shares", v: formatInt(ig.singleReel.shares) },
+                ].map((c) => (
+                  <div
+                    key={c.k}
+                    className="rounded-lg border border-[color-mix(in_srgb,var(--color-border)_40%,transparent)] bg-[var(--color-surface-strong)]/50 px-2 py-1.5"
+                  >
+                    <p className="font-sans text-[0.5rem] uppercase tracking-wider text-[var(--color-foreground-muted)]">
+                      {c.k}
+                    </p>
+                    <p className="mt-0.5 font-sans text-[0.75rem] font-medium tabular-nums text-[var(--color-foreground)] sm:text-sm">
+                      {c.v}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            </div>
+
+            {/* 3 — TikTok: one wide row, same content width as the two Instagram columns combined */}
+            <div className={resultCardTiktokClass}>
+              <div className="mb-4 border-b border-[color-mix(in_srgb,var(--color-border)_55%,transparent)] pb-3 sm:mb-5 sm:pb-4">
+                <div className={resultHeaderClusterClass}>
+                  <div className={cn(tiktokIconChipClass, resultHeaderLogoChipClass)} aria-hidden>
+                    <FaTiktok className={resultHeaderLogoIconClass} />
+                  </div>
+                  <div className={resultHeaderTextColClass}>
+                    <p className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-foreground)]">
+                      {tiktok.platformLabel}
+                    </p>
+                    <a
+                      href={tiktok.profileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${tiktok.accountName} on TikTok`}
+                      className={cn(
+                        "font-sans text-sm font-semibold underline underline-offset-2 transition-colors hover:opacity-90",
+                        tiktokAccentMiddleClass,
+                        tiktokAccentUnderlineClass,
+                      )}
+                    >
+                      {tiktokTagDisplay}
+                    </a>
+                    <p className="font-sans text-xs text-[var(--color-foreground-muted)]">{tiktok.period8w}</p>
+                  </div>
+                </div>
+              </div>
+              <ul className="grid w-full grid-cols-1 gap-6 text-center sm:grid-cols-3 sm:gap-4 sm:gap-y-0">
+                {tiktok.metrics.map((m) => (
+                  <li
+                    key={m.label}
+                    className="border-b border-[color-mix(in_srgb,var(--color-border)_40%,transparent)] pb-4 last:border-0 last:pb-0 sm:border-0 sm:pb-0"
+                  >
+                    <p className="font-sans text-xs text-[var(--color-foreground-muted)]">{m.label}</p>
+                    <p className="mt-0.5 font-sans text-2xl font-semibold tabular-nums text-[var(--color-foreground)] sm:text-3xl">
+                      {formatInt(m.value)}
+                    </p>
+                    <p className={cn("mt-0.5 text-sm font-medium", tiktokAccentMiddleClass)}>
+                      +{formatPct(m.changePercent, 2)}%
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

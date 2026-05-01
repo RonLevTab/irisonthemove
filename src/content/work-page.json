@@ -1,0 +1,128 @@
+{
+  "intro": {
+    "eyebrow": "Portfolio",
+    "title": "My work",
+    "body": "A curated mix of UGC-style photos and short-form video for restaurants, hotels, Airbnbs, and travel moments. Placeholder tiles below — swap in your real projects anytime."
+  },
+  "categories": [
+    {
+      "id": "restaurants",
+      "title": "Restaurants",
+      "description": "Food, interiors, and atmosphere for dining brands.",
+      "items": [
+        { "image": "/images/work/restaurants/1.jpeg", "imageAlt": "Rocco, Lisbon", "location": "Rocco, Lisbon, Portugal" },
+        { "image": "/images/work/restaurants/2.jpeg", "imageAlt": "Kita, Hendrik Ido Ambacht", "location": "Kita, Hendrik Ido Ambacht, Netherlands" },
+        { "image": "/images/work/restaurants/3.jpeg", "imageAlt": "Restobar Moos, Den Haag", "location": "Restobar Moos, Den Haag, Netherlands" },
+        { "image": "/images/work/restaurants/4.jpeg", "imageAlt": "Cecconi's, Amsterdam", "location": "Cecconi's, Amsterdam, Netherlands" },
+        { "image": "/images/work/restaurants/5.jpeg", "imageAlt": "Table 24, Haarlem", "location": "Table 24, Haarlem, Netherlands" },
+        { "image": "/images/work/restaurants/6.jpg", "imageAlt": "La Nostra Gigi, Amsterdam", "location": "La Nostra Gigi, Amsterdam, Netherlands", "objectPosition": "top" },
+        { "image": "/images/work/restaurants/7.JPG", "imageAlt": "Ciao Belli, Breda", "location": "Ciao Belli, Breda, Netherlands" },
+        { "image": "/images/work/restaurants/8.jpeg", "imageAlt": "Bobbi's Bar, Breda", "location": "Bobbi's Bar, Breda, Netherlands" },
+        { "image": "/images/work/restaurants/9.jpeg", "imageAlt": "Bello Gio's by the River, Amsterdam", "location": "Bello Gio's by the River, Amsterdam, Netherlands" },
+        { "image": "/images/work/restaurants/10.jpeg", "imageAlt": "Cervejaria Trindade, Lisbon", "location": "Cervejaria Trindade, Lisbon, Portugal" },
+        { "image": "/images/work/restaurants/11.jpeg", "imageAlt": "Paloma, Utrecht", "location": "Paloma, Utrecht, Netherlands" },
+        { "image": "/images/work/restaurants/12.jpeg", "imageAlt": "Quila, Den Haag", "location": "Quila, Den Haag, Netherlands" },
+        { "image": "/images/work/restaurants/13.jpeg", "imageAlt": "Red Apple, Breda", "location": "Red Apple, Breda, Netherlands" },
+        { "image": "/images/work/restaurants/14.jpeg", "imageAlt": "Bleue Bar Bistro, Breda", "location": "Bleue Bar Bistro, Breda, Netherlands" },
+        { "image": "/images/work/restaurants/15.jpeg", "imageAlt": "1NUL8 Basement, Rotterdam", "location": "1NUL8 Basement, Rotterdam, Netherlands" },
+        { "image": "/images/work/restaurants/16.jpeg", "imageAlt": "Con Fuego, Breda", "location": "Con Fuego, Breda, Netherlands" },
+        { "image": "/images/work/restaurants/17.jpeg", "imageAlt": "Giorgia Rosa, Den Haag", "location": "Giorgia Rosa, Den Haag, Netherlands" },
+        { "image": "/images/work/restaurants/18.jpeg", "imageAlt": "Grotta Palazzese, Polignano a Mare", "location": "Grotta Palazzese, Polignano a Mare, Italy" }
+      ],
+      "tripleVideos": [
+        { "videoSrc": "/videos/work/restaurants/restaurant-reel-1.mp4", "title": "Restaurant work — reel one" },
+        { "videoSrc": "/videos/work/restaurants/restaurant-reel-2.mp4", "title": "Restaurant work — reel two" },
+        { "videoSrc": "/videos/work/restaurants/restaurant-reel-3.mp4", "title": "Restaurant work — reel three" }
+      ]
+    },
+    {
+      "id": "hotels",
+      "title": "Hotels & Airbnbs",
+      "description": "Stays, details, and destination-first storytelling.",
+      "items": [
+        { "image": "/images/work/hotels/mywok/IMG_0278.jpeg", "imageAlt": "Hotel stay — interior detail", "location": "Trullo San Pietro, Italy" },
+        { "image": "/images/work/hotels/mywok/IMG_5276.jpg", "imageAlt": "Hotel stay — room or suite", "location": "B&B Rita & Family, Italy" },
+        { "image": "/images/work/hotels/mywok/IMG_8904.jpeg", "imageAlt": "Hotel stay — amenity or view", "location": "Antonia Pinto y Mendoza, Italy" },
+        { "image": "/images/work/hotels/mywok/IMG_4123.jpeg", "imageAlt": "Hotel stay — lobby or lounge", "location": "B&B Rita & Family, Italy" },
+        { "image": "/images/work/hotels/mywok/IMG_5277.jpg", "imageAlt": "Hotel stay — interior moment", "location": "Barcelo Ponent Beach hotel, Spain" },
+        { "image": "/images/work/hotels/mywok/IMG_5282.jpg", "imageAlt": "Hotel stay — detail shot", "location": "Barcelo Ponent Beach hotel. Spain" },
+        { "image": "/images/work/hotels/mywok/IMG_0263-new.jpeg", "imageAlt": "Hotel stay — atmosphere", "location": "Van der Valk Hotel Breda, Netherlands" },
+        { "image": "/images/work/hotels/mywok/IMG_6387.jpeg", "imageAlt": "Hotel stay — bathroom or spa", "location": "Hotel Bel-Air, Luxembourg" },
+        { "image": "/images/work/hotels/mywok/IMG_8903.jpeg", "imageAlt": "Hotel stay — bedroom or suite", "location": "Masseria Urbana, Italy" },
+        { "image": "/images/work/hotels/mywok/IMG_6570.jpeg", "imageAlt": "Hotel stay — dining or bar", "location": "The Gantry London, United Kingdom" },
+        { "image": "/images/work/hotels/mywok/IMG_5280.jpg", "imageAlt": "Hotel stay — exterior or pool", "location": "Van der Valk Hotel Amersfoort, Netherlands" },
+        { "image": "/images/work/hotels/mywok/IMG_4909.jpeg", "imageAlt": "Hotel stay — signature moment", "location": "Barcelo Ponent Beach hotel, Spain" }
+      ],
+      "tripleVideos": [
+        { "videoSrc": "/videos/work/hotels/hotel-reel-1.mp4", "title": "Hotel work — reel one" },
+        { "videoSrc": "/videos/work/hotels/hotel-reel-2.mp4", "title": "Hotel work — reel two" },
+        { "videoSrc": "/videos/work/hotels/hotel-reel-3.mp4", "title": "Hotel work — reel three" }
+      ]
+    },
+    {
+      "id": "travel",
+      "title": "Travel guides",
+      "description": "Travel reels — on-location and destination-first storytelling.",
+      "items": [],
+      "travelGridVideos": [
+        { "videoSrc": "/videos/work/travel/travel-01.mp4", "title": "Travel reel one" },
+        { "videoSrc": "/videos/work/travel/travel-02.mp4", "title": "Travel reel two" },
+        { "videoSrc": "/videos/work/travel/travel-03.mp4", "title": "Travel reel three" },
+        { "videoSrc": "/videos/work/travel/travel-04.mp4", "title": "Travel reel four" },
+        { "videoSrc": "/videos/work/travel/travel-05.mp4", "title": "Travel reel five" },
+        { "videoSrc": "/videos/work/travel/travel-06.mp4", "title": "Travel reel six" }
+      ]
+    }
+  ],
+  "results": {
+    "eyebrow": "Results",
+    "title": "Driven by Data",
+    "instagram": {
+      "profileHandle": "@irisonthemove",
+      "platformLabel": "Instagram",
+      "period30d": "Last 30 days (Mar 24 – Apr 22)",
+      "totalViews30d": 263871,
+      "accountsReached": 133740,
+      "reachChangePercent": 714.6,
+      "totalViewsLabel": "263.9K",
+      "statsPillLabel": "133K",
+      "viewsFromFollowersPercent": 24.5,
+      "viewsFromNonFollowersPercent": 75.5,
+      "contentMix": [
+        { "label": "Reels", "percent": 69.5 },
+        { "label": "Stories", "percent": 21.0 },
+        { "label": "Posts", "percent": 9.4 }
+      ],
+      "singleReel": {
+        "reelName": "Rocco",
+        "context": "Lisbon, Portugal (single-reel performance).",
+        "reelUrl": "https://www.instagram.com/reel/DWeNWODjSC6/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+        "views": 131971,
+        "accountsReached": 107305,
+        "avgWatchSeconds": 5,
+        "followersFromReel": 415,
+        "likes": 5600,
+        "comments": 255,
+        "shares": 54,
+        "saves": 3100
+      }
+    },
+    "tiktok": {
+      "platformLabel": "TikTok",
+      "accountName": "Iris on the Move",
+      "profileUrl": "https://www.tiktok.com/@irisonthemove",
+      "period8w": "Last 8 weeks (Feb 15 – Apr 11, 2026)",
+      "metrics": [
+        { "label": "Video views", "value": 27591, "changePercent": 75.09 },
+        { "label": "Reached audience", "value": 26003, "changePercent": 76.99 },
+        { "label": "Profile views", "value": 460, "changePercent": 138.34 }
+      ]
+    }
+  },
+  "cta": {
+    "title": "Let's create in your location",
+    "buttonLabel": "Work with me",
+    "buttonHref": "/contact",
+    "backgroundImage": "/images/home/home-video-cta-2026-04-24-001720.jpeg"
+  }
+}
