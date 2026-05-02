@@ -202,7 +202,7 @@ export function HeroSection({
             </defs>
           </svg>
           <div
-            className="relative aspect-[2/11] max-h-[min(80svh,900px)] w-full overflow-hidden shadow-[0_20px_50px_rgba(58,36,32,0.18)] lg:mx-auto lg:aspect-[2/3] lg:h-[calc(100%+7rem)] lg:max-h-none lg:min-h-0 lg:w-auto lg:max-w-[42rem] lg:-translate-y-3"
+            className="relative aspect-[3/5] max-h-[min(74svh,780px)] w-full overflow-hidden shadow-[0_20px_50px_rgba(58,36,32,0.18)] lg:mx-auto lg:aspect-[2/3] lg:h-[calc(100%+7rem)] lg:max-h-none lg:min-h-0 lg:w-auto lg:max-w-[42rem] lg:-translate-y-3"
             style={{ clipPath: `url(#${archClipId})` }}
           >
             <Image

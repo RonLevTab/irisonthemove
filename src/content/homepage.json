@@ -71,16 +71,16 @@
     "title": "Here is what I offer",
     "items": [
       {
-        "title": "UGC Content",
-        "description": "Real, human content that highlights your brand in an authentic way"
-      },
-      {
         "title": "Short-Form Video",
-        "description": "Creative short form videos usable for social media pages or your website"
+        "description": "Creative, scroll-stopping videos that make your brand stand out on social media and your website"
       },
       {
         "title": "Photography",
-        "description": "Visuals that capture the mood, feel and personality of your brand"
+        "description": "Visuals that capture the mood, aesthetic and personality of your brand"
+      },
+      {
+        "title": "UGC Content",
+        "description": "Authentic, human-centered content that builds trust and showcases your brand in a genuine way"
       }
     ]
   },

@@ -48,7 +48,7 @@ export function Navbar({ instagramUrl, tiktokUrl, email }: NavbarProps) {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[var(--color-background)]/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full bg-[var(--color-background)] lg:bg-[var(--color-background)]/80 lg:backdrop-blur-md">
       <div className="nav-bar-row">
         <Link href="/" className="relative z-10 shrink-0 py-0.5 text-[var(--color-primary)]">
           <span className="nav-bar-brand">
@@ -103,7 +103,7 @@ export function Navbar({ instagramUrl, tiktokUrl, email }: NavbarProps) {
       </div>
 
       <nav
-        className="nav-mobile-menu bg-[var(--color-background)]/70 lg:hidden"
+        className="nav-mobile-menu bg-[var(--color-background)] lg:hidden"
         aria-label="Main navigation"
       >
         <div className="flex w-full flex-nowrap items-center justify-between gap-x-0.5 sm:justify-center sm:gap-x-2">

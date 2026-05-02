@@ -25,7 +25,7 @@ const exploreConnectBlockClassName =
 
 export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
   return (
-    <footer className="relative z-10 bg-[var(--color-surface-strong)]">
+    <footer className="site-footer relative z-10">
       <div className="footer-align grid w-full grid-cols-3 items-center justify-items-stretch gap-x-4 gap-y-0 py-5 sm:gap-x-4 sm:py-6 lg:gap-x-4 lg:py-6">
         <div className="flex w-full min-w-0 flex-col flex-nowrap justify-start gap-y-4 sm:flex-row sm:gap-x-8 sm:gap-y-0 lg:gap-x-7">
           <div className={exploreConnectBlockClassName}>

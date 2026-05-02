@@ -38,7 +38,7 @@ export function SocialProofSection({
       className="relative isolate w-full"
       style={latestContentSectionStyle}
     >
-      <div className={oakSectionInnerAfterHeroClassName}>
+      <div className={`${oakSectionInnerAfterHeroClassName} max-sm:pt-14`}>
         <ScrollReveal className={`flex flex-col ${blockGap}`}>
           <div className={`flex flex-col ${blockGap}`}>
             <SectionHeading

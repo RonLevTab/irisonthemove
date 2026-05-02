@@ -238,17 +238,17 @@ export function DestinationsCountryMarquee({
       )}
     >
       <div
-        className="relative w-full min-h-[2.5rem] overflow-hidden sm:min-h-[2.65rem] md:min-h-[2.85rem]"
+        className="relative w-full min-h-[5.25rem] overflow-hidden sm:min-h-[5.75rem] md:min-h-[6.25rem]"
         role="presentation"
       >
-        <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
+        <div className="pointer-events-none absolute inset-x-0 top-1/2 z-0 flex -translate-y-[34%] items-center justify-center">
           <CountryMarqueeStrip
             reduceMotion={reduceMotion}
             className="w-full py-0"
             clearTickerInCenter
           />
         </div>
-        <div className="pointer-events-none relative z-10 flex min-h-[2.5rem] items-center justify-center py-1 sm:min-h-[2.65rem] md:min-h-[2.85rem]">
+        <div className="pointer-events-none absolute inset-0 z-10 flex min-h-[5.25rem] items-center justify-center py-3 sm:min-h-[5.75rem] sm:py-4 md:min-h-[6.25rem]">
           <div className="pointer-events-auto flex items-center justify-center gap-2.5 px-5 sm:gap-4 sm:px-7 md:gap-5 md:px-8">
             <CountriesVisitedPanel />
           </div>

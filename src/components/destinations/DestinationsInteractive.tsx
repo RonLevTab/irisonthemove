@@ -33,14 +33,14 @@ export function DestinationsInteractive({
     <>
       <section
         aria-label="Countries visited"
-        className="sticky top-20 z-30 w-full border-0 bg-gradient-to-b from-[#f2ede6]/96 from-0% via-[#f4efe9]/94 via-35% to-[#f8f4ee]/92 py-4 shadow-[0_8px_28px_-12px_rgba(75,64,56,0.04)] backdrop-blur-[6px] backdrop-saturate-100 sm:py-5"
+        className="sticky top-20 z-30 w-full border-0 bg-[var(--color-background)] py-4 shadow-none sm:py-5"
       >
         <DestinationsCountryMarquee cardMessage={cardMessage} />
       </section>
 
       <section
         aria-label="Destination photos"
-        className="w-full bg-gradient-to-b from-[#f8f4ee]/75 from-0% via-[#faf7f3]/45 via-45% to-transparent px-3 pb-16 pt-0 sm:px-4 sm:pb-20 lg:px-5"
+        className="w-full bg-gradient-to-b from-[#f8f4ee]/75 from-0% via-[#faf7f3]/45 via-45% to-transparent px-3 pb-6 pt-0 sm:px-4 sm:pb-8 lg:px-5"
       >
         <DestinationsHeroGallery items={items} />
       </section>

@@ -15,9 +15,9 @@ const springHover = {
 const cardVariants = {
   initial: { scale: 1, y: 0 },
   hover: {
-    scale: 1.03,
-    y: -5,
-    boxShadow: "0px 14px 28px -10px rgba(0, 0, 0, 0.1)",
+    scale: 1.015,
+    y: -3,
+    boxShadow: "0 18px 34px rgba(58, 36, 32, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.85)",
     transition: springHover,
   },
 };
@@ -81,19 +81,19 @@ const PricingCard = React.forwardRef<HTMLDivElement, PricingCardProps>(
           duration: 0.55,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="h-full min-h-[11.5rem] sm:min-h-[18.5rem] lg:min-h-[20.5rem]"
+        className="h-full min-h-[12rem] sm:min-h-[15.5rem] lg:min-h-[17.5rem]"
       >
         <motion.div
           variants={cardVariants}
           initial="initial"
           whileHover="hover"
           className={cn(
-            "relative flex h-full min-h-0 flex-col justify-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-5 text-center shadow-sm transition-shadow duration-300 sm:rounded-3xl sm:px-7 sm:py-9 lg:px-8 lg:py-10",
+            "relative flex h-full min-h-0 flex-col justify-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-4.5 text-center shadow-sm transition-shadow duration-300 sm:rounded-3xl sm:px-7 sm:py-7 lg:px-8 lg:py-8",
             className,
           )}
           {...motionSafeProps}
         >
-          <div className="flex w-full flex-col items-center justify-center gap-3 text-center sm:gap-5">
+          <div className="flex w-full flex-col items-center justify-center gap-2 text-center sm:gap-4">
             {imageSrc ? (
               <motion.img
                 src={imageSrc}
@@ -106,7 +106,7 @@ const PricingCard = React.forwardRef<HTMLDivElement, PricingCardProps>(
             ) : null}
 
             <div className="flex w-full flex-col items-center gap-2 sm:gap-2.5">
-              <h3 className="font-text-3 max-w-full text-balance text-base font-medium uppercase leading-snug tracking-[0.16em] text-[var(--color-primary)] underline decoration-[color-mix(in_srgb,var(--color-primary)_38%,transparent)] decoration-[0.5px] underline-offset-[0.35em] sm:text-lg lg:text-xl">
+              <h3 className="font-text-3 max-w-full text-balance text-[0.92rem] font-medium uppercase leading-snug tracking-[0.16em] text-[var(--color-primary)] underline decoration-[color-mix(in_srgb,var(--color-primary)_38%,transparent)] decoration-[0.5px] underline-offset-[0.35em] sm:text-lg lg:text-xl">
                 {title}
               </h3>
               {price ? (
@@ -124,7 +124,7 @@ const PricingCard = React.forwardRef<HTMLDivElement, PricingCardProps>(
             </div>
 
             <p
-              className="font-text-3 mx-auto w-full max-w-[26rem] whitespace-pre-line text-center text-[0.95rem] font-medium leading-relaxed tracking-[0.02em] text-[var(--color-primary)] sm:text-lg lg:max-w-[28rem] lg:text-[1.0625rem] lg:leading-[1.45]"
+              className="font-text-3 mx-auto w-full max-w-[26rem] whitespace-pre-line text-center text-[0.86rem] font-medium leading-[1.5] tracking-[0.02em] text-[var(--color-primary)] sm:text-lg lg:max-w-[28rem] lg:text-[1.0625rem] lg:leading-[1.45]"
               title={description}
             >
               {description}

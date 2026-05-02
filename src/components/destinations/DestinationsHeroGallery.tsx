@@ -134,7 +134,7 @@ export function DestinationsHeroGallery({
   return (
     <div
       className={cn(
-        "relative flex w-full flex-col items-center px-0 pb-8 sm:pb-10",
+        "relative flex w-full flex-col items-center px-0 pb-0",
         className,
       )}
     >

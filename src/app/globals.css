@@ -161,6 +161,16 @@ textarea {
   line-height: 1;
 }
 
+.site-footer {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-background) 92%, transparent) 0%,
+      #f7efe7 18%,
+      #f5ece3 100%
+    );
+}
+
 .page-shell {
   @apply flex-1;
 }

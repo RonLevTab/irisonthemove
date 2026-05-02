@@ -12,7 +12,7 @@ const contactSectionEyebrowClassName =
   "font-text-3 whitespace-nowrap text-[0.72rem] font-bold uppercase leading-none tracking-[0.28em] text-[var(--color-primary)] sm:text-[0.86rem] sm:tracking-[0.26em]";
 
 const contactFieldComfortClassName =
-  "px-5 py-4 sm:py-[1.125rem] rounded-[1.35rem]";
+  "px-5 py-4 sm:py-[1.125rem] lg:px-6 lg:py-5 rounded-[1.35rem]";
 
 /** Centers eyebrow labels above fields (matches centered placeholder and input text). */
 const contactLabelAlignClassName = "block w-full text-center";
@@ -29,7 +29,7 @@ export function ContactForm({ formId, variant = "default" }: ContactFormProps) {
 
   const formShell = isModal
     ? "flex flex-col gap-5"
-    : "card-shell contact-form-card flex flex-col gap-5 p-6 sm:gap-6 sm:p-8";
+    : "card-shell contact-form-card flex flex-col gap-5 p-6 sm:gap-6 sm:p-8 lg:p-10";
 
   const labelClassName = isModal
     ? "flex flex-col items-center gap-3 text-center text-sm font-bold text-[var(--color-primary)]"
@@ -70,7 +70,7 @@ export function ContactForm({ formId, variant = "default" }: ContactFormProps) {
 
   const textareaClassName = isModal
     ? "form-input resize-y min-h-40 text-center"
-    : `form-input resize-y min-h-44 text-center sm:min-h-52 ${contactFieldComfortClassName} ${inputDmSansClassName}`;
+    : `form-input resize-y min-h-44 pt-16 text-center sm:min-h-52 sm:pt-20 lg:min-h-60 lg:pt-24 ${contactFieldComfortClassName} ${inputDmSansClassName}`;
 
   const formInner = (
     <form onSubmit={handleSubmit} className={formShell}>
@@ -131,7 +131,7 @@ export function ContactForm({ formId, variant = "default" }: ContactFormProps) {
           <span
             className={`${contactSectionEyebrowClassName} ${contactLabelAlignClassName}`}
           >
-            Message
+            Send Iris a message
           </span>
         )}
         <textarea
@@ -139,7 +139,7 @@ export function ContactForm({ formId, variant = "default" }: ContactFormProps) {
           id="message"
           name="message"
           required
-          placeholder={"Collaborations or just a quick hello?\nFeel free to reach out!"}
+          placeholder={"Collab? New idea? Quick question?\nFeel free to reach out!"}
         />
         <ValidationError
           prefix="Message"
