@@ -29,7 +29,7 @@ export function ContactForm({ formId, variant = "default" }: ContactFormProps) {
 
   const formShell = isModal
     ? "flex flex-col gap-5"
-    : "card-shell flex flex-col gap-5 p-6 sm:gap-6 sm:p-8";
+    : "card-shell contact-form-card flex flex-col gap-5 p-6 sm:gap-6 sm:p-8";
 
   const labelClassName = isModal
     ? "flex flex-col items-center gap-3 text-center text-sm font-bold text-[var(--color-primary)]"

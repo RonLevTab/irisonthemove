@@ -102,9 +102,10 @@ export function PhotoGallery({ layout = "strip", className }: PhotoGalleryProps)
                   fill
                   className="object-cover"
                   sizes="(max-width: 640px) 18vw, (max-width: 1024px) 15vw, 12vw"
-                  loading={index < 2 ? "eager" : "lazy"}
-                  priority={index === 0}
-                  fetchPriority={index < 2 ? "high" : "auto"}
+                  loading={index < GALLERY_IMAGES.length ? "eager" : "lazy"}
+                  priority={index < GALLERY_IMAGES.length}
+                  fetchPriority={index < GALLERY_IMAGES.length ? "high" : "auto"}
+                  unoptimized
                   draggable={false}
                 />
               </div>
@@ -136,28 +137,32 @@ export function PhotoGallery({ layout = "strip", className }: PhotoGalleryProps)
             "flex w-max items-center gap-4 md:gap-6 lg:gap-8",
           )}
         >
-          {loop.map((src, index) => (
-            <div
-              key={`${src}-${index}`}
-              className="about-photo-gallery-tile group relative h-44 w-44 shrink-0 overflow-hidden rounded-2xl transition-[transform,filter] duration-300 ease-out hover:z-10 hover:scale-[1.04] hover:brightness-[1.05] sm:h-52 sm:w-52 md:h-60 md:w-60 lg:h-[17rem] lg:w-[17rem]"
-            >
-              <Image
-                src={src}
-                alt=""
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 176px, (max-width: 1024px) 240px, 272px"
-                loading={index < 2 ? "eager" : "lazy"}
-                priority={index === 0}
-                fetchPriority={index < 2 ? "high" : "auto"}
-                draggable={false}
-              />
+          {loop.map((src, index) => {
+            const isFirstPass = index < GALLERY_IMAGES.length;
+            return (
               <div
-                className="pointer-events-none absolute inset-0 z-[1] rounded-2xl bg-white/10"
-                aria-hidden
-              />
-            </div>
-          ))}
+                key={`${src}-${index}`}
+                className="about-photo-gallery-tile group relative h-44 w-44 shrink-0 overflow-hidden rounded-2xl bg-[var(--color-surface-strong)] transition-[transform,filter] duration-300 ease-out hover:z-10 hover:scale-[1.04] hover:brightness-[1.05] sm:h-52 sm:w-52 md:h-60 md:w-60 lg:h-[17rem] lg:w-[17rem]"
+              >
+                <Image
+                  src={src}
+                  alt=""
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 176px, (max-width: 1024px) 240px, 272px"
+                  loading={isFirstPass ? "eager" : "lazy"}
+                  priority={isFirstPass}
+                  fetchPriority={isFirstPass ? "high" : "auto"}
+                  unoptimized
+                  draggable={false}
+                />
+                <div
+                  className="pointer-events-none absolute inset-0 z-[1] rounded-2xl bg-white/10"
+                  aria-hidden
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

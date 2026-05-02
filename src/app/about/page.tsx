@@ -167,12 +167,12 @@ export default async function AboutPage() {
   return (
     <>
       <PhotoGallery className="mx-auto w-full mt-2 mb-3 sm:mt-3 sm:mb-4 lg:mt-4 lg:mb-5" />
-      <section className="relative isolate z-10 mt-0 w-full scroll-mt-20 sm:scroll-mt-24 bg-transparent pb-0">
+      <section className="relative isolate z-10 mt-0 w-full scroll-mt-20 bg-transparent pb-3 sm:scroll-mt-24 sm:pb-4 lg:pb-5">
         <div className={aboutPageInnerClassName}>
           <ScrollReveal className="overflow-visible">
             <article
               lang="en"
-              className={`card-shell about-main-card-flush-top about-bordeaux-story relative z-10 mx-auto mb-0 w-full max-w-none overflow-visible pt-10 pb-16 sm:pt-12 sm:pb-20 lg:pt-16 lg:pb-24 ${cardPadX}`}
+              className={`card-shell about-main-card-flush-top about-bordeaux-story relative z-10 mx-auto mb-0 w-full max-w-none overflow-visible pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-16 lg:pb-16 ${cardPadX}`}
             >
             <header className="about-bordeaux-masthead mb-10 flex w-full max-w-none flex-col pt-0 sm:mb-12 lg:mb-14">
               <p className={aboutPageEyebrowClassName}>About me</p>
@@ -249,23 +249,23 @@ export default async function AboutPage() {
                   </div>
                 ) : null}
                 <div
-                  className="flex w-full min-w-0 justify-center break-inside-avoid lg:min-h-0 lg:flex-1 lg:flex-col lg:items-center lg:justify-center"
+                  className="my-[1.45em] flex w-full min-w-0 justify-center break-inside-avoid lg:my-0 lg:min-h-0 lg:flex-1 lg:flex-col lg:items-center lg:justify-center"
                   role="region"
                   aria-label={`${about.philosophy.label} ${about.philosophy.headline}`}
                 >
                   <PhilosophyOakBorderCard
                     className="philosophy-quote-card--invert w-full max-w-[min(100%,15.75rem)] rounded-lg sm:max-w-[min(100%,16.75rem)] sm:rounded-xl lg:max-w-[min(100%,17.25rem)]"
-                    innerClassName="relative z-10 gap-3.5 px-4 pb-6 pt-7 sm:gap-4 sm:px-5 sm:pb-8 sm:pt-8 lg:gap-5 lg:px-6 lg:pb-9 lg:pt-9"
+                    innerClassName="relative z-10 gap-4 px-4 pb-8 pt-7 sm:gap-4 sm:px-5 sm:pb-10 sm:pt-8 lg:gap-5 lg:px-6 lg:pb-11 lg:pt-9"
                   >
                     <div className="flex w-full flex-col items-center gap-1 sm:gap-1.5">
-                      <span className="font-text-3 text-[0.6rem] font-bold uppercase leading-none tracking-[0.19em] text-white/95 sm:text-[0.64rem] sm:tracking-[0.18em]">
+                      <span className="font-text-3 text-[0.6rem] font-bold uppercase leading-none tracking-[0.19em] text-[var(--color-primary)] sm:text-[0.64rem] sm:tracking-[0.18em]">
                         {about.philosophy.label}
                       </span>
-                      <h2 className="font-text-3 max-w-full text-[0.8rem] font-bold uppercase leading-tight tracking-[0.12em] text-white/95 sm:text-[0.86rem] lg:text-[0.92rem] lg:tracking-[0.11em]">
+                      <h2 className="font-text-3 max-w-full text-[0.8rem] font-bold uppercase leading-tight tracking-[0.12em] text-[var(--color-primary)] sm:text-[0.86rem] lg:text-[0.92rem] lg:tracking-[0.11em]">
                         {about.philosophy.headline}
                       </h2>
                       <span
-                        className="mt-1.5 h-px w-[min(9.25rem,82%)] max-w-full shrink-0 rounded-full bg-white/45 sm:mt-2"
+                        className="hidden"
                         aria-hidden
                       />
                     </div>
@@ -279,7 +279,7 @@ export default async function AboutPage() {
                       </span>
                     </p>
                     <div
-                      className="about-philosophy-icon-row flex w-full items-center justify-center gap-6 text-white/95 sm:gap-7"
+                      className="about-philosophy-icon-row mt-1.5 flex w-full items-center justify-center gap-6 text-black/90 sm:mt-2 sm:gap-7"
                       aria-hidden
                     >
                       <FaPlane className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4 lg:h-[1.05rem] lg:w-[1.05rem]" />
