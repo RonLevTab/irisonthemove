@@ -63,7 +63,7 @@ export function ContactPageView({
                 <SectionHeading
                   align="center"
                   titleVariant="editorialDual"
-                  titleClassName="!whitespace-normal !text-[clamp(0.72rem,2.65vw+0.42rem,1.88rem)] tracking-[0.14em] sm:!text-[clamp(0.9rem,3.1vw+0.38rem,1.88rem)] sm:tracking-[0.17em]"
+                  titleClassName="!whitespace-normal !text-[clamp(0.65rem,2.35vw+0.36rem,1.65rem)] tracking-[0.14em] sm:!text-[clamp(0.8rem,2.75vw+0.32rem,1.65rem)] sm:tracking-[0.17em]"
                   title={
                     <>
                       <span className="block whitespace-nowrap">
