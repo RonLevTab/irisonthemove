@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -17,42 +17,122 @@ type WorkCategoryTripleVideoRowProps = {
   variant?: "default" | "embedded";
 };
 
+const NEAR_VIEW_ROOT_MARGIN = "260px 0px";
+
+function TripleRowVideoCell({
+  clip,
+  index,
+  videoRefs,
+  embedded,
+}: {
+  clip: { videoSrc: string; title?: string };
+  index: number;
+  videoRefs: React.MutableRefObject<(HTMLVideoElement | null)[]>;
+  embedded: boolean;
+}) {
+  const cellRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  const setVideoRef = (el: HTMLVideoElement | null) => {
+    videoRef.current = el;
+    videoRefs.current[index] = el;
+  };
+
+  useLayoutEffect(() => {
+    const cell = cellRef.current;
+    if (!cell) {
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setShouldLoad(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: NEAR_VIEW_ROOT_MARGIN, threshold: 0.01 },
+    );
+    io.observe(cell);
+    return () => io.disconnect();
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!shouldLoad) {
+      return;
+    }
+    const vid = videoRef.current;
+    const cell = cellRef.current;
+    if (!vid || !cell) {
+      return;
+    }
+
+    const tryPlay = () => void vid.play().catch(() => {});
+
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e?.isIntersecting) {
+          tryPlay();
+        } else {
+          vid.pause();
+        }
+      },
+      { rootMargin: "80px 0px", threshold: 0.01 },
+    );
+    io.observe(cell);
+
+    vid.addEventListener("loadeddata", tryPlay, { once: true });
+    vid.addEventListener("canplay", tryPlay, { once: true });
+    tryPlay();
+
+    return () => {
+      io.disconnect();
+      vid.removeEventListener("loadeddata", tryPlay);
+      vid.removeEventListener("canplay", tryPlay);
+    };
+  }, [shouldLoad]);
+
+  return (
+    <div
+      ref={cellRef}
+      className={cn(
+        "relative aspect-[3/4] min-h-0 w-full min-w-0 overflow-hidden",
+        embedded
+          ? "rounded-none border-0 bg-transparent shadow-none"
+          : "rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-transparent shadow-[0_16px_44px_rgba(75,64,56,0.07)]",
+      )}
+    >
+      <video
+        ref={setVideoRef}
+        src={shouldLoad ? clip.videoSrc : undefined}
+        className="h-full w-full object-cover object-bottom"
+        muted
+        loop
+        playsInline
+        autoPlay
+        preload={shouldLoad ? "auto" : "none"}
+        aria-label={clip.title?.trim() || "Portfolio video clip"}
+      />
+    </div>
+  );
+}
+
 /**
  * Three reel-style slots (MP4 or placeholder). Shown only when `videos.length === 3`.
  * Placeholder slots keep the same frame for “coming soon” until a file is ready.
  * — Muted + loop + `playsInline` for real clips; play/pause follows viewport visibility.
+ * Real clips defer `src` until near the viewport to avoid stacking full preloads on the work page.
  */
 export function WorkCategoryTripleVideoRow({
   videos,
   className,
   variant = "default",
 }: WorkCategoryTripleVideoRowProps) {
-  const refs = useRef<(HTMLVideoElement | null)[]>([]);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  useEffect(() => {
-    if (!videos || videos.length !== 3) return;
-    const els = refs.current.filter(Boolean) as HTMLVideoElement[];
-    if (els.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const video = entry.target as HTMLVideoElement;
-          if (entry.isIntersecting) {
-            void video.play().catch(() => {});
-          } else {
-            video.pause();
-          }
-        });
-      },
-      { rootMargin: "60px 0px", threshold: 0.2 },
-    );
-
-    els.forEach((video) => observer.observe(video));
-    return () => observer.disconnect();
-  }, [videos]);
-
-  if (!videos || videos.length !== 3) return null;
+  if (!videos || videos.length !== 3) {
+    return null;
+  }
 
   const embedded = variant === "embedded";
 
@@ -70,17 +150,18 @@ export function WorkCategoryTripleVideoRow({
         const isPlaceholder = "placeholder" in item && item.placeholder;
         const clip = !isPlaceholder && "videoSrc" in item ? item : null;
         const key = clip ? `${clip.videoSrc}-${index}` : `placeholder-${index}`;
-        return (
-          <div
-            key={key}
-            className={cn(
-              "relative aspect-[3/4] min-h-0 w-full min-w-0 overflow-hidden",
-              embedded
-                ? "rounded-none border-0 bg-transparent shadow-none"
-                : "rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-transparent shadow-[0_16px_44px_rgba(75,64,56,0.07)]",
-            )}
-          >
-            {isPlaceholder ? (
+
+        if (isPlaceholder) {
+          return (
+            <div
+              key={key}
+              className={cn(
+                "relative aspect-[3/4] min-h-0 w-full min-w-0 overflow-hidden",
+                embedded
+                  ? "rounded-none border-0 bg-transparent shadow-none"
+                  : "rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-transparent shadow-[0_16px_44px_rgba(75,64,56,0.07)]",
+              )}
+            >
               <div
                 className="flex h-full w-full items-center justify-center bg-[color-mix(in_srgb,var(--color-surface)_92%,transparent)] px-4 text-center"
                 role="status"
@@ -90,23 +171,23 @@ export function WorkCategoryTripleVideoRow({
                   Coming soon
                 </span>
               </div>
-            ) : clip ? (
-              <video
-                ref={(el) => {
-                  refs.current[index] = el;
-                }}
-                src={clip.videoSrc}
-                className="h-full w-full object-cover object-bottom"
-                muted
-                loop
-                playsInline
-                autoPlay
-                preload="auto"
-                aria-label={clip.title?.trim() || "Portfolio video clip"}
-              />
-            ) : null}
-          </div>
-        );
+            </div>
+          );
+        }
+
+        if (clip) {
+          return (
+            <TripleRowVideoCell
+              key={key}
+              clip={clip}
+              index={index}
+              videoRefs={videoRefs}
+              embedded={embedded}
+            />
+          );
+        }
+
+        return null;
       })}
     </div>
   );

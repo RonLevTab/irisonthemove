@@ -83,12 +83,16 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
   /** First paint for all reels once refs exist (desktop strips load paused). */
   useLayoutEffect(() => {
     const id = window.requestAnimationFrame(() => {
-      videoRefs.current.forEach((vid) => {
-        if (vid) paintPreviewFrame(vid);
+      videoRefs.current.forEach((vid, i) => {
+        if (!vid) return;
+        const shouldPlayStrip = playStripPreviews || i === activeIndex;
+        if (!shouldPlayStrip) {
+          paintPreviewFrame(vid);
+        }
       });
     });
     return () => window.cancelAnimationFrame(id);
-  }, [items.length]);
+  }, [items.length, playStripPreviews, activeIndex]);
 
   return (
     <div className="w-full overflow-x-hidden">
@@ -99,6 +103,12 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
             const posterUrl = item.poster?.trim()
               ? withAssetPath(item.poster.trim())
               : undefined;
+            const shouldPlayThisStrip = playStripPreviews || isActive;
+            /**
+             * Full preload only for strips that actually play; others stay on metadata so six
+             * desktop previews don’t saturate bandwidth.
+             */
+            const preloadStrategy = shouldPlayThisStrip ? "auto" : "metadata";
 
             return (
               <button
@@ -153,12 +163,18 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                       muted
                       loop
                       autoPlay={playStripPreviews || isActive}
-                      preload="auto"
+                      preload={preloadStrategy}
                       disablePictureInPicture
                       aria-label={item.title}
-                      onLoadedMetadata={(e) => paintPreviewFrame(e.currentTarget)}
-                      onLoadedData={(e) => paintPreviewFrame(e.currentTarget)}
-                      onCanPlay={(e) => paintPreviewFrame(e.currentTarget)}
+                      onLoadedMetadata={(e) => {
+                        if (!shouldPlayThisStrip) paintPreviewFrame(e.currentTarget);
+                      }}
+                      onLoadedData={(e) => {
+                        if (!shouldPlayThisStrip) paintPreviewFrame(e.currentTarget);
+                      }}
+                      onCanPlay={(e) => {
+                        if (!shouldPlayThisStrip) paintPreviewFrame(e.currentTarget);
+                      }}
                     />
                   </div>
                   <div
