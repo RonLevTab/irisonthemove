@@ -108,14 +108,14 @@ export function HeroSection({
         />
       </div>
 
-      <div className="mx-auto grid min-h-0 w-full max-w-[min(100%,96rem)] gap-10 px-0 py-0 max-lg:justify-items-center max-lg:items-center sm:gap-5 lg:h-full lg:min-h-0 lg:flex-1 lg:grid-cols-2 lg:grid-rows-[minmax(0,1fr)] lg:items-stretch lg:justify-items-stretch lg:gap-8 lg:px-0">
+      <div className="mx-auto grid min-h-0 w-full max-w-[min(100%,96rem)] gap-6 px-0 py-0 max-lg:justify-items-center max-lg:items-center sm:gap-5 lg:h-full lg:min-h-0 lg:flex-1 lg:grid-cols-2 lg:grid-rows-[minmax(0,1fr)] lg:items-stretch lg:justify-items-stretch lg:gap-8 lg:px-0">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="relative z-10 flex min-w-0 w-full flex-col items-center justify-center self-center text-center lg:h-full lg:min-h-0 lg:self-stretch lg:py-3"
         >
-          <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-6 px-3 py-5 text-center sm:gap-5 sm:px-5 sm:py-5 lg:max-w-none lg:gap-6 lg:px-0 lg:py-0">
+          <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-5 px-3 py-4 text-center sm:px-5 sm:py-5 sm:gap-5 lg:max-w-none lg:gap-6 lg:px-0 lg:py-0">
             <motion.h1
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -202,7 +202,7 @@ export function HeroSection({
             </defs>
           </svg>
           <div
-            className="relative aspect-[3/5] max-h-[min(74svh,780px)] w-full overflow-hidden shadow-[0_20px_50px_rgba(58,36,32,0.18)] lg:mx-auto lg:aspect-[2/3] lg:h-[calc(100%+7rem)] lg:max-h-none lg:min-h-0 lg:w-auto lg:max-w-[42rem] lg:-translate-y-3"
+            className="relative aspect-[3/5] max-h-[min(88svh,780px)] w-full overflow-hidden shadow-[0_20px_50px_rgba(58,36,32,0.18)] lg:mx-auto lg:aspect-[2/3] lg:h-[calc(100%+7rem)] lg:max-h-none lg:min-h-0 lg:w-auto lg:max-w-[42rem] lg:-translate-y-3"
             style={{ clipPath: `url(#${archClipId})` }}
           >
             <Image

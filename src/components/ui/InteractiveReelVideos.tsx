@@ -63,7 +63,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
   return (
     <div className="w-full overflow-x-hidden">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 md:gap-0">
-        <div className="flex h-[min(78svh,38rem)] min-h-[29rem] w-full flex-row overflow-hidden rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:12_1_0%] [--reel-inactive-flex:0.55_1_0%] md:h-[min(72svh,48rem)] md:min-h-[33rem] md:flex-row md:[--reel-active-flex:5_1_0%] md:[--reel-inactive-flex:1.35_1_0%]">
+        <div className="flex h-[min(70svh,34rem)] min-h-[22rem] w-full flex-row overflow-hidden rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:12_1_0%] [--reel-inactive-flex:0.55_1_0%] md:h-[min(72svh,48rem)] md:min-h-[33rem] md:flex-row md:[--reel-active-flex:5_1_0%] md:[--reel-inactive-flex:1.35_1_0%]">
           {items.map((item, index) => {
             const isActive = activeIndex === index;
 

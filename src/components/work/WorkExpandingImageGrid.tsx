@@ -1,20 +1,7 @@
 "use client";
 
-import Image from "next/image";
-
 import { cn } from "@/lib/utils";
-import {
-  workGalleryCaptionPrimaryClass,
-  workGalleryCaptionSecondaryClass,
-  workGalleryCaptionWrapClass,
-  workGalleryImageGradientClass,
-  workGalleryImageHoverWashClass,
-} from "@/lib/workGalleryImageCaptionClasses";
-import {
-  locationToThreeLines,
-  workHoverLineClampClass,
-  workHoverVenueNameClass,
-} from "@/lib/workGalleryLocationLines";
+import { WorkGalleryImageTile } from "@/components/work/WorkGalleryImageTile";
 
 export type WorkGalleryItem = {
   image: string;
@@ -81,70 +68,16 @@ export function WorkExpandingImageGrid({
           "min-[900px]:self-center",
         )}
       >
-        {slice.map((item, index) => {
-          const label = item.location.trim();
-          const { line1, line2, line3 } = label ? locationToThreeLines(label) : { line1: "", line2: "", line3: "" };
-          const hasCaption = Boolean(line1 || line2 || line3);
-          const isPriorityImage = index < priorityFirstImages;
-          const objectPositionClass =
-            item.objectPosition === "top"
-              ? "object-top"
-              : item.objectPosition === "bottom"
-                ? "object-bottom"
-                : "object-center";
-
-          return (
-            <figure
-              key={`work-tile-${gridSlot}-${item.image}-${index}`}
-              className={cn(
-                "group relative isolate min-h-0 w-full min-w-0 overflow-hidden border-0 bg-[var(--color-surface)]",
-                "max-[899px]:aspect-[3/4] min-[900px]:h-full",
-                OUTER_CORNER_AT_INDEX[index],
-                hasCaption && "cursor-default",
-              )}
-            >
-              <Image
-                src={item.image}
-                alt={item.imageAlt}
-                fill
-                className={cn(
-                  "object-cover",
-                  objectPositionClass,
-                  OUTER_CORNER_AT_INDEX[index] ?? "rounded-none",
-                )}
-                sizes={sizeHint}
-                priority={isPriorityImage}
-                loading={isPriorityImage ? "eager" : "lazy"}
-              />
-              {hasCaption ? (
-                <>
-                  <div className={workGalleryImageGradientClass} aria-hidden />
-                  <div
-                    className={cn(workGalleryImageHoverWashClass, OUTER_CORNER_AT_INDEX[index])}
-                    aria-hidden
-                  />
-                  <div className={workGalleryCaptionWrapClass} aria-hidden>
-                    {line1 ? (
-                      <span className={cn(workGalleryCaptionPrimaryClass, workHoverVenueNameClass)}>
-                        {line1}
-                      </span>
-                    ) : null}
-                    {line2 ? (
-                      <span className={cn(workGalleryCaptionSecondaryClass, workHoverLineClampClass)}>
-                        {line2}
-                      </span>
-                    ) : null}
-                    {line3 ? (
-                      <span className={cn(workGalleryCaptionSecondaryClass, workHoverLineClampClass)}>
-                        {line3}
-                      </span>
-                    ) : null}
-                  </div>
-                </>
-              ) : null}
-            </figure>
-          );
-        })}
+        {slice.map((item, index) => (
+          <WorkGalleryImageTile
+            key={`work-tile-${gridSlot}-${item.image}-${index}`}
+            item={item}
+            sizes={sizeHint}
+            isPriorityImage={index < priorityFirstImages}
+            figureCornerClass={OUTER_CORNER_AT_INDEX[index]}
+            imageCornerClass={OUTER_CORNER_AT_INDEX[index] ?? "rounded-none"}
+          />
+        ))}
       </div>
     </div>
   );

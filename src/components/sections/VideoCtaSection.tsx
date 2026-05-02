@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { ContactFormModal } from "@/components/ui/ContactFormModal";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { ctaImageStripClassName } from "@/lib/ctaImageStripClassName";
+import { videoCtaImageStripClassName } from "@/lib/ctaImageStripClassName";
 
 type VideoCtaSectionProps = {
   posterImage: string;
@@ -16,7 +16,7 @@ type VideoCtaSectionProps = {
 
 /**
  * Full-bleed visual block with poster image (placeholder for background video).
- * Strip height matches `WorkCtaSection` via `ctaImageStripClassName`.
+ * Strip height: `videoCtaImageStripClassName` (full mobile viewport under nav).
  */
 export function VideoCtaSection({
   posterImage,
@@ -27,8 +27,8 @@ export function VideoCtaSection({
   const [contactOpen, setContactOpen] = useState(false);
 
   return (
-    <section className="relative isolate w-full overflow-hidden border-t-0 bg-transparent">
-      <div className={ctaImageStripClassName}>
+    <section className="relative isolate w-full overflow-hidden border-t-0 bg-transparent scroll-mt-[var(--nav-stack-height,7rem)]">
+      <div className={videoCtaImageStripClassName}>
         <div className="absolute inset-0 -z-10">
           <Image
             src={posterImage}
@@ -49,7 +49,7 @@ export function VideoCtaSection({
           aria-hidden
         />
 
-        <div className="absolute inset-0 z-10 flex items-center justify-center px-4 py-6 min-[400px]:px-6 sm:px-8 sm:py-8 lg:px-10">
+        <div className="absolute inset-0 z-10 flex items-center justify-center px-4 py-4 min-[400px]:px-6 sm:px-8 sm:py-8 lg:px-10">
           <ScrollReveal className="flex w-full justify-center">
             <div
               className="relative flex w-max max-w-[min(100%,26rem)] flex-col items-center gap-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)]/95 px-7 py-8 text-center shadow-sm sm:max-w-[min(100%,28rem)] sm:rounded-3xl sm:px-9 sm:py-9"
