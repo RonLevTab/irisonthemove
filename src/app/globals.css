@@ -77,6 +77,12 @@
   --about-drop-cap-below-sentence-margin-top: 1em;
 }
 
+@media (max-width: 1023px) {
+  :root {
+    --nav-stack-height: 7rem;
+  }
+}
+
 @theme inline {
   --color-background: var(--color-background);
   --color-foreground: var(--color-foreground);
@@ -301,12 +307,13 @@ html.os-mac .nav-bar-row {
 }
 
 .nav-mobile-menu {
-  padding: 1.125rem 1.5rem;
+  padding: 0 0.7rem 0.7rem;
 }
 @media (min-width: 640px) {
   .nav-mobile-menu {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
+    padding-bottom: 0.8rem;
   }
 }
 html.os-mac .nav-mobile-menu {

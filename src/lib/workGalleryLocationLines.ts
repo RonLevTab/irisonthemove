@@ -50,7 +50,7 @@ export function locationToThreeLines(raw: string): WorkLocationThreeLines {
 
 /** Venue names can wrap so long restaurant / hotel names stay readable. */
 export const workHoverVenueNameClass =
-  "block max-w-full whitespace-normal text-balance break-words";
+  "block max-w-full whitespace-normal text-wrap [overflow-wrap:normal] [word-break:normal]";
 
 /** City / country lines stay compact. */
 export const workHoverLineClampClass =

@@ -49,6 +49,10 @@ export function WorkHotelSixByTwoGrid({
     <div
       className={cn(
         "relative z-0 grid min-h-0 min-w-0 w-full",
+        "max-[899px]:overflow-hidden max-[899px]:rounded-[1.5rem]",
+        "max-[899px]:border max-[899px]:border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)]",
+        "max-[899px]:bg-[var(--color-surface)]",
+        "max-[899px]:shadow-[0_16px_44px_rgba(75,64,56,0.07)]",
         "grid-cols-3 gap-1",
         "max-[899px]:[grid-auto-rows:1fr]",
         "min-[900px]:grid-cols-6 min-[900px]:grid-rows-2",
@@ -73,7 +77,7 @@ export function WorkHotelSixByTwoGrid({
           <figure
             key={`hotel-tile-${item.image}-${index}`}
             className={cn(
-              "group relative min-h-0 w-full min-w-0 overflow-hidden rounded-none border-0 bg-[var(--color-surface)]",
+              "group relative isolate min-h-0 w-full min-w-0 overflow-hidden rounded-none border-0 bg-[var(--color-surface)]",
               "max-[899px]:aspect-[3/4] min-[900px]:h-full",
               OUTER_CORNER_AT_INDEX[index],
               hasCaption && "cursor-default",

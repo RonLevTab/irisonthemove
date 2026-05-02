@@ -22,9 +22,6 @@ function galleryColumnsForContainerWidth(widthPx: number): number {
   if (!Number.isFinite(widthPx) || widthPx < 420) {
     return 1;
   }
-  if (widthPx < 640) {
-    return 2;
-  }
   if (widthPx < 660) {
     return 3;
   }
@@ -55,6 +52,43 @@ function useGalleryColumnCount(containerRef: React.RefObject<HTMLElement | null>
   return n;
 }
 
+type TileSizeBucket = "large" | "mid" | "small";
+
+function tileSizeBucket(item: DestinationGalleryItem): TileSizeBucket {
+  const ratio = displayAspectRatio(item);
+  if (!Number.isFinite(ratio) || ratio <= 0) {
+    return "mid";
+  }
+  if (ratio < 0.9) {
+    return "large";
+  }
+  if (ratio > 1.1) {
+    return "small";
+  }
+  return "mid";
+}
+
+function rhythmColumnEntries(
+  column: MasonryEntry<DestinationGalleryItem>[],
+): MasonryEntry<DestinationGalleryItem>[] {
+  const pool = column.slice();
+  const out: MasonryEntry<DestinationGalleryItem>[] = [];
+
+  while (pool.length > 0) {
+    const previous = out[out.length - 1];
+    const previousBucket = previous ? tileSizeBucket(previous.item) : null;
+    const pickIndex = pool.findIndex(
+      (entry) => tileSizeBucket(entry.item) !== previousBucket,
+    );
+    const [picked] = pool.splice(pickIndex >= 0 ? pickIndex : 0, 1);
+    if (picked) {
+      out.push(picked);
+    }
+  }
+
+  return out;
+}
+
 type DestinationsHeroGalleryProps = {
   items: DestinationGalleryItem[];
   className?: string;
@@ -82,10 +116,13 @@ export function DestinationsHeroGallery({
   );
 
   const columns = React.useMemo(
-    () =>
-      balanceIntoColumns(entries, columnCount, (it) =>
+    () => {
+      const balanced = balanceIntoColumns(entries, columnCount, (it) =>
         tileHeightWeight(displayAspectRatio(it)),
-      ),
+      );
+
+      return columnCount === 3 ? balanced.map(rhythmColumnEntries) : balanced;
+    },
     [entries, columnCount],
   );
 
@@ -104,7 +141,7 @@ export function DestinationsHeroGallery({
       <div
         ref={gridRef}
         className={cn(
-          "mx-auto flex w-full gap-4 sm:gap-5 lg:gap-6",
+          "mx-auto flex w-full gap-2.5 sm:gap-5 lg:gap-6",
           columnCount >= 2 && "max-w-none",
           columnCount === 1 && "max-w-2xl flex-col",
           columnCount > 1 && "flex-row",
@@ -114,7 +151,7 @@ export function DestinationsHeroGallery({
           <div
             key={colIndex}
             className={cn(
-              "flex min-w-0 flex-col gap-4 sm:gap-5 lg:gap-6",
+              "flex min-w-0 flex-col gap-2.5 sm:gap-5 lg:gap-6",
               columnCount > 1 && "flex-1",
             )}
           >
@@ -156,7 +193,7 @@ function GalleryTile({ item, priority }: GalleryTileProps) {
         src={imgSrc}
         fill
         className="absolute inset-0 z-0 block size-full min-h-0 min-w-0 origin-center rounded-[inherit] object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
-        sizes="(max-width: 419px) 100vw, (max-width: 639px) 50vw, (max-width: 659px) 33vw, 20vw"
+        sizes="(max-width: 419px) 100vw, (max-width: 659px) 33vw, 20vw"
         priority={priority}
         fetchPriority={priority ? "high" : "auto"}
         onError={handleError}
@@ -166,12 +203,12 @@ function GalleryTile({ item, priority }: GalleryTileProps) {
         aria-hidden
       />
       <div className="pointer-events-none absolute inset-x-0 bottom-2.5 z-[2] px-3 pb-2 pt-8 text-center sm:bottom-4 sm:px-4 sm:pb-2.5 sm:pt-9 md:bottom-5 md:pb-3">
-        <p className="font-text-3 text-base font-semibold tracking-wide text-[#fffbf7] drop-shadow-sm sm:text-lg md:text-[1.125rem]">
+        <p className="font-text-3 text-[0.86rem] font-semibold leading-tight tracking-wide text-[#fffbf7] drop-shadow-sm sm:text-lg md:text-[1.125rem]">
           {item.caption}
         </p>
         {item.captionLine2 ? (
           <p
-            className={`${brandSubtitleClassName} mt-0.5 text-[0.78rem] font-normal uppercase tracking-[0.16em] text-[#fffbf7]/90 sm:text-[0.875rem] md:text-[0.95rem]`}
+            className={`${brandSubtitleClassName} mt-0.5 text-[0.62rem] font-normal uppercase leading-snug tracking-[0.14em] text-[#fffbf7]/90 sm:text-[0.875rem] sm:leading-normal sm:tracking-[0.16em] md:text-[0.95rem]`}
           >
             {item.captionLine2}
           </p>

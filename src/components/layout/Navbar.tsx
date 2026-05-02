@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import { FaInstagram, FaTiktok } from "react-icons/fa6";
-import { HiOutlineMail, HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
+import { HiOutlineMail } from "react-icons/hi";
 
 import { BrandWordmark } from "@/components/ui/BrandWordmark";
 
@@ -27,7 +26,6 @@ const navigation = [
 
 export function Navbar({ instagramUrl, tiktokUrl, email }: NavbarProps) {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
 
   const linkClassName = (href: string) => {
     const active = pathname === href;
@@ -35,6 +33,16 @@ export function Navbar({ instagramUrl, tiktokUrl, email }: NavbarProps) {
       "nav-pill-link font-sans inline-flex items-center justify-center whitespace-nowrap rounded-full px-3.5 py-2.5 text-sm font-normal uppercase tracking-[0.18em] transition-colors select-none sm:px-4 sm:text-base lg:py-3 lg:text-[1.0625rem]",
       active
         ? "bg-[#ffffff] text-[var(--color-primary)] [box-shadow:none]"
+        : "text-[var(--color-primary)] hover:bg-[#ffffff]",
+    ].join(" ");
+  };
+
+  const mobileLinkClassName = (href: string) => {
+    const active = pathname === href;
+    return [
+      "font-sans inline-flex items-center justify-center whitespace-nowrap rounded-full px-1 py-1.5 text-[0.56rem] font-normal uppercase tracking-[0.08em] transition-colors select-none min-[380px]:text-[0.62rem] sm:px-3 sm:text-xs sm:tracking-[0.13em]",
+      active
+        ? "bg-[#ffffff] text-[var(--color-primary)]"
         : "text-[var(--color-primary)] hover:bg-[#ffffff]",
     ].join(" ");
   };
@@ -91,37 +99,29 @@ export function Navbar({ instagramUrl, tiktokUrl, email }: NavbarProps) {
           <a href={`mailto:${email}`} className={socialIconClass} aria-label="Email">
             <HiOutlineMail className="h-[1.3rem] w-[1.3rem] sm:h-[1.35rem] sm:w-[1.35rem]" aria-hidden />
           </a>
-          <button
-            type="button"
-            className="ml-0.5 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[var(--color-primary)] hover:bg-[var(--color-primary-soft)] sm:h-12 sm:w-12 lg:hidden"
-            aria-label={isOpen ? "Close menu" : "Open menu"}
-            onClick={() => setIsOpen((current) => !current)}
-          >
-            {isOpen ? <HiOutlineX className="h-5 w-5" /> : <HiOutlineMenuAlt3 className="h-5 w-5" />}
-          </button>
         </div>
       </div>
 
-      {isOpen ? (
-        <nav className="nav-mobile-menu border-t border-[var(--color-border)] bg-[var(--color-background)] lg:hidden">
-          <div className="flex w-full flex-col gap-1">
-            {navigation.map((item) => {
-              const active = pathname === item.href;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`block w-full text-left ${linkClassName(item.href)}`}
-                  aria-current={active ? "page" : undefined}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label.toUpperCase()}
-                </Link>
-              );
-            })}
-          </div>
-        </nav>
-      ) : null}
+      <nav
+        className="nav-mobile-menu bg-[var(--color-background)]/70 lg:hidden"
+        aria-label="Main navigation"
+      >
+        <div className="flex w-full flex-nowrap items-center justify-between gap-x-0.5 sm:justify-center sm:gap-x-2">
+          {navigation.map((item) => {
+            const active = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={mobileLinkClassName(item.href)}
+                aria-current={active ? "page" : undefined}
+              >
+                {item.label.toUpperCase()}
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
     </header>
   );
 }

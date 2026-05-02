@@ -18,12 +18,12 @@ export const workGalleryImageHoverWashClass =
 
 /** Centred stack: venue + city/country in the middle of the tile. */
 export const workGalleryCaptionWrapClass =
-  "pointer-events-none absolute inset-0 z-[3] mx-auto flex w-full max-w-[min(100%,24rem)] flex-col items-center justify-center px-3 py-6 text-center opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:opacity-100 sm:px-4 sm:py-8";
+  "pointer-events-none absolute inset-0 z-[3] mx-auto flex w-full max-w-[min(100%,24rem)] flex-col items-center justify-center px-1.5 py-5 text-center opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:opacity-100 sm:px-4 sm:py-8";
 
 /** Hotel / restaurant name — block letters, prominent white. */
 export const workGalleryCaptionPrimaryClass =
-  "font-text-3 text-[1rem] font-semibold uppercase tracking-[0.09em] text-[#fffbf7] [text-shadow:0_1px_10px_rgba(0,0,0,0.55)] drop-shadow-sm sm:text-[1.12rem] md:text-[1.14rem] leading-tight [overflow-wrap:anywhere]";
+  "font-text-3 text-[0.82rem] font-semibold uppercase leading-[1.12] tracking-[0.025em] text-[#fffbf7] [text-shadow:0_1px_10px_rgba(0,0,0,0.55)] drop-shadow-sm sm:text-[1.12rem] sm:leading-tight sm:tracking-[0.09em] md:text-[1.14rem]";
 
 /** City & country — smaller, capitals as written in content (normal-case), still reads as white on bordeaux. */
 export const workGalleryCaptionSecondaryClass =
-  "font-text-3 mt-0.5 text-[0.74rem] font-normal normal-case leading-snug tracking-[0.03em] text-[#fffbf7]/92 [text-shadow:0_1px_8px_rgba(0,0,0,0.5)] sm:text-[0.8rem] md:text-[0.86rem]";
+  "font-text-3 mt-0.5 text-[0.62rem] font-normal normal-case leading-snug tracking-[0.02em] text-[#fffbf7]/92 [text-shadow:0_1px_8px_rgba(0,0,0,0.5)] sm:text-[0.8rem] sm:tracking-[0.03em] md:text-[0.86rem]";

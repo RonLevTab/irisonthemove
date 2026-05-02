@@ -17,11 +17,11 @@ type InteractiveReelVideosProps = {
 /**
  * Expanding strip selector with self-hosted MP4s (no Instagram chrome or scroll).
  */
-function paintFirstFrame(video: HTMLVideoElement) {
+function paintPreviewFrame(video: HTMLVideoElement) {
   const apply = () => {
     if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
       try {
-        video.currentTime = 0;
+        video.currentTime = Math.min(0.2, video.duration || 0.2);
       } catch {
         /* ignore */
       }
@@ -33,19 +33,32 @@ function paintFirstFrame(video: HTMLVideoElement) {
 export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeIsPlaying, setActiveIsPlaying] = useState(true);
+  const [playStripPreviews, setPlayStripPreviews] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const updatePlayMode = () => setPlayStripPreviews(mediaQuery.matches);
+
+    updatePlayMode();
+    mediaQuery.addEventListener("change", updatePlayMode);
+
+    return () => mediaQuery.removeEventListener("change", updatePlayMode);
+  }, []);
 
   useEffect(() => {
     setActiveIsPlaying(true);
     videoRefs.current.forEach((vid, i) => {
       if (!vid) return;
-      if (i === activeIndex) {
-        void vid.play().catch(() => setActiveIsPlaying(false));
+      if (playStripPreviews || i === activeIndex) {
+        void vid.play().catch(() => {
+          if (i === activeIndex) setActiveIsPlaying(false);
+        });
       } else {
         vid.pause();
       }
     });
-  }, [activeIndex]);
+  }, [activeIndex, playStripPreviews]);
 
   return (
     <div className="w-full overflow-x-hidden">
@@ -105,6 +118,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                       playsInline
                       muted
                       loop
+                      autoPlay={playStripPreviews || isActive}
                       preload="auto"
                       disablePictureInPicture
                       aria-label={
@@ -112,7 +126,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                           ? `${activeIsPlaying ? "Pause" : "Play"} — ${item.title}`
                           : item.title
                       }
-                      onLoadedData={(e) => paintFirstFrame(e.currentTarget)}
+                      onLoadedData={(e) => paintPreviewFrame(e.currentTarget)}
                       onPlay={() => {
                         if (index === activeIndex) setActiveIsPlaying(true);
                       }}

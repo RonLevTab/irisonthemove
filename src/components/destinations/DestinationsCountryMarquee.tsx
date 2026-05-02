@@ -35,6 +35,9 @@ const TICKER_MASK_EDGES =
 const TICKER_MASK_EDGES_AND_CENTER =
   "linear-gradient(90deg, transparent 0%, black 3%, black 38%, transparent 42%, transparent 58%, black 62%, black 97%, transparent 100%)";
 
+const TICKER_MASK_EDGES_AND_CENTER_MOBILE =
+  "linear-gradient(90deg, transparent 0%, black 3%, black 8%, rgba(0,0,0,0.45) 16%, transparent 30%, transparent 70%, rgba(0,0,0,0.45) 84%, black 92%, black 97%, transparent 100%)";
+
 function SeparatorDot() {
   /* Subtle middle dots — same spacing as country labels, lower contrast so landen leidend blijven */
   return (
@@ -121,6 +124,17 @@ function CountryMarqueeStrip({
   clearTickerInCenter?: boolean;
 }) {
   const loopShiftPercent = 100 / MARQUEE_LOOP_SEGMENTS;
+  const [useMobileCenterMask, setUseMobileCenterMask] = React.useState(false);
+
+  React.useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const update = () => setUseMobileCenterMask(mq.matches);
+
+    update();
+    mq.addEventListener("change", update);
+
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   const keyframesBlock = `
     @keyframes destinations-country-marquee-h {
@@ -140,14 +154,22 @@ function CountryMarqueeStrip({
   const maskStyle = React.useMemo(
     () =>
       ({
-        maskImage: clearTickerInCenter ? TICKER_MASK_EDGES_AND_CENTER : TICKER_MASK_EDGES,
-        WebkitMaskImage: clearTickerInCenter ? TICKER_MASK_EDGES_AND_CENTER : TICKER_MASK_EDGES,
+        maskImage: clearTickerInCenter
+          ? useMobileCenterMask
+            ? TICKER_MASK_EDGES_AND_CENTER_MOBILE
+            : TICKER_MASK_EDGES_AND_CENTER
+          : TICKER_MASK_EDGES,
+        WebkitMaskImage: clearTickerInCenter
+          ? useMobileCenterMask
+            ? TICKER_MASK_EDGES_AND_CENTER_MOBILE
+            : TICKER_MASK_EDGES_AND_CENTER
+          : TICKER_MASK_EDGES,
         maskSize: "100% 100%",
         WebkitMaskSize: "100% 100%",
         maskRepeat: "no-repeat",
         WebkitMaskRepeat: "no-repeat",
       }) as const,
-    [clearTickerInCenter],
+    [clearTickerInCenter, useMobileCenterMask],
   );
 
   return (
@@ -227,18 +249,8 @@ export function DestinationsCountryMarquee({
           />
         </div>
         <div className="pointer-events-none relative z-10 flex min-h-[2.5rem] items-center justify-center py-1 sm:min-h-[2.65rem] md:min-h-[2.85rem]">
-          <div className="pointer-events-auto flex items-center justify-center gap-2.5 sm:gap-4 md:gap-5">
-            <div
-              className="h-11 w-px shrink-0 sm:h-14 sm:self-center md:h-[3.75rem]"
-              style={{ background: SEPARATOR_FADE }}
-              aria-hidden
-            />
+          <div className="pointer-events-auto flex items-center justify-center gap-2.5 px-5 sm:gap-4 sm:px-7 md:gap-5 md:px-8">
             <CountriesVisitedPanel />
-            <div
-              className="h-11 w-px shrink-0 sm:h-14 sm:self-center md:h-[3.75rem]"
-              style={{ background: SEPARATOR_FADE }}
-              aria-hidden
-            />
           </div>
         </div>
       </div>

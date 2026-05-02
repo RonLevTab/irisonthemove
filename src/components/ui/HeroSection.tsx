@@ -92,7 +92,7 @@ export function HeroSection({
   const archClipId = useId().replace(/:/g, "");
 
   return (
-    <section className="relative isolate flex min-h-[calc(100svh-var(--nav-stack-height))] flex-col justify-center overflow-x-clip overflow-y-visible px-4 pt-10 pb-4 sm:px-6 sm:py-8 sm:pb-6 lg:h-[calc(100svh-var(--nav-stack-height))] lg:max-h-[calc(100svh-var(--nav-stack-height))] lg:min-h-0 lg:flex lg:flex-col lg:justify-start lg:overflow-x-clip lg:overflow-y-visible lg:px-6 lg:py-0 lg:pb-0 xl:px-6">
+    <section className="relative isolate flex flex-col justify-center overflow-x-clip overflow-y-visible px-4 pt-10 pb-0 sm:px-6 sm:py-8 sm:pb-6 lg:h-[calc(100svh-var(--nav-stack-height))] lg:max-h-[calc(100svh-var(--nav-stack-height))] lg:min-h-0 lg:flex lg:flex-col lg:justify-start lg:overflow-x-clip lg:overflow-y-visible lg:px-6 lg:py-0 lg:pb-0 xl:px-6">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[#faf4ed]">
         <Image
           src={backgroundImage}
@@ -108,14 +108,14 @@ export function HeroSection({
         />
       </div>
 
-      <div className="mx-auto grid min-h-0 w-full max-w-[min(100%,96rem)] gap-8 px-0 py-0 max-lg:justify-items-center max-lg:items-center sm:gap-5 lg:h-full lg:min-h-0 lg:flex-1 lg:grid-cols-2 lg:grid-rows-[minmax(0,1fr)] lg:items-stretch lg:justify-items-stretch lg:gap-8 lg:px-0">
+      <div className="mx-auto grid min-h-0 w-full max-w-[min(100%,96rem)] gap-10 px-0 py-0 max-lg:justify-items-center max-lg:items-center sm:gap-5 lg:h-full lg:min-h-0 lg:flex-1 lg:grid-cols-2 lg:grid-rows-[minmax(0,1fr)] lg:items-stretch lg:justify-items-stretch lg:gap-8 lg:px-0">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="relative z-10 flex min-w-0 w-full flex-col items-center justify-center self-center text-center lg:h-full lg:min-h-0 lg:self-stretch lg:py-3"
         >
-          <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-5 px-3 py-4 text-center sm:px-5 sm:py-5 lg:max-w-none lg:gap-6 lg:px-0 lg:py-0">
+          <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-6 px-3 py-5 text-center sm:gap-5 sm:px-5 sm:py-5 lg:max-w-none lg:gap-6 lg:px-0 lg:py-0">
             <motion.h1
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -161,7 +161,7 @@ export function HeroSection({
               })()}
             </p>
 
-            <div className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+            <div className="flex w-full flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
                 className="primary-button text-[0.82rem] tracking-[0.14em] sm:text-[0.78rem] sm:tracking-[0.18em]"
                 href={primaryCta.href}
@@ -209,7 +209,7 @@ export function HeroSection({
               src={image}
               alt={imageAlt}
               fill
-              className="origin-center object-cover object-[center_32%] scale-[1.05] -translate-y-[7%] lg:-translate-y-[3%] lg:scale-[1.02] lg:object-[center_44%]"
+              className="origin-center object-cover object-[center_32%] scale-[1.16] -translate-y-[7%] lg:-translate-y-[3%] lg:scale-[1.08] lg:object-[center_44%]"
               sizes="(max-width: 1024px) 100vw, 42vw"
               priority
             />
