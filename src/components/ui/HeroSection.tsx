@@ -130,27 +130,46 @@ export function HeroSection({
                 const sep = " ~ ";
                 const i = description.lastIndexOf(sep);
                 if (i === -1) return description;
+                const copy = description.slice(0, i);
+                const breakAt = ", UGC";
+                const breakIndex = copy.indexOf(breakAt);
+                if (breakIndex !== -1) {
+                  return (
+                    <span className="inline-flex max-w-full flex-col items-center gap-1 text-center">
+                      <span>{copy.slice(0, breakIndex + 1)}</span>
+                      <span>
+                        {copy.slice(breakIndex + 2)}
+                        {sep}
+                        <strong className="font-bold text-[var(--color-primary)]">
+                          {description.slice(i + sep.length)}
+                        </strong>
+                      </span>
+                    </span>
+                  );
+                }
                 return (
-                  <>
-                    {description.slice(0, i)}
-                    {sep}
+                  <span className="inline-flex max-w-full flex-col items-center gap-1 text-center">
+                    <span>{copy}</span>
+                    <span>
+                      {sep}
                     <strong className="font-bold text-[var(--color-primary)]">
                       {description.slice(i + sep.length)}
                     </strong>
-                  </>
+                    </span>
+                  </span>
                 );
               })()}
             </p>
 
             <div className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
               <Link
-                className="primary-button text-[0.95rem] tracking-[0.16em] sm:text-sm sm:tracking-[0.2em]"
+                className="primary-button text-[0.82rem] tracking-[0.14em] sm:text-[0.78rem] sm:tracking-[0.18em]"
                 href={primaryCta.href}
               >
                 {primaryCta.label}
               </Link>
               <Link
-                className="secondary-button text-[0.95rem] tracking-[0.16em] sm:text-sm sm:tracking-[0.2em]"
+                className="secondary-button text-[0.82rem] tracking-[0.14em] sm:text-[0.78rem] sm:tracking-[0.18em]"
                 href={secondaryCta.href}
               >
                 {secondaryCta.label}
@@ -163,7 +182,7 @@ export function HeroSection({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.85, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-          className="relative z-10 mx-auto flex w-full max-w-md shrink-0 flex-col items-stretch self-center min-h-0 lg:mx-0 lg:h-full lg:max-w-none lg:self-stretch"
+          className="relative z-10 mx-auto flex w-full max-w-md shrink-0 flex-col items-stretch self-center min-h-0 lg:mx-0 lg:h-full lg:max-w-none lg:self-stretch lg:px-8 xl:px-12"
         >
           <svg
             className="pointer-events-none absolute h-0 w-0"
@@ -183,7 +202,7 @@ export function HeroSection({
             </defs>
           </svg>
           <div
-            className="relative aspect-[2/11] max-h-[min(88svh,1400px)] w-full overflow-hidden shadow-[0_20px_50px_rgba(58,36,32,0.18)] lg:aspect-auto lg:h-full lg:max-h-none lg:min-h-0 lg:w-full lg:-translate-y-0.5"
+            className="relative aspect-[2/11] max-h-[min(88svh,1400px)] w-full overflow-hidden shadow-[0_20px_50px_rgba(58,36,32,0.18)] lg:mx-auto lg:aspect-[2/3] lg:h-[calc(100%+7rem)] lg:max-h-none lg:min-h-0 lg:w-auto lg:max-w-[42rem] lg:-translate-y-3"
             style={{ clipPath: `url(#${archClipId})` }}
           >
             <Image
