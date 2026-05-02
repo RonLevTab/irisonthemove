@@ -81,19 +81,19 @@ const PricingCard = React.forwardRef<HTMLDivElement, PricingCardProps>(
           duration: 0.55,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="h-full min-h-[17rem] sm:min-h-[18.5rem] lg:min-h-[20.5rem]"
+        className="h-full min-h-[11.5rem] sm:min-h-[18.5rem] lg:min-h-[20.5rem]"
       >
         <motion.div
           variants={cardVariants}
           initial="initial"
           whileHover="hover"
           className={cn(
-            "relative flex h-full min-h-0 flex-col justify-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-7 text-center shadow-sm transition-shadow duration-300 sm:rounded-3xl sm:px-7 sm:py-9 lg:px-8 lg:py-10",
+            "relative flex h-full min-h-0 flex-col justify-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-5 text-center shadow-sm transition-shadow duration-300 sm:rounded-3xl sm:px-7 sm:py-9 lg:px-8 lg:py-10",
             className,
           )}
           {...motionSafeProps}
         >
-          <div className="flex w-full flex-col items-center justify-center gap-4 text-center sm:gap-5">
+          <div className="flex w-full flex-col items-center justify-center gap-3 text-center sm:gap-5">
             {imageSrc ? (
               <motion.img
                 src={imageSrc}
@@ -124,7 +124,7 @@ const PricingCard = React.forwardRef<HTMLDivElement, PricingCardProps>(
             </div>
 
             <p
-              className="font-text-3 mx-auto w-full max-w-[26rem] whitespace-pre-line text-center text-base font-medium leading-relaxed tracking-[0.02em] text-[var(--color-primary)] sm:text-lg lg:max-w-[28rem] lg:text-[1.0625rem] lg:leading-[1.45]"
+              className="font-text-3 mx-auto w-full max-w-[26rem] whitespace-pre-line text-center text-[0.95rem] font-medium leading-relaxed tracking-[0.02em] text-[var(--color-primary)] sm:text-lg lg:max-w-[28rem] lg:text-[1.0625rem] lg:leading-[1.45]"
               title={description}
             >
               {description}

@@ -50,37 +50,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
   return (
     <div className="w-full overflow-x-hidden">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 md:gap-0">
-        <div className="flex flex-col gap-3 md:hidden">
-          {items.map((item) => (
-            <article
-              key={`${item.videoSrc}-mobile`}
-              className="relative aspect-[9/16] w-full overflow-hidden rounded-[1.25rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[#0f0f0f] shadow-[0_10px_28px_rgba(75,64,56,0.08)]"
-            >
-              <video
-                className="absolute inset-0 h-full w-full object-cover object-center"
-                src={item.videoSrc}
-                playsInline
-                muted
-                loop
-                autoPlay
-                preload="metadata"
-                disablePictureInPicture
-                aria-label={item.title}
-                onLoadedData={(e) => paintFirstFrame(e.currentTarget)}
-              />
-              <div
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black from-[8%] via-black/75 to-transparent"
-                aria-hidden
-              />
-              <div className="pointer-events-none absolute inset-x-0 bottom-3 z-[2] px-4 pb-4 text-white drop-shadow-[0_1px_10px_rgba(0,0,0,0.9)] sm:bottom-4">
-                <p className="text-[1.18rem] font-semibold leading-tight">{item.title}</p>
-                <p className="mt-1.5 text-[1.03rem] leading-snug text-white/90">{item.description}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div className="hidden min-h-[33rem] w-full overflow-hidden rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] md:flex md:h-[min(72svh,48rem)] md:flex-row">
+        <div className="flex h-[min(78svh,38rem)] min-h-[29rem] w-full flex-row overflow-hidden rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:12_1_0%] [--reel-inactive-flex:0.55_1_0%] md:h-[min(72svh,48rem)] md:min-h-[33rem] md:flex-row md:[--reel-active-flex:5_1_0%] md:[--reel-inactive-flex:1.35_1_0%]">
           {items.map((item, index) => {
             const isActive = activeIndex === index;
 
@@ -91,9 +61,11 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                 aria-expanded={isActive}
                 aria-controls={`reel-panel-${index}`}
                 id={`reel-tab-${index}`}
-                className="group relative flex min-h-[4.5rem] flex-none flex-col justify-end overflow-hidden border-[var(--color-border)] text-left transition-[flex,box-shadow] duration-700 ease-in-out first:rounded-t-[1.5rem] last:rounded-b-[1.5rem] md:min-h-0 md:min-w-[72px] md:flex-1 md:rounded-none md:border-r md:border-b-0 md:last:border-r-0 md:first:rounded-l-[1.5rem] md:first:rounded-tr-none md:last:rounded-r-[1.5rem] md:last:rounded-bl-none"
+                className="group relative flex min-h-0 min-w-[2.05rem] flex-1 flex-col justify-end overflow-hidden border-r border-[var(--color-border)] text-left transition-[flex,box-shadow] duration-700 ease-in-out last:border-r-0 first:rounded-l-[1.5rem] last:rounded-r-[1.5rem] md:min-w-[72px] md:rounded-none md:border-r md:border-b-0 md:last:border-r-0 md:first:rounded-l-[1.5rem] md:first:rounded-tr-none md:last:rounded-r-[1.5rem] md:last:rounded-bl-none"
                 style={{
-                  flex: isActive ? "5 1 0%" : "1.35 1 0%",
+                  flex: isActive
+                    ? "var(--reel-active-flex)"
+                    : "var(--reel-inactive-flex)",
                   boxShadow: isActive
                     ? "0 18px 42px rgba(75, 64, 56, 0.1)"
                     : "0 8px 22px rgba(75, 64, 56, 0.05)",
@@ -155,9 +127,9 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                   />
                 </div>
 
-                <div className="relative z-[2] flex w-full items-center justify-center gap-3 px-3 py-4 md:justify-start md:px-4 md:py-5">
+                <div className="relative z-[2] flex w-full items-center justify-center gap-2 px-2 py-4 md:justify-start md:gap-3 md:px-4 md:py-5">
                   <span
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-white/25 bg-black/55 text-white shadow-md backdrop-blur-sm"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-white/25 bg-black/55 text-white shadow-md backdrop-blur-sm md:h-11 md:w-11"
                     onClick={(e) => {
                       if (!isActive) return;
                       e.stopPropagation();
@@ -168,13 +140,13 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                     }}
                   >
                     {isActive && activeIsPlaying ? (
-                      <FaPause className="h-5 w-5" aria-hidden />
+                      <FaPause className="h-4 w-4 md:h-5 md:w-5" aria-hidden />
                     ) : (
-                      <FaPlay className="h-5 w-5" aria-hidden />
+                      <FaPlay className="h-4 w-4 md:h-5 md:w-5" aria-hidden />
                     )}
                   </span>
                   <div
-                    className={`min-w-0 flex-1 text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)] ${!isActive ? "md:hidden" : ""}`}
+                    className={`min-w-0 flex-1 text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)] ${!isActive ? "hidden" : ""}`}
                   >
                     <p className="truncate font-semibold leading-tight md:text-lg">
                       {item.title}

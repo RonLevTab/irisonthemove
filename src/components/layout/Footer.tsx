@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { BrandWordmark } from "@/components/ui/BrandWordmark";
 
-const TAGS = ["UGC", "Content creator", "Digital maker"] as const;
+const TAGS = ["Content creator", "Digital maker", "UGC"] as const;
 
 type FooterProps = {
   instagramUrl: string;
@@ -11,28 +11,28 @@ type FooterProps = {
 };
 
 const eyebrowClassName =
-  "text-[0.72rem] font-semibold uppercase tracking-[0.17em] text-[var(--color-primary)] sm:text-[0.82rem] lg:text-[0.875rem]";
+  "text-[0.56rem] font-semibold uppercase tracking-[0.17em] text-[var(--color-primary)] sm:text-[0.82rem] lg:text-[0.875rem]";
 
 const linkStackClassName =
-  "flex flex-col gap-2 font-sans text-[0.68rem] font-normal normal-case tracking-[0.11em] text-[var(--color-foreground-muted)] sm:text-[0.76rem] sm:tracking-[0.12em] lg:text-[0.8125rem]";
+  "flex flex-col gap-1.5 font-sans text-[0.52rem] font-normal normal-case tracking-[0.09em] text-[var(--color-foreground-muted)] sm:gap-2 sm:text-[0.76rem] sm:tracking-[0.12em] lg:text-[0.8125rem]";
 
 /** UGC strip — original sans scale (unchanged vs previous footer strip) */
 const tagsRowClassName =
-  "flex flex-nowrap items-center justify-center gap-x-0 font-sans text-[0.625rem] font-medium uppercase leading-snug tracking-[0.12em] text-[var(--color-foreground-muted)] sm:text-xs sm:tracking-[0.14em]";
+  "flex flex-col items-center justify-center gap-y-1 font-sans text-[0.52rem] font-medium uppercase leading-snug tracking-[0.09em] text-[var(--color-foreground-muted)] sm:flex-row sm:flex-nowrap sm:gap-y-0 sm:gap-x-0 sm:text-xs sm:tracking-[0.14em]";
 
 const exploreConnectBlockClassName =
-  "flex min-w-0 flex-col items-center gap-2.5 text-center sm:items-start sm:text-left";
+  "flex min-w-0 flex-col items-start gap-1.5 text-left sm:gap-2.5";
 
 export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
   return (
     <footer className="relative z-10 bg-[var(--color-surface-strong)]">
-      <div className="footer-align grid w-full grid-cols-1 items-center justify-items-center gap-6 py-5 sm:gap-7 sm:py-6 lg:grid-cols-3 lg:gap-x-4 lg:gap-y-0 lg:justify-items-stretch lg:py-6">
+      <div className="footer-align grid w-full grid-cols-3 items-center justify-items-stretch gap-x-3 gap-y-0 py-4 sm:gap-x-4 sm:py-6 lg:gap-x-4 lg:py-6">
         {/* Explore + Connect — grouped, left-aligned on desktop (normal footer scan) */}
-        <div className="flex w-full min-w-0 flex-row flex-wrap justify-center gap-x-6 gap-y-6 sm:gap-x-8 lg:justify-start lg:gap-x-7">
+        <div className="flex w-full min-w-0 flex-col flex-nowrap justify-start gap-y-4 sm:flex-row sm:gap-x-8 sm:gap-y-0 lg:gap-x-7">
           <div className={exploreConnectBlockClassName}>
             <p className={eyebrowClassName}>Explore</p>
             <nav
-              className={`${linkStackClassName} text-center sm:text-left`}
+              className={`${linkStackClassName} text-left`}
               aria-label="Explore"
             >
               <Link className="transition-colors hover:text-[var(--color-foreground)]" href="/">
@@ -64,7 +64,7 @@ export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
 
           <div className={exploreConnectBlockClassName}>
             <p className={eyebrowClassName}>Connect</p>
-            <div className={`${linkStackClassName} text-center sm:text-left`}>
+            <div className={`${linkStackClassName} text-left`}>
               <Link
                 className="transition-colors hover:text-[var(--color-foreground)]"
                 href={instagramUrl}
@@ -101,7 +101,7 @@ export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
               <span key={label} className="inline-flex shrink-0 items-center">
                 {index > 0 ? (
                   <span
-                    className="mx-1.5 select-none text-[var(--color-primary)]/50 sm:mx-2.5"
+                    className="hidden select-none text-[var(--color-primary)]/50 sm:mx-2.5 sm:inline"
                     aria-hidden
                   >
                     |
@@ -113,13 +113,18 @@ export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
           </div>
         </div>
 
-        <div className="flex w-full min-w-0 items-center justify-center lg:justify-end">
+        <div className="flex w-full min-w-0 items-center justify-end">
           <Link
             href="/"
             className="shrink-0 rounded-md text-[var(--color-primary)] transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]"
             aria-label="Iris on the Move — Home"
           >
-            <BrandWordmark size="md" align="left" />
+            <BrandWordmark
+              size="md"
+              align="left"
+              scriptClassName="text-4xl sm:text-6xl"
+              titleClassName="text-[0.58rem] sm:text-sm"
+            />
           </Link>
         </div>
       </div>
