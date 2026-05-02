@@ -92,7 +92,7 @@ export function HeroSection({
   const archClipId = useId().replace(/:/g, "");
 
   return (
-    <section className="relative isolate flex min-h-[calc(100svh-var(--nav-stack-height))] flex-col justify-center overflow-x-clip overflow-y-visible px-4 py-6 pb-4 sm:px-6 sm:py-8 sm:pb-6 lg:h-[calc(100svh-var(--nav-stack-height))] lg:max-h-[calc(100svh-var(--nav-stack-height))] lg:min-h-0 lg:flex lg:flex-col lg:justify-start lg:overflow-x-clip lg:overflow-y-visible lg:px-6 lg:py-0 lg:pb-0 xl:px-6">
+    <section className="relative isolate flex min-h-[calc(100svh-var(--nav-stack-height))] flex-col justify-center overflow-x-clip overflow-y-visible px-4 pt-10 pb-4 sm:px-6 sm:py-8 sm:pb-6 lg:h-[calc(100svh-var(--nav-stack-height))] lg:max-h-[calc(100svh-var(--nav-stack-height))] lg:min-h-0 lg:flex lg:flex-col lg:justify-start lg:overflow-x-clip lg:overflow-y-visible lg:px-6 lg:py-0 lg:pb-0 xl:px-6">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[#faf4ed]">
         <Image
           src={backgroundImage}
@@ -108,7 +108,7 @@ export function HeroSection({
         />
       </div>
 
-      <div className="mx-auto grid min-h-0 w-full max-w-[min(100%,96rem)] gap-4 px-0 py-0 max-lg:justify-items-center max-lg:items-center sm:gap-5 lg:h-full lg:min-h-0 lg:flex-1 lg:grid-cols-2 lg:grid-rows-[minmax(0,1fr)] lg:items-stretch lg:justify-items-stretch lg:gap-8 lg:px-0">
+      <div className="mx-auto grid min-h-0 w-full max-w-[min(100%,96rem)] gap-8 px-0 py-0 max-lg:justify-items-center max-lg:items-center sm:gap-5 lg:h-full lg:min-h-0 lg:flex-1 lg:grid-cols-2 lg:grid-rows-[minmax(0,1fr)] lg:items-stretch lg:justify-items-stretch lg:gap-8 lg:px-0">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
