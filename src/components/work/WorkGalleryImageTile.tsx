@@ -29,7 +29,7 @@ export type WorkGalleryImageTileProps = {
 };
 
 /** Hoelang de caption na een tik zichtbaar blijft op mobiel (~3s). */
-const CAPTION_AUTO_HIDE_MS = 3_000;
+const CAPTION_AUTO_HIDE_MS = 2_000;
 
 export function WorkGalleryImageTile({
   item,
