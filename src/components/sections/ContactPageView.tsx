@@ -63,7 +63,7 @@ export function ContactPageView({
                 <SectionHeading
                   align="center"
                   titleVariant="editorialDual"
-                  titleClassName="!whitespace-normal !text-[clamp(0.65rem,2.35vw+0.36rem,1.65rem)] tracking-[0.14em] sm:!text-[clamp(0.8rem,2.75vw+0.32rem,1.65rem)] sm:tracking-[0.17em]"
+                  titleClassName="!whitespace-normal !text-[clamp(0.71rem,2.65vw+0.36rem,1.58rem)] tracking-[0.13em] sm:!text-[clamp(0.73rem,2.5vw+0.34rem,1.55rem)] sm:tracking-[0.125em] lg:!text-[clamp(0.58rem,1.95vw+0.30rem,1.38rem)] lg:tracking-[0.12em] xl:tracking-[0.14em]"
                   title={
                     <>
                       <span className="block whitespace-nowrap">
@@ -122,7 +122,7 @@ export function ContactPageView({
               id="contact-form"
               role="region"
               aria-label="Contact form"
-              className="flex w-full max-w-xl scroll-mt-20 flex-col items-center justify-center pt-12 sm:scroll-mt-24 sm:pt-14 lg:max-w-none lg:scroll-mt-0 lg:pt-0 lg:pl-12 xl:pl-14"
+              className="flex w-full max-w-xl scroll-mt-20 flex-col items-center justify-center pt-12 sm:scroll-mt-24 sm:pt-14 lg:max-w-none lg:scroll-mt-0 lg:pt-0 lg:pl-9 xl:pl-11"
             >
               <div className="mx-auto w-full max-w-xl lg:max-w-[40rem]">
                 <ContactForm formId={formId} variant="default" />
