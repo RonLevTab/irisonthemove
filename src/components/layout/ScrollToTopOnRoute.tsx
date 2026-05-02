@@ -1,18 +1,44 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { useLayoutEffect } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useLayoutEffect } from "react";
+
+function scrollDocumentToTop() {
+  if (typeof window === "undefined") return;
+  const root = document.scrollingElement ?? document.documentElement;
+  root.scrollTop = 0;
+  document.body.scrollTop = 0;
+  window.scrollTo(0, 0);
+}
 
 /**
- * Client-side navigation can keep the previous page’s scroll position.
- * After each pathname change (e.g. navbar links), start at the top.
+ * Client-side navigation can keep the previous page scroll position.
+ * On every URL change (pathname and query), scroll to the top.
  */
-export function ScrollToTopOnRoute() {
+function ScrollToTopOnRouteInner() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const queryKey = searchParams.toString();
 
   useLayoutEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    scrollDocumentToTop();
+  }, [pathname, queryKey]);
+
+  /** Run again after paint; some runtimes briefly restore the previous scroll after navigation. */
+  useEffect(() => {
+    const id = window.requestAnimationFrame(() => {
+      scrollDocumentToTop();
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [pathname, queryKey]);
 
   return null;
+}
+
+export function ScrollToTopOnRoute() {
+  return (
+    <Suspense fallback={null}>
+      <ScrollToTopOnRouteInner />
+    </Suspense>
+  );
 }
