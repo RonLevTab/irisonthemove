@@ -5,6 +5,7 @@ import "./globals.css";
 
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
+import { ScrollToTopOnRoute } from "@/components/layout/ScrollToTopOnRoute";
 import { getSiteConfig } from "@/lib/content";
 import { platformOsScript } from "@/lib/platformOsScript";
 import {
@@ -85,6 +86,7 @@ export default async function RootLayout({
           tiktokUrl={site.socialLinks.tiktok}
           email={site.email}
         />
+        <ScrollToTopOnRoute />
         <main className="page-shell">{children}</main>
         <Footer
           instagramUrl={site.socialLinks.instagram}

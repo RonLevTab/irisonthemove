@@ -19,17 +19,18 @@ import { cn } from "@/lib/utils";
 
 /** Pick column count from the gallery’s real width (not the whole window), so Windows laptops with narrower browser chrome still get 5 columns when there’s room. */
 function galleryColumnsForContainerWidth(widthPx: number): number {
-  if (!Number.isFinite(widthPx) || widthPx < 420) {
-    return 1;
+  if (!Number.isFinite(widthPx)) {
+    return 3;
   }
-  if (widthPx < 660) {
+  /** Phones are often under 420px wide; still use 3 masonry columns (previously 1, so tiles stacked). */
+  if (widthPx < 720) {
     return 3;
   }
   return 5;
 }
 
 function useGalleryColumnCount(containerRef: React.RefObject<HTMLElement | null>): number {
-  const [n, setN] = React.useState(2);
+  const [n, setN] = React.useState(3);
 
   React.useLayoutEffect(() => {
     const el = containerRef.current;
