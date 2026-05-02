@@ -131,7 +131,8 @@ export function WorkCtaSection({
             fill
             className="object-cover object-center"
             sizes="100vw"
-            priority={false}
+            loading="eager"
+            fetchPriority="low"
             aria-hidden
           />
         </div>

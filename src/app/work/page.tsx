@@ -117,19 +117,19 @@ export default async function WorkPage() {
                         stripAriaLabel={`${category.title}: two 3 by 3 grids`}
                         items={category.items}
                         tripleVideos={category.tripleVideos}
-                        priorityFirstImages={index === 0 ? 4 : 0}
+                        priorityFirstImages={index === 0 ? 6 : 0}
                       />
                     ) : isHotels ? (
                       <WorkHotelMediaWithVideos
                         stripAriaLabel={`${category.title}: six by two photo grid and reels`}
                         items={category.items}
                         tripleVideos={category.tripleVideos}
-                        priorityFirstImages={index === 0 ? 4 : 0}
+                        priorityFirstImages={index === 0 ? 6 : 0}
                       />
                     ) : (
                       <WorkExpandingImageGrid
                         items={category.items}
-                        priorityFirstImages={index === 0 ? 4 : 0}
+                        priorityFirstImages={index === 0 ? 6 : 0}
                       />
                     )}
                   </div>

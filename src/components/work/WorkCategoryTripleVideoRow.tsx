@@ -101,7 +101,7 @@ export function WorkCategoryTripleVideoRow({
                 loop
                 playsInline
                 autoPlay
-                preload="metadata"
+                preload="auto"
                 aria-label={clip.title?.trim() || "Portfolio video clip"}
               />
             ) : null}

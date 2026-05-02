@@ -100,6 +100,8 @@ export function HeroSection({
           fill
           className="object-cover object-center"
           sizes="100vw"
+          priority
+          fetchPriority="high"
           aria-hidden
         />
         <div
@@ -212,6 +214,7 @@ export function HeroSection({
               className="origin-center object-cover object-[center_32%] scale-[1.16] -translate-y-[7%] lg:-translate-y-[3%] lg:scale-[1.08] lg:object-[center_44%]"
               sizes="(max-width: 1024px) 100vw, 42vw"
               priority
+              fetchPriority="high"
             />
           </div>
         </motion.div>

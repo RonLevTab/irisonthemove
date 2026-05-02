@@ -98,6 +98,7 @@ export default async function DestinationDetailPage({
                   className="object-cover"
                   sizes="(min-width: 1024px) 42vw, 100vw"
                   priority
+                  fetchPriority="high"
                 />
               </div>
             </div>
@@ -107,7 +108,7 @@ export default async function DestinationDetailPage({
         <div className="mx-auto mt-8 max-w-[52rem] space-y-6 pb-10 sm:mt-10 sm:pb-12">
           {destination.blocks.map((block, index) => (
             <ScrollReveal key={`${destination.slug}-${index}`}>
-              <ContentBlock block={block} />
+              <ContentBlock block={block} contentBlockIndex={index} />
             </ScrollReveal>
           ))}
         </div>

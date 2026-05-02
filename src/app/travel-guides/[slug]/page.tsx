@@ -70,7 +70,15 @@ export default async function TravelGuideDetailPage({
           </ScrollReveal>
           <ScrollReveal className="card-shell overflow-hidden p-3">
             <div className="relative aspect-[16/11] overflow-hidden rounded-[2rem]">
-              <Image src={guide.coverImage} alt={guide.coverAlt} fill className="object-cover" />
+              <Image
+                src={guide.coverImage}
+                alt={guide.coverAlt}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+                fetchPriority="high"
+              />
             </div>
           </ScrollReveal>
         </div>
@@ -79,7 +87,7 @@ export default async function TravelGuideDetailPage({
         <div className="space-y-6">
           {guide.blocks.map((block, index) => (
             <ScrollReveal key={`${guide.slug}-${index}`}>
-              <ContentBlock block={block} />
+              <ContentBlock block={block} contentBlockIndex={index} />
             </ScrollReveal>
           ))}
         </div>

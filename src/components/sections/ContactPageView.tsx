@@ -1,5 +1,6 @@
 "use client";
 
+import { motion, useReducedMotion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { FaEnvelope, FaInstagram, FaTiktok } from "react-icons/fa6";
@@ -28,6 +29,7 @@ export function ContactPageView({
   tiktokUrl,
 }: ContactPageViewProps) {
   const router = useRouter();
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const scrollToForm = () => {
@@ -108,12 +110,27 @@ export function ContactPageView({
 
                 <a
                   href="#contact-form"
-                  className="absolute bottom-20 left-1/2 inline-flex -translate-x-1/2 flex-col items-center gap-2 whitespace-nowrap font-sans text-[0.62rem] font-medium uppercase tracking-[0.18em] text-[var(--color-primary)]/75 transition-colors hover:text-[var(--color-primary)] lg:hidden"
+                  className="absolute bottom-20 left-1/2 inline-flex -translate-x-1/2 flex-col items-center gap-4 whitespace-nowrap font-sans text-[0.62rem] font-medium uppercase tracking-[0.18em] text-[var(--color-primary)]/75 transition-colors hover:text-[var(--color-primary)] lg:hidden"
                 >
                   <span>Or scroll down for contact form</span>
-                  <span className="text-lg leading-none" aria-hidden>
-                    ↓
-                  </span>
+                  {reduceMotion ? (
+                    <span className="inline-block text-lg leading-none" aria-hidden>
+                      ↓
+                    </span>
+                  ) : (
+                    <motion.span
+                      className="inline-block text-lg leading-none"
+                      aria-hidden
+                      animate={{ y: [0, 6, 0] }}
+                      transition={{
+                        duration: 1.25,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                    >
+                      ↓
+                    </motion.span>
+                  )}
                 </a>
               </div>
             </div>

@@ -34,7 +34,7 @@ export default async function BlogPage() {
           ))}
         </ScrollReveal>
         <div className="grid gap-6 lg:grid-cols-3">
-          {posts.map((post) => (
+          {posts.map((post, i) => (
             <BlogCard
               key={post.slug}
               href={`/blog/${post.slug}`}
@@ -42,6 +42,7 @@ export default async function BlogPage() {
               excerpt={post.excerpt}
               image={post.coverImage}
               imageAlt={post.coverAlt}
+              imagePriority={i < 3}
               meta={new Date(post.date).toLocaleDateString("en-US", {
                 day: "numeric",
                 month: "long",

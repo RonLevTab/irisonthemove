@@ -220,6 +220,8 @@ export type HomepageContent = {
     title: string;
     reels: Array<{
       videoSrc: string;
+      /** Optional JPEG/WEBP under `/public` — shows instantly before the video decodes. */
+      poster?: string;
       title: string;
       description: string;
     }>;

@@ -127,7 +127,7 @@ export function DestinationsHeroGallery({
   );
 
   const priorityKeys = React.useMemo(
-    () => new Set(orderedItems.slice(0, 5).map((it) => it.stableKey ?? it.src)),
+    () => new Set(orderedItems.slice(0, 9).map((it) => it.stableKey ?? it.src)),
     [orderedItems],
   );
 

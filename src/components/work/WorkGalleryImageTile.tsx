@@ -115,6 +115,7 @@ export function WorkGalleryImageTile({
         sizes={sizes}
         priority={isPriorityImage}
         loading={isPriorityImage ? "eager" : "lazy"}
+        fetchPriority={isPriorityImage ? "high" : "auto"}
         draggable={false}
       />
       {hasCaption ? (

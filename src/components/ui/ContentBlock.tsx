@@ -9,9 +9,11 @@ import type { ContentBlock as ContentBlockType } from "@/types/content";
 
 type ContentBlockProps = {
   block: ContentBlockType;
+  /** Zero-based index in the article; used to eagerly load the first image/gallery tiles. */
+  contentBlockIndex?: number;
 };
 
-export function ContentBlock({ block }: ContentBlockProps) {
+export function ContentBlock({ block, contentBlockIndex }: ContentBlockProps) {
   switch (block.type) {
     case "text":
       return (
@@ -20,7 +22,8 @@ export function ContentBlock({ block }: ContentBlockProps) {
         </article>
       );
 
-    case "image":
+    case "image": {
+      const first = contentBlockIndex === 0;
       return (
         <figure className="card-shell overflow-hidden">
           <div className="relative aspect-[4/3] overflow-hidden">
@@ -30,7 +33,9 @@ export function ContentBlock({ block }: ContentBlockProps) {
               fill
               className="object-cover"
               sizes="(max-width: 896px) 100vw, 52rem"
-              loading="lazy"
+              priority={first}
+              loading={first ? "eager" : "lazy"}
+              fetchPriority={first ? "high" : "auto"}
             />
           </div>
           {block.caption ? (
@@ -40,11 +45,16 @@ export function ContentBlock({ block }: ContentBlockProps) {
           ) : null}
         </figure>
       );
+    }
 
     case "gallery":
       return (
         <div className="grid gap-6 md:grid-cols-2">
-          {block.images.map((image) => (
+          {block.images.map((image, i) => {
+            const inFirstBlock = contentBlockIndex === 0;
+            const heroTile = inFirstBlock && i === 0;
+            const earlyTile = inFirstBlock && i < 2;
+            return (
             <figure key={`${image.src}-${image.alt}`} className="card-shell overflow-hidden">
               <div className="relative aspect-[4/5] overflow-hidden">
                 <Image
@@ -53,7 +63,9 @@ export function ContentBlock({ block }: ContentBlockProps) {
                   fill
                   className="object-cover"
                   sizes="(max-width: 767px) 100vw, 26rem"
-                  loading="lazy"
+                  priority={heroTile}
+                  loading={earlyTile ? "eager" : "lazy"}
+                  fetchPriority={heroTile || earlyTile ? "high" : "auto"}
                 />
               </div>
               {image.caption ? (
@@ -62,7 +74,8 @@ export function ContentBlock({ block }: ContentBlockProps) {
                 </figcaption>
               ) : null}
             </figure>
-          ))}
+            );
+          })}
         </div>
       );
 

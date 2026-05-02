@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { FaPause, FaPlay } from "react-icons/fa6";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { withAssetPath } from "@/lib/assetPath";
 
 export type ReelVideoItem = {
   /** Public URL under `/public`, e.g. `/videos/social/reel-1.mp4` */
   videoSrc: string;
+  /** Optional still — avoids black flash while MP4 loads (path under `public/`). */
+  poster?: string;
   title: string;
   description: string;
 };
@@ -14,25 +16,45 @@ type InteractiveReelVideosProps = {
   items: ReelVideoItem[];
 };
 
+/** Prefer starting near a keyframe so the first painted frame is in-color (not black). */
+function videoSrcWithStartHint(src: string): string {
+  const trimmed = src.trim();
+  const hashIdx = trimmed.indexOf("#");
+  const base = hashIdx >= 0 ? trimmed.slice(0, hashIdx) : trimmed;
+  return `${base}#t=0.06`;
+}
+
 /**
- * Expanding strip selector with self-hosted MP4s (no Instagram chrome or scroll).
+ * Seek to an early frame so paused / narrow strips show real pixels (not decoder black).
  */
 function paintPreviewFrame(video: HTMLVideoElement) {
-  const apply = () => {
-    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
-      try {
-        video.currentTime = Math.min(0.2, video.duration || 0.2);
-      } catch {
-        /* ignore */
-      }
+  const applySeek = () => {
+    if (video.readyState < HTMLMediaElement.HAVE_METADATA) return;
+    const dur = video.duration;
+    const t =
+      Number.isFinite(dur) && dur > 0
+        ? Math.min(0.22, Math.max(0.04, dur * 0.02))
+        : 0.08;
+    const onSeeked = () => {
+      video.removeEventListener("seeked", onSeeked);
+    };
+    video.addEventListener("seeked", onSeeked, { once: true });
+    try {
+      video.currentTime = t;
+    } catch {
+      /* ignore */
     }
   };
-  apply();
+
+  if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+    applySeek();
+  } else {
+    video.addEventListener("loadedmetadata", applySeek, { once: true });
+  }
 }
 
 export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeIsPlaying, setActiveIsPlaying] = useState(true);
   const [playStripPreviews, setPlayStripPreviews] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
@@ -47,18 +69,26 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
   }, []);
 
   useEffect(() => {
-    setActiveIsPlaying(true);
     videoRefs.current.forEach((vid, i) => {
       if (!vid) return;
       if (playStripPreviews || i === activeIndex) {
-        void vid.play().catch(() => {
-          if (i === activeIndex) setActiveIsPlaying(false);
-        });
+        void vid.play().catch(() => {});
       } else {
         vid.pause();
+        requestAnimationFrame(() => paintPreviewFrame(vid));
       }
     });
   }, [activeIndex, playStripPreviews]);
+
+  /** First paint for all reels once refs exist (desktop strips load paused). */
+  useLayoutEffect(() => {
+    const id = window.requestAnimationFrame(() => {
+      videoRefs.current.forEach((vid) => {
+        if (vid) paintPreviewFrame(vid);
+      });
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [items.length]);
 
   return (
     <div className="w-full overflow-x-hidden">
@@ -66,6 +96,9 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
         <div className="flex h-[min(70svh,34rem)] min-h-[22rem] w-full flex-row overflow-hidden rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:12_1_0%] [--reel-inactive-flex:0.55_1_0%] md:h-[min(72svh,48rem)] md:min-h-[33rem] md:flex-row md:[--reel-active-flex:5_1_0%] md:[--reel-inactive-flex:1.35_1_0%]">
           {items.map((item, index) => {
             const isActive = activeIndex === index;
+            const posterUrl = item.poster?.trim()
+              ? withAssetPath(item.poster.trim())
+              : undefined;
 
             return (
               <button
@@ -92,7 +125,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
               >
                 <div
                   id={`reel-panel-${index}`}
-                  className="absolute inset-0 bg-[#0f0f0f]"
+                  className="absolute inset-0 bg-[var(--color-surface-strong)]"
                   aria-hidden={!isActive}
                 >
                   <div
@@ -114,25 +147,18 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                         videoRefs.current[index] = el;
                       }}
                       className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
-                      src={item.videoSrc}
+                      src={videoSrcWithStartHint(item.videoSrc)}
+                      poster={posterUrl}
                       playsInline
                       muted
                       loop
                       autoPlay={playStripPreviews || isActive}
                       preload="auto"
                       disablePictureInPicture
-                      aria-label={
-                        isActive
-                          ? `${activeIsPlaying ? "Pause" : "Play"} — ${item.title}`
-                          : item.title
-                      }
+                      aria-label={item.title}
+                      onLoadedMetadata={(e) => paintPreviewFrame(e.currentTarget)}
                       onLoadedData={(e) => paintPreviewFrame(e.currentTarget)}
-                      onPlay={() => {
-                        if (index === activeIndex) setActiveIsPlaying(true);
-                      }}
-                      onPause={() => {
-                        if (index === activeIndex) setActiveIsPlaying(false);
-                      }}
+                      onCanPlay={(e) => paintPreviewFrame(e.currentTarget)}
                     />
                   </div>
                   <div
@@ -141,35 +167,16 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                   />
                 </div>
 
-                <div className="relative z-[2] flex w-full items-center justify-center gap-2 px-2 py-4 md:justify-start md:gap-3 md:px-4 md:py-5">
-                  <span
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-white/25 bg-black/55 text-white shadow-md backdrop-blur-sm md:h-11 md:w-11"
-                    onClick={(e) => {
-                      if (!isActive) return;
-                      e.stopPropagation();
-                      const v = videoRefs.current[index];
-                      if (!v) return;
-                      if (v.paused) void v.play();
-                      else v.pause();
-                    }}
-                  >
-                    {isActive && activeIsPlaying ? (
-                      <FaPause className="h-4 w-4 md:h-5 md:w-5" aria-hidden />
-                    ) : (
-                      <FaPlay className="h-4 w-4 md:h-5 md:w-5" aria-hidden />
-                    )}
-                  </span>
-                  <div
-                    className={`min-w-0 flex-1 text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)] ${!isActive ? "hidden" : ""}`}
-                  >
-                    <p className="truncate font-semibold leading-tight md:text-lg">
-                      {item.title}
-                    </p>
-                    {isActive ? (
+                {isActive ? (
+                  <div className="relative z-[2] flex w-full items-end justify-center px-3 py-4 text-left md:justify-start md:px-5 md:py-5">
+                    <div className="min-w-0 max-w-full text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)]">
+                      <p className="truncate font-semibold leading-tight md:text-lg">
+                        {item.title}
+                      </p>
                       <p className="text-sm text-white/80">{item.description}</p>
-                    ) : null}
+                    </div>
                   </div>
-                </div>
+                ) : null}
               </button>
             );
           })}

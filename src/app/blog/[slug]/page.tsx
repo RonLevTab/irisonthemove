@@ -72,7 +72,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </ScrollReveal>
           <ScrollReveal className="card-shell overflow-hidden p-3">
             <div className="relative aspect-[16/11] overflow-hidden rounded-[2rem]">
-              <Image src={post.coverImage} alt={post.coverAlt} fill className="object-cover" />
+              <Image
+                src={post.coverImage}
+                alt={post.coverAlt}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+                fetchPriority="high"
+              />
             </div>
           </ScrollReveal>
         </div>
@@ -81,7 +89,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="space-y-6">
           {post.blocks.map((block, index) => (
             <ScrollReveal key={`${post.slug}-${index}`}>
-              <ContentBlock block={block} />
+              <ContentBlock block={block} contentBlockIndex={index} />
             </ScrollReveal>
           ))}
         </div>

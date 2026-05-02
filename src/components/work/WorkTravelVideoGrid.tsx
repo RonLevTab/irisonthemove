@@ -82,7 +82,7 @@ export function WorkTravelVideoGrid({
               loop
               playsInline
               autoPlay
-              preload="metadata"
+              preload="auto"
               aria-label={item.title?.trim() || "Travel portfolio video clip"}
             />
           </div>
