@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import type { WorkGalleryItem } from "@/components/work/WorkExpandingImageGrid";
 import { cn } from "@/lib/utils";
@@ -28,6 +28,9 @@ export type WorkGalleryImageTileProps = {
   imageCornerClass?: string;
 };
 
+/** Hoelang de caption na een tik zichtbaar blijft op mobiel (~3s). */
+const CAPTION_AUTO_HIDE_MS = 3_000;
+
 export function WorkGalleryImageTile({
   item,
   sizes,
@@ -36,6 +39,27 @@ export function WorkGalleryImageTile({
   imageCornerClass,
 }: WorkGalleryImageTileProps) {
   const [captionOpen, setCaptionOpen] = useState(false);
+  const hideCaptionAfterTapRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(
+    () => () => {
+      if (hideCaptionAfterTapRef.current) {
+        clearTimeout(hideCaptionAfterTapRef.current);
+      }
+    },
+    [],
+  );
+
+  const flashCaptionOnTap = () => {
+    if (hideCaptionAfterTapRef.current) {
+      clearTimeout(hideCaptionAfterTapRef.current);
+    }
+    setCaptionOpen(true);
+    hideCaptionAfterTapRef.current = setTimeout(() => {
+      setCaptionOpen(false);
+      hideCaptionAfterTapRef.current = null;
+    }, CAPTION_AUTO_HIDE_MS);
+  };
   const label = item.location.trim();
   const { line1, line2, line3 } = label ? locationToThreeLines(label) : { line1: "", line2: "", line3: "" };
   const hasCaption = Boolean(line1 || line2 || line3);
@@ -55,12 +79,21 @@ export function WorkGalleryImageTile({
       tabIndex={hasCaption ? 0 : undefined}
       aria-expanded={hasCaption ? captionOpen : undefined}
       aria-label={hasCaption ? captionSummary : undefined}
-      onClick={() => hasCaption && setCaptionOpen((v) => !v)}
+      onClick={() => {
+        if (!hasCaption) return;
+        if (typeof window !== "undefined" && window.matchMedia("(min-width: 900px)").matches) {
+          return;
+        }
+        flashCaptionOnTap();
+      }}
       onKeyDown={(e) => {
         if (!hasCaption) return;
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          setCaptionOpen((v) => !v);
+          if (typeof window !== "undefined" && window.matchMedia("(min-width: 900px)").matches) {
+            return;
+          }
+          flashCaptionOnTap();
         }
       }}
       className={cn(

@@ -7,7 +7,7 @@ import { brandScriptClassName } from "@/lib/brandFonts";
 /** DM Sans (`--font-body` / Tailwind `font-sans`) for fields inside the card. */
 const inputDmSansClassName = "font-sans text-lg text-[var(--color-foreground)]";
 
-/** Same as `SectionHeading` editorialDual eyebrow (e.g. “Contact” above “Let’s work together”). */
+/** Same as `SectionHeading` editorialDual eyebrow (e.g. “Contact” above the main headline). */
 const contactSectionEyebrowClassName =
   "font-text-3 whitespace-nowrap text-[0.72rem] font-bold uppercase leading-none tracking-[0.28em] text-[var(--color-primary)] sm:text-[0.86rem] sm:tracking-[0.26em]";
 
@@ -97,7 +97,7 @@ export function ContactForm({ formId, variant = "default" }: ContactFormProps) {
             name="name"
             type="text"
             required
-            placeholder="Your name"
+            placeholder="your name"
           />
           <ValidationError prefix="Name" field="name" errors={state.errors} />
         </label>
@@ -131,7 +131,7 @@ export function ContactForm({ formId, variant = "default" }: ContactFormProps) {
           <span
             className={`${contactSectionEyebrowClassName} ${contactLabelAlignClassName}`}
           >
-            Send Iris a message
+            Message
           </span>
         )}
         <textarea

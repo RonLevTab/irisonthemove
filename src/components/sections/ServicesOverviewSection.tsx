@@ -26,18 +26,17 @@ export function ServicesOverviewSection({
     <section
       className={`relative isolate flex w-full items-center ${oakSectionBorderClassName} min-h-[calc(100svh-var(--nav-stack-height,7rem))] bg-[var(--color-background)] lg:min-h-0`}
     >
-      <div className="mx-auto flex min-h-[calc(100svh-var(--nav-stack-height,7rem))] w-full max-w-[min(100%,96rem)] flex-col justify-center px-6 max-sm:pt-16 sm:min-h-0 sm:max-md:pt-12 sm:px-10 md:pt-10 pb-12 max-sm:pb-14 sm:pb-12 lg:px-12 lg:pt-12 lg:pb-16">
-        <ScrollReveal className="flex flex-col items-center gap-6 text-center sm:gap-7 lg:gap-8">
+      <div className="mx-auto flex min-h-[calc(100svh-var(--nav-stack-height,7rem))] w-full max-w-[min(100%,96rem)] flex-col justify-center px-6 max-sm:py-8 sm:min-h-0 sm:max-md:py-10 sm:px-10 md:py-10 lg:px-12 lg:py-12 lg:pb-16">
+        <ScrollReveal className="flex flex-col items-center gap-8 text-center sm:gap-7 lg:gap-8">
           <SectionHeading
             align="center"
             eyebrow={eyebrow}
             title={title}
             titleVariant="editorialDual"
             stackGapClassName="gap-3 sm:gap-4"
-            className="-mt-5 sm:-mt-2 lg:mt-0"
           />
 
-          <div className="mx-auto grid w-[92%] max-w-[29rem] grid-cols-1 auto-rows-fr items-stretch gap-4 sm:w-full sm:max-w-none sm:gap-8 lg:grid-cols-3 lg:gap-10">
+          <div className="mx-auto grid w-[92%] max-w-[29rem] grid-cols-1 auto-rows-fr items-stretch gap-8 sm:w-full sm:max-w-none sm:gap-8 lg:grid-cols-3 lg:gap-10">
             {items.map((item, index) => (
               <PricingCard
                 key={item.title}

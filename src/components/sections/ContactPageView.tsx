@@ -59,27 +59,28 @@ export function ContactPageView({
               aria-label="Introduction"
               className="relative flex min-h-[calc(100svh-var(--nav-stack-height,6rem))] w-full max-w-xl flex-col items-center justify-center gap-5 border-b border-[var(--color-border)] py-12 text-center sm:gap-6 sm:py-14 lg:min-h-0 lg:max-w-none lg:border-b-0 lg:border-r lg:py-0 lg:pr-12 xl:pr-14"
             >
-              <div className="mx-auto flex w-full max-w-[23rem] flex-col items-center gap-8 text-center sm:max-w-xl lg:gap-8 xl:max-w-2xl">
+              <div className="mx-auto flex w-full max-w-[min(100%,28rem)] flex-col items-center gap-12 text-center sm:max-w-xl lg:gap-12 xl:max-w-2xl">
                 <SectionHeading
                   align="center"
-                  eyebrow="Contact"
-                  title="Let's work together"
                   titleVariant="editorialDual"
-                  editorialDualEyebrowClassName="text-[0.82rem] sm:text-[0.88rem]"
-                  titleClassName="!text-[clamp(0.9rem,3.1vw+0.38rem,1.88rem)] tracking-[0.17em] sm:tracking-[0.17em]"
-                  stackGapClassName="gap-5"
+                  titleClassName="!whitespace-normal !text-[clamp(0.72rem,2.65vw+0.42rem,1.88rem)] tracking-[0.14em] sm:!text-[clamp(0.9rem,3.1vw+0.38rem,1.88rem)] sm:tracking-[0.17em]"
+                  title={
+                    <>
+                      <span className="block whitespace-nowrap">
+                        Serious about your next project?
+                      </span>
+                      <span className="mt-1 block sm:mt-1.5">So am I.</span>
+                    </>
+                  }
                 />
                 <p className="hero-home-subhead font-text-3 mx-auto max-w-[22rem] text-balance text-center !text-[1.04rem] font-medium !leading-[1.72] tracking-[0.02em] text-[var(--color-primary)] sm:max-w-2xl sm:!text-[1.08rem]">
-                  Serious about your next project? So am I.
-                  <span className="mt-5 block text-balance sm:mt-5">
-                    I&apos;d love to help you with content creation, short-form
-                    videography, photography and creative ideas to elevate your brand.
-                  </span>
+                  I&apos;d love to help you with content creation, short-form
+                  videography, photography and creative ideas to elevate your brand.
                 </p>
 
-                <div className="mt-9 flex w-full flex-col items-center gap-7 text-center sm:mt-10">
+                <div className="flex w-full flex-col items-center gap-7 text-center">
                   <p className="font-text-3 text-[0.78rem] font-medium uppercase leading-none tracking-[0.28em] text-[var(--color-primary)] sm:text-[0.86rem] sm:tracking-[0.26em]">
-                    Or reach out directly
+                    Reach out directly
                   </p>
                   <div className="flex w-full justify-center">
                     <GradientSocialMenu
@@ -109,7 +110,7 @@ export function ContactPageView({
                   href="#contact-form"
                   className="absolute bottom-20 left-1/2 inline-flex -translate-x-1/2 flex-col items-center gap-2 whitespace-nowrap font-sans text-[0.62rem] font-medium uppercase tracking-[0.18em] text-[var(--color-primary)]/75 transition-colors hover:text-[var(--color-primary)] lg:hidden"
                 >
-                  <span>Scroll down for contact form</span>
+                  <span>Or scroll down for contact form</span>
                   <span className="text-lg leading-none" aria-hidden>
                     ↓
                   </span>

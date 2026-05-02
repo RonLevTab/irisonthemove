@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 type SectionHeadingProps = {
   eyebrow?: string;
-  title: string;
+  title: ReactNode;
   /**
    * `display` — Cormorant display (default section titles).
    * `heroTagline` — same family/feel as hero quote line (`font-text-3` + clamp).

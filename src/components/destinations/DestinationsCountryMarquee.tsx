@@ -238,7 +238,7 @@ export function DestinationsCountryMarquee({
       )}
     >
       <div
-        className="relative w-full min-h-[5.25rem] overflow-hidden sm:min-h-[5.75rem] md:min-h-[6.25rem]"
+        className="relative w-full min-h-[5.25rem] sm:min-h-[5.75rem] md:min-h-[6.25rem]"
         role="presentation"
       >
         <div className="pointer-events-none absolute inset-x-0 top-1/2 z-0 flex -translate-y-[34%] items-center justify-center">
