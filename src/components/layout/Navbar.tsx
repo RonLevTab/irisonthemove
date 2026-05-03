@@ -14,7 +14,7 @@ type NavbarProps = {
 };
 
 const socialIconClass =
-  "nav-social-link inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-primary)] shadow-sm transition-colors hover:bg-[var(--color-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)] sm:h-11 sm:w-11";
+  "nav-social-link inline-flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-primary)] shadow-sm transition-colors hover:bg-[var(--color-primary-soft)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)] sm:h-12 sm:w-12";
 
 const navigation = [
   { href: "/", label: "Home" },
@@ -85,7 +85,7 @@ export function Navbar({ instagramUrl, tiktokUrl, email }: NavbarProps) {
             className={socialIconClass}
             aria-label="Instagram"
           >
-            <FaInstagram className="h-[1.15rem] w-[1.15rem] sm:h-[1.25rem] sm:w-[1.25rem]" aria-hidden />
+            <FaInstagram className="h-[1.28rem] w-[1.28rem] sm:h-[1.4rem] sm:w-[1.4rem]" aria-hidden />
           </a>
           <a
             href={tiktokUrl}
@@ -94,10 +94,10 @@ export function Navbar({ instagramUrl, tiktokUrl, email }: NavbarProps) {
             className={socialIconClass}
             aria-label="TikTok"
           >
-            <FaTiktok className="h-[1.15rem] w-[1.15rem] sm:h-[1.25rem] sm:w-[1.25rem]" aria-hidden />
+            <FaTiktok className="h-[1.28rem] w-[1.28rem] sm:h-[1.4rem] sm:w-[1.4rem]" aria-hidden />
           </a>
           <a href={`mailto:${email}`} className={socialIconClass} aria-label="Email">
-            <HiOutlineMail className="h-[1.3rem] w-[1.3rem] sm:h-[1.35rem] sm:w-[1.35rem]" aria-hidden />
+            <HiOutlineMail className="h-[1.42rem] w-[1.42rem] sm:h-[1.5rem] sm:w-[1.5rem]" aria-hidden />
           </a>
         </div>
       </div>

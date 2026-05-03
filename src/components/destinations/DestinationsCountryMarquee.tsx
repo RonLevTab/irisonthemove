@@ -3,12 +3,20 @@
 import React from "react";
 
 import { VISITED_COUNTRIES } from "@/lib/destinationGalleryCountries";
-import {
-  brandSubtitleClassName,
-} from "@/lib/brandFonts";
 import { cn } from "@/lib/utils";
 
 const VISITED_COUNTRY_COUNT = VISITED_COUNTRIES.length;
+
+/**
+ * Country ticker achter het statblok — zelfde schaal/gewicht/tracking als vroeger
+ * (Castoro-era layout), maar met Cormorant (`font-text-3`) zoals nu gewenst.
+ */
+const countryMarqueeTypographyClassName =
+  "font-text-3 text-xs font-normal uppercase leading-none tracking-[0.17em] sm:text-sm md:text-[0.95rem]";
+
+/** Same scale as portfolio eyebrow but bold — “countries visited” label. */
+const countriesVisitedLabelClassName =
+  "font-text-3 font-bold uppercase leading-none tracking-[0.28em] text-[0.64rem] sm:tracking-[0.26em] sm:text-[0.74rem] md:text-[0.84rem] lg:text-[0.94rem]";
 
 const MARQUEE_CLASS = "destinations-country-marquee-h-track";
 
@@ -85,15 +93,20 @@ function CountriesVisitedPanel() {
 
   return (
     <div
-      className="inline-flex shrink-0 flex-col items-center justify-center gap-1 text-center sm:gap-1.5 sm:px-1 [&_span]:[text-shadow:0_0_10px_#f4efe9,0_0_18px_#f2ede6,0_1px_0_rgba(255,255,255,0.8)] [&_p]:[text-shadow:0_0_8px_#f4efe9,0_0_14px_#f2ede6]"
+      className="inline-flex shrink-0 flex-col items-center justify-center gap-1 text-center sm:gap-1.5 sm:px-1 [&_span]:[text-shadow:0_1px_0_rgba(255,255,255,0.92),0_0_6px_rgba(244,239,233,0.65)] [&_p]:[text-shadow:0_1px_0_rgba(255,255,255,0.88),0_0_4px_rgba(244,239,233,0.6)]"
       role="status"
       aria-live="polite"
       aria-label={`${VISITED_COUNTRY_COUNT} countries visited`}
     >
-      <span className="inline-block min-w-[2.5ch] text-center font-text-3 text-3xl font-bold tabular-nums leading-none tracking-normal text-[var(--color-primary)] sm:text-4xl md:text-5xl">
+      <span className="inline-block min-w-[2.75ch] text-center font-text-3 text-4xl font-bold tabular-nums leading-none tracking-normal text-[var(--color-primary)] sm:text-5xl md:text-6xl">
         {displayCount}
       </span>
-      <p className="font-text-3 mb-0 max-w-[10rem] text-[0.62rem] font-bold uppercase leading-tight tracking-[0.18em] text-[var(--color-primary)] sm:text-[0.68rem] md:text-xs">
+      <p
+        className={cn(
+          "mb-0 max-w-[10rem] text-center text-[var(--color-primary)]",
+          countriesVisitedLabelClassName,
+        )}
+      >
         countries visited
       </p>
     </div>
@@ -175,7 +188,7 @@ function CountryMarqueeStrip({
   return (
     <div
       className={cn(
-        "relative flex min-h-[2.5rem] w-full min-w-0 items-center overflow-hidden py-1 sm:min-h-[2.65rem] md:min-h-[2.85rem]",
+        "relative flex min-h-[2.65rem] w-full min-w-0 items-center overflow-hidden py-1 sm:min-h-[2.85rem] md:min-h-[3rem]",
         className,
       )}
       style={maskStyle}
@@ -183,11 +196,11 @@ function CountryMarqueeStrip({
       aria-label="Countries visited list"
     >
       {reduceMotion ? (
-        <div className="flex w-full min-h-[2.5rem] items-center justify-center overflow-x-auto overflow-y-hidden sm:min-h-[2.65rem]">
+        <div className="flex w-full min-h-[2.65rem] items-center justify-center overflow-x-auto overflow-y-hidden sm:min-h-[2.85rem]">
           <div
             className={cn(
-              brandSubtitleClassName,
-              "flex w-max items-center gap-0 px-1 text-xs font-normal uppercase tracking-[0.17em] text-[var(--color-primary)]/90 sm:text-sm md:text-[0.95rem]",
+              countryMarqueeTypographyClassName,
+              "flex w-max items-center gap-0 px-1 text-[var(--color-primary)]/90",
             )}
           >
             <CountryListRow loopKey="static" />
@@ -196,12 +209,12 @@ function CountryMarqueeStrip({
       ) : (
         <div className="relative w-full min-w-0">
           <style dangerouslySetInnerHTML={{ __html: keyframesBlock }} />
-          <div className="relative flex min-h-[2.5rem] items-center justify-start overflow-hidden sm:min-h-[2.65rem] md:min-h-[2.85rem]">
+          <div className="relative flex min-h-[2.65rem] items-center justify-start overflow-hidden sm:min-h-[2.85rem] md:min-h-[3rem]">
             <div
               className={cn(
                 MARQUEE_CLASS,
-                brandSubtitleClassName,
-                "flex w-max items-center gap-0 px-1 text-xs font-normal uppercase tracking-[0.17em] text-[var(--color-primary)]/90 sm:text-sm md:text-[0.95rem]",
+                countryMarqueeTypographyClassName,
+                "flex w-max items-center gap-0 px-1 text-[var(--color-primary)]/90",
               )}
             >
               {Array.from({ length: MARQUEE_LOOP_SEGMENTS }, (_, i) => (
@@ -233,22 +246,22 @@ export function DestinationsCountryMarquee({
   return (
     <div
       className={cn(
-        "flex w-full min-w-0 max-w-none flex-col items-center gap-3 sm:gap-4",
+        "flex w-full min-w-0 max-w-none flex-col items-center gap-2 sm:gap-3",
         className,
       )}
     >
       <div
-        className="relative w-full min-h-[5.25rem] sm:min-h-[5.75rem] md:min-h-[6.25rem]"
+        className="relative isolate z-0 -mb-5 w-full min-h-[5.75rem] -translate-y-[1.375rem] overflow-visible sm:-mb-5 sm:min-h-[6.25rem] sm:-translate-y-[1.625rem] md:min-h-[6.85rem] md:-translate-y-[1.875rem]"
         role="presentation"
       >
-        <div className="pointer-events-none absolute inset-x-0 top-1/2 z-0 flex -translate-y-[34%] items-center justify-center">
+        <div className="pointer-events-none absolute inset-0 z-[1] flex items-center justify-center">
           <CountryMarqueeStrip
             reduceMotion={reduceMotion}
             className="w-full py-0"
             clearTickerInCenter
           />
         </div>
-        <div className="pointer-events-none absolute inset-0 z-10 flex min-h-[5.25rem] items-center justify-center py-3 sm:min-h-[5.75rem] sm:py-4 md:min-h-[6.25rem]">
+        <div className="pointer-events-none absolute inset-0 z-[2] flex min-h-[5.75rem] items-center justify-center py-3 sm:min-h-[6.25rem] sm:py-4 md:min-h-[6.85rem]">
           <div className="pointer-events-auto flex items-center justify-center gap-2.5 px-5 sm:gap-4 sm:px-7 md:gap-5 md:px-8">
             <CountriesVisitedPanel />
           </div>

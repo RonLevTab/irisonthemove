@@ -7,7 +7,7 @@ import { getBlogPosts } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Blog",
-  description: "Travel notes, planning tips, and journal entries from Iris on the Move.",
+    description: "Travel notes, planning tips, and journal entries from Iris On The Move.",
 };
 
 export default async function BlogPage() {

@@ -62,6 +62,7 @@ export function WorkExpandingImageGrid({
           "grid-cols-3 gap-1 p-0",
           "min-[900px]:h-full min-[900px]:max-h-full",
           "min-[900px]:w-auto min-[900px]:max-w-full",
+          "min-[900px]:overflow-visible",
           "min-[900px]:[aspect-ratio:3/4]",
           "min-[900px]:grid-cols-3 min-[900px]:grid-rows-3",
           "min-[900px]:[grid-template-columns:repeat(3,minmax(0,1fr))] min-[900px]:[grid-template-rows:repeat(3,minmax(0,1fr))] min-[900px]:gap-1",

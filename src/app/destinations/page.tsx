@@ -6,7 +6,7 @@ import { getDestinationsGallery } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Destinations",
   description:
-    "Travel moments and places — a visual gallery of destinations from Iris on the Move.",
+    "Travel moments and places — a visual gallery of destinations from Iris On The Move.",
 };
 
 export default async function DestinationsPage() {

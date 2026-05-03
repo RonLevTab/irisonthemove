@@ -37,7 +37,7 @@ export function ContactPageView({
       if (h !== "form" && h !== "contact-form") return;
       const el = document.getElementById("contact-form");
       if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+        el.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
         const input = el.querySelector<HTMLInputElement>("input[name=name], input#name");
         input?.focus({ preventScroll: true });
       }
@@ -139,7 +139,7 @@ export function ContactPageView({
               id="contact-form"
               role="region"
               aria-label="Contact form"
-              className="flex w-full max-w-xl scroll-mt-20 flex-col items-center justify-center pt-12 sm:scroll-mt-24 sm:pt-14 lg:max-w-none lg:scroll-mt-0 lg:pt-0 lg:pl-9 xl:pl-11"
+              className="flex w-full max-w-xl scroll-mt-[var(--nav-stack-height)] flex-col items-center justify-center pt-12 sm:pt-14 lg:max-w-none lg:pt-0 lg:pl-9 xl:pl-11"
             >
               <div className="mx-auto w-full max-w-xl lg:max-w-[40rem]">
                 <ContactForm formId={formId} variant="default" />

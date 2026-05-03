@@ -1,5 +1,6 @@
 import { FaInstagram, FaTiktok } from "react-icons/fa6";
 
+import { BrandWordmark } from "@/components/ui/BrandWordmark";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { WorkPageResultsContent } from "@/types/content";
@@ -61,7 +62,11 @@ const resultCardTiktokClass = cn(resultCardBase, "w-full min-w-0");
 const igIconChipClass =
   "flex shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#f9ce34] via-[#e6683c] to-[#c13584] text-white shadow-sm";
 
-/** TikTok: black with official cyan / pink accent (icon chip) */
+/** Site wordmark in header chips (matches nav lockup, warm surface) */
+const siteBrandIconChipClass =
+  "flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[color-mix(in_srgb,var(--color-border)_70%,#d4c4b8)] bg-[var(--color-surface-strong)] px-1 shadow-sm";
+
+/** TikTok: black with official accent (icon chip) */
 const tiktokIconChipClass =
   "flex shrink-0 items-center justify-center rounded-2xl bg-black text-white shadow-sm ring-1 ring-white/10";
 
@@ -74,6 +79,22 @@ const resultHeaderLogoChipClass =
 
 const resultHeaderLogoIconClass = "h-7 w-7 sm:h-8 sm:w-8";
 
+function ResultsBrandHeaderChip() {
+  return (
+    <div className={cn(siteBrandIconChipClass, resultHeaderLogoChipClass)} aria-hidden>
+      <span className="flex max-h-[3.25rem] max-w-[4.5rem] items-center justify-center sm:max-h-[3.5rem] sm:max-w-[5rem]">
+        <span className="block origin-center scale-[0.58] sm:scale-[0.66]">
+          <BrandWordmark
+            size="sm"
+            align="center"
+            scriptTranslateClassName="-translate-x-[0.05em] sm:-translate-x-[0.06em]"
+          />
+        </span>
+      </span>
+    </div>
+  );
+}
+
 /**
  * Middle tone between Teal link accent (#0a6d78) and body “data” color (--color-foreground)
  * so +% and @ line stay readable on warm surface without being too light or too dark.
@@ -83,17 +104,26 @@ const tiktokAccentMiddleClass =
 const tiktokAccentUnderlineClass =
   "decoration-[color-mix(in_srgb,_#0a6d78_50%,_var(--color-foreground))]/50";
 
-/** Logo left, text right; whole cluster centered in the card (matches TikTok + Instagram) */
+/** Logo left, text right; cluster centered in the card */
 const resultHeaderClusterClass =
   "flex w-full max-w-full flex-row items-start justify-center gap-3 sm:gap-4";
+
+/**
+ * TikTok + website only: same-width inner band (mx-auto) + start-aligned row so logos and
+ * text columns line up across the two cards; avoids per-row justify-center width drift.
+ */
+const resultHeaderTiktokWebsiteBandClass =
+  "mx-auto w-full max-w-lg min-w-0 pl-[6.25rem] sm:pl-[9.25rem] sm:max-w-2xl lg:pl-[12.25rem]";
+const resultHeaderClusterTiktokWebsiteClass =
+  "flex w-full min-w-0 flex-row items-start justify-start gap-3 sm:gap-4";
 const resultHeaderTextColClass = "flex min-w-0 flex-col items-start gap-1 text-left";
 
 /**
  * Results — one full-width grid (same content width as work category strips / triple videos).
- * Two Instagram cells on row 1; TikTok `sm:col-span-2` below.
+ * Two Instagram cells on row 1; TikTok full width; optional website visits row below TikTok.
  */
 export function ResultsSection(data: ResultsSectionProps) {
-  const { eyebrow, title, description, instagram, tiktok } = data;
+  const { eyebrow, title, description, instagram, tiktok, website } = data;
   const ig = instagram;
   const profileDisplay = ig.profileHandle.startsWith("@")
     ? ig.profileHandle
@@ -124,6 +154,7 @@ export function ResultsSection(data: ResultsSectionProps) {
             eyebrow={eyebrow}
             title={title}
             titleVariant="editorialDual"
+            editorialDualEyebrowClassName="text-[0.64rem] sm:text-[0.74rem] md:text-[0.84rem] lg:text-[0.94rem]"
             stackGapClassName="gap-3 sm:gap-4"
             className="w-full max-w-5xl"
             innerClassName="!max-w-2xl"
@@ -312,28 +343,30 @@ export function ResultsSection(data: ResultsSectionProps) {
             {/* 3 — TikTok: spans both columns (same total width as Instagram row + gutter) */}
             <div className={cn(resultCardTiktokClass, "sm:col-span-2")}>
               <div className="mb-4 border-b border-[color-mix(in_srgb,var(--color-border)_55%,transparent)] pb-3 sm:mb-5 sm:pb-4">
-                <div className={resultHeaderClusterClass}>
-                  <div className={cn(tiktokIconChipClass, resultHeaderLogoChipClass)} aria-hidden>
-                    <FaTiktok className={resultHeaderLogoIconClass} />
-                  </div>
-                  <div className={resultHeaderTextColClass}>
-                    <p className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-foreground)]">
-                      {tiktok.platformLabel}
-                    </p>
-                    <a
-                      href={tiktok.profileUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${tiktok.accountName} on TikTok`}
-                      className={cn(
-                        "font-sans text-sm font-semibold underline underline-offset-2 transition-colors hover:opacity-90",
-                        tiktokAccentMiddleClass,
-                        tiktokAccentUnderlineClass,
-                      )}
-                    >
-                      {tiktokTagDisplay}
-                    </a>
-                    <p className="font-sans text-xs text-[var(--color-foreground-muted)]">{tiktok.period8w}</p>
+                <div className={resultHeaderTiktokWebsiteBandClass}>
+                  <div className={resultHeaderClusterTiktokWebsiteClass}>
+                    <div className={cn(tiktokIconChipClass, resultHeaderLogoChipClass)} aria-hidden>
+                      <FaTiktok className={resultHeaderLogoIconClass} />
+                    </div>
+                    <div className={resultHeaderTextColClass}>
+                      <p className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-foreground)]">
+                        {tiktok.platformLabel}
+                      </p>
+                      <a
+                        href={tiktok.profileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${tiktok.accountName} on TikTok`}
+                        className={cn(
+                          "font-sans text-sm font-semibold underline underline-offset-2 transition-colors hover:opacity-90",
+                          tiktokAccentMiddleClass,
+                          tiktokAccentUnderlineClass,
+                        )}
+                      >
+                        {tiktokTagDisplay}
+                      </a>
+                      <p className="font-sans text-xs text-[var(--color-foreground-muted)]">{tiktok.period8w}</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -354,6 +387,42 @@ export function ResultsSection(data: ResultsSectionProps) {
                 ))}
               </ul>
             </div>
+
+            {website ? (
+              <div className={cn(resultCardTiktokClass, "sm:col-span-2")}>
+                <div className="mb-4 border-b border-[color-mix(in_srgb,var(--color-border)_55%,transparent)] pb-3 sm:mb-5 sm:pb-4">
+                  <div className={resultHeaderTiktokWebsiteBandClass}>
+                    <div className={resultHeaderClusterTiktokWebsiteClass}>
+                      <ResultsBrandHeaderChip />
+                      <div className={resultHeaderTextColClass}>
+                        <p className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-foreground)]">
+                          {website.platformLabel}
+                        </p>
+                        <a
+                          href={website.siteHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-sans text-sm font-semibold text-[var(--color-primary)] underline decoration-[var(--color-primary)]/30 underline-offset-2 transition-opacity hover:opacity-90"
+                        >
+                          {website.siteDisplayUrl}
+                        </a>
+                        <p className="font-sans text-xs text-[var(--color-foreground-muted)]">
+                          {website.liveSinceLabel}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col items-center gap-1 text-center sm:gap-1.5">
+                  <p className="font-sans text-xs text-[var(--color-foreground-muted)]">
+                    {website.visitsCaption?.trim() || "Total website visits"}
+                  </p>
+                  <p className="font-sans text-3xl font-semibold tabular-nums text-[var(--color-foreground)] sm:text-4xl">
+                    {formatInt(website.totalVisits)}
+                  </p>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

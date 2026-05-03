@@ -2,8 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { ctaImageStripClassName } from "@/lib/ctaImageStripClassName";
 import { cn } from "@/lib/utils";
+
+/** Full-viewport-ish strip: min-height on section so the image layer has real height (no cream gap). */
+const workCtaShellClassName = cn(
+  "relative isolate z-[1] -mb-3 w-full overflow-hidden border-t-0 bg-[#2a2523]",
+  "min-h-[min(96svh,68rem)] sm:min-h-[min(94svh,100rem)]",
+);
 
 type WorkCtaSectionProps = {
   title: string;
@@ -119,48 +124,43 @@ export function WorkCtaSection({
   backgroundImage,
 }: WorkCtaSectionProps) {
   return (
-    <section
-      id="work-cta"
-      className="relative isolate w-full overflow-hidden border-t-0 bg-transparent"
-    >
-      <div className={ctaImageStripClassName}>
-        <div className="absolute inset-0 -z-10">
-          <Image
-            src={backgroundImage}
-            alt=""
-            fill
-            className="object-cover object-center"
-            sizes="100vw"
-            loading="eager"
-            fetchPriority="low"
-            aria-hidden
-          />
-        </div>
-        <div
-          className="pointer-events-none absolute inset-0 z-[1] bg-[var(--color-primary)]/[0.18]"
+    <section id="work-cta" className={workCtaShellClassName}>
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <Image
+          src={backgroundImage}
+          alt=""
+          fill
+          className="object-cover object-bottom"
+          sizes="100vw"
+          loading="eager"
+          fetchPriority="low"
           aria-hidden
         />
-        <div
-          className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[var(--color-background)]/40 via-[var(--color-background)]/10 to-transparent"
-          aria-hidden
-        />
+      </div>
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] bg-[var(--color-primary)]/[0.18]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[var(--color-background)]/40 via-[var(--color-background)]/10 to-transparent"
+        aria-hidden
+      />
 
-        <div className="absolute inset-0 z-10 flex items-center justify-center px-6 py-6 min-[400px]:px-8 sm:px-10 sm:py-8 lg:px-12">
-          <ScrollReveal className="flex w-full max-w-md justify-center sm:max-w-lg">
-            <div
-              className={cn(
-                "mx-auto flex w-full flex-col items-center justify-center gap-4 rounded-2xl border border-[var(--color-border)] px-5 py-6 text-center",
-                "bg-[var(--color-surface)] text-[var(--color-foreground)] shadow-sm",
-                "sm:gap-5 sm:rounded-2xl sm:px-7 sm:py-7",
-              )}
-            >
-              <WorkCtaTitle title={title} />
-              <Link href={buttonHref} className="primary-button inline-flex">
-                {buttonLabel}
-              </Link>
-            </div>
-          </ScrollReveal>
-        </div>
+      <div className="absolute inset-0 z-10 flex items-center justify-center px-6 py-6 min-[400px]:px-8 sm:px-10 sm:py-8 lg:px-12">
+        <ScrollReveal className="flex w-full max-w-md justify-center sm:max-w-lg">
+          <div
+            className={cn(
+              "mx-auto flex w-full flex-col items-center justify-center gap-4 rounded-2xl border border-[var(--color-border)] px-5 py-6 text-center",
+              "bg-[var(--color-surface)] text-[var(--color-foreground)] shadow-sm",
+              "sm:gap-5 sm:rounded-2xl sm:px-7 sm:py-7",
+            )}
+          >
+            <WorkCtaTitle title={title} />
+            <Link href={buttonHref} className="primary-button inline-flex">
+              {buttonLabel}
+            </Link>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

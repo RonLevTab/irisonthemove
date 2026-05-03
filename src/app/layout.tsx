@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
@@ -6,6 +6,7 @@ import "./globals.css";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ScrollToTopOnRoute } from "@/components/layout/ScrollToTopOnRoute";
+import { PhotoLightboxProvider } from "@/components/ui/PhotoLightbox";
 import { getSiteConfig } from "@/lib/content";
 import { platformOsScript } from "@/lib/platformOsScript";
 import {
@@ -43,14 +44,6 @@ export async function generateMetadata(): Promise<Metadata> {
       description: site.description,
       url: site.seo.siteUrl,
       siteName: site.title,
-      images: [
-        {
-          url: site.seo.ogImage,
-          width: 1600,
-          height: 1000,
-          alt: site.title,
-        },
-      ],
       locale: "en_US",
       type: "website",
     },
@@ -58,10 +51,26 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title: site.title,
       description: site.description,
-      images: [site.seo.ogImage],
+    },
+    icons: {
+      icon: [
+        { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+        { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      ],
+      shortcut: "/favicon-32x32.png",
+      apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    },
+    appleWebApp: {
+      title: site.title,
     },
   };
 }
+
+/** Explicit 1:1 device scale so Safari (and other browsers) lay out at “100%” zoom by default. */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export default async function RootLayout({
   children,
@@ -81,18 +90,20 @@ export default async function RootLayout({
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: platformOsScript }}
         />
-        <Navbar
-          instagramUrl={site.socialLinks.instagram}
-          tiktokUrl={site.socialLinks.tiktok}
-          email={site.email}
-        />
-        <ScrollToTopOnRoute />
-        <main className="page-shell">{children}</main>
-        <Footer
-          instagramUrl={site.socialLinks.instagram}
-          tiktokUrl={site.socialLinks.tiktok}
-          email={site.email}
-        />
+        <PhotoLightboxProvider>
+          <Navbar
+            instagramUrl={site.socialLinks.instagram}
+            tiktokUrl={site.socialLinks.tiktok}
+            email={site.email}
+          />
+          <ScrollToTopOnRoute />
+          <main className="page-shell">{children}</main>
+          <Footer
+            instagramUrl={site.socialLinks.instagram}
+            tiktokUrl={site.socialLinks.tiktok}
+            email={site.email}
+          />
+        </PhotoLightboxProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

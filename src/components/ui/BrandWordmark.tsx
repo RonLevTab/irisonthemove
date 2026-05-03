@@ -11,6 +11,8 @@ type BrandWordmarkProps = {
   scriptClassName?: string;
   /** When set, replaces the default subtitle size classes for `size`. */
   titleClassName?: string;
+  /** When set, replaces the default optical horizontal shift on “Iris” (see `irisNudge*` in size scale). */
+  scriptTranslateClassName?: string;
 };
 
 /**
@@ -64,12 +66,14 @@ export function BrandWordmark({
   size = "md",
   scriptClassName,
   titleClassName,
+  scriptTranslateClassName,
 }: BrandWordmarkProps) {
   const alignment =
     align === "center" ? "items-center text-center" : "items-start text-left";
   const classes = sizeClasses[size];
-  const irisNudge =
+  const irisNudgeDefault =
     align === "center" ? classes.irisNudgeCenter : classes.irisNudgeLeft;
+  const irisNudge = scriptTranslateClassName ?? irisNudgeDefault;
   const scriptSizeClass = scriptClassName ?? classes.script;
   const titleSizeClass = titleClassName ?? classes.title;
 

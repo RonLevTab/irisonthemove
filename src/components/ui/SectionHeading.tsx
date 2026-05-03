@@ -80,9 +80,9 @@ export function SectionHeading({
         {eyebrow && titleVariant === "editorialDual" ? (
           <span
             className={cn(
-              "font-text-3 whitespace-nowrap font-medium uppercase leading-none tracking-[0.28em] text-[var(--color-primary)] sm:tracking-[0.26em]",
+              "font-text-3 font-medium uppercase leading-none tracking-[0.28em] text-[var(--color-primary)] sm:tracking-[0.26em]",
               editorialDualEyebrowClassName ??
-                "text-[0.62rem] sm:text-[0.74rem]",
+                "text-[0.58rem] sm:text-[0.72rem] md:text-[0.74rem]",
             )}
           >
             {eyebrow}
@@ -97,7 +97,7 @@ export function SectionHeading({
         <h2
           className={
             titleVariant === "editorialDual"
-              ? `font-text-3 max-w-full whitespace-nowrap text-[clamp(0.55rem,2.05vw+0.30rem,1.58rem)] font-medium uppercase leading-[1.12] tracking-[0.18em] text-[var(--color-primary)] ${titleClassName ?? ""}`
+              ? `font-text-3 max-w-full text-balance text-[clamp(0.82rem,2.85vw+0.38rem,1.58rem)] font-medium uppercase leading-[1.12] tracking-[0.18em] text-[var(--color-primary)] max-sm:whitespace-normal sm:whitespace-nowrap ${titleClassName ?? ""}`
               : titleVariant === "heroTagline"
                 ? `font-text-3 text-balance ${heroTaglineSizeClassName ?? "text-[clamp(1.15rem,3.2vw,2.55rem)]"} font-medium italic leading-[1.12] tracking-[0.04em] text-[var(--color-primary)] ${titleClassName ?? ""}`
                 : `${brandScriptClassName} ${titleSizeClassName ?? "text-3xl sm:text-4xl leading-none"} text-[var(--color-primary)] ${titleClassName ?? ""}`

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Iris On The Move">
+  <defs>
+    <linearGradient id="iom-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#faf6f1" />
+      <stop offset="100%" stop-color="#eee2d6" />
+    </linearGradient>
+  </defs>
+  <rect
+    x="10"
+    y="10"
+    width="236"
+    height="236"
+    rx="54"
+    ry="54"
+    fill="url(#iom-bg)"
+    stroke="#d4c4b8"
+    stroke-width="2.5"
+  />
+  <text
+    x="128"
+    y="120"
+    text-anchor="middle"
+    fill="#5a2d32"
+    font-family="Georgia, 'Palatino Linotype', 'Times New Roman', serif"
+    font-size="82"
+    font-style="italic"
+    font-weight="500"
+  >
+    Iris
+  </text>
+  <text
+    x="128"
+    y="170"
+    text-anchor="middle"
+    fill="#5a2d32"
+    font-family="system-ui, -apple-system, 'Segoe UI', sans-serif"
+    font-size="13"
+    font-weight="600"
+    letter-spacing="0.2em"
+  >
+    ON THE MOVE
+  </text>
+</svg>

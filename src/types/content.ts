@@ -175,7 +175,7 @@ export type WorkPageResultsContent = {
   };
   tiktok: {
     platformLabel: string;
-    /** Display name next to the logo, e.g. "Iris on the Move" */
+    /** Display name next to the logo, e.g. "Iris On The Move" */
     accountName: string;
     /** Public profile URL */
     profileUrl: string;
@@ -185,6 +185,16 @@ export type WorkPageResultsContent = {
       value: number;
       changePercent: number;
     }>;
+  };
+  /** Optional — website visit total since launch (manual / analytics); shown under the TikTok block. */
+  website?: {
+    platformLabel: string;
+    siteDisplayUrl: string;
+    siteHref: string;
+    liveSinceLabel: string;
+    totalVisits: number;
+    /** e.g. "Total website visits" */
+    visitsCaption?: string;
   };
 };
 

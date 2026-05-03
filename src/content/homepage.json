@@ -1,7 +1,7 @@
 {
   "hero": {
     "eyebrow": "Luxury adventure travel",
-    "title": "Iris on the Move",
+    "title": "Iris On The Move",
     "tagline": "Cinematic storytelling\nthrough video and photography",
     "description": "Bringing your travel brand to life through content creation, UGC and authentic digital creativity ~ Iris",
     "primaryCta": {
@@ -18,15 +18,15 @@
     "tiles": [
       {
         "src": "/images/hero-tiles/tile-left.jpg",
-        "alt": "Travel moment — Iris on the Move"
+        "alt": "Travel moment — Iris On The Move"
       },
       {
         "src": "/images/hero-tiles/tile-center.jpg",
-        "alt": "Destination storytelling — Iris on the Move"
+        "alt": "Destination storytelling — Iris On The Move"
       },
       {
         "src": "/images/hero-tiles/tile-right.jpg",
-        "alt": "Lifestyle and content — Iris on the Move"
+        "alt": "Lifestyle and content — Iris On The Move"
       }
     ]
   },
@@ -45,7 +45,7 @@
         "description": "Reel — Brand storytelling"
       },
       {
-        "videoSrc": "/videos/work/travel/travel-guide-home-reel-06.mp4?v=20260502",
+        "videoSrc": "/videos/work/travel/home-reel-3.mp4?v=20260502b",
         "title": "On location",
         "description": "Reel — Brand storytelling"
       },

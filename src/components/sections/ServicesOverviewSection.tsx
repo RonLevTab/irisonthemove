@@ -24,7 +24,7 @@ export function ServicesOverviewSection({
 }: ServicesOverviewSectionProps) {
   return (
     <section
-      className={`relative isolate flex w-full items-center ${oakSectionBorderClassName} min-h-[calc(100svh-var(--nav-stack-height,7rem))] bg-[var(--color-background)] lg:min-h-0`}
+      className={`relative isolate flex w-full max-md:snap-start max-md:snap-always items-center ${oakSectionBorderClassName} min-h-[calc(100svh-var(--nav-stack-height,7rem))] bg-[var(--color-background)] lg:min-h-0`}
     >
       <div className="mx-auto flex min-h-[calc(100svh-var(--nav-stack-height,7rem))] w-full max-w-[min(100%,96rem)] flex-col justify-center px-6 max-sm:py-8 sm:min-h-0 sm:max-md:py-10 sm:px-10 md:py-10 lg:px-12 lg:py-12 lg:pb-16">
         <ScrollReveal className="flex flex-col items-center gap-8 text-center sm:gap-7 lg:gap-8">

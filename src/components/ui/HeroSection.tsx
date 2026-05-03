@@ -5,6 +5,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useId } from "react";
 
+import { cn } from "@/lib/utils";
+
 function HeroTaglineText({ text }: { text: string }) {
   const match = text.match(/^(Cinematic)(\s+)(.+)$/i);
   if (match) {
@@ -92,13 +94,18 @@ export function HeroSection({
   const archClipId = useId().replace(/:/g, "");
 
   return (
-    <section className="relative isolate flex flex-col justify-center overflow-x-clip overflow-y-visible px-4 pt-10 pb-0 sm:px-6 sm:py-8 sm:pb-6 lg:h-[calc(100svh-var(--nav-stack-height))] lg:max-h-[calc(100svh-var(--nav-stack-height))] lg:min-h-0 lg:flex lg:flex-col lg:justify-start lg:overflow-x-clip lg:overflow-y-visible lg:px-6 lg:py-0 lg:pb-0 xl:px-6">
+    <section
+      className={cn(
+        "relative isolate flex flex-col justify-center overflow-x-clip overflow-y-visible px-6 pt-10 pb-0 sm:px-10 sm:pb-0 sm:pt-8 lg:h-[calc(100svh-var(--nav-stack-height))] lg:max-h-[calc(100svh-var(--nav-stack-height))] lg:min-h-0 lg:flex lg:flex-col lg:justify-start lg:overflow-x-clip lg:overflow-y-visible lg:px-12 lg:py-0 lg:pb-0",
+        "max-md:min-h-[calc(100dvh-var(--nav-stack-height))] max-md:snap-start max-md:snap-always",
+      )}
+    >
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[#faf4ed]">
         <Image
           src={backgroundImage}
           alt=""
           fill
-          className="object-cover object-center"
+          className="object-cover object-[30%_center]"
           sizes="100vw"
           priority
           fetchPriority="high"
@@ -110,14 +117,14 @@ export function HeroSection({
         />
       </div>
 
-      <div className="mx-auto grid min-h-0 w-full max-w-[min(100%,96rem)] gap-8 px-0 py-0 max-lg:justify-items-center max-lg:items-center sm:gap-5 lg:h-full lg:min-h-0 lg:flex-1 lg:grid-cols-2 lg:grid-rows-[minmax(0,1fr)] lg:items-stretch lg:justify-items-stretch lg:gap-8 lg:px-0">
+      <div className="mx-auto grid min-h-0 w-full max-w-[min(100%,96rem)] gap-8 px-0 py-0 max-lg:justify-items-center max-lg:items-center sm:gap-5 lg:h-full lg:min-h-0 lg:flex-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)] lg:grid-rows-[minmax(0,1fr)] lg:items-stretch lg:justify-items-stretch lg:gap-y-8 lg:gap-x-8 xl:gap-x-10 2xl:gap-x-12 lg:px-0">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="relative z-10 flex min-w-0 w-full flex-col items-center justify-center self-center text-center lg:h-full lg:min-h-0 lg:self-stretch lg:py-3"
+          className="relative z-10 flex min-w-0 w-full flex-col items-center justify-center self-center px-0 text-center lg:h-full lg:min-h-0 lg:items-start lg:justify-center lg:self-stretch lg:py-3"
         >
-          <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-5 px-3 py-4 text-center sm:gap-5 sm:px-5 sm:py-5 lg:max-w-none lg:gap-6 lg:px-0 lg:py-0">
+          <div className="mx-auto flex w-full max-w-none flex-col items-center gap-5 py-4 text-center sm:gap-5 sm:py-5 lg:mx-0 lg:w-max lg:max-w-full lg:items-center lg:gap-6 lg:py-0">
             <motion.h1
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -127,7 +134,7 @@ export function HeroSection({
               <span className="sr-only">{title}. </span>
               <HeroTaglineContent tagline={tagline} />
             </motion.h1>
-            <p className="hero-home-subhead font-text-3 w-full max-w-none text-balance font-medium leading-relaxed tracking-[0.02em] text-[var(--color-primary)]">
+            <p className="hero-home-subhead font-text-3 w-full max-w-none text-balance text-center font-medium leading-relaxed tracking-[0.02em] text-pretty text-[var(--color-primary)]">
               {(() => {
                 const sep = " ~ ";
                 const i = description.lastIndexOf(sep);
@@ -137,9 +144,9 @@ export function HeroSection({
                 const breakIndex = copy.indexOf(breakAt);
                 if (breakIndex !== -1) {
                   return (
-                    <span className="inline-flex max-w-full flex-col items-center gap-1 text-center">
-                      <span>{copy.slice(0, breakIndex + 1)}</span>
-                      <span>
+                    <span className="flex w-full max-w-full flex-col gap-1 text-center">
+                      <span className="block w-full text-center">{copy.slice(0, breakIndex + 1)}</span>
+                      <span className="block w-full text-center">
                         {copy.slice(breakIndex + 2)}
                         {sep}
                         <strong className="font-bold text-[var(--color-primary)]">
@@ -150,9 +157,9 @@ export function HeroSection({
                   );
                 }
                 return (
-                  <span className="inline-flex max-w-full flex-col items-center gap-1 text-center">
-                    <span>{copy}</span>
-                    <span>
+                  <span className="flex w-full max-w-full flex-col gap-1 text-center">
+                    <span className="block w-full text-center">{copy}</span>
+                    <span className="block w-full text-center">
                       {sep}
                     <strong className="font-bold text-[var(--color-primary)]">
                       {description.slice(i + sep.length)}
@@ -165,13 +172,13 @@ export function HeroSection({
 
             <div className="flex w-full flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                className="primary-button text-[0.82rem] tracking-[0.14em] sm:text-[0.78rem] sm:tracking-[0.18em]"
+                className="primary-button text-[0.88rem] tracking-[0.14em] sm:text-[0.82rem] sm:tracking-[0.16em] lg:text-[0.9rem] lg:tracking-[0.18em]"
                 href={primaryCta.href}
               >
                 {primaryCta.label}
               </Link>
               <Link
-                className="secondary-button text-[0.82rem] tracking-[0.14em] sm:text-[0.78rem] sm:tracking-[0.18em]"
+                className="secondary-button text-[0.88rem] tracking-[0.14em] sm:text-[0.82rem] sm:tracking-[0.16em] lg:text-[0.9rem] lg:tracking-[0.18em]"
                 href={secondaryCta.href}
               >
                 {secondaryCta.label}
@@ -184,7 +191,7 @@ export function HeroSection({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.85, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-          className="relative z-10 mx-auto flex w-full max-w-md shrink-0 flex-col items-stretch self-center min-h-0 lg:mx-0 lg:h-full lg:max-w-none lg:self-stretch lg:px-8 xl:px-12"
+          className="relative z-10 mx-auto flex w-full max-w-md shrink-0 flex-col items-stretch self-center min-h-0 overflow-visible max-lg:mb-0 lg:mx-0 lg:h-full lg:max-w-none lg:self-stretch lg:px-0"
         >
           <svg
             className="pointer-events-none absolute h-0 w-0"
@@ -204,18 +211,20 @@ export function HeroSection({
             </defs>
           </svg>
           <div
-            className="relative aspect-[3/5] max-h-[min(88svh,780px)] w-full overflow-hidden shadow-[0_20px_50px_rgba(58,36,32,0.18)] lg:mx-auto lg:aspect-[2/3] lg:h-[calc(100%+7rem)] lg:max-h-none lg:min-h-0 lg:w-auto lg:max-w-[42rem] lg:-translate-y-3"
+            className="relative aspect-[3/5] max-h-[min(92dvh,820px)] w-full max-lg:overflow-hidden overflow-visible bg-[#322a26] shadow-[0_20px_50px_rgba(58,36,32,0.18)] lg:mx-0 lg:aspect-auto lg:h-[calc(100%+0.625rem+18px)] lg:min-h-0 lg:max-h-none lg:w-full lg:max-w-full lg:-translate-y-2.5 lg:self-stretch lg:bg-transparent"
             style={{ clipPath: `url(#${archClipId})` }}
           >
+            <div className="absolute inset-0 overflow-hidden">
             <Image
               src={image}
               alt={imageAlt}
               fill
-              className="origin-center object-cover object-[center_32%] scale-[1.16] -translate-y-[7%] lg:-translate-y-[3%] lg:scale-[1.08] lg:object-[center_44%]"
-              sizes="(max-width: 1024px) 100vw, 42vw"
+              className="object-cover max-lg:origin-bottom max-lg:object-bottom max-lg:object-[46%_82%] max-lg:scale-[1.06] max-lg:translate-y-0 lg:scale-[1.02] lg:object-[48%_42%]"
+              sizes="(max-width: 1024px) 100vw, 54vw"
               priority
               fetchPriority="high"
             />
+            </div>
           </div>
         </motion.div>
       </div>

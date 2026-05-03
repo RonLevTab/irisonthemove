@@ -67,7 +67,7 @@
       "travelGridVideos": [
         { "videoSrc": "/videos/work/travel/travel-02.mp4", "title": "Travel reel two" },
         { "videoSrc": "/videos/work/travel/travel-guide-home-reel-05.mp4", "title": "Travel reel five" },
-        { "videoSrc": "/videos/work/travel/travel-guide-home-reel-06.mp4", "title": "Travel reel six" },
+        { "videoSrc": "/videos/work/travel/home-reel-3.mp4?v=20260502b", "title": "Travel reel six" },
         { "videoSrc": "/videos/work/travel/travel-01.mp4", "title": "Travel reel one" },
         { "videoSrc": "/videos/work/travel/travel-03.mp4", "title": "Travel reel three" },
         { "videoSrc": "/videos/work/travel/travel-04.mp4", "title": "Travel reel four" }
@@ -109,7 +109,7 @@
     },
     "tiktok": {
       "platformLabel": "TikTok",
-      "accountName": "Iris on the Move",
+      "accountName": "Iris On The Move",
       "profileUrl": "https://www.tiktok.com/@irisonthemove",
       "period8w": "Last 8 weeks (Feb 15 – Apr 11, 2026)",
       "metrics": [
@@ -117,6 +117,14 @@
         { "label": "Reached audience", "value": 26003, "changePercent": 76.99 },
         { "label": "Profile views", "value": 460, "changePercent": 138.34 }
       ]
+    },
+    "website": {
+      "platformLabel": "Website",
+      "siteDisplayUrl": "irisonthemove.nl",
+      "siteHref": "https://irisonthemove.nl",
+      "liveSinceLabel": "Since 1 May 2026",
+      "totalVisits": 51,
+      "visitsCaption": "Total website visits"
     }
   },
   "cta": {

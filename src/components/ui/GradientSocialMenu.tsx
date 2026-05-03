@@ -51,22 +51,22 @@ function GradientMenuButton({
   const inner = (
     <>
       <span
-        className="pointer-events-none absolute inset-0 rounded-full bg-[linear-gradient(135deg,var(--gradient-from),var(--gradient-to))] opacity-0 transition-all duration-500 group-hover:opacity-100 group-focus-visible:opacity-100"
+        className="pointer-events-none absolute inset-0 rounded-full bg-[linear-gradient(135deg,var(--gradient-from),var(--gradient-to))] opacity-0 transition-all duration-500 md:group-hover:opacity-100 md:group-focus-visible:opacity-100"
         aria-hidden
       />
       <span
-        className="pointer-events-none absolute inset-x-0 top-[10px] -z-10 h-full rounded-full bg-[linear-gradient(135deg,var(--gradient-from),var(--gradient-to))] opacity-0 blur-[15px] transition-all duration-500 group-hover:opacity-50 group-focus-visible:opacity-50"
+        className="pointer-events-none absolute inset-x-0 top-[10px] -z-10 h-full rounded-full bg-[linear-gradient(135deg,var(--gradient-from),var(--gradient-to))] opacity-0 blur-[15px] transition-all duration-500 md:group-hover:opacity-50 md:group-focus-visible:opacity-50"
         aria-hidden
       />
 
-      <span className="relative z-10 transition-all duration-500 group-hover:scale-0 group-hover:delay-0 group-focus-visible:scale-0">
+      <span className="relative z-10 transition-all duration-500 md:group-hover:scale-0 md:group-hover:delay-0 md:group-focus-visible:scale-0">
         <span className={iconClassName}>
           {icon}
         </span>
       </span>
 
       <span
-        className={`pointer-events-none absolute z-10 px-2 text-center font-semibold uppercase tracking-wide text-white transition-all duration-500 delay-150 scale-0 group-hover:scale-100 group-hover:delay-150 group-focus-visible:scale-100 group-focus-visible:delay-150 ${labelClassName}`}
+        className={`pointer-events-none absolute z-10 hidden px-2 text-center font-semibold uppercase tracking-wide text-white transition-all duration-500 delay-150 md:block md:scale-0 md:group-hover:scale-100 md:group-hover:delay-150 md:group-focus-visible:scale-100 md:group-focus-visible:delay-150 ${labelClassName}`}
       >
         {title}
       </span>

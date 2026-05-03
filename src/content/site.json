@@ -1,6 +1,6 @@
 {
   "name": "Iris",
-  "title": "Iris on the Move",
+  "title": "Iris On The Move",
   "tagline": "Cinematic storytelling\nthrough video and photography",
   "description": "A romantic and refined travel journal sharing luxury, adventure, and solo female travel across Europe, with room to grow into Asia next year.",
   "email": "info@irisonthemove.nl",
@@ -14,6 +14,6 @@
   },
   "seo": {
     "siteUrl": "https://irisonthemove.nl",
-    "ogImage": "/images/placeholder/hero-romantic-europe.svg"
+    "ogImage": "/images/hero/hero-background.jpg"
   }
 }

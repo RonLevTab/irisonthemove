@@ -5,7 +5,7 @@ import { getSiteConfig } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Get in touch with Iris on the Move for collaborations and inquiries.",
+    description: "Get in touch with Iris On The Move for collaborations and inquiries.",
 };
 
 export default async function ContactPage() {

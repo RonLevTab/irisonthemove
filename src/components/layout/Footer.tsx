@@ -1,8 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { BrandWordmark } from "@/components/ui/BrandWordmark";
+import { cn } from "@/lib/utils";
 
 const TAGS = ["Content creator", "Digital maker", "UGC"] as const;
+
+const SCROLL_REVEAL_PX = 8;
 
 type FooterProps = {
   instagramUrl: string;
@@ -24,8 +31,34 @@ const exploreConnectBlockClassName =
   "flex min-w-0 flex-col items-start gap-1.5 text-left sm:gap-2.5";
 
 export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
+  const pathname = usePathname();
+  const hideUntilScrollAbout = pathname === "/about";
+  const [visible, setVisible] = useState(!hideUntilScrollAbout);
+
+  useEffect(() => {
+    if (!hideUntilScrollAbout) {
+      setVisible(true);
+      return;
+    }
+    const read = () => setVisible(window.scrollY > SCROLL_REVEAL_PX);
+    read();
+    window.addEventListener("scroll", read, { passive: true });
+    return () => window.removeEventListener("scroll", read);
+  }, [hideUntilScrollAbout]);
+
   return (
-    <footer className="site-footer relative z-10">
+    <footer
+      className={cn(
+        "site-footer relative z-10",
+        hideUntilScrollAbout &&
+          "transition-[max-height,opacity] duration-500 ease-out motion-reduce:transition-none",
+        hideUntilScrollAbout &&
+          (visible
+            ? "max-h-[min(28rem,90vh)] opacity-100"
+            : "pointer-events-none max-h-0 overflow-hidden opacity-0"),
+      )}
+      aria-hidden={hideUntilScrollAbout && !visible ? true : undefined}
+    >
       <div className="footer-align grid w-full grid-cols-3 items-center justify-items-stretch gap-x-4 gap-y-0 py-5 sm:gap-x-4 sm:py-6 lg:gap-x-4 lg:py-6">
         <div className="flex w-full min-w-0 flex-col flex-nowrap justify-start gap-y-4 sm:flex-row sm:gap-x-8 sm:gap-y-0 lg:gap-x-7">
           <div className={exploreConnectBlockClassName}>
@@ -90,7 +123,6 @@ export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
           </div>
         </div>
 
-        {/* UGC — centred in middle third */}
         <div
           className="flex w-full min-w-0 items-center justify-center px-1"
           aria-label="Roles and focus"
@@ -116,7 +148,7 @@ export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
           <Link
             href="/"
             className="shrink-0 rounded-md text-[var(--color-primary)] transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]"
-            aria-label="Iris on the Move — Home"
+            aria-label="Iris On The Move — Home"
           >
             <BrandWordmark
               size="md"

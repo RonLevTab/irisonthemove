@@ -121,7 +121,7 @@ export function PhotoGallery({ layout = "strip", className }: PhotoGalleryProps)
       <style dangerouslySetInnerHTML={{ __html: keyframesBlock }} />
 
       <div
-        className="about-photo-gallery-shell relative flex min-h-[12.5rem] w-full items-center overflow-hidden py-3 sm:min-h-[14.75rem] sm:py-3.5 md:min-h-[17rem] md:py-4 lg:min-h-[19rem] lg:py-4"
+        className="about-photo-gallery-shell relative flex min-h-[15.5rem] w-full items-center overflow-hidden py-3 sm:min-h-[16rem] sm:py-3.5 md:min-h-[17rem] md:py-4 lg:min-h-[19rem] lg:py-4"
         style={{
           maskImage: EDGE_MASK,
           WebkitMaskImage: EDGE_MASK,
@@ -142,14 +142,14 @@ export function PhotoGallery({ layout = "strip", className }: PhotoGalleryProps)
             return (
               <div
                 key={`${src}-${index}`}
-                className="about-photo-gallery-tile group relative h-44 w-44 shrink-0 overflow-hidden rounded-2xl bg-[var(--color-surface-strong)] transition-[transform,filter] duration-300 ease-out hover:z-10 hover:scale-[1.04] hover:brightness-[1.05] sm:h-52 sm:w-52 md:h-60 md:w-60 lg:h-[17rem] lg:w-[17rem]"
+                className="about-photo-gallery-tile group relative h-56 w-56 shrink-0 overflow-hidden rounded-2xl bg-[var(--color-surface-strong)] transition-[transform,filter] duration-300 ease-out hover:z-10 hover:scale-[1.04] hover:brightness-[1.05] md:h-60 md:w-60 lg:h-[17rem] lg:w-[17rem]"
               >
                 <Image
                   src={src}
                   alt=""
                   fill
                   className="object-cover"
-                  sizes="(max-width: 640px) 176px, (max-width: 1024px) 240px, 272px"
+                  sizes="(max-width: 768px) 224px, (max-width: 1024px) 240px, 272px"
                   loading={isFirstPass ? "eager" : "lazy"}
                   priority={isFirstPass}
                   fetchPriority={isFirstPass ? "high" : "auto"}

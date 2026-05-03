@@ -4,6 +4,7 @@ import { FaCamera, FaEarthAmericas, FaPlane } from "react-icons/fa6";
 import { PhotoGallery } from "@/components/ui/PhotoGallery";
 import { PhilosophyOakBorderCard } from "@/components/ui/PhilosophyOakBorderCard";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getAboutPageContent } from "@/lib/content";
 
 /**
@@ -16,30 +17,26 @@ const aboutPageInnerClassName =
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Meet Iris — the story behind Iris on the Move, solo travel, content creation, and brand collaborations.",
+    "Meet Iris — the story behind Iris On The Move, solo travel, content creation, and brand collaborations.",
 };
 
-/** Story body — Cormorant; kleur/uitvullen via `.about-bordeaux-body` + `.about-bordeaux-story` in globals. */
+/** Story body — Cormorant, zwart; uitlijning via `.about-bordeaux-body` in globals. */
 const bodyClassName =
   "about-bordeaux-body font-text-3 text-[1.06rem] font-normal leading-[1.52] text-justify [hyphens:auto] sm:text-[1.14rem] sm:leading-[1.56]";
 
 /** Lead — same as body (justified under the drop cap). */
 const leadClassName = `${bodyClassName} mb-0`;
 
-/** Pull-quote — bordeaux-tinted ink */
+/** Pull-quote — zelfde zwart als body (globals `.about-philosophy-quote`). */
 const philosophyQuoteClassName =
   "about-philosophy-quote font-text-3 mx-auto w-full max-w-full whitespace-pre-line text-balance text-[0.98rem] font-medium italic leading-[1.52] tracking-[0.02em] sm:text-[1.03rem] sm:leading-[1.56] lg:text-[1.06rem] lg:leading-[1.58]";
 
 /**
- * Eyebrow + section titles — same type scale as Work `SectionHeading` `editorialDual`
- * (“Portfolio” / “Hotels & Airbnbs”): `font-text-3`, medium weight, wide tracking.
- * Color stays black on About (Work uses bordeaux on those lines).
+ * In-article section titles — bordeaux display scale (Work uses similar tracking).
+ * Color: bordeaux (`--color-primary`), aligned with Work category titles.
  */
-const aboutPageEyebrowClassName =
-  "font-text-3 text-[0.72rem] font-medium uppercase leading-none tracking-[0.26em] text-black sm:text-[0.82rem] sm:tracking-[0.24em] md:text-[0.92rem] lg:text-[1.02rem]";
-
 const aboutPageSectionTitleClassName =
-  "font-text-3 about-bordeaux-heading max-w-full text-[clamp(0.48rem,calc(1.62vw+0.20rem),1.26rem)] font-medium uppercase leading-[1.12] tracking-[0.18em] text-black";
+  "font-text-3 about-bordeaux-heading max-w-full text-[clamp(0.48rem,calc(1.62vw+0.20rem),1.26rem)] font-medium uppercase leading-[1.12] tracking-[0.18em] text-[var(--color-primary)]";
 
 /** Card horizontal padding */
 const cardPadX = "px-8 sm:px-12 lg:px-16 xl:px-20";
@@ -165,17 +162,25 @@ export default async function AboutPage() {
   }
 
   return (
-    <>
-      <PhotoGallery className="mx-auto w-full mt-2 mb-3 sm:mt-3 sm:mb-4 lg:mt-4 lg:mb-5" />
-      <section className="relative isolate z-10 mt-0 w-full scroll-mt-20 bg-transparent pb-3 sm:scroll-mt-24 sm:pb-4 lg:pb-5">
+    <div className="flex w-full min-h-[calc(100dvh-var(--nav-stack-height))] flex-col">
+      <PhotoGallery className="mx-auto w-full mt-2 mb-3 shrink-0 sm:mt-3 sm:mb-4 lg:mt-4 lg:mb-5" />
+      <section className="relative isolate z-10 mt-0 flex min-h-0 flex-1 flex-col justify-center w-full scroll-mt-20 bg-transparent pb-3 sm:scroll-mt-24 sm:pb-4 lg:pb-5">
         <div className={aboutPageInnerClassName}>
-          <ScrollReveal className="overflow-visible">
+          <ScrollReveal className="w-full overflow-visible">
             <article
               lang="en"
-              className={`card-shell about-main-card-flush-top about-bordeaux-story relative z-10 mx-auto mb-0 w-full max-w-none overflow-visible pt-10 pb-10 sm:pt-12 sm:pb-12 lg:pt-16 lg:pb-16 ${cardPadX}`}
+              className={`card-shell about-main-card-flush-top about-bordeaux-story relative z-10 mx-auto mb-0 w-full max-w-none -translate-y-1 overflow-visible pt-10 pb-10 sm:-translate-y-2 sm:pt-12 sm:pb-12 lg:-translate-y-3 lg:pt-16 lg:pb-16 ${cardPadX}`}
             >
             <header className="about-bordeaux-masthead mb-10 flex w-full max-w-none flex-col pt-0 sm:mb-12 lg:mb-14">
-              <p className={aboutPageEyebrowClassName}>About me</p>
+              <SectionHeading
+                align="left"
+                title="About me"
+                titleVariant="editorialDual"
+                stackGapClassName="gap-0"
+                className="w-full max-w-none"
+                innerClassName="!max-w-none"
+                titleClassName="!whitespace-normal"
+              />
             </header>
 
             <div className="about-three-col-grid w-full lg:grid lg:grid-cols-3 lg:items-stretch lg:gap-x-10 lg:gap-y-0">
@@ -294,6 +299,6 @@ export default async function AboutPage() {
           </ScrollReveal>
         </div>
       </section>
-    </>
+    </div>
   );
 }

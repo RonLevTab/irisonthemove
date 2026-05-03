@@ -1,7 +1,10 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useId, useLayoutEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 
+import { useWorkPageVideoAudioOptional } from "@/components/work/WorkPageVideoAudioContext";
+import { WorkPortfolioVideoSoundButton } from "@/components/work/WorkPortfolioVideoSoundButton";
 import { cn } from "@/lib/utils";
 
 type WorkTravelClip = { videoSrc: string; title?: string };
@@ -30,6 +33,9 @@ function TravelGridVideoCell({
   const cellRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [shouldLoad, setShouldLoad] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const instanceId = useId();
+  const audio = useWorkPageVideoAudioOptional();
 
   const setVideoRef = (el: HTMLVideoElement | null) => {
     videoRef.current = el;
@@ -89,26 +95,60 @@ function TravelGridVideoCell({
     };
   }, [shouldLoad]);
 
+  useLayoutEffect(() => {
+    if (!audio) return;
+    const aid = audio.activeUnmutedId;
+    if (aid === null || aid === instanceId) return;
+    setMuted((m) => {
+      if (m) return m;
+      const v = videoRef.current;
+      if (v) v.muted = true;
+      return true;
+    });
+  }, [audio, audio?.activeUnmutedId, instanceId]);
+
+  const handleSoundPress = () => {
+    const vid = videoRef.current;
+    if (!vid) return;
+    const nextMuted = !vid.muted;
+    vid.currentTime = 0;
+
+    if (!nextMuted && audio) {
+      flushSync(() => {
+        audio.claimUnmuted(instanceId);
+      });
+    } else if (nextMuted && audio) {
+      audio.releaseUnmuted(instanceId);
+    }
+
+    vid.muted = nextMuted;
+    void vid.play().catch(() => {});
+    setMuted(nextMuted);
+  };
+
   return (
-    <div
-      ref={cellRef}
-      className={cn(
-        "relative aspect-[3/4] min-h-0 w-full min-w-0 overflow-hidden",
-        "rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-transparent",
-        "shadow-[0_16px_44px_rgba(75,64,56,0.07)]",
-      )}
-    >
-      <video
-        ref={setVideoRef}
-        src={shouldLoad ? item.videoSrc : undefined}
-        className="h-full w-full object-cover object-bottom"
-        muted
-        loop
-        playsInline
-        autoPlay
-        preload={shouldLoad ? "auto" : "none"}
-        aria-label={item.title?.trim() || "Travel portfolio video clip"}
-      />
+    <div className="flex min-w-0 w-full flex-col items-center">
+      <div
+        ref={cellRef}
+        className={cn(
+          "relative aspect-[3/4] min-h-0 w-full min-w-0 overflow-hidden",
+          "rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-transparent",
+          "shadow-[0_16px_44px_rgba(75,64,56,0.07)]",
+        )}
+      >
+        <video
+          ref={setVideoRef}
+          src={shouldLoad ? item.videoSrc : undefined}
+          className="h-full w-full object-cover object-bottom"
+          muted={muted}
+          loop
+          playsInline
+          autoPlay
+          preload={shouldLoad ? "auto" : "none"}
+          aria-label={item.title?.trim() || "Travel portfolio video clip"}
+        />
+      </div>
+      <WorkPortfolioVideoSoundButton muted={muted} onPress={handleSoundPress} />
     </div>
   );
 }
@@ -135,9 +175,9 @@ export function WorkTravelVideoGrid({
     <div className="flex w-full justify-center">
       <div
         className={cn(
-          "grid min-w-0 w-full max-w-full grid-cols-1 gap-4",
+          "grid min-w-0 w-full max-w-full grid-cols-1 gap-x-4 gap-y-10",
           "min-[640px]:grid-cols-2",
-          "min-[1024px]:grid-cols-3 sm:gap-5 min-[1200px]:gap-6",
+          "min-[1024px]:grid-cols-3 sm:gap-x-5 sm:gap-y-12 min-[1200px]:gap-x-6 min-[1200px]:gap-y-14",
           className,
         )}
         aria-label={stripAriaLabel}

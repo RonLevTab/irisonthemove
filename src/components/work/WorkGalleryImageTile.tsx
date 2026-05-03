@@ -75,6 +75,7 @@ export function WorkGalleryImageTile({
 
   return (
     <figure
+      data-gallery-hover-tile
       role={hasCaption ? "button" : undefined}
       tabIndex={hasCaption ? 0 : undefined}
       aria-expanded={hasCaption ? captionOpen : undefined}
@@ -113,6 +114,8 @@ export function WorkGalleryImageTile({
           imageCornerClass ?? "rounded-none",
         )}
         sizes={sizes}
+        quality={100}
+        unoptimized
         priority={isPriorityImage}
         loading={isPriorityImage ? "eager" : "lazy"}
         fetchPriority={isPriorityImage ? "high" : "auto"}

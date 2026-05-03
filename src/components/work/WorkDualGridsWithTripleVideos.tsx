@@ -50,17 +50,17 @@ export function WorkDualGridsWithTripleVideos({
       <div className="flex w-full max-w-full flex-col items-center gap-3 pb-2 lg:gap-6 lg:pb-3">
         <div
           ref={stripRef}
-          className="flex min-h-0 min-w-0 w-full flex-col gap-6 lg:flex-row lg:items-center lg:justify-center lg:gap-7 xl:gap-8"
+          className="flex min-h-0 min-w-0 w-full flex-col gap-4 sm:gap-5 lg:flex-row lg:items-center lg:justify-center lg:gap-5 xl:gap-6"
           aria-label={stripAriaLabel}
         >
-          <div className="lg:w-[calc((100%_-_1.75rem)/2)] lg:[aspect-ratio:3/4] xl:w-[calc((100%_-_2rem)/2)]">
+          <div className="min-[900px]:w-[calc((100%_-_1.25rem)/2)] min-[900px]:[aspect-ratio:3/4] min-[1200px]:w-[calc((100%_-_1.5rem)/2)] xl:w-[calc((100%_-_1.5rem)/2)]">
             <WorkExpandingImageGrid
               gridSlot="half"
               items={items.slice(0, 9)}
               priorityFirstImages={priorityFirstImages}
             />
           </div>
-          <div className="lg:w-[calc((100%_-_1.75rem)/2)] lg:[aspect-ratio:3/4] xl:w-[calc((100%_-_2rem)/2)]">
+          <div className="min-[900px]:w-[calc((100%_-_1.25rem)/2)] min-[900px]:[aspect-ratio:3/4] min-[1200px]:w-[calc((100%_-_1.5rem)/2)] xl:w-[calc((100%_-_1.5rem)/2)]">
             <WorkExpandingImageGrid gridSlot="half" items={items.slice(9, 18)} />
           </div>
         </div>

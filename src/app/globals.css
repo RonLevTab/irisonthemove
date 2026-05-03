@@ -96,6 +96,20 @@ html {
   background-color: var(--color-surface-strong);
 }
 
+/* Homepage only: class toggled by `HomeMobileScrollSnap` — één “scherm” per sectie op smalle viewports */
+@media (max-width: 767px) {
+  html.home-mobile-snap {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: var(--nav-stack-height, 7rem);
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  html.home-mobile-snap {
+    scroll-snap-type: none;
+  }
+}
+
 body {
   min-height: 100vh;
   overflow-x: clip;
@@ -165,7 +179,7 @@ textarea {
   background:
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--color-background) 92%, transparent) 0%,
+      var(--color-background) 0%,
       #f7efe7 18%,
       #f5ece3 100%
     );
@@ -180,26 +194,26 @@ textarea {
  * visueel overeenkomt (DirectWrite / metrics ogen vaak groter); platformOsScript zet os-windows op <html>.
  */
 .hero-home-headline {
-  font-size: clamp(0.94rem, 3.25vw, 2.08rem);
+  font-size: clamp(1.14rem, 3.85vw, 2.52rem);
 }
 .hero-home-subhead {
-  font-size: clamp(0.96rem, calc(1.85vw + 0.58rem), 1.08rem);
+  font-size: clamp(1.1rem, calc(2.18vw + 0.68rem), 1.32rem);
 }
 @media (max-width: 639px) {
   .hero-home-headline {
-    font-size: clamp(1.18rem, 6.4vw, 1.58rem);
+    font-size: clamp(1.34rem, 7.2vw, 1.9rem);
     line-height: 1.12;
   }
   .hero-home-subhead {
-    font-size: clamp(0.78rem, 3.5vw, 0.92rem);
+    font-size: clamp(0.94rem, 4vw, 1.1rem);
     line-height: 1.62;
   }
 }
 html.os-windows .hero-home-headline {
-  font-size: clamp(0.84rem, 2.82vw, 1.84rem);
+  font-size: clamp(1.04rem, 3.35vw, 2.18rem);
 }
 html.os-windows .hero-home-subhead {
-  font-size: clamp(0.92rem, calc(1.62vw + 0.48rem), 1rem);
+  font-size: clamp(1.06rem, calc(1.88vw + 0.58rem), 1.2rem);
 }
 
 /*
@@ -269,77 +283,77 @@ html.os-windows .about-bordeaux-story .about-philosophy-quote {
   margin-left: auto;
   margin-right: auto;
   max-width: min(100%, 96rem);
-  padding: 1rem 1.75rem;
+  padding: 1rem 2.5rem;
 }
 @media (min-width: 640px) {
   .nav-bar-row {
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-left: 3.75rem;
+    padding-right: 3.75rem;
   }
 }
 @media (min-width: 1024px) {
   .nav-bar-row {
-    padding-left: 3.5rem;
-    padding-right: 3.5rem;
+    padding-left: 4.25rem;
+    padding-right: 4.25rem;
   }
 }
 html.os-mac .nav-bar-row {
   margin-left: 0;
   margin-right: 0;
   max-width: none;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 @media (min-width: 640px) {
   html.os-mac .nav-bar-row {
     gap: 0.75rem;
-    padding-left: 1.75rem;
-    padding-right: 1.75rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
   }
 }
 @media (min-width: 768px) {
-  html.os-mac .nav-bar-row {
-    padding-left: 2.25rem;
-    padding-right: 2.25rem;
-  }
-}
-@media (min-width: 1024px) {
   html.os-mac .nav-bar-row {
     padding-left: 3rem;
     padding-right: 3rem;
   }
 }
+@media (min-width: 1024px) {
+  html.os-mac .nav-bar-row {
+    padding-left: 3.75rem;
+    padding-right: 3.75rem;
+  }
+}
 @media (min-width: 1280px) {
   html.os-mac .nav-bar-row {
-    padding-left: 3.5rem;
-    padding-right: 3.5rem;
+    padding-left: 4.25rem;
+    padding-right: 4.25rem;
   }
 }
 
 .nav-mobile-menu {
-  padding: 0 0.7rem 0.7rem;
+  padding: 0 1.5rem 0.7rem;
 }
 @media (min-width: 640px) {
   .nav-mobile-menu {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+    padding-left: 3.25rem;
+    padding-right: 3.25rem;
     padding-bottom: 0.8rem;
   }
 }
 html.os-mac .nav-mobile-menu {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 @media (min-width: 640px) {
   html.os-mac .nav-mobile-menu {
-    padding-left: 1.75rem;
-    padding-right: 1.75rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
   }
 }
 @media (min-width: 768px) {
   html.os-mac .nav-mobile-menu {
-    padding-left: 2.25rem;
-    padding-right: 2.25rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
   }
 }
 
@@ -350,50 +364,50 @@ html.os-mac .nav-mobile-menu {
   margin-left: auto;
   margin-right: auto;
   max-width: min(100%, 96rem);
-  padding-left: 1.75rem;
-  padding-right: 1.75rem;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
 }
 @media (min-width: 640px) {
   .footer-align {
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-left: 3.75rem;
+    padding-right: 3.75rem;
   }
 }
 @media (min-width: 1024px) {
   .footer-align {
-    padding-left: 3.5rem;
-    padding-right: 3.5rem;
+    padding-left: 4.25rem;
+    padding-right: 4.25rem;
   }
 }
 html.os-mac .footer-align {
   margin-left: 0;
   margin-right: 0;
   max-width: none;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 @media (min-width: 640px) {
   html.os-mac .footer-align {
-    padding-left: 1.75rem;
-    padding-right: 1.75rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
   }
 }
 @media (min-width: 768px) {
-  html.os-mac .footer-align {
-    padding-left: 2.25rem;
-    padding-right: 2.25rem;
-  }
-}
-@media (min-width: 1024px) {
   html.os-mac .footer-align {
     padding-left: 3rem;
     padding-right: 3rem;
   }
 }
+@media (min-width: 1024px) {
+  html.os-mac .footer-align {
+    padding-left: 3.75rem;
+    padding-right: 3.75rem;
+  }
+}
 @media (min-width: 1280px) {
   html.os-mac .footer-align {
-    padding-left: 3.5rem;
-    padding-right: 3.5rem;
+    padding-left: 4.25rem;
+    padding-right: 4.25rem;
   }
 }
 
@@ -402,49 +416,49 @@ html.os-windows .nav-bar-row {
   margin-left: 0;
   margin-right: 0;
   max-width: none;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 @media (min-width: 640px) {
   html.os-windows .nav-bar-row {
     gap: 0.75rem;
-    padding-left: 1.75rem;
-    padding-right: 1.75rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
   }
 }
 @media (min-width: 768px) {
-  html.os-windows .nav-bar-row {
-    padding-left: 2.25rem;
-    padding-right: 2.25rem;
-  }
-}
-@media (min-width: 1024px) {
   html.os-windows .nav-bar-row {
     padding-left: 3rem;
     padding-right: 3rem;
   }
 }
+@media (min-width: 1024px) {
+  html.os-windows .nav-bar-row {
+    padding-left: 3.75rem;
+    padding-right: 3.75rem;
+  }
+}
 @media (min-width: 1280px) {
   html.os-windows .nav-bar-row {
-    padding-left: 3.5rem;
-    padding-right: 3.5rem;
+    padding-left: 4.25rem;
+    padding-right: 4.25rem;
   }
 }
 
 html.os-windows .nav-mobile-menu {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 @media (min-width: 640px) {
   html.os-windows .nav-mobile-menu {
-    padding-left: 1.75rem;
-    padding-right: 1.75rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
   }
 }
 @media (min-width: 768px) {
   html.os-windows .nav-mobile-menu {
-    padding-left: 2.25rem;
-    padding-right: 2.25rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
   }
 }
 
@@ -452,31 +466,31 @@ html.os-windows .footer-align {
   margin-left: 0;
   margin-right: 0;
   max-width: none;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 @media (min-width: 640px) {
   html.os-windows .footer-align {
-    padding-left: 1.75rem;
-    padding-right: 1.75rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
   }
 }
 @media (min-width: 768px) {
-  html.os-windows .footer-align {
-    padding-left: 2.25rem;
-    padding-right: 2.25rem;
-  }
-}
-@media (min-width: 1024px) {
   html.os-windows .footer-align {
     padding-left: 3rem;
     padding-right: 3rem;
   }
 }
+@media (min-width: 1024px) {
+  html.os-windows .footer-align {
+    padding-left: 3.75rem;
+    padding-right: 3.75rem;
+  }
+}
 @media (min-width: 1280px) {
   html.os-windows .footer-align {
-    padding-left: 3.5rem;
-    padding-right: 3.5rem;
+    padding-left: 4.25rem;
+    padding-right: 4.25rem;
   }
 }
 
@@ -518,18 +532,18 @@ html.os-windows .nav-pill-link {
 }
 
 html.os-windows .nav-social-link {
-  width: 2.25rem !important;
-  height: 2.25rem !important;
+  width: 2.5rem !important;
+  height: 2.5rem !important;
 }
 @media (min-width: 640px) {
   html.os-windows .nav-social-link {
-    width: 2.5rem !important;
-    height: 2.5rem !important;
+    width: 2.75rem !important;
+    height: 2.75rem !important;
   }
 }
 html.os-windows .nav-social-link svg {
-  width: 1.05rem !important;
-  height: 1.05rem !important;
+  width: 1.18rem !important;
+  height: 1.18rem !important;
 }
 
 .section-shell {
@@ -643,8 +657,7 @@ html.os-windows .nav-social-link svg {
   --about-heading-stripe-inset: 0.5rem;
   padding-bottom: var(--about-heading-stripe-inset);
   margin-bottom: var(--about-heading-stripe-inset);
-  /* Same as homepage hero tagline (`.hero-home-headline` uses `text-black`) */
-  color: #000;
+  color: var(--color-primary);
 }
 
 .about-bordeaux-heading::after {
@@ -681,8 +694,8 @@ html.os-windows .nav-social-link svg {
 }
 
 .about-bordeaux-body {
-  /* Same as homepage hero description (`.hero-home-subhead` uses `text-[var(--color-primary)]`) */
-  color: var(--color-primary);
+  /* Lopende tekst About — zwart; titels blijven bordeaux via `.about-bordeaux-heading` e.d. */
+  color: #000;
 }
 
 /*
@@ -707,12 +720,9 @@ html.os-windows .nav-social-link svg {
 
 .about-bordeaux-story .about-lead-drop-cap-m,
 .about-bordeaux-story .about-lead-drop-cap-m.about-lead-drop-cap-m--row {
-  color: var(--color-primary);
-  /* Soft depth — lighter than the previous heavy glow */
-  text-shadow:
-    0 0.03em 0 color-mix(in srgb, #fffdfb 70%, transparent),
-    0 1px 12px color-mix(in srgb, var(--color-primary) 22%, transparent);
-  filter: drop-shadow(0 2px 8px color-mix(in srgb, var(--color-primary) 12%, transparent));
+  color: #000;
+  text-shadow: 0 0.02em 0 color-mix(in srgb, #fffdfb 55%, transparent);
+  filter: none;
 }
 
 /* About lead drop cap — values: see `--about-drop-cap-*` on `:root` */
@@ -963,11 +973,11 @@ html.os-windows .nav-social-link svg {
   border: 0;
   padding: 0;
   border-left: none;
-  color: color-mix(in srgb, var(--color-primary) 26%, var(--color-foreground) 74%);
+  color: #000;
 }
 
 .about-bordeaux-story .about-philosophy-quote {
-  color: color-mix(in srgb, var(--color-primary) 38%, var(--color-foreground) 62%);
+  color: #000;
 }
 
 .philosophy-quote-card.philosophy-quote-card--accent {
@@ -995,11 +1005,11 @@ html.os-windows .nav-social-link svg {
 }
 
 .philosophy-quote-card.philosophy-quote-card--invert .about-philosophy-quote {
-  color: color-mix(in srgb, var(--color-primary) 62%, #1b1a18 38%);
+  color: #000;
 }
 
 .philosophy-quote-card.philosophy-quote-card--invert .about-philosophy-icon-row {
-  color: rgba(12, 12, 11, 0.9);
+  color: rgba(0, 0, 0, 0.88);
 }
 
 /*
@@ -1016,3 +1026,4 @@ html.os-windows .nav-social-link svg {
 .work-travel-ig-card .instagram-media {
   margin: 0 !important;
 }
+

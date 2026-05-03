@@ -1,7 +1,25 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
+import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
+
 import { withAssetPath } from "@/lib/assetPath";
+
+function subscribeMobileStripMode(cb: () => void) {
+  const mq = window.matchMedia("(max-width: 767px)");
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+}
+
+function getMobileStripMode() {
+  return window.matchMedia("(max-width: 767px)").matches;
+}
 
 export type ReelVideoItem = {
   /** Public URL under `/public`, e.g. `/videos/social/reel-1.mp4` */
@@ -55,18 +73,95 @@ function paintPreviewFrame(video: HTMLVideoElement) {
 
 export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [playStripPreviews, setPlayStripPreviews] = useState(false);
+  /** Phone: zelfde groei als desktop — actieve reel breed, overige smalle stroken (start: video 1). */
+  const playStripPreviews = useSyncExternalStore(
+    subscribeMobileStripMode,
+    getMobileStripMode,
+    () => false,
+  );
+  /** Scroll happened (ignore autoplay-audio when block is visible on first paint). */
+  const [userHasScrolled, setUserHasScrolled] = useState(false);
+  /** True while the reels block intersects the viewport; false when scrolled past or above. */
+  const [sectionInView, setSectionInView] = useState(false);
+  /** User turned sound off via the Mute control (stays until they choose Sound on). */
+  const [reelsMutedByUser, setReelsMutedByUser] = useState(false);
+  /** User tapped a reel (allows sound in-section without waiting for scroll, e.g. huge screen). */
+  const [reelTapEngaged, setReelTapEngaged] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const blockRef = useRef<HTMLDivElement>(null);
+  /** Tracks last `sectionInView` so we detect “left block, then came back”. */
+  const prevSectionInView = useRef<boolean | null>(null);
+
+  /** Sound only inside “What I have been creating lately” — not on home load, not after scrolling away. */
+  const reelsAudioEnabled = sectionInView && (userHasScrolled || reelTapEngaged);
+  const reelsAudioActive = reelsAudioEnabled && !reelsMutedByUser;
+
+  /** Don’t treat “already visible on first paint” as arrival — wait until the visitor actually scrolls. */
+  useEffect(() => {
+    const mark = () => setUserHasScrolled(true);
+    window.addEventListener("scroll", mark, { passive: true });
+    window.addEventListener("wheel", mark, { passive: true });
+    window.addEventListener("touchmove", mark, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", mark);
+      window.removeEventListener("wheel", mark);
+      window.removeEventListener("touchmove", mark);
+    };
+  }, []);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const updatePlayMode = () => setPlayStripPreviews(mediaQuery.matches);
-
-    updatePlayMode();
-    mediaQuery.addEventListener("change", updatePlayMode);
-
-    return () => mediaQuery.removeEventListener("change", updatePlayMode);
+    const el = blockRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setSectionInView(!!entry?.isIntersecting);
+      },
+      { threshold: 0.22, rootMargin: "0px 0px -6% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
+
+  /**
+   * After scrolling past the block and returning, reel 1 (and its audio) starts from the beginning again.
+   * Skips the first time the block becomes visible (`prev === null`) so the initial load is unchanged.
+   */
+  useLayoutEffect(() => {
+    const prev = prevSectionInView.current;
+    prevSectionInView.current = sectionInView;
+
+    if (!sectionInView) return;
+    const cameBackAfterLeaving = prev === false;
+    if (!cameBackAfterLeaving) return;
+
+    setActiveIndex(0);
+    for (const vid of videoRefs.current) {
+      if (!vid) continue;
+      try {
+        vid.currentTime = 0;
+      } catch {
+        /* ignore */
+      }
+    }
+  }, [sectionInView]);
+
+  /** Unmute active strip only while `reelsAudioActive`; mute everything when section is left or user muted. */
+  useEffect(() => {
+    videoRefs.current.forEach((vid, i) => {
+      if (!vid) return;
+      if (!reelsAudioActive) {
+        vid.muted = true;
+        return;
+      }
+      if (i === activeIndex) {
+        vid.volume = 1;
+        vid.muted = false;
+        void vid.play().catch(() => {});
+      } else {
+        vid.muted = true;
+      }
+    });
+  }, [reelsAudioActive, activeIndex]);
 
   useEffect(() => {
     videoRefs.current.forEach((vid, i) => {
@@ -78,7 +173,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
         requestAnimationFrame(() => paintPreviewFrame(vid));
       }
     });
-  }, [activeIndex, playStripPreviews]);
+  }, [activeIndex, playStripPreviews, reelsAudioActive]);
 
   /** First paint for all reels once refs exist (desktop strips load paused). */
   useLayoutEffect(() => {
@@ -92,23 +187,40 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
       });
     });
     return () => window.cancelAnimationFrame(id);
-  }, [items.length, playStripPreviews, activeIndex]);
+  }, [items.length, playStripPreviews, activeIndex, reelsAudioActive]);
 
   return (
-    <div className="w-full overflow-x-hidden">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 md:gap-0">
-        <div className="flex h-[min(70svh,34rem)] min-h-[22rem] w-full flex-row overflow-hidden rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:12_1_0%] [--reel-inactive-flex:0.55_1_0%] md:h-[min(72svh,48rem)] md:min-h-[33rem] md:flex-row md:[--reel-active-flex:5_1_0%] md:[--reel-inactive-flex:1.35_1_0%]">
+    <div
+      ref={blockRef}
+      className="flex h-full min-h-0 w-full flex-1 flex-col overflow-x-hidden"
+    >
+      <div className="mx-auto flex h-full min-h-0 w-full max-w-6xl flex-1 flex-col gap-2 md:gap-0">
+        <div
+          className={`flex min-h-[18rem] flex-1 flex-row rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:12_1_0%] [--reel-inactive-flex:1.25_1_0%] max-md:overflow-hidden md:min-h-[26rem] md:[--reel-active-flex:5_1_0%] md:[--reel-inactive-flex:2.2_1_0%] ${
+            playStripPreviews
+              ? "max-md:[scrollbar-width:thin] md:overflow-hidden"
+              : "overflow-hidden"
+          }`}
+        >
           {items.map((item, index) => {
             const isActive = activeIndex === index;
             const posterUrl = item.poster?.trim()
               ? withAssetPath(item.poster.trim())
               : undefined;
             const shouldPlayThisStrip = playStripPreviews || isActive;
+            const shouldPlayAudio = reelsAudioActive && isActive;
             /**
              * Full preload only for strips that actually play; others stay on metadata so six
              * desktop previews don’t saturate bandwidth.
              */
             const preloadStrategy = shouldPlayThisStrip ? "auto" : "metadata";
+
+            const stripFlexStyle = {
+              flex: isActive
+                ? "var(--reel-active-flex)"
+                : "var(--reel-inactive-flex)",
+              ...(playStripPreviews ? { minWidth: 0 } : {}),
+            } as const;
 
             return (
               <button
@@ -117,17 +229,16 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                 aria-expanded={isActive}
                 aria-controls={`reel-panel-${index}`}
                 id={`reel-tab-${index}`}
-                className="group relative flex min-h-0 min-w-[2.05rem] flex-1 flex-col justify-end overflow-hidden border-r border-[var(--color-border)] text-left transition-[flex,box-shadow] duration-700 ease-in-out last:border-r-0 first:rounded-l-[1.5rem] last:rounded-r-[1.5rem] md:min-w-[72px] md:rounded-none md:border-r md:border-b-0 md:last:border-r-0 md:first:rounded-l-[1.5rem] md:first:rounded-tr-none md:last:rounded-r-[1.5rem] md:last:rounded-bl-none"
+                className="group relative flex min-h-0 min-w-[2.05rem] flex-1 flex-col justify-end overflow-hidden border-r border-[var(--color-border)] text-left transition-[flex,box-shadow] duration-700 ease-in-out last:border-r-0 first:rounded-l-[1.5rem] last:rounded-r-[1.5rem] max-md:min-w-0 max-md:flex-1 md:min-w-[72px] md:flex-1 md:rounded-none md:border-r md:border-b-0 md:last:border-r-0 md:first:rounded-l-[1.5rem] md:first:rounded-tr-none md:last:rounded-r-[1.5rem] md:last:rounded-bl-none"
                 style={{
-                  flex: isActive
-                    ? "var(--reel-active-flex)"
-                    : "var(--reel-inactive-flex)",
+                  ...stripFlexStyle,
                   boxShadow: isActive
                     ? "0 18px 42px rgba(75, 64, 56, 0.1)"
                     : "0 8px 22px rgba(75, 64, 56, 0.05)",
                   zIndex: isActive ? 10 : 1,
                 }}
                 onClick={() => {
+                  setReelTapEngaged(true);
                   if (activeIndex !== index) {
                     setActiveIndex(index);
                   }
@@ -135,7 +246,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
               >
                 <div
                   id={`reel-panel-${index}`}
-                  className="absolute inset-0 bg-[var(--color-surface-strong)]"
+                  className="absolute inset-0 bg-black"
                   aria-hidden={!isActive}
                 >
                   <div
@@ -144,6 +255,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                       isActive
                         ? (e) => {
                             e.stopPropagation();
+                            setReelTapEngaged(true);
                             const v = videoRefs.current[index];
                             if (!v) return;
                             if (v.paused) void v.play();
@@ -160,20 +272,36 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                       src={videoSrcWithStartHint(item.videoSrc)}
                       poster={posterUrl}
                       playsInline
-                      muted
+                      muted={!shouldPlayAudio}
                       loop
                       autoPlay={playStripPreviews || isActive}
                       preload={preloadStrategy}
                       disablePictureInPicture
                       aria-label={item.title}
                       onLoadedMetadata={(e) => {
-                        if (!shouldPlayThisStrip) paintPreviewFrame(e.currentTarget);
+                        const v = e.currentTarget;
+                        if (!shouldPlayThisStrip) {
+                          paintPreviewFrame(v);
+                          return;
+                        }
+                        if (playStripPreviews) {
+                          requestAnimationFrame(() => paintPreviewFrame(v));
+                        }
                       }}
                       onLoadedData={(e) => {
-                        if (!shouldPlayThisStrip) paintPreviewFrame(e.currentTarget);
+                        const v = e.currentTarget;
+                        if (!shouldPlayThisStrip) {
+                          paintPreviewFrame(v);
+                          return;
+                        }
+                        if (playStripPreviews) {
+                          requestAnimationFrame(() => paintPreviewFrame(v));
+                        }
                       }}
                       onCanPlay={(e) => {
-                        if (!shouldPlayThisStrip) paintPreviewFrame(e.currentTarget);
+                        if (!shouldPlayThisStrip) {
+                          paintPreviewFrame(e.currentTarget);
+                        }
                       }}
                     />
                   </div>
@@ -197,6 +325,35 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
             );
           })}
         </div>
+
+        {sectionInView ? (
+          <div className="flex shrink-0 justify-start pt-1 pl-3 sm:pl-6 md:pl-8 md:pt-3">
+            <button
+              type="button"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--color-primary)_35%,var(--color-border))] bg-[var(--color-surface)] text-[var(--color-primary)] shadow-[0_8px_24px_rgba(90,45,50,0.12)] transition-[color,background-color,border-color,box-shadow] hover:border-[var(--color-primary)] hover:bg-[var(--color-background)] hover:shadow-[0_12px_28px_rgba(90,45,50,0.18)] sm:h-11 sm:w-11"
+              aria-pressed={reelsMutedByUser}
+              aria-label={
+                reelsMutedByUser ? "Turn sound on for reels" : "Mute reel audio"
+              }
+              onClick={() => {
+                setReelsMutedByUser((m) => !m);
+                setReelTapEngaged(true);
+              }}
+            >
+              {reelsMutedByUser ? (
+                <FaVolumeHigh
+                  className="h-[1.05rem] w-[1.05rem] sm:h-[1.15rem] sm:w-[1.15rem]"
+                  aria-hidden
+                />
+              ) : (
+                <FaVolumeXmark
+                  className="h-[1.05rem] w-[1.05rem] sm:h-[1.15rem] sm:w-[1.15rem]"
+                  aria-hidden
+                />
+              )}
+            </button>
+          </div>
+        ) : null}
       </div>
     </div>
   );

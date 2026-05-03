@@ -7,7 +7,7 @@ import { getTravelGuides } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Travel Guides",
-  description: "Structured travel guides and itineraries from Iris on the Move.",
+    description: "Structured travel guides and itineraries from Iris On The Move.",
 };
 
 export default async function TravelGuidesPage() {

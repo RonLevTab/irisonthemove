@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { WorkPageVideoAudioProvider } from "@/components/work/WorkPageVideoAudioContext";
 import { WorkDualGridsWithTripleVideos } from "@/components/work/WorkDualGridsWithTripleVideos";
 import { WorkExpandingImageGrid } from "@/components/work/WorkExpandingImageGrid";
 import { WorkHotelMediaWithVideos } from "@/components/work/WorkHotelMediaWithVideos";
@@ -33,7 +34,8 @@ export default async function WorkPage() {
   const work = await getWorkPageContent();
 
   return (
-    <div className="relative min-h-0">
+    <WorkPageVideoAudioProvider>
+      <div className="relative min-h-0">
       <h1 className="sr-only">{work.intro.title}</h1>
 
       {work.categories.map((category, index) => {
@@ -62,7 +64,7 @@ export default async function WorkPage() {
             )}
           >
             <div
-              className="mx-auto flex w-full max-w-[min(100%,94rem)] flex-col gap-6 px-7 pt-10 pb-12 sm:px-10 lg:gap-7 lg:px-16 lg:pt-12 lg:pb-16 xl:px-18"
+              className="mx-auto flex w-full max-w-[min(100%,118rem)] flex-col gap-6 px-7 pt-10 pb-12 sm:px-10 lg:gap-7 lg:px-14 lg:pt-12 lg:pb-16 xl:px-16 2xl:px-18"
             >
               <ScrollReveal className="flex w-full flex-col items-center text-center">
                 <SectionHeading
@@ -149,5 +151,6 @@ export default async function WorkPage() {
         backgroundImage={work.cta.backgroundImage}
       />
     </div>
+    </WorkPageVideoAudioProvider>
   );
 }
