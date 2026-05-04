@@ -32,19 +32,19 @@ const MARQUEE_LOOP_SEGMENTS = 4;
 const SEPARATOR_FADE =
   "linear-gradient(to bottom, transparent 0%, transparent 10%, rgba(90,45,50,0.05) 28%, rgba(90,45,50,0.34) 50%, rgba(90,45,50,0.05) 72%, transparent 90%, transparent 100%)";
 
-/** Horizontale zachte rand — dicht bij ref. (15%–85% leesbaar). */
+/** Lichte randen — kort vervagen zodat landen langer leesbaar blijven. */
 const TICKER_MASK_EDGES =
-  "linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%)";
+  "linear-gradient(90deg, transparent 0%, black 2%, black 98%, transparent 100%)";
 
 /**
- * Symmetrisch midden-“gat”: even veler tranities links/rechts zodat witruimte rond het
- * statblok in balans is (mask-% = breedte van de w-screen strip; gat gecentreerd).
+ * Symmetrisch midden-“gat”; korte randvervaging + compacte feather naar het gat
+ * (minder “mist” rond CANADA / POLAND e.d.).
  */
 const TICKER_MASK_EDGES_AND_CENTER =
-  "linear-gradient(90deg, transparent 0%, black 4%, black 24%, rgba(0,0,0,0.5) 28%, rgba(0,0,0,0.14) 32%, transparent 34%, transparent 66%, rgba(0,0,0,0.14) 68%, rgba(0,0,0,0.5) 72%, black 76%, black 96%, transparent 100%)";
+  "linear-gradient(90deg, transparent 0%, black 1.5%, black 26%, rgba(0,0,0,0.42) 30%, rgba(0,0,0,0.09) 32.5%, transparent 34%, transparent 66%, rgba(0,0,0,0.09) 67.5%, rgba(0,0,0,0.42) 70%, black 74%, black 98.5%, transparent 100%)";
 
 const TICKER_MASK_EDGES_AND_CENTER_MOBILE =
-  "linear-gradient(90deg, transparent 0%, black 4%, black 10%, rgba(0,0,0,0.48) 14%, rgba(0,0,0,0.14) 18%, transparent 22%, transparent 78%, rgba(0,0,0,0.14) 82%, rgba(0,0,0,0.48) 86%, black 90%, black 96%, transparent 100%)";
+  "linear-gradient(90deg, transparent 0%, black 1.5%, black 12%, rgba(0,0,0,0.42) 16%, rgba(0,0,0,0.09) 19%, transparent 22%, transparent 78%, rgba(0,0,0,0.09) 81%, rgba(0,0,0,0.42) 84%, black 88%, black 98.5%, transparent 100%)";
 
 function SeparatorDot() {
   /* Subtle middle dots — same spacing as country labels, lower contrast so landen leidend blijven */
