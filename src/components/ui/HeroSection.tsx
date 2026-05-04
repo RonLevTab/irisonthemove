@@ -96,7 +96,7 @@ export function HeroSection({
   return (
     <section
       className={cn(
-        "relative isolate flex flex-col justify-center overflow-x-clip overflow-y-visible px-6 pt-10 pb-0 sm:px-10 sm:pb-0 sm:pt-8 lg:h-[calc(100svh-var(--nav-stack-height))] lg:max-h-[calc(100svh-var(--nav-stack-height))] lg:min-h-0 lg:flex lg:flex-col lg:justify-start lg:overflow-x-clip lg:overflow-y-visible lg:px-12 lg:py-0 lg:pb-0",
+        "relative isolate flex flex-col justify-center overflow-x-clip overflow-y-visible px-6 pb-0 pt-10 max-sm:pt-16 sm:px-10 sm:pb-0 sm:pt-8 lg:h-[calc(100svh-var(--nav-stack-height))] lg:max-h-[calc(100svh-var(--nav-stack-height))] lg:min-h-0 lg:flex lg:flex-col lg:justify-start lg:overflow-x-clip lg:overflow-y-visible lg:px-12 lg:py-0 lg:pb-0",
         "max-md:min-h-[calc(100dvh-var(--nav-stack-height))] max-md:snap-start max-md:snap-always",
       )}
     >
