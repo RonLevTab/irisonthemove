@@ -43,9 +43,12 @@ const TICKER_MASK_EDGES =
 const TICKER_MASK_EDGES_AND_CENTER =
   "linear-gradient(90deg, transparent 0%, black 1.5%, black 34%, rgba(0,0,0,0.38) 39%, rgba(0,0,0,0.07) 41.5%, transparent 43%, transparent 57%, rgba(0,0,0,0.07) 58.5%, rgba(0,0,0,0.38) 61%, black 66%, black 98.5%, transparent 100%)";
 
-/** Zelfde verhoudingen als desktop — % is t.o.v. volle strip; voorkomt te breed gat op telefoon. */
+/**
+ * Telefoon: breder volledig transparant midden (27–73%) + kortere feather, zodat landennamen
+ * niet meer door de gelezen tekst achter 20 / label komen — desktop blijft strakker.
+ */
 const TICKER_MASK_EDGES_AND_CENTER_MOBILE =
-  "linear-gradient(90deg, transparent 0%, black 1.5%, black 34%, rgba(0,0,0,0.38) 39%, rgba(0,0,0,0.07) 41.5%, transparent 43%, transparent 57%, rgba(0,0,0,0.07) 58.5%, rgba(0,0,0,0.38) 61%, black 66%, black 98.5%, transparent 100%)";
+  "linear-gradient(90deg, transparent 0%, black 1.5%, black 15%, rgba(0,0,0,0.52) 19.5%, rgba(0,0,0,0.12) 23.5%, transparent 27%, transparent 73%, rgba(0,0,0,0.12) 76.5%, rgba(0,0,0,0.52) 80.5%, black 85%, black 98.5%, transparent 100%)";
 
 function SeparatorDot() {
   /* Subtle middle dots — same spacing as country labels, lower contrast so landen leidend blijven */
@@ -267,14 +270,16 @@ export function DestinationsCountryMarquee({
             top-50% kader alleen rond de cijfers).
           */}
           <div className="relative flex w-full max-w-none min-h-[5.75rem] items-center justify-center py-4 sm:min-h-[6.35rem] sm:py-5 md:min-h-[6.95rem] md:py-6">
-            <div className="pointer-events-none absolute inset-0 z-[1] flex items-center justify-center overflow-visible">
-              <div className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2">
-                <CountryMarqueeStrip
-                  reduceMotion={reduceMotion}
-                  className="w-full py-0"
-                  clearTickerInCenter
-                />
-              </div>
+            {/*
+              Geen w-screen: 100vw + scrollbar verschuift het masker-midden t.o.v. het statblok
+              (meer lucht links dan rechts). Strip = bandbreedte = zelfde basis als 20/label.
+            */}
+            <div className="pointer-events-none absolute inset-0 z-[1] flex min-w-0 items-center justify-center overflow-x-clip overflow-y-visible">
+              <CountryMarqueeStrip
+                reduceMotion={reduceMotion}
+                className="min-w-0 py-0"
+                clearTickerInCenter
+              />
             </div>
             <div className="relative z-[2] flex items-center justify-center">
               <CountriesVisitedPanel />
