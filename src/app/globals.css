@@ -94,6 +94,12 @@ html {
   overflow-x: clip;
   /* Same as page bottom / footer so gaps and Safari subpixels never show browser white */
   background-color: var(--color-surface-strong);
+  /*
+   * Site-wide ~90% scale (same idea as setting the browser zoom to 90%).
+   * Shrinks type, spacing, images, and full-bleed sections together so the layout still
+   * fills the viewport proportionally on Mac, Windows, and mobile Safari (WebKit supports `zoom`).
+   */
+  zoom: 0.9;
 }
 
 /*

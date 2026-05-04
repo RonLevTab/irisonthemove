@@ -68,7 +68,10 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-/** Explicit 1:1 device scale so Safari (and other browsers) lay out at “100%” zoom by default. */
+/**
+ * Device-width layout; `globals.css` applies `html { zoom: 0.9 }` so the whole UI matches ~90%
+ * browser zoom consistently without changing initial viewport scale (avoids stacking with CSS zoom).
+ */
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
