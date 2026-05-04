@@ -35,6 +35,16 @@
     "title": "What I have been creating lately",
     "reels": [
       {
+        "videoSrc": "/videos/work/hotels/hotel-reel-2.mp4",
+        "title": "On location",
+        "description": "Reel — Hotel storytelling"
+      },
+      {
+        "videoSrc": "/videos/work/hotels/hotel-reel-3.mp4",
+        "title": "On location",
+        "description": "Reel — Hotel storytelling"
+      },
+      {
         "videoSrc": "/videos/work/travel/travel-guide-home-reel-05.mp4?v=20260502",
         "title": "On location",
         "description": "Reel — Cinematic travel guide"
@@ -42,7 +52,7 @@
       {
         "videoSrc": "/videos/social/reel-1.mp4",
         "title": "On location",
-        "description": "Reel — Brand storytelling"
+        "description": "Reel — Restaurant storytelling"
       },
       {
         "videoSrc": "/videos/work/travel/home-reel-3.mp4?v=20260502b",
@@ -51,16 +61,6 @@
       },
       {
         "videoSrc": "/videos/work/travel/home-latest-reel-04.mp4?v=20260502",
-        "title": "On location",
-        "description": "Reel — Cinematic travel guide"
-      },
-      {
-        "videoSrc": "/videos/work/travel/travel-04.mp4?v=202605020911",
-        "title": "On location",
-        "description": "Reel — Cinematic travel guide"
-      },
-      {
-        "videoSrc": "/videos/social/reel-4.mp4?v=202604061",
         "title": "On location",
         "description": "Reel — Cinematic travel guide"
       }

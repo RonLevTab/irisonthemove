@@ -3,6 +3,8 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 
+import { cn } from "@/lib/utils";
+
 export type GradientSocialMenuItem = {
   href: string;
   /** Full platform name (shown on hover / focus). */
@@ -15,8 +17,10 @@ export type GradientSocialMenuItem = {
 
 type GradientSocialMenuProps = {
   items: GradientSocialMenuItem[];
-  /** Larger hit targets and icons (e.g. contact page). */
-  size?: "default" | "lg";
+  /** Larger hit targets and icons (e.g. contact page). `compact` = homepage reels footer. */
+  size?: "default" | "lg" | "compact";
+  /** Merged onto the icon row `<ul>` (e.g. custom gaps). */
+  className?: string;
 };
 
 /**
@@ -27,6 +31,8 @@ const gradientButtonClasses = {
   default:
     "group relative flex h-12 w-12 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[var(--color-surface)] shadow-[0_12px_28px_rgba(90,45,50,0.16)] transition-all duration-500 md:h-[60px] md:w-[60px] md:shadow-[0_18px_40px_rgba(90,45,50,0.2)] md:hover:w-[200px] md:hover:shadow-none md:focus-visible:w-[200px] md:focus-visible:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]",
   lg: "group relative flex h-14 w-14 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[var(--color-surface)] shadow-[0_14px_34px_rgba(90,45,50,0.18)] transition-all duration-500 md:h-[72px] md:w-[72px] md:shadow-[0_22px_48px_rgba(90,45,50,0.22)] md:hover:w-[232px] md:hover:shadow-none md:focus-visible:w-[232px] md:focus-visible:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]",
+  compact:
+    "group relative flex h-11 w-11 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[var(--color-surface)] shadow-none transition-all duration-500 md:h-12 md:w-12 md:shadow-none md:hover:w-[176px] md:focus-visible:w-[176px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]",
 } as const;
 
 function GradientMenuButton({
@@ -102,17 +108,33 @@ function GradientMenuButton({
   );
 }
 
-export function GradientSocialMenu({ items, size = "default" }: GradientSocialMenuProps) {
+export function GradientSocialMenu({
+  items,
+  size = "default",
+  className,
+}: GradientSocialMenuProps) {
   const isLg = size === "lg";
-  const buttonClassName = isLg ? gradientButtonClasses.lg : gradientButtonClasses.default;
+  const isCompact = size === "compact";
+  const buttonClassName = isLg
+    ? gradientButtonClasses.lg
+    : isCompact
+      ? gradientButtonClasses.compact
+      : gradientButtonClasses.default;
   const iconClassName = isLg
     ? "pointer-events-auto text-2xl text-[var(--color-primary)] md:text-3xl [&>svg]:block [&>svg]:h-6 [&>svg]:w-6 md:[&>svg]:h-8 md:[&>svg]:w-8"
-    : "pointer-events-auto text-lg text-[var(--color-primary)] md:text-2xl [&>svg]:block [&>svg]:h-5 [&>svg]:w-5 md:[&>svg]:h-7 md:[&>svg]:w-7";
-  const labelClassName = isLg ? "text-base" : "text-sm";
+    : isCompact
+      ? "pointer-events-auto text-base text-[var(--color-primary)] md:text-xl [&>svg]:block [&>svg]:h-[1.1rem] [&>svg]:w-[1.1rem] md:[&>svg]:h-6 md:[&>svg]:w-6"
+      : "pointer-events-auto text-lg text-[var(--color-primary)] md:text-2xl [&>svg]:block [&>svg]:h-5 [&>svg]:w-5 md:[&>svg]:h-7 md:[&>svg]:w-7";
+  const labelClassName = isLg ? "text-base" : isCompact ? "text-xs" : "text-sm";
 
   return (
     <ul
-      className={`flex w-full flex-wrap items-center justify-center overflow-x-clip ${isLg ? "gap-5 md:gap-8" : "gap-4 md:gap-6"}`}
+      className={cn(
+        /* overflow-x-clip chopped button shadows into a visible “square” behind the row */
+        "flex w-full flex-wrap items-center justify-center overflow-visible px-1 pb-0 pt-0",
+        isLg ? "gap-5 md:gap-8" : isCompact ? "gap-3 md:gap-4" : "gap-4 md:gap-6",
+        className,
+      )}
     >
       {items.map(({ href, title, icon, gradientFrom, gradientTo }, idx) => (
         <li key={`${title}-${idx}`} className="list-none">

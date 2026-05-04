@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import {
   useEffect,
   useLayoutEffect,
@@ -43,6 +44,8 @@ export type ReelVideoItem = {
 
 type InteractiveReelVideosProps = {
   items: ReelVideoItem[];
+  /** Rendered below the sound control with the same vertical rhythm (e.g. social icons). */
+  footer?: ReactNode;
 };
 
 /** Prefer starting near a keyframe so the first painted frame is in-color (not black). */
@@ -82,7 +85,7 @@ function paintPreviewFrame(video: HTMLVideoElement) {
   }
 }
 
-export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
+export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   /** Phone: zelfde groei als desktop — actieve reel breed, overige smalle stroken (start: video 1). */
   const playStripPreviews = useSyncExternalStore(
@@ -236,11 +239,15 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
   return (
     <div
       ref={blockRef}
-      className="flex w-full flex-col overflow-x-hidden max-md:h-auto max-md:flex-none md:h-full md:min-h-0 md:flex-1"
+      className="flex w-full flex-col overflow-x-hidden max-md:h-auto max-md:flex-none md:h-auto md:min-h-0 md:flex-none"
     >
-      <div className="mx-auto flex w-full max-w-4xl flex-col gap-0 max-md:w-full max-md:flex-none max-md:gap-4 md:h-full md:min-h-0 md:flex-1 md:gap-0 md:justify-start lg:max-w-5xl xl:max-w-6xl">
+      <div
+        role={footer ? "group" : undefined}
+        aria-label={footer ? "Reel previews, sound, and social links" : undefined}
+        className="mx-auto flex w-full max-w-6xl flex-col gap-4 max-md:w-full max-md:flex-none max-md:gap-4 md:h-auto md:min-h-0 md:flex-none md:gap-6 md:justify-start lg:max-w-7xl xl:max-w-[min(100%,90rem)]"
+      >
         <div
-          className={`flex min-h-0 flex-1 flex-row rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:9.6_1_0%] [--reel-inactive-flex:1.28_1_0%] max-md:h-[min(54dvh,32rem)] max-md:min-h-[12rem] max-md:max-h-[54dvh] max-md:w-full max-md:flex-none max-md:overflow-hidden max-md:self-center md:min-h-[44rem] md:flex-none md:[--reel-active-flex:4.8_1_0%] md:[--reel-inactive-flex:1.18_1_0%] ${
+          className={`mx-auto flex min-h-0 w-full max-w-full max-md:flex-1 flex-row rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:5.6_1_0%] [--reel-inactive-flex:0.72_1_0%] max-md:h-[min(48dvh,28rem)] max-md:min-h-[11.5rem] max-md:max-h-[48dvh] max-md:flex-none max-md:overflow-hidden max-md:self-center md:h-[min(46rem,calc(100svh-11rem))] md:min-h-0 md:flex-none md:[--reel-active-flex:3.1_1_0%] md:[--reel-inactive-flex:1.1_1_0%] ${
             playStripPreviews
               ? "max-md:[scrollbar-width:thin] md:overflow-hidden"
               : "overflow-hidden"
@@ -270,7 +277,9 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                 aria-expanded={isActive}
                 aria-controls={`reel-panel-${index}`}
                 id={`reel-tab-${index}`}
-                className="group relative flex min-h-0 min-w-[2.05rem] flex-1 flex-col justify-end overflow-hidden border-r border-[var(--color-border)] text-left transition-[flex,box-shadow] duration-700 ease-in-out last:border-r-0 first:rounded-l-[1.5rem] last:rounded-r-[1.5rem] max-md:min-w-0 max-md:flex-1 md:min-w-[2.5rem] md:flex-1 md:rounded-none md:border-r md:border-b-0 md:last:border-r-0 md:first:rounded-l-[1.5rem] md:first:rounded-tr-none md:last:rounded-r-[1.5rem] md:last:rounded-bl-none"
+                className={`group relative flex min-h-0 flex-1 flex-col justify-end overflow-hidden border-r border-[var(--color-border)] text-left transition-[flex,box-shadow] duration-700 ease-in-out last:border-r-0 first:rounded-l-[1.5rem] last:rounded-r-[1.5rem] max-md:flex-1 md:flex-1 md:rounded-none md:border-r md:border-b-0 md:last:border-r-0 md:first:rounded-l-[1.5rem] md:first:rounded-tr-none md:last:rounded-r-[1.5rem] md:last:rounded-bl-none ${
+                  isActive ? "min-w-[2.35rem] max-md:min-w-0" : "min-w-[1.2rem] max-md:min-w-0"
+                } md:min-w-[2.5rem]`}
                 style={{
                   ...stripFlexStyle,
                   boxShadow: isActive
@@ -351,7 +360,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                     />
                   </div>
                   <div
-                    className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[rgb(90_45_50_/_0.82)] via-[rgb(90_45_50_/_0.66)] to-transparent"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[rgb(90_45_50_/_0.55)] via-[rgb(90_45_50_/_0.32)] to-transparent"
                     aria-hidden
                   />
                 </div>
@@ -374,7 +383,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
         </div>
 
         {sectionInView ? (
-          <div className="flex shrink-0 justify-center md:pt-8">
+          <div className="flex w-full shrink-0 justify-center px-1">
             <button
               type="button"
               className={soundToggleButtonClassName()}
@@ -391,6 +400,10 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
               </span>
             </button>
           </div>
+        ) : null}
+
+        {footer ? (
+          <div className="flex w-full shrink-0 justify-center px-1">{footer}</div>
         ) : null}
       </div>
     </div>

@@ -58,17 +58,27 @@ const resultCardInstagramClass = cn(resultCardBase, "h-full w-full min-w-0");
 /** Full-width row below the Instagram pair; min-w-0 avoids Safari flex overflow stretching */
 const resultCardTiktokClass = cn(resultCardBase, "w-full min-w-0");
 
-/** Instagram brand gradient (icon chip) — size applied per use so headers stay aligned */
-const igIconChipClass =
-  "flex shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#f9ce34] via-[#e6683c] to-[#c13584] text-white shadow-sm";
+/** Bordeaux oak — platform icon chips: solid bordeaux, icons in cream */
+const platformIconOakChipClass =
+  "flex shrink-0 items-center justify-center rounded-2xl border border-[color-mix(in_srgb,var(--color-primary)_42%,#1a080a)] bg-[var(--color-primary)] text-[var(--color-surface)] shadow-sm";
 
-/** Site wordmark in header chips (matches nav lockup, warm surface) */
-const siteBrandIconChipClass =
-  "flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[color-mix(in_srgb,var(--color-border)_70%,#d4c4b8)] bg-[var(--color-surface-strong)] px-1 shadow-sm";
+/** @handle + domain — iets roder dan puur primary (warmer leesbaar op cream) */
+const resultsProfileLinkColorClass =
+  "text-[color-mix(in_srgb,var(--color-primary)_68%,#90353d)]";
 
-/** TikTok: black with official accent (icon chip) */
-const tiktokIconChipClass =
-  "flex shrink-0 items-center justify-center rounded-2xl bg-black text-white shadow-sm ring-1 ring-white/10";
+/**
+ * Alleen het Iris On The Move-woordmerk: beige chip + rode tekst (omgekeerd t.o.v. Instagram/TikTok).
+ */
+const siteBrandIconChipClass = cn(
+  "flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[color-mix(in_srgb,var(--color-accent-peach)_58%,var(--color-border))] bg-[var(--color-surface-strong)] px-1 shadow-sm",
+  "[&_span]:!text-[color-mix(in_srgb,var(--color-primary)_68%,#90353d)]",
+);
+
+/** Profile / URL links — bordeaux text, beige underline */
+const resultsProfileLinkClass = cn(
+  "font-sans text-sm font-semibold underline decoration-[var(--color-accent-peach)] underline-offset-2 transition-opacity hover:opacity-90",
+  resultsProfileLinkColorClass,
+);
 
 /**
  * Slightly larger squares so the chip aligns with the header text block
@@ -95,14 +105,8 @@ function ResultsBrandHeaderChip() {
   );
 }
 
-/**
- * Middle tone between Teal link accent (#0a6d78) and body “data” color (--color-foreground)
- * so +% and @ line stay readable on warm surface without being too light or too dark.
- */
-const tiktokAccentMiddleClass =
-  "text-[color-mix(in_srgb,_#0a6d78_44%,_var(--color-foreground))]";
-const tiktokAccentUnderlineClass =
-  "decoration-[color-mix(in_srgb,_#0a6d78_50%,_var(--color-foreground))]/50";
+/** +% deltas — same bordeaux family as links (calmer than teal/green) */
+const resultsDeltaClass = "text-[color-mix(in_srgb,var(--color-primary)_92%,var(--color-foreground))]";
 
 /** Logo left, text right; cluster centered in the card */
 const resultHeaderClusterClass =
@@ -130,9 +134,10 @@ export function ResultsSection(data: ResultsSectionProps) {
     : `@${ig.profileHandle.replace(/^@/, "")}`;
   const profileHref = instagramProfileHref(ig.profileHandle);
   const donutDeg = (ig.viewsFromFollowersPercent / 100) * 360;
-  const mixPink = "color-mix(in srgb, #e1306c 70%, #e8c9b5)";
-  const mixPurple = "color-mix(in srgb, #833ab4 55%, #b48c8b)";
-  const igDonutGrad = `conic-gradient(from -90deg, ${mixPink} 0deg ${donutDeg}deg, ${mixPurple} ${donutDeg}deg 360deg)`;
+  /** Donut slices — bordeaux / oak tones only */
+  const donutFollowers = "color-mix(in srgb, var(--color-primary) 82%, var(--color-accent-peach))";
+  const donutOther = "color-mix(in srgb, var(--color-secondary) 70%, var(--color-accent-rose))";
+  const igDonutGrad = `conic-gradient(from -90deg, ${donutFollowers} 0deg ${donutDeg}deg, ${donutOther} ${donutDeg}deg 360deg)`;
   const tiktokTagDisplay = handleFromTiktokProfileUrl(tiktok.profileUrl);
 
   return (
@@ -171,26 +176,21 @@ export function ResultsSection(data: ResultsSectionProps) {
           <div className="grid w-full min-w-0 max-w-full grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-6 lg:gap-x-10">
             {/* 1 — Instagram account / period overview */}
             <div className={resultCardInstagramClass}>
-              <div className="mb-3 border-b border-[color-mix(in_srgb,var(--color-border)_55%,transparent)] pb-3">
+              <div className="mb-3 border-b border-[color-mix(in_srgb,var(--color-accent-peach)_72%,var(--color-border))] pb-3">
                 <div className={resultHeaderClusterClass}>
-                  <div className={cn(igIconChipClass, resultHeaderLogoChipClass)} aria-hidden>
+                  <div className={cn(platformIconOakChipClass, resultHeaderLogoChipClass)} aria-hidden>
                     <FaInstagram className={resultHeaderLogoIconClass} />
                   </div>
                   <div className={resultHeaderTextColClass}>
                     <p className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-foreground)]">
                       {ig.platformLabel}
                     </p>
-                    <a
-                      href={profileHref}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-sans text-sm font-semibold text-[#E1306C] underline decoration-[#E1306C]/25 underline-offset-2 transition-opacity hover:opacity-90"
-                    >
+                    <a href={profileHref} target="_blank" rel="noopener noreferrer" className={resultsProfileLinkClass}>
                       {profileDisplay}
                     </a>
                     <p className="font-sans text-xs text-[var(--color-foreground-muted)]">{ig.period30d}</p>
-                    <span className="mt-0.5 inline-flex rounded-full border border-[color-mix(in_srgb,var(--color-border)_70%,#d4c4b8)] bg-[var(--color-surface-strong)]/90 px-2.5 py-1 font-sans text-[0.65rem] text-[var(--color-foreground-muted)]">
-                      <span className="text-[#3d7a5c]">+</span>
+                    <span className="mt-0.5 inline-flex rounded-full border border-[color-mix(in_srgb,var(--color-accent-peach)_58%,var(--color-border))] bg-[var(--color-surface-strong)]/90 px-2.5 py-1 font-sans text-[0.65rem] text-[var(--color-foreground-muted)]">
+                      <span className="text-[var(--color-primary)]">+</span>
                       {formatPct(ig.reachChangePercent, 1)}% reach
                     </span>
                   </div>
@@ -224,13 +224,13 @@ export function ResultsSection(data: ResultsSectionProps) {
                   <ul className="max-w-[12rem] space-y-1 text-left font-sans text-[0.7rem] text-[var(--color-foreground)]">
                     <li className="flex items-center justify-between gap-3">
                       <span className="text-[var(--color-foreground-muted)]">Followers</span>
-                      <span className="font-medium tabular-nums text-[#E1306C]">
+                      <span className="font-medium tabular-nums text-[var(--color-primary)]">
                         {formatPct(ig.viewsFromFollowersPercent, 1)}%
                       </span>
                     </li>
                     <li className="flex items-center justify-between gap-3">
                       <span className="text-[var(--color-foreground-muted)]">Non-followers</span>
-                      <span className="font-medium tabular-nums text-[#833AB4]">
+                      <span className="font-medium tabular-nums text-[color-mix(in_srgb,var(--color-secondary)_88%,var(--color-foreground))]">
                         {formatPct(ig.viewsFromNonFollowersPercent, 1)}%
                       </span>
                     </li>
@@ -250,9 +250,9 @@ export function ResultsSection(data: ResultsSectionProps) {
                         {formatPct(row.percent, 1)}%
                       </span>
                     </div>
-                    <div className="h-1 w-full overflow-hidden rounded-full bg-[color-mix(in_srgb,var(--color-border)_50%,transparent)]">
+                    <div className="h-1 w-full overflow-hidden rounded-full bg-[color-mix(in_srgb,var(--color-accent-peach)_48%,var(--color-border))]">
                       <div
-                        className="h-full rounded-full bg-gradient-to-r from-[#f9ce34]/90 via-[#e6683c] to-[#c13584]"
+                        className="h-full rounded-full bg-[color-mix(in_srgb,var(--color-primary)_78%,var(--color-secondary))]"
                         style={{ width: `${Math.min(100, row.percent)}%` }}
                       />
                     </div>
@@ -267,26 +267,21 @@ export function ResultsSection(data: ResultsSectionProps) {
 
             {/* 2 — Reel: header matches card 1 (label, @, date, impact); Rocco/location under the divider */}
             <div className={resultCardInstagramClass}>
-              <div className="mb-3 border-b border-[color-mix(in_srgb,var(--color-border)_55%,transparent)] pb-3">
+              <div className="mb-3 border-b border-[color-mix(in_srgb,var(--color-accent-peach)_72%,var(--color-border))] pb-3">
                 <div className={resultHeaderClusterClass}>
-                  <div className={cn(igIconChipClass, resultHeaderLogoChipClass)} aria-hidden>
+                  <div className={cn(platformIconOakChipClass, resultHeaderLogoChipClass)} aria-hidden>
                     <FaInstagram className={resultHeaderLogoIconClass} />
                   </div>
                   <div className={resultHeaderTextColClass}>
                     <p className="font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--color-foreground)]">
                       Reel highlight
                     </p>
-                    <a
-                      href={profileHref}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-sans text-sm font-semibold text-[#E1306C] underline decoration-[#E1306C]/25 underline-offset-2 transition-opacity hover:opacity-90"
-                    >
+                    <a href={profileHref} target="_blank" rel="noopener noreferrer" className={resultsProfileLinkClass}>
                       {profileDisplay}
                     </a>
                     <p className="font-sans text-xs text-[var(--color-foreground-muted)]">{ig.period30d}</p>
-                    <span className="mt-0.5 inline-flex rounded-full border border-[color-mix(in_srgb,var(--color-border)_70%,#d4c4b8)] bg-[var(--color-surface-strong)]/90 px-2.5 py-1 font-sans text-[0.65rem] text-[var(--color-foreground-muted)]">
-                      <span className="text-[#3d7a5c]">+</span>
+                    <span className="mt-0.5 inline-flex rounded-full border border-[color-mix(in_srgb,var(--color-accent-peach)_58%,var(--color-border))] bg-[var(--color-surface-strong)]/90 px-2.5 py-1 font-sans text-[0.65rem] text-[var(--color-foreground-muted)]">
+                      <span className="text-[var(--color-primary)]">+</span>
                       {formatInt(ig.singleReel.followersFromReel)} new followers
                     </span>
                   </div>
@@ -308,9 +303,12 @@ export function ResultsSection(data: ResultsSectionProps) {
                   href={ig.singleReel.reelUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-flex max-w-full items-center justify-center gap-1.5 break-words font-sans text-sm font-medium text-[#E1306C] underline decoration-[#E1306C]/30 underline-offset-2 transition-opacity hover:opacity-85"
+                  className={cn(
+                    "mt-2 inline-flex max-w-full items-center justify-center gap-1.5 break-words transition-opacity hover:opacity-85",
+                    resultsProfileLinkClass,
+                  )}
                 >
-                  <FaInstagram className="h-4 w-4 shrink-0" aria-hidden />
+                  <FaInstagram className={cn("h-4 w-4 shrink-0", resultsProfileLinkColorClass)} aria-hidden />
                   Watch on Instagram
                 </a>
               ) : null}
@@ -327,7 +325,7 @@ export function ResultsSection(data: ResultsSectionProps) {
                 ].map((c) => (
                   <div
                     key={c.k}
-                    className="rounded-lg border border-[color-mix(in_srgb,var(--color-border)_40%,transparent)] bg-[var(--color-surface-strong)]/50 px-2 py-1.5"
+                    className="rounded-lg border border-[color-mix(in_srgb,var(--color-accent-peach)_55%,var(--color-border))] bg-[var(--color-surface-strong)]/50 px-2 py-1.5"
                   >
                     <p className="font-sans text-[0.5rem] uppercase tracking-wider text-[var(--color-foreground-muted)]">
                       {c.k}
@@ -342,10 +340,10 @@ export function ResultsSection(data: ResultsSectionProps) {
 
             {/* 3 — TikTok: spans both columns (same total width as Instagram row + gutter) */}
             <div className={cn(resultCardTiktokClass, "sm:col-span-2")}>
-              <div className="mb-4 border-b border-[color-mix(in_srgb,var(--color-border)_55%,transparent)] pb-3 sm:mb-5 sm:pb-4">
+              <div className="mb-4 border-b border-[color-mix(in_srgb,var(--color-accent-peach)_72%,var(--color-border))] pb-3 sm:mb-5 sm:pb-4">
                 <div className={resultHeaderTiktokWebsiteBandClass}>
                   <div className={resultHeaderClusterTiktokWebsiteClass}>
-                    <div className={cn(tiktokIconChipClass, resultHeaderLogoChipClass)} aria-hidden>
+                    <div className={cn(platformIconOakChipClass, resultHeaderLogoChipClass)} aria-hidden>
                       <FaTiktok className={resultHeaderLogoIconClass} />
                     </div>
                     <div className={resultHeaderTextColClass}>
@@ -357,11 +355,7 @@ export function ResultsSection(data: ResultsSectionProps) {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`${tiktok.accountName} on TikTok`}
-                        className={cn(
-                          "font-sans text-sm font-semibold underline underline-offset-2 transition-colors hover:opacity-90",
-                          tiktokAccentMiddleClass,
-                          tiktokAccentUnderlineClass,
-                        )}
+                        className={resultsProfileLinkClass}
                       >
                         {tiktokTagDisplay}
                       </a>
@@ -374,13 +368,13 @@ export function ResultsSection(data: ResultsSectionProps) {
                 {tiktok.metrics.map((m) => (
                   <li
                     key={m.label}
-                    className="border-b border-[color-mix(in_srgb,var(--color-border)_40%,transparent)] pb-4 last:border-0 last:pb-0 sm:border-0 sm:pb-0"
+                    className="border-b border-[color-mix(in_srgb,var(--color-accent-peach)_55%,var(--color-border))] pb-4 last:border-0 last:pb-0 sm:border-0 sm:pb-0"
                   >
                     <p className="font-sans text-xs text-[var(--color-foreground-muted)]">{m.label}</p>
                     <p className="mt-0.5 font-sans text-2xl font-semibold tabular-nums text-[var(--color-foreground)] sm:text-3xl">
                       {formatInt(m.value)}
                     </p>
-                    <p className={cn("mt-0.5 text-sm font-medium", tiktokAccentMiddleClass)}>
+                    <p className={cn("mt-0.5 text-sm font-medium", resultsDeltaClass)}>
                       +{formatPct(m.changePercent, 2)}%
                     </p>
                   </li>
@@ -390,7 +384,7 @@ export function ResultsSection(data: ResultsSectionProps) {
 
             {website ? (
               <div className={cn(resultCardTiktokClass, "sm:col-span-2")}>
-                <div className="mb-4 border-b border-[color-mix(in_srgb,var(--color-border)_55%,transparent)] pb-3 sm:mb-5 sm:pb-4">
+                <div className="mb-4 border-b border-[color-mix(in_srgb,var(--color-accent-peach)_72%,var(--color-border))] pb-3 sm:mb-5 sm:pb-4">
                   <div className={resultHeaderTiktokWebsiteBandClass}>
                     <div className={resultHeaderClusterTiktokWebsiteClass}>
                       <ResultsBrandHeaderChip />
@@ -402,7 +396,7 @@ export function ResultsSection(data: ResultsSectionProps) {
                           href={website.siteHref}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="font-sans text-sm font-semibold text-[var(--color-primary)] underline decoration-[var(--color-primary)]/30 underline-offset-2 transition-opacity hover:opacity-90"
+                          className={resultsProfileLinkClass}
                         >
                           {website.siteDisplayUrl}
                         </a>

@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "optimize:destinations": "node scripts/optimize-destination-images.mjs"
+    "optimize:destinations": "node scripts/optimize-destination-images.mjs",
+    "generate:favicons": "node scripts/generate-favicons-from-svg.mjs"
   },
   "dependencies": {
     "@formspree/react": "^3.0.0",

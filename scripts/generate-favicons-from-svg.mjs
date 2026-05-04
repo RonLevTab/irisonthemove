@@ -1,8 +1,13 @@
 /**
- * Rasterises `public/images/site/favicon-source.svg` into PNG favicons + app icons.
+ * Rasterises `public/images/site/favicon-source.svg` into PNG favicons + app icons,
+ * copies SVG to `public/favicon.svg` + `src/app/icon.svg` (Next tab/bookmark icon).
+ *
  * Run: node scripts/generate-favicons-from-svg.mjs
+ *
+ * After changing the source SVG, run this so `apple-touch-icon.png`, `favicon-*.png`,
+ * and `src/app/apple-icon.png` match (Safari / iOS home screen / shortcuts).
  */
-import { copyFileSync, readFileSync } from "node:fs";
+import { copyFileSync, readFileSync, unlinkSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -27,3 +32,11 @@ await writePng("src/app/apple-icon.png", 180);
 copyFileSync(svgPath, join(root, "public/favicon.svg"));
 copyFileSync(svgPath, join(root, "src/app/icon.svg"));
 console.log("copied SVG → public/favicon.svg, src/app/icon.svg (Next metadata)");
+
+const legacyIco = join(root, "public/favicon.ico");
+try {
+  unlinkSync(legacyIco);
+  console.log("removed", "public/favicon.ico", "(stale binary; browsers use icon.svg + PNGs)");
+} catch {
+  /* already absent */
+}

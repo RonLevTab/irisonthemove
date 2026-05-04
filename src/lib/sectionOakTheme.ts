@@ -40,20 +40,10 @@ export const oakSectionStyle: CSSProperties = {
  * Latest content / reels — warm beige and soft sand only (no cranberry wash).
  * Keeps contrast low against blue water in reel thumbnails.
  */
+/** Flat wash — layered gradients read as a faint “box” behind the sound + social row. */
 export const latestContentSectionStyle: CSSProperties = {
   backgroundColor: "#faf4ed",
-  backgroundImage: `
-      linear-gradient(
-        180deg,
-        #f3e9de 0%,
-        rgba(253, 248, 243, 0.97) 20%,
-        rgba(253, 248, 243, 0.98) 40%,
-        #f3e9de 100%
-      ),
-      radial-gradient(ellipse 110% 70% at 90% 8%, rgba(214, 161, 101, 0.07), transparent 58%),
-      radial-gradient(ellipse 90% 55% at 10% 92%, rgba(232, 201, 181, 0.14), transparent 52%),
-      linear-gradient(180deg, transparent 0%, rgba(240, 228, 216, 0.25) 100%)
-    `,
+  backgroundImage: "none",
 };
 
 /** Bottom edge — soft gradient line (see `.section-divider-edge-fade-bottom` in globals.css). */

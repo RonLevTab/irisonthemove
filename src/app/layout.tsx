@@ -51,7 +51,20 @@ export async function generateMetadata(): Promise<Metadata> {
       title: site.title,
       description: site.description,
     },
-    /** Tab / bookmark / iOS: `src/app/icon.svg` + `src/app/apple-icon.png` (+ `public/favicon*.png`). */
+    /**
+     * Explicit favicon links so tabs, bookmarks, and “Add to Home Screen” match the brand mark
+     * from `public/images/site/favicon-source.svg` (regenerate PNGs: `npm run generate:favicons`).
+     */
+    icons: {
+      /** PNG first — some Safari versions pick the first `icon` for the tab; SVG is a sharp fallback. */
+      icon: [
+        { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+        { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+        { url: "/favicon.svg", type: "image/svg+xml" },
+      ],
+      shortcut: "/favicon-32x32.png",
+      apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    },
     appleWebApp: {
       title: site.title,
     },
