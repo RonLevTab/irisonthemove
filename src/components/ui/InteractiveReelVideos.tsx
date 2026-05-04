@@ -195,11 +195,11 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
       className="flex h-full min-h-0 w-full flex-1 flex-col overflow-x-hidden"
     >
       {/*
-        Breed: volle editorial breedte (max-w-6xl); actieve reel krijgt de sterkere flex-ratio (6).
+        Smallere bak + iets hoger → actieve video minder “breed vierkant”, meer Reels-hoogte.
       */}
-      <div className="mx-auto flex h-full min-h-0 w-full max-w-6xl flex-1 flex-col gap-2 md:gap-0">
+      <div className="mx-auto flex h-full min-h-0 w-full max-w-4xl flex-1 flex-col gap-2 md:gap-0 lg:max-w-5xl">
         <div
-          className={`flex min-h-[19rem] flex-1 flex-row rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:12_1_0%] [--reel-inactive-flex:1.05_1_0%] max-md:overflow-hidden md:min-h-[29rem] md:[--reel-active-flex:6_1_0%] md:[--reel-inactive-flex:1.15_1_0%] ${
+          className={`flex min-h-[20rem] flex-1 flex-row rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:12_1_0%] [--reel-inactive-flex:1.05_1_0%] max-md:overflow-hidden md:min-h-[32rem] md:[--reel-active-flex:5.5_1_0%] md:[--reel-inactive-flex:1.16_1_0%] ${
             playStripPreviews
               ? "max-md:[scrollbar-width:thin] md:overflow-hidden"
               : "overflow-hidden"
