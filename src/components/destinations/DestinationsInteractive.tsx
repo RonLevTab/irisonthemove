@@ -33,7 +33,7 @@ export function DestinationsInteractive({
     <>
       <section
         aria-label="Countries visited"
-        className="sticky top-[var(--nav-stack-height)] z-30 w-full border-0 bg-[var(--color-background)] px-7 pt-3 pb-1.5 shadow-none sm:px-10 sm:pb-2 lg:px-16 lg:pt-6 lg:pb-3 xl:px-18"
+        className="sticky top-[var(--nav-stack-height)] z-30 w-full border-0 bg-[var(--color-background)] px-7 pt-2 pb-1.5 shadow-none sm:px-10 sm:pb-2 lg:px-16 lg:pt-5 lg:pb-3 xl:px-18"
       >
         <DestinationsCountryMarquee cardMessage={cardMessage} />
       </section>
