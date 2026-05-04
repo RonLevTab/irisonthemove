@@ -13,7 +13,7 @@ export default async function DestinationsPage() {
   const gallery = await getDestinationsGallery();
 
   return (
-    <section className="w-full overflow-x-hidden bg-gradient-to-b from-[#f1ebe4] via-[#f5f0e8] to-[var(--color-background)]">
+    <section className="w-full overflow-x-hidden bg-gradient-to-b from-[var(--color-background)] via-[#f5f0e8] to-[var(--color-background)]">
       <DestinationsInteractive
         items={gallery.items}
         cardMessage={gallery.cardMessage}
