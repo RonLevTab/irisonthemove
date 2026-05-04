@@ -84,7 +84,10 @@ export default async function RootLayout({
       lang="en"
       className={`${dmSans.variable} ${fontCormorant.variable} ${fontLogoScript.variable} ${fontBrandSubtitle.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col font-sans">
+      <body
+        className="flex min-h-full flex-col font-sans"
+        data-deploy-sha={process.env.VERCEL_GIT_COMMIT_SHA ?? "local"}
+      >
         <Script
           id="platform-os"
           strategy="beforeInteractive"

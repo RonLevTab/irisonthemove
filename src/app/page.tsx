@@ -5,6 +5,9 @@ import { VideoCtaSection } from "@/components/sections/VideoCtaSection";
 import { HeroSection } from "@/components/ui/HeroSection";
 import { getHomepageContent, getSiteConfig } from "@/lib/content";
 
+/** Avoid serving a stale prerendered homepage when production deploys update. */
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const [site, homepage] = await Promise.all([
     getSiteConfig(),
