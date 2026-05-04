@@ -15,16 +15,6 @@ const nextConfig: NextConfig = {
   outputFileTracingExcludes: {
     "*": ["public/videos/**/*", "public/images/**/*"],
   },
-  /** Browsers vragen standaard `/favicon.ico`; zonder eigen .ico toont Vercel het zwarte driehoekje. */
-  async redirects() {
-    return [
-      {
-        source: "/favicon.ico",
-        destination: "/favicon-32x32.png",
-        permanent: false,
-      },
-    ];
-  },
 };
 
 export default nextConfig;
