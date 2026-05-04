@@ -251,23 +251,25 @@ export function DestinationsCountryMarquee({
       )}
     >
       <div
-        className="relative isolate z-0 -mb-5 w-full min-h-[5.75rem] -translate-y-[1.375rem] overflow-visible sm:-mb-5 sm:min-h-[6.25rem] sm:-translate-y-[1.625rem] md:min-h-[6.85rem] md:-translate-y-[1.875rem]"
+        className="relative isolate z-0 -mb-5 w-full -translate-y-[1.375rem] overflow-visible sm:-mb-5 sm:-translate-y-[1.625rem] md:-translate-y-[1.875rem]"
         role="presentation"
       >
-        {/*
-          Ticker uitlijnen in de band tussen het grote cijfer en het label — niet
-          verticaal centreren op het hele statblok (dat liet de landen midden in de "20" vallen).
-        */}
-        <div className="pointer-events-none absolute inset-0 z-[1] flex items-end justify-center pb-[1.7rem] sm:pb-[2rem] md:pb-[2.15rem]">
-          <CountryMarqueeStrip
-            reduceMotion={reduceMotion}
-            className="w-full py-0"
-            clearTickerInCenter
-          />
-        </div>
-        <div className="pointer-events-none absolute inset-0 z-[2] flex min-h-[5.75rem] items-center justify-center py-3 sm:min-h-[6.25rem] sm:py-4 md:min-h-[6.85rem]">
-          <div className="pointer-events-auto flex items-center justify-center gap-2.5 px-5 sm:gap-4 sm:px-7 md:gap-5 md:px-8">
-            <CountriesVisitedPanel />
+        <div className="flex justify-center px-5 sm:px-6 md:px-8">
+          {/*
+            Statblok = 20 + “countries visited” als één geheel. Marquee op 50%/50%
+            van díé wrapper (niet van de oude min-h overlay of midden van alleen de 20).
+          */}
+          <div className="relative inline-flex flex-col items-center">
+            <div className="relative z-[2]">
+              <CountriesVisitedPanel />
+            </div>
+            <div className="pointer-events-none absolute top-1/2 left-1/2 z-[1] w-screen max-w-[100vw] -translate-x-1/2 -translate-y-1/2">
+              <CountryMarqueeStrip
+                reduceMotion={reduceMotion}
+                className="w-full py-0"
+                clearTickerInCenter
+              />
+            </div>
           </div>
         </div>
       </div>
