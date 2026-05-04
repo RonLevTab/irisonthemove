@@ -3,7 +3,8 @@ import { ServicesOverviewSection } from "@/components/sections/ServicesOverviewS
 import { SocialProofSection } from "@/components/sections/SocialProofSection";
 import { VideoCtaSection } from "@/components/sections/VideoCtaSection";
 import { HeroSection } from "@/components/ui/HeroSection";
-import { getHomepageContent, getSiteConfig } from "@/lib/content";
+import { getHomepageContent } from "@/lib/homepageContent";
+import { getSiteConfig } from "@/lib/siteContent";
 
 /** Avoid serving a stale prerendered homepage when production deploys update. */
 export const dynamic = "force-dynamic";

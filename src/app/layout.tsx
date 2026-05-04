@@ -7,7 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ScrollToTopOnRoute } from "@/components/layout/ScrollToTopOnRoute";
 import { PhotoLightboxProvider } from "@/components/ui/PhotoLightbox";
-import { getSiteConfig } from "@/lib/content";
+import { getSiteConfig } from "@/lib/siteContent";
 import { getPlatformOsHtmlClassFromUserAgent } from "@/lib/platformOsScript";
 import {
   fontBrandSubtitle,

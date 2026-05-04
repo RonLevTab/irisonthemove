@@ -10,7 +10,8 @@ import { ResultsSection } from "@/components/sections/ResultsSection";
 import { WorkCtaSection } from "@/components/sections/WorkCtaSection";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { getSiteConfig, getWorkPageContent } from "@/lib/content";
+import { getWorkPageContent } from "@/lib/content";
+import { getSiteConfig } from "@/lib/siteContent";
 import { cn } from "@/lib/utils";
 import {
   oakSectionBorderClassName,

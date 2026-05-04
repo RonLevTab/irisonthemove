@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
-import { getBlogPosts, getDestinations, getSiteConfig, getTravelGuides } from "@/lib/content";
+import { getBlogPosts, getDestinations, getTravelGuides } from "@/lib/content";
+import { getSiteConfig } from "@/lib/siteContent";
 
 export const dynamic = "force-static";
 

@@ -4,16 +4,12 @@ import blogPostsData from "@/content/blog-posts.json";
 import destinationRegionsData from "@/content/destination-regions.json";
 import destinationsGalleryData from "@/content/destinations-gallery.json";
 import destinationsData from "@/content/destinations.json";
-import homepageData from "@/content/homepage.json";
-import siteData from "@/content/site.json";
 import travelGuidesData from "@/content/travel-guides.json";
 import aboutPageData from "@/content/about-page.json";
 import workPageData from "@/content/work-page.json";
 import type {
   BlogPost,
   Destination,
-  HomepageContent,
-  SiteConfig,
   TravelGuide,
   AboutPageContent,
   DestinationGalleryContent,
@@ -21,8 +17,9 @@ import type {
   WorkPageContent,
 } from "@/types/content";
 
-const site = siteData as SiteConfig;
-const homepage = homepageData as HomepageContent;
+export { getHomepageContent } from "@/lib/homepageContent";
+export { getSiteConfig } from "@/lib/siteContent";
+
 const aboutPage = aboutPageData as AboutPageContent;
 const workPage = workPageData as WorkPageContent;
 const destinationsGallery = destinationsGalleryData as DestinationGalleryContent;
@@ -33,12 +30,6 @@ const blogPosts = [...(blogPostsData as BlogPost[])].sort((a, b) =>
   b.date.localeCompare(a.date),
 );
 const travelGuides = travelGuidesData as TravelGuide[];
-
-export const getSiteConfig = cache(async (): Promise<SiteConfig> => site);
-
-export const getHomepageContent = cache(
-  async (): Promise<HomepageContent> => homepage,
-);
 
 export const getAboutPageContent = cache(
   async (): Promise<AboutPageContent> => aboutPage,

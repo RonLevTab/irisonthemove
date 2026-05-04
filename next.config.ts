@@ -7,6 +7,14 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: process.cwd(),
   },
+  /**
+   * Static assets under `public/` are served by the CDN and must not be copied into every
+   * serverless function bundle. Tracing them (via layout importing all content JSON with asset
+   * paths) pushed `_not-found` over Vercel’s 300MB limit (~583MB with videos + images).
+   */
+  outputFileTracingExcludes: {
+    "*": ["public/videos/**/*", "public/images/**/*"],
+  },
   /** Browsers vragen standaard `/favicon.ico`; zonder eigen .ico toont Vercel het zwarte driehoekje. */
   async redirects() {
     return [

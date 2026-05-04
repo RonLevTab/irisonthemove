@@ -3,7 +3,8 @@ import path from "node:path";
 
 import { ImageResponse } from "next/og";
 
-import { getHomepageContent, getSiteConfig } from "@/lib/content";
+import { getHomepageContent } from "@/lib/homepageContent";
+import { getSiteConfig } from "@/lib/siteContent";
 
 /** Match globals.css --color-primary */
 const PRIMARY = "#5a2d32";
@@ -27,12 +28,34 @@ export const size = { width: 1200, height: 630 };
 
 export const contentType = "image/png";
 
+async function loadPublicImageBytes(publicRelPath: string): Promise<Buffer> {
+  const key = publicRelPath.replace(/^\//, "");
+  const isProductionBuild =
+    process.env.NEXT_PHASE === "phase-production-build";
+
+  /** Dev and `next build` — file is on disk; avoids fetch during static generation. */
+  if (process.env.NODE_ENV === "development" || isProductionBuild) {
+    return readFile(path.join(process.cwd(), "public", key));
+  }
+
+  /**
+   * Production / Vercel: hero JPEG is a static asset — fetch from this deployment so the OG
+   * route does not need `public/` files inside the Node function bundle.
+   */
+  const origin = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : new URL((await getSiteConfig()).seo.siteUrl).origin;
+  const res = await fetch(`${origin}/${key}`);
+  if (!res.ok) {
+    throw new Error(`OpenGraph hero fetch failed (${res.status}): ${origin}/${key}`);
+  }
+  return Buffer.from(await res.arrayBuffer());
+}
+
 export default async function OpenGraphImage() {
   const [site, home] = await Promise.all([getSiteConfig(), getHomepageContent()]);
 
-  const bgRel = home.hero.backgroundImage.replace(/^\//, "");
-  const bgAbs = path.join(process.cwd(), "public", bgRel);
-  const bgBuf = await readFile(bgAbs);
+  const bgBuf = await loadPublicImageBytes(home.hero.backgroundImage);
   const bgDataUrl = `data:image/jpeg;base64,${bgBuf.toString("base64")}`;
 
   const [castoro, cormorantItalic, monsieur] = await Promise.all([
