@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { useId, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 import { useWorkPageVideoAudioOptional } from "@/components/work/WorkPageVideoAudioContext";
@@ -20,8 +20,6 @@ type WorkCategoryTripleVideoRowProps = {
   variant?: "default" | "embedded";
 };
 
-const NEAR_VIEW_ROOT_MARGIN = "520px 0px";
-
 function TripleRowVideoCell({
   clip,
   index,
@@ -35,7 +33,6 @@ function TripleRowVideoCell({
 }) {
   const cellRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [shouldLoad, setShouldLoad] = useState(false);
   const [muted, setMuted] = useState(true);
   const instanceId = useId();
   const audio = useWorkPageVideoAudioOptional();
@@ -46,49 +43,6 @@ function TripleRowVideoCell({
   };
 
   useLayoutEffect(() => {
-    const cell = cellRef.current;
-    if (!cell) {
-      return;
-    }
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setShouldLoad(true);
-          io.disconnect();
-        }
-      },
-      { rootMargin: NEAR_VIEW_ROOT_MARGIN, threshold: 0 },
-    );
-    io.observe(cell);
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const cell = cellRef.current;
-    if (!cell) return;
-    const bump = () => {
-      const r = cell.getBoundingClientRect();
-      const vh =
-        typeof window !== "undefined"
-          ? window.innerHeight || document.documentElement.clientHeight
-          : 0;
-      if (r.bottom > -160 && r.top < vh + 520) {
-        setShouldLoad(true);
-      }
-    };
-    bump();
-    const t = window.setTimeout(bump, 80);
-    const t2 = window.setTimeout(bump, 400);
-    return () => {
-      window.clearTimeout(t);
-      window.clearTimeout(t2);
-    };
-  }, []);
-
-  useLayoutEffect(() => {
-    if (!shouldLoad) {
-      return;
-    }
     const vid = videoRef.current;
     const cell = cellRef.current;
     if (!vid || !cell) {
@@ -118,7 +72,7 @@ function TripleRowVideoCell({
       vid.removeEventListener("loadeddata", tryPlay);
       vid.removeEventListener("canplay", tryPlay);
     };
-  }, [shouldLoad]);
+  }, [clip.videoSrc]);
 
   useLayoutEffect(() => {
     if (!audio) return;
@@ -164,13 +118,13 @@ function TripleRowVideoCell({
       >
         <video
           ref={setVideoRef}
-          src={shouldLoad ? clip.videoSrc : undefined}
+          src={clip.videoSrc}
           className="h-full w-full object-cover object-bottom"
           muted={muted}
           loop
           playsInline
           autoPlay
-          preload={shouldLoad ? "auto" : "none"}
+          preload="auto"
           aria-label={clip.title?.trim() || "Portfolio video clip"}
         />
       </div>
@@ -183,7 +137,7 @@ function TripleRowVideoCell({
  * Three reel-style slots (MP4 or placeholder). Shown only when `videos.length === 3`.
  * Placeholder slots keep the same frame for “coming soon” until a file is ready.
  * — Muted + loop + `playsInline` for real clips; play/pause follows viewport visibility.
- * Real clips defer `src` until near the viewport to avoid stacking full preloads on the work page.
+ * Real clips load eagerly so the strip is ready as soon as visitors open My Work.
  */
 export function WorkCategoryTripleVideoRow({
   videos,

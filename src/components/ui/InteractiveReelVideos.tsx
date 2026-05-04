@@ -109,6 +109,32 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
     };
   }, []);
 
+  /** Start fetching every reel MP4 as soon as the home page mounts (before the block scrolls into view). */
+  const reelPreloadKey = items.map((i) => i.videoSrc).join("|");
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const links: HTMLLinkElement[] = [];
+    const seen = new Set<string>();
+    for (const item of items) {
+      const trimmed = item.videoSrc.trim();
+      const hashIdx = trimmed.indexOf("#");
+      const href = withAssetPath(hashIdx >= 0 ? trimmed.slice(0, hashIdx) : trimmed);
+      if (seen.has(href)) continue;
+      seen.add(href);
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "video";
+      link.href = href;
+      document.head.appendChild(link);
+      links.push(link);
+    }
+    return () => {
+      for (const l of links) {
+        l.remove();
+      }
+    };
+  }, [reelPreloadKey]);
+
   useEffect(() => {
     const el = blockRef.current;
     if (!el) return;
@@ -212,11 +238,8 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
               : undefined;
             const shouldPlayThisStrip = playStripPreviews || isActive;
             const shouldPlayAudio = reelsAudioActive && isActive;
-            /**
-             * Full preload only for strips that actually play; others stay on metadata so six
-             * desktop previews don’t saturate bandwidth.
-             */
-            const preloadStrategy = shouldPlayThisStrip ? "auto" : "metadata";
+            /** All reels preload fully so switching strips / first paint never waits on cold buffer. */
+            const preloadStrategy = "auto";
 
             const stripFlexStyle = {
               flex: isActive
