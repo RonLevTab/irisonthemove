@@ -5,20 +5,23 @@
  * - On hover: faded bordeaux wash over the image (slight blur), text stacked in the **centre**.
  * - Line 1 (venue): **block capitals**, larger, warm white.
  * - Lines 2–3 (city / country): **smaller**, **normal casing** so names keep capitals (e.g. Châteauneuf, France).
- * - Copy is hidden until hover (`opacity` + `group-hover`), except `motion-reduce:opacity-100` for accessibility.
+ * - Visibility is controlled by `.work-gallery-tile-overlays` in `globals.css` (hover on fine-pointer
+ *   desktop; tap-to-flash on narrow viewports via `work-gallery-tile--caption-open` on the `<figure>`).
+ * - Do not use `motion-reduce:opacity-100` here — Windows often has “reduce motion” on, which would
+ *   show all overlays on load (same bug as destinations before the media-query fix).
  */
 
 /** Dark lift behind captions — fades in with the bordeaux layer. */
 export const workGalleryImageGradientClass =
-  "pointer-events-none absolute inset-0 z-[1] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:opacity-100 bg-gradient-to-t from-[rgba(50,43,39,0.82)] via-[rgba(50,43,39,0.15)] to-transparent";
+  "pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-[rgba(50,43,39,0.82)] via-[rgba(50,43,39,0.15)] to-transparent";
 
 /** Bordeaux wash on hover — full tile, soft blur. */
 export const workGalleryImageHoverWashClass =
-  "pointer-events-none absolute inset-0 z-[2] opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:opacity-100 rounded-[inherit] bg-[linear-gradient(165deg,color-mix(in_srgb,var(--color-primary)_38%,rgba(55,20,28,0.48))_0%,color-mix(in_srgb,var(--color-primary)_24%,rgba(38,14,20,0.5))_50%,rgba(22,8,12,0.48)_100%)] backdrop-blur-[4px]";
+  "pointer-events-none absolute inset-0 z-[2] rounded-[inherit] bg-[linear-gradient(165deg,color-mix(in_srgb,var(--color-primary)_38%,rgba(55,20,28,0.48))_0%,color-mix(in_srgb,var(--color-primary)_24%,rgba(38,14,20,0.5))_50%,rgba(22,8,12,0.48)_100%)] backdrop-blur-[4px]";
 
 /** Centred stack: venue + city/country in the middle of the tile. */
 export const workGalleryCaptionWrapClass =
-  "pointer-events-none absolute inset-0 z-[3] mx-auto flex w-full max-w-[min(100%,24rem)] flex-col items-center justify-center px-1.5 py-5 text-center opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:opacity-100 sm:px-4 sm:py-8";
+  "pointer-events-none absolute inset-0 z-[3] mx-auto flex w-full max-w-[min(100%,24rem)] flex-col items-center justify-center px-1.5 py-5 text-center sm:px-4 sm:py-8";
 
 /** Hotel / restaurant name — block letters, prominent white. */
 export const workGalleryCaptionPrimaryClass =

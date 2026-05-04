@@ -130,6 +130,48 @@ html {
   }
 }
 
+/*
+ * Work page (hotels & restaurants): bordeaux overlay + titles only on hover for mouse desktops;
+ * narrow viewports = hidden until tap (`work-gallery-tile--caption-open`). Avoids Windows
+ * “reduce motion” / `motion-reduce:opacity-100` showing every overlay on load.
+ */
+@media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+  .work-gallery-tile .work-gallery-tile-overlays {
+    opacity: 0;
+    transition: opacity 0.22s ease;
+  }
+  .work-gallery-tile:hover .work-gallery-tile-overlays,
+  .work-gallery-tile:focus-within .work-gallery-tile-overlays {
+    opacity: 1;
+  }
+}
+/* Large screens used mainly with touch: same as hover, plus optional open class */
+@media (min-width: 900px) and ((hover: none) or (pointer: coarse)) {
+  .work-gallery-tile .work-gallery-tile-overlays {
+    opacity: 0;
+    transition: opacity 0.22s ease;
+  }
+  .work-gallery-tile:hover .work-gallery-tile-overlays,
+  .work-gallery-tile:focus-within .work-gallery-tile-overlays,
+  .work-gallery-tile.work-gallery-tile--caption-open .work-gallery-tile-overlays {
+    opacity: 1;
+  }
+}
+@media (max-width: 899px) {
+  .work-gallery-tile .work-gallery-tile-overlays {
+    opacity: 0;
+    transition: opacity 0.22s ease;
+  }
+  .work-gallery-tile.work-gallery-tile--caption-open .work-gallery-tile-overlays {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .work-gallery-tile .work-gallery-tile-overlays {
+    transition: none;
+  }
+}
+
 /* Homepage only: class toggled by `HomeMobileScrollSnap` — één “scherm” per sectie op smalle viewports.
    Use `proximity` (not `mandatory`) so visitors can still scroll past the last snap section to the footer. */
 @media (max-width: 767px) {

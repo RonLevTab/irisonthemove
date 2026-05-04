@@ -71,7 +71,6 @@ export function WorkGalleryImageTile({
         : "object-center";
 
   const captionSummary = [line1, line2, line3].filter(Boolean).join(", ");
-  const showCaptionOnTouch = captionOpen ? "max-[899px]:!opacity-100" : "";
 
   return (
     <figure
@@ -99,8 +98,10 @@ export function WorkGalleryImageTile({
       }}
       className={cn(
         figureCornerClass,
-        "group relative isolate min-h-0 w-full min-w-0 overflow-hidden rounded-none border-0 bg-[var(--color-surface)]",
+        "work-gallery-tile group relative isolate outline-none focus-visible:outline-none",
+        "min-h-0 w-full min-w-0 overflow-hidden rounded-none border-0 bg-[var(--color-surface)]",
         "max-[899px]:aspect-[3/4] min-[900px]:h-full",
+        hasCaption && captionOpen && "work-gallery-tile--caption-open",
         hasCaption && "cursor-pointer min-[900px]:cursor-default",
       )}
     >
@@ -122,13 +123,10 @@ export function WorkGalleryImageTile({
         draggable={false}
       />
       {hasCaption ? (
-        <>
-          <div className={cn(workGalleryImageGradientClass, showCaptionOnTouch)} aria-hidden />
-          <div
-            className={cn(workGalleryImageHoverWashClass, figureCornerClass, showCaptionOnTouch)}
-            aria-hidden
-          />
-          <div className={cn(workGalleryCaptionWrapClass, showCaptionOnTouch)} aria-hidden>
+        <div className="work-gallery-tile-overlays pointer-events-none absolute inset-0 z-[1]" aria-hidden>
+          <div className={workGalleryImageGradientClass} />
+          <div className={cn(workGalleryImageHoverWashClass, figureCornerClass)} />
+          <div className={workGalleryCaptionWrapClass}>
             {line1 ? (
               <span className={cn(workGalleryCaptionPrimaryClass, workHoverVenueNameClass)}>{line1}</span>
             ) : null}
@@ -139,7 +137,7 @@ export function WorkGalleryImageTile({
               <span className={cn(workGalleryCaptionSecondaryClass, workHoverLineClampClass)}>{line3}</span>
             ) : null}
           </div>
-        </>
+        </div>
       ) : null}
     </figure>
   );
