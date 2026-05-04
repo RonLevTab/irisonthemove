@@ -196,7 +196,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
     >
       <div className="mx-auto flex h-full min-h-0 w-full max-w-6xl flex-1 flex-col gap-2 md:gap-0">
         <div
-          className={`flex min-h-[18rem] flex-1 flex-row rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:12_1_0%] [--reel-inactive-flex:1.25_1_0%] max-md:overflow-hidden md:min-h-[26rem] md:[--reel-active-flex:5_1_0%] md:[--reel-inactive-flex:2.2_1_0%] ${
+          className={`flex min-h-[18rem] flex-1 flex-row rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:12_1_0%] [--reel-inactive-flex:1.05_1_0%] max-md:overflow-hidden md:min-h-[26rem] md:[--reel-active-flex:6_1_0%] md:[--reel-inactive-flex:1.15_1_0%] ${
             playStripPreviews
               ? "max-md:[scrollbar-width:thin] md:overflow-hidden"
               : "overflow-hidden"
@@ -229,7 +229,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                 aria-expanded={isActive}
                 aria-controls={`reel-panel-${index}`}
                 id={`reel-tab-${index}`}
-                className="group relative flex min-h-0 min-w-[2.05rem] flex-1 flex-col justify-end overflow-hidden border-r border-[var(--color-border)] text-left transition-[flex,box-shadow] duration-700 ease-in-out last:border-r-0 first:rounded-l-[1.5rem] last:rounded-r-[1.5rem] max-md:min-w-0 max-md:flex-1 md:min-w-[72px] md:flex-1 md:rounded-none md:border-r md:border-b-0 md:last:border-r-0 md:first:rounded-l-[1.5rem] md:first:rounded-tr-none md:last:rounded-r-[1.5rem] md:last:rounded-bl-none"
+                className="group relative flex min-h-0 min-w-[2.05rem] flex-1 flex-col justify-end overflow-hidden border-r border-[var(--color-border)] text-left transition-[flex,box-shadow] duration-700 ease-in-out last:border-r-0 first:rounded-l-[1.5rem] last:rounded-r-[1.5rem] max-md:min-w-0 max-md:flex-1 md:min-w-[2.5rem] md:flex-1 md:rounded-none md:border-r md:border-b-0 md:last:border-r-0 md:first:rounded-l-[1.5rem] md:first:rounded-tr-none md:last:rounded-r-[1.5rem] md:last:rounded-bl-none"
                 style={{
                   ...stripFlexStyle,
                   boxShadow: isActive
