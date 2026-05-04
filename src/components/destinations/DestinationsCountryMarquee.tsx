@@ -254,7 +254,11 @@ export function DestinationsCountryMarquee({
         className="relative isolate z-0 -mb-5 w-full min-h-[5.75rem] -translate-y-[1.375rem] overflow-visible sm:-mb-5 sm:min-h-[6.25rem] sm:-translate-y-[1.625rem] md:min-h-[6.85rem] md:-translate-y-[1.875rem]"
         role="presentation"
       >
-        <div className="pointer-events-none absolute inset-0 z-[1] flex items-center justify-center">
+        {/*
+          Ticker uitlijnen in de band tussen het grote cijfer en het label — niet
+          verticaal centreren op het hele statblok (dat liet de landen midden in de "20" vallen).
+        */}
+        <div className="pointer-events-none absolute inset-0 z-[1] flex items-end justify-center pb-[1.7rem] sm:pb-[2rem] md:pb-[2.15rem]">
           <CountryMarqueeStrip
             reduceMotion={reduceMotion}
             className="w-full py-0"
