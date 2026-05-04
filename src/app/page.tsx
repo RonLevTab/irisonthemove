@@ -1,4 +1,3 @@
-import { HomeMobileScrollSnap } from "@/components/home/HomeMobileScrollSnap";
 import { ServicesOverviewSection } from "@/components/sections/ServicesOverviewSection";
 import { SocialProofSection } from "@/components/sections/SocialProofSection";
 import { VideoCtaSection } from "@/components/sections/VideoCtaSection";
@@ -16,17 +15,15 @@ export default async function Home() {
   ]);
 
   return (
-    <HomeMobileScrollSnap>
-      <div className="relative">
-        <HeroSection {...homepage.hero} />
-        <SocialProofSection
-          {...homepage.socialProof}
-          instagramUrl={site.socialLinks.instagram}
-          tiktokUrl={site.socialLinks.tiktok}
-        />
-        <ServicesOverviewSection {...homepage.services} />
-        <VideoCtaSection {...homepage.videoCta} formId={site.formspreeId} />
-      </div>
-    </HomeMobileScrollSnap>
+    <div className="relative">
+      <HeroSection {...homepage.hero} />
+      <SocialProofSection
+        {...homepage.socialProof}
+        instagramUrl={site.socialLinks.instagram}
+        tiktokUrl={site.socialLinks.tiktok}
+      />
+      <ServicesOverviewSection {...homepage.services} />
+      <VideoCtaSection {...homepage.videoCta} formId={site.formspreeId} />
+    </div>
   );
 }

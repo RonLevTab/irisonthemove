@@ -47,7 +47,11 @@ export function WorkHotelMediaWithVideos({
 
   return (
     <div className="flex w-full justify-center">
-      <div className="flex w-full max-w-full flex-col items-center gap-3 pb-2 min-[1200px]:gap-6 min-[1200px]:pb-3">
+      {/*
+        Same strip → reels rhythm as WorkDualGridsWithTripleVideos; minimal bottom padding
+        on this wrapper so the next section doesn’t sit under a huge empty band.
+      */}
+      <div className="flex w-full max-w-full flex-col items-center gap-6 pb-2 max-md:gap-6 sm:gap-12 sm:pb-3 min-[1200px]:gap-14 min-[1200px]:pb-3">
         <div
           ref={stripRef}
           role="region"

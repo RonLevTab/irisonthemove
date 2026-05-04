@@ -105,7 +105,7 @@ export function PhotoGallery({ layout = "strip", className }: PhotoGalleryProps)
                   loading={index < GALLERY_IMAGES.length ? "eager" : "lazy"}
                   priority={index < GALLERY_IMAGES.length}
                   fetchPriority={index < GALLERY_IMAGES.length ? "high" : "auto"}
-                  unoptimized
+                  quality={index < GALLERY_IMAGES.length ? 88 : 80}
                   draggable={false}
                 />
               </div>
@@ -153,7 +153,7 @@ export function PhotoGallery({ layout = "strip", className }: PhotoGalleryProps)
                   loading={isFirstPass ? "eager" : "lazy"}
                   priority={isFirstPass}
                   fetchPriority={isFirstPass ? "high" : "auto"}
-                  unoptimized
+                  quality={isFirstPass ? 88 : 80}
                   draggable={false}
                 />
                 <div

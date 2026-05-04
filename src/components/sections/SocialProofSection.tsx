@@ -6,10 +6,7 @@ import { GradientSocialMenu } from "@/components/ui/GradientSocialMenu";
 import { InteractiveReelVideos } from "@/components/ui/InteractiveReelVideos";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import {
-  latestContentSectionStyle,
-  oakSectionInnerAfterHeroClassName,
-} from "@/lib/sectionOakTheme";
+import { latestContentSectionStyle } from "@/lib/sectionOakTheme";
 
 type SocialProofSectionProps = {
   eyebrow: string;
@@ -30,48 +27,46 @@ export function SocialProofSection({
   instagramUrl,
   tiktokUrl,
 }: SocialProofSectionProps) {
-  /** Heading ↔ “reels + social” eén blok; geen justify-between (die zette social aan onderkant viewport). */
-  const blockGap = "gap-8";
-
   return (
     <section
-      className={`relative isolate z-[12] flex min-h-[calc(100dvh-var(--nav-stack-height))] w-full flex-col max-md:snap-start max-md:snap-always max-sm:-mt-10 sm:max-md:-mt-6 lg:-mt-2`}
+      className="relative isolate z-[12] flex w-full scroll-mt-[var(--nav-stack-height)] flex-col md:min-h-[calc(100svh-var(--nav-stack-height,7rem))]"
       style={latestContentSectionStyle}
     >
       <div
-        className={`${oakSectionInnerAfterHeroClassName} flex min-h-0 w-full flex-1 flex-col max-sm:pt-10 max-sm:pb-11 sm:max-md:pt-9 sm:max-md:pb-11`}
+        className="mx-auto flex w-full max-w-[min(100%,96rem)] flex-1 flex-col justify-start px-6 max-sm:pt-14 max-sm:pb-8 sm:max-md:pt-16 sm:max-md:pb-10 sm:px-10 md:min-h-[calc(100svh-var(--nav-stack-height,7rem))] md:justify-center md:pt-16 md:pb-16 lg:px-12 lg:pt-20 lg:pb-20"
       >
-        <ScrollReveal className="flex min-h-0 w-full flex-1 flex-col gap-6 max-sm:gap-8 sm:max-md:gap-7">
-          <div className={`flex min-h-0 flex-1 flex-col ${blockGap}`}>
-            <div className="shrink-0">
-              <SectionHeading
-                align="center"
-                eyebrow={eyebrow}
-                title={title}
-                titleVariant="editorialDual"
-                stackGapClassName="gap-3 sm:gap-4"
-              />
+        {/*
+          Mobile: natural height — scroll freely with Services below.
+          Desktop: min-h matches other full-bleed sections.
+        */}
+        <ScrollReveal className="flex w-full flex-col items-center gap-6 text-center sm:gap-7 md:gap-8 lg:gap-8">
+          <SectionHeading
+            align="center"
+            eyebrow={eyebrow}
+            title={title}
+            titleVariant="editorialDual"
+            stackGapClassName="gap-3 sm:gap-4"
+          />
+
+          <div className="flex w-full min-w-0 max-w-4xl flex-col items-center max-md:shrink-0 max-md:gap-8 md:min-h-0 md:flex-1 md:gap-8 lg:max-w-5xl xl:max-w-6xl">
+            <div className="relative w-full max-md:shrink-0 md:min-h-0 md:flex-1">
+              <InteractiveReelVideos items={reels} />
             </div>
-            <div className="flex min-h-0 flex-1 flex-col gap-4 max-sm:gap-5 sm:gap-5">
-              <div className="relative flex min-h-0 flex-1 flex-col">
-                <InteractiveReelVideos items={reels} />
-              </div>
-              <div className="shrink-0 -mt-5 max-md:pt-1 sm:-mt-9">
-                <GradientSocialMenu
-                  items={[
-                    {
-                      href: instagramUrl,
-                      title: "Instagram",
-                      icon: <FaInstagram />,
-                    },
-                    {
-                      href: tiktokUrl,
-                      title: "TikTok",
-                      icon: <FaTiktok />,
-                    },
-                  ]}
-                />
-              </div>
+            <div className="w-full shrink-0 max-md:[&_ul]:justify-center max-md:[&_ul]:gap-3">
+              <GradientSocialMenu
+                items={[
+                  {
+                    href: instagramUrl,
+                    title: "Instagram",
+                    icon: <FaInstagram />,
+                  },
+                  {
+                    href: tiktokUrl,
+                    title: "TikTok",
+                    icon: <FaTiktok />,
+                  },
+                ]}
+              />
             </div>
           </div>
         </ScrollReveal>

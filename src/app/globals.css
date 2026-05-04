@@ -98,6 +98,8 @@ html {
    * Site-wide ~90% scale (same idea as setting the browser zoom to 90%).
    * Shrinks type, spacing, images, and full-bleed sections together so the layout still
    * fills the viewport proportionally on Mac, Windows, and mobile Safari (WebKit supports `zoom`).
+   * Chrome/Edge/Safari: consistent; Firefox 126+ supports zoom. Fluid `clamp()` gaps in nav/hero
+   * reduce harsh jumps between 13″ and 15″ / external monitors at close CSS-pixel widths.
    */
   zoom: 0.9;
 }
@@ -178,22 +180,10 @@ html {
   }
 }
 
-/* Homepage only: class toggled by `HomeMobileScrollSnap` — één “scherm” per sectie op smalle viewports.
-   Use `proximity` (not `mandatory`) so visitors can still scroll past the last snap section to the footer. */
-@media (max-width: 767px) {
-  html.home-mobile-snap {
-    scroll-snap-type: y proximity;
-    scroll-padding-top: var(--nav-stack-height, 7rem);
-  }
-}
-
-@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
-  html.home-mobile-snap {
-    scroll-snap-type: none;
-  }
-}
-
 body {
+  /* Prevent mobile browsers from inflating text and shifting the layout (iOS/Android). */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   min-height: 100vh;
   overflow-x: clip;
   background:

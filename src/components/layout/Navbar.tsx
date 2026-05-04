@@ -60,7 +60,7 @@ export function Navbar({ instagramUrl, tiktokUrl, email }: NavbarProps) {
           aria-label="Main navigation"
           className="nav-desktop hidden min-h-0 min-w-0 flex-1 items-center justify-center lg:flex"
         >
-          <div className="nav-desktop-inner flex shrink-0 items-center justify-center gap-5 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12 2xl:gap-14">
+          <div className="nav-desktop-inner flex shrink-0 items-center justify-center gap-[clamp(1.05rem,2vw,2.35rem)]">
             {navigation.map((item) => {
               const active = pathname === item.href;
               return (

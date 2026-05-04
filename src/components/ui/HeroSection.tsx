@@ -97,7 +97,7 @@ export function HeroSection({
     <section
       className={cn(
         "relative isolate flex flex-col justify-center overflow-x-clip overflow-y-visible px-6 pb-0 pt-10 max-sm:pt-16 sm:px-10 sm:pb-0 sm:pt-8 lg:h-[calc(100svh-var(--nav-stack-height))] lg:max-h-[calc(100svh-var(--nav-stack-height))] lg:min-h-0 lg:flex lg:flex-col lg:justify-start lg:overflow-x-clip lg:overflow-y-visible lg:px-12 lg:py-0 lg:pb-0",
-        "max-md:min-h-[calc(100dvh-var(--nav-stack-height))] max-md:snap-start max-md:snap-always",
+        "max-md:min-h-[calc(100dvh-var(--nav-stack-height))]",
       )}
     >
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[#faf4ed]">
@@ -117,7 +117,7 @@ export function HeroSection({
         />
       </div>
 
-      <div className="mx-auto grid min-h-0 w-full max-w-[min(100%,96rem)] gap-8 px-0 py-0 max-lg:justify-items-center max-lg:items-center sm:gap-5 lg:h-full lg:min-h-0 lg:flex-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)] lg:grid-rows-[minmax(0,1fr)] lg:items-stretch lg:justify-items-stretch lg:gap-y-8 lg:gap-x-8 xl:gap-x-10 2xl:gap-x-12 lg:px-0">
+      <div className="mx-auto grid min-h-0 w-full max-w-[min(100%,96rem)] gap-8 px-0 py-0 max-lg:justify-items-center max-lg:items-center sm:gap-5 lg:h-full lg:min-h-0 lg:flex-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)] lg:grid-rows-[minmax(0,1fr)] lg:items-stretch lg:justify-items-stretch lg:gap-y-8 lg:gap-x-[clamp(1.75rem,3.2vw,3rem)] lg:px-0">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
@@ -219,7 +219,7 @@ export function HeroSection({
               src={image}
               alt={imageAlt}
               fill
-              className="object-cover max-lg:origin-bottom max-lg:object-bottom max-lg:object-[46%_82%] max-lg:scale-[1.06] max-lg:translate-y-0 lg:scale-[1.02] lg:object-[48%_42%]"
+              className="object-cover saturate-[0.92] max-lg:origin-bottom max-lg:object-bottom max-lg:object-[46%_82%] max-lg:scale-[1.03] max-lg:translate-y-0 lg:scale-[0.99] lg:object-[48%_42%]"
               sizes="(max-width: 1024px) 100vw, 54vw"
               priority
               fetchPriority="high"

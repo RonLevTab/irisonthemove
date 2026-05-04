@@ -97,7 +97,7 @@ export function SectionHeading({
         <h2
           className={
             titleVariant === "editorialDual"
-              ? `font-text-3 max-w-full text-balance text-[clamp(0.82rem,2.85vw+0.38rem,1.58rem)] font-medium uppercase leading-[1.12] tracking-[0.18em] text-[var(--color-primary)] max-sm:whitespace-normal sm:whitespace-nowrap ${titleClassName ?? ""}`
+              ? `font-text-3 max-w-full text-[clamp(0.58rem,2.65vw+0.42rem,1.58rem)] font-medium uppercase leading-[1.12] text-[var(--color-primary)] whitespace-nowrap tracking-[0.1em] max-[420px]:tracking-[0.055em] sm:tracking-[0.14em] md:tracking-[0.18em] ${titleClassName ?? ""}`
               : titleVariant === "heroTagline"
                 ? `font-text-3 text-balance ${heroTaglineSizeClassName ?? "text-[clamp(1.15rem,3.2vw,2.55rem)]"} font-medium italic leading-[1.12] tracking-[0.04em] text-[var(--color-primary)] ${titleClassName ?? ""}`
                 : `${brandScriptClassName} ${titleSizeClassName ?? "text-3xl sm:text-4xl leading-none"} text-[var(--color-primary)] ${titleClassName ?? ""}`

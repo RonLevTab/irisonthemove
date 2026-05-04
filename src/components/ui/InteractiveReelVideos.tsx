@@ -9,6 +9,7 @@ import {
 } from "react";
 
 import { withAssetPath } from "@/lib/assetPath";
+import { brandSubtitleClassName } from "@/lib/brandFonts";
 import { soundToggleButtonClassName } from "@/lib/soundToggleButtonClassName";
 
 function subscribeMobileStripMode(cb: () => void) {
@@ -195,6 +196,17 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
     });
   }, [reelsAudioActive, activeIndex]);
 
+  /** Newly active / hovered reel always restarts from 0 (not on sound-only toggles). */
+  useLayoutEffect(() => {
+    const v = videoRefs.current[activeIndex];
+    if (!v) return;
+    try {
+      v.currentTime = 0;
+    } catch {
+      /* ignore */
+    }
+  }, [activeIndex]);
+
   useEffect(() => {
     videoRefs.current.forEach((vid, i) => {
       if (!vid) return;
@@ -224,14 +236,11 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
   return (
     <div
       ref={blockRef}
-      className="flex h-full min-h-0 w-full flex-1 flex-col overflow-x-hidden"
+      className="flex w-full flex-col overflow-x-hidden max-md:h-auto max-md:flex-none md:h-full md:min-h-0 md:flex-1"
     >
-      {/*
-        Smallere bak + iets hoger → actieve video minder “breed vierkant”, meer Reels-hoogte.
-      */}
-      <div className="mx-auto flex h-full min-h-0 w-full max-w-4xl flex-1 flex-col gap-2 md:gap-0 lg:max-w-5xl xl:max-w-6xl">
+      <div className="mx-auto flex w-full max-w-4xl flex-col gap-3 max-md:w-full max-md:flex-none max-md:gap-3 md:h-full md:min-h-0 md:flex-1 md:gap-0 md:justify-start lg:max-w-5xl xl:max-w-6xl">
         <div
-          className={`flex min-h-[20rem] flex-1 flex-row rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:12_1_0%] [--reel-inactive-flex:1.05_1_0%] max-md:overflow-hidden md:min-h-[32rem] md:[--reel-active-flex:5.5_1_0%] md:[--reel-inactive-flex:1.16_1_0%] ${
+          className={`flex min-h-0 flex-1 flex-row rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:9.6_1_0%] [--reel-inactive-flex:1.28_1_0%] max-md:h-[min(54dvh,32rem)] max-md:min-h-[12rem] max-md:max-h-[54dvh] max-md:w-full max-md:flex-none max-md:overflow-hidden max-md:self-center md:min-h-[44rem] md:flex-none md:[--reel-active-flex:4.8_1_0%] md:[--reel-inactive-flex:1.18_1_0%] ${
             playStripPreviews
               ? "max-md:[scrollbar-width:thin] md:overflow-hidden"
               : "overflow-hidden"
@@ -283,7 +292,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
               >
                 <div
                   id={`reel-panel-${index}`}
-                  className="absolute inset-0 bg-black"
+                  className="absolute inset-0 bg-[var(--color-surface)]"
                   aria-hidden={!isActive}
                 >
                   <div
@@ -342,15 +351,17 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                     />
                   </div>
                   <div
-                    className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black from-[8%] via-black/75 to-transparent"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[rgb(90_45_50_/_0.82)] via-[rgb(90_45_50_/_0.66)] to-transparent"
                     aria-hidden
                   />
                 </div>
 
                 {isActive ? (
-                  <div className="relative z-[2] flex w-full items-end justify-center px-3 py-4 text-left md:justify-start md:px-5 md:py-5">
-                    <div className="min-w-0 max-w-full text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)]">
-                      <p className="truncate font-semibold leading-tight md:text-lg">
+                  <div className="relative z-[2] flex w-full items-end justify-start px-3 py-4 md:px-5 md:py-5">
+                    <div className="min-w-0 max-w-full text-left text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)]">
+                      <p
+                        className={`${brandSubtitleClassName} truncate text-[0.8rem] uppercase tracking-[0.16em] leading-tight md:text-lg`}
+                      >
                         {item.title}
                       </p>
                       <p className="text-sm text-white/80">{item.description}</p>
@@ -363,7 +374,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
         </div>
 
         {sectionInView ? (
-          <div className="flex shrink-0 justify-start pt-1 pl-3 sm:pl-6 md:pl-8 md:pt-3">
+          <div className="flex shrink-0 justify-center pt-2 max-md:pt-3 md:pt-3">
             <button
               type="button"
               className={soundToggleButtonClassName()}

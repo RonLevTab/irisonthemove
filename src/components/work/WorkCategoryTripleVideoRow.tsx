@@ -158,7 +158,8 @@ export function WorkCategoryTripleVideoRow({
         "grid min-w-0 w-full max-w-full",
         embedded
           ? "grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-1 min-[1200px]:gap-1"
-          : "grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5 min-[1200px]:gap-6",
+          : // One column (phone): vertical step matches WorkTravelVideoGrid (`gap-y-6` base); 3 cols = horizontal gaps only.
+            "grid-cols-1 gap-x-0 gap-y-6 sm:grid-cols-3 sm:gap-x-5 sm:gap-y-0 min-[1200px]:gap-x-6",
         className,
       )}
     >

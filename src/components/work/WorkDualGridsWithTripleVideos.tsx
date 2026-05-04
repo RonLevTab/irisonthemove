@@ -47,7 +47,11 @@ export function WorkDualGridsWithTripleVideos({
 
   return (
     <div className="flex w-full justify-center">
-      <div className="flex w-full max-w-full flex-col items-center gap-3 pb-2 lg:gap-6 lg:pb-3">
+      {/*
+        Strip → reels: same vertical steps as WorkTravelVideoGrid row gaps.
+        Bottom padding stays light — work page section shell already adds outer padding.
+      */}
+      <div className="flex w-full max-w-full flex-col items-center gap-6 pb-2 max-md:gap-6 sm:gap-12 sm:pb-3 min-[1200px]:gap-14 min-[1200px]:pb-3">
         <div
           ref={stripRef}
           className="flex min-h-0 min-w-0 w-full flex-col gap-4 sm:gap-5 lg:flex-row lg:items-center lg:justify-center lg:gap-5 xl:gap-6"

@@ -151,7 +151,7 @@ export function WorkTravelVideoGrid({
     <div className="flex w-full justify-center">
       <div
         className={cn(
-          "grid min-w-0 w-full max-w-full grid-cols-1 gap-x-4 gap-y-10",
+          "grid min-w-0 w-full max-w-full grid-cols-1 gap-x-4 gap-y-6 sm:gap-y-10",
           "min-[640px]:grid-cols-2",
           "min-[1024px]:grid-cols-3 sm:gap-x-5 sm:gap-y-12 min-[1200px]:gap-x-6 min-[1200px]:gap-y-14",
           className,

@@ -19,8 +19,6 @@ const videoCtaShellClassName = cn(
   "relative isolate z-[1] -mb-3 w-full overflow-hidden border-t-0 bg-[#2a2523]",
   "scroll-mt-[var(--nav-stack-height,7rem)]",
   "min-h-[calc(100svh_-_var(--nav-stack-height,7rem))]",
-  /* snap-start only: `snap-always` + mandatory snap trapped scroll before the footer on phones */
-  "max-md:snap-start",
   "sm:min-h-[min(94svh,100rem)]",
 );
 
