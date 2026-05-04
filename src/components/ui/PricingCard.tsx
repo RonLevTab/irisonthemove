@@ -76,12 +76,12 @@ function CardSurface({
       initial="initial"
       whileHover="hover"
       className={cn(
-        "relative flex h-full min-h-0 flex-col justify-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-4.5 text-center shadow-sm transition-shadow duration-300 sm:rounded-3xl sm:px-7 sm:py-7 lg:px-8 lg:py-8",
+        "relative flex h-full min-h-0 flex-col justify-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-4 text-center shadow-sm transition-shadow duration-300 sm:rounded-3xl sm:px-7 sm:py-6 lg:px-8 lg:py-7",
         className,
       )}
       {...motionSafeProps}
     >
-      <div className="flex w-full flex-col items-center justify-center gap-2 text-center sm:gap-4">
+      <div className="flex w-full flex-col items-center justify-center gap-2 text-center sm:gap-3">
         {imageSrc ? (
           <motion.img
             src={imageSrc}
@@ -193,7 +193,7 @@ const PricingCard = React.forwardRef<HTMLDivElement, PricingCardProps>(
           duration: 0.55,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="h-full min-h-[12rem] sm:min-h-[15.5rem] lg:min-h-[17.5rem]"
+        className="h-full min-h-[11rem] sm:min-h-[14.5rem] lg:min-h-[16.5rem]"
       >
         {href ? (
           <Link

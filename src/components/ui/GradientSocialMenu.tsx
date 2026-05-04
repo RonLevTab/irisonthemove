@@ -25,8 +25,8 @@ type GradientSocialMenuProps = {
  */
 const gradientButtonClasses = {
   default:
-    "group relative flex h-[60px] w-[60px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[var(--color-surface)] shadow-[0_18px_40px_rgba(90,45,50,0.2)] transition-all duration-500 md:hover:w-[200px] md:hover:shadow-none md:focus-visible:w-[200px] md:focus-visible:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]",
-  lg: "group relative flex h-[72px] w-[72px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[var(--color-surface)] shadow-[0_22px_48px_rgba(90,45,50,0.22)] transition-all duration-500 md:hover:w-[232px] md:hover:shadow-none md:focus-visible:w-[232px] md:focus-visible:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]",
+    "group relative flex h-12 w-12 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[var(--color-surface)] shadow-[0_12px_28px_rgba(90,45,50,0.16)] transition-all duration-500 md:h-[60px] md:w-[60px] md:shadow-[0_18px_40px_rgba(90,45,50,0.2)] md:hover:w-[200px] md:hover:shadow-none md:focus-visible:w-[200px] md:focus-visible:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]",
+  lg: "group relative flex h-14 w-14 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[var(--color-surface)] shadow-[0_14px_34px_rgba(90,45,50,0.18)] transition-all duration-500 md:h-[72px] md:w-[72px] md:shadow-[0_22px_48px_rgba(90,45,50,0.22)] md:hover:w-[232px] md:hover:shadow-none md:focus-visible:w-[232px] md:focus-visible:shadow-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]",
 } as const;
 
 function GradientMenuButton({
@@ -55,7 +55,7 @@ function GradientMenuButton({
         aria-hidden
       />
       <span
-        className="pointer-events-none absolute inset-x-0 top-[10px] -z-10 h-full rounded-full bg-[linear-gradient(135deg,var(--gradient-from),var(--gradient-to))] opacity-0 blur-[15px] transition-all duration-500 md:group-hover:opacity-50 md:group-focus-visible:opacity-50"
+        className="pointer-events-none absolute inset-x-0 top-[7px] -z-10 h-full rounded-full bg-[linear-gradient(135deg,var(--gradient-from),var(--gradient-to))] opacity-0 blur-[12px] transition-all duration-500 md:top-[10px] md:blur-[15px] md:group-hover:opacity-50 md:group-focus-visible:opacity-50"
         aria-hidden
       />
 
@@ -106,13 +106,13 @@ export function GradientSocialMenu({ items, size = "default" }: GradientSocialMe
   const isLg = size === "lg";
   const buttonClassName = isLg ? gradientButtonClasses.lg : gradientButtonClasses.default;
   const iconClassName = isLg
-    ? "pointer-events-auto text-3xl text-[var(--color-primary)] [&>svg]:block [&>svg]:h-8 [&>svg]:w-8"
-    : "pointer-events-auto text-2xl text-[var(--color-primary)] [&>svg]:block [&>svg]:h-7 [&>svg]:w-7";
+    ? "pointer-events-auto text-2xl text-[var(--color-primary)] md:text-3xl [&>svg]:block [&>svg]:h-6 [&>svg]:w-6 md:[&>svg]:h-8 md:[&>svg]:w-8"
+    : "pointer-events-auto text-lg text-[var(--color-primary)] md:text-2xl [&>svg]:block [&>svg]:h-5 [&>svg]:w-5 md:[&>svg]:h-7 md:[&>svg]:w-7";
   const labelClassName = isLg ? "text-base" : "text-sm";
 
   return (
     <ul
-      className={`flex w-full flex-wrap items-center justify-center overflow-x-clip ${isLg ? "gap-8" : "gap-6"}`}
+      className={`flex w-full flex-wrap items-center justify-center overflow-x-clip ${isLg ? "gap-5 md:gap-8" : "gap-4 md:gap-6"}`}
     >
       {items.map(({ href, title, icon, gradientFrom, gradientTo }, idx) => (
         <li key={`${title}-${idx}`} className="list-none">

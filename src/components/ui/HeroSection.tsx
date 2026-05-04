@@ -96,8 +96,7 @@ export function HeroSection({
   return (
     <section
       className={cn(
-        "relative isolate flex flex-col justify-center overflow-x-clip overflow-y-visible px-6 pb-0 pt-10 max-sm:pt-16 sm:px-10 sm:pb-0 sm:pt-8 lg:h-[calc(100svh-var(--nav-stack-height))] lg:max-h-[calc(100svh-var(--nav-stack-height))] lg:min-h-0 lg:flex lg:flex-col lg:justify-start lg:overflow-x-clip lg:overflow-y-visible lg:px-12 lg:py-0 lg:pb-0",
-        "max-md:min-h-[calc(100dvh-var(--nav-stack-height))]",
+        "relative isolate flex flex-col justify-start overflow-x-clip overflow-y-visible px-6 pb-0 pt-10 max-sm:pt-16 sm:px-10 sm:pb-0 sm:pt-8 lg:h-[calc(100svh-var(--nav-stack-height))] lg:max-h-[calc(100svh-var(--nav-stack-height))] lg:min-h-0 lg:flex lg:flex-col lg:justify-start lg:overflow-x-clip lg:overflow-y-visible lg:px-12 lg:py-0 lg:pb-0",
       )}
     >
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[#faf4ed]">
@@ -111,8 +110,12 @@ export function HeroSection({
           fetchPriority="high"
           aria-hidden
         />
+        {/*
+          Wash over hero photo — same burgundy as wordmark (`--color-primary`), softly mixed
+          into cream so it reads as one brand “fade”, not a flat grey overlay.
+        */}
         <div
-          className="absolute inset-0 bg-gradient-to-br from-[#faf4ed]/97 via-[#f5ebe3]/91 to-[#f3e9de]"
+          className="absolute inset-0 bg-gradient-to-br from-[#faf4ed]/95 via-[color-mix(in_srgb,var(--color-background)_91%,var(--color-primary)_9%)]/92 to-[color-mix(in_srgb,#ebe3dc_78%,var(--color-primary)_22%)]/88"
           aria-hidden
         />
       </div>
@@ -191,7 +194,7 @@ export function HeroSection({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.85, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-          className="relative z-10 mx-auto flex w-full max-w-md shrink-0 flex-col items-stretch self-center min-h-0 overflow-visible max-lg:mb-0 lg:mx-0 lg:h-full lg:max-w-none lg:self-stretch lg:px-0"
+          className="relative z-10 mx-auto flex w-full max-w-md shrink-0 flex-col items-stretch self-center min-h-0 overflow-hidden max-lg:overflow-hidden max-lg:mb-0 lg:mx-0 lg:flex lg:min-h-0 lg:h-full lg:max-w-none lg:flex-col lg:self-stretch lg:overflow-visible lg:px-0"
         >
           <svg
             className="pointer-events-none absolute h-0 w-0"
@@ -211,15 +214,19 @@ export function HeroSection({
             </defs>
           </svg>
           <div
-            className="relative aspect-[3/5] max-h-[min(92dvh,820px)] w-full max-lg:overflow-hidden overflow-visible bg-[#322a26] shadow-[0_20px_50px_rgba(58,36,32,0.18)] lg:mx-0 lg:aspect-auto lg:h-[calc(100%+0.625rem+18px)] lg:min-h-0 lg:max-h-none lg:w-full lg:max-w-full lg:-translate-y-2.5 lg:self-stretch lg:bg-transparent"
+            className="relative aspect-[3/5] max-h-[min(92dvh,820px)] w-full overflow-visible bg-[#322a26] shadow-[0_20px_50px_rgba(58,36,32,0.18)] max-lg:overflow-hidden max-lg:bg-[var(--color-background)] lg:mx-0 lg:aspect-auto lg:flex-1 lg:min-h-0 lg:h-full lg:max-h-none lg:w-full lg:max-w-full lg:self-stretch lg:bg-transparent"
             style={{ clipPath: `url(#${archClipId})` }}
           >
-            <div className="absolute inset-0 overflow-hidden">
+            {/*
+              Desktop: arch fills the right column (no gap of hero bg under the clip).
+              Narrow: extra bottom span + scale so object-cover fills the arch foot.
+            */}
+            <div className="absolute inset-0 overflow-hidden max-lg:bottom-[-1px] lg:h-full">
             <Image
               src={image}
               alt={imageAlt}
               fill
-              className="object-cover saturate-[0.92] max-lg:origin-bottom max-lg:object-bottom max-lg:object-[46%_82%] max-lg:scale-[1.03] max-lg:translate-y-0 lg:scale-[0.99] lg:object-[48%_42%]"
+              className="object-cover saturate-[0.92] max-lg:origin-bottom max-lg:object-bottom max-lg:object-[48%_88%] max-lg:scale-[1.14] max-lg:translate-y-0 lg:min-h-0 lg:scale-[1.02] lg:object-[48%_44%]"
               sizes="(max-width: 1024px) 100vw, 54vw"
               priority
               fetchPriority="high"

@@ -238,7 +238,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
       ref={blockRef}
       className="flex w-full flex-col overflow-x-hidden max-md:h-auto max-md:flex-none md:h-full md:min-h-0 md:flex-1"
     >
-      <div className="mx-auto flex w-full max-w-4xl flex-col gap-3 max-md:w-full max-md:flex-none max-md:gap-3 md:h-full md:min-h-0 md:flex-1 md:gap-0 md:justify-start lg:max-w-5xl xl:max-w-6xl">
+      <div className="mx-auto flex w-full max-w-4xl flex-col gap-0 max-md:w-full max-md:flex-none max-md:gap-4 md:h-full md:min-h-0 md:flex-1 md:gap-0 md:justify-start lg:max-w-5xl xl:max-w-6xl">
         <div
           className={`flex min-h-0 flex-1 flex-row rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:9.6_1_0%] [--reel-inactive-flex:1.28_1_0%] max-md:h-[min(54dvh,32rem)] max-md:min-h-[12rem] max-md:max-h-[54dvh] max-md:w-full max-md:flex-none max-md:overflow-hidden max-md:self-center md:min-h-[44rem] md:flex-none md:[--reel-active-flex:4.8_1_0%] md:[--reel-inactive-flex:1.18_1_0%] ${
             playStripPreviews
@@ -374,7 +374,7 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
         </div>
 
         {sectionInView ? (
-          <div className="flex shrink-0 justify-center pt-2 max-md:pt-3 md:pt-3">
+          <div className="flex shrink-0 justify-center md:pt-8">
             <button
               type="button"
               className={soundToggleButtonClassName()}

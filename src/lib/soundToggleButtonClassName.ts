@@ -7,8 +7,10 @@ import { cn } from "@/lib/utils";
 export function soundToggleButtonClassName(extra?: string) {
   return cn(
     "secondary-button !inline-flex !items-center !justify-center !gap-0",
-    "!px-4 !py-2 sm:!px-5 sm:!py-2 lg:!px-5 lg:!py-2.5",
-    "!text-[0.76rem] !tracking-[0.13em] sm:!text-[0.74rem] sm:!tracking-[0.14em] lg:!text-[0.8rem] lg:!tracking-[0.15em]",
+    // Phone: compact; md+: same scale as before (sm/lg progression from the original design).
+    "max-md:!px-3 max-md:!py-1.5 max-md:!text-[0.625rem] max-md:!tracking-[0.1em] max-md:min-w-[4.65rem]",
+    "md:!px-5 md:!py-2 md:!text-[0.74rem] md:!tracking-[0.14em] md:min-w-[7.65rem]",
+    "lg:!py-2.5 lg:!text-[0.8rem] lg:!tracking-[0.15em]",
     "!font-semibold !uppercase",
     "!text-[var(--color-primary)]",
     "!shadow-none",
@@ -17,7 +19,6 @@ export function soundToggleButtonClassName(extra?: string) {
     "aria-pressed:!bg-[var(--color-primary)]",
     "aria-pressed:!text-[var(--color-surface)]",
     "aria-pressed:!shadow-[0_12px_28px_rgba(90,45,50,0.28)]",
-    "min-w-[7.35rem] sm:min-w-[7.65rem]",
     "select-none outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--color-secondary)_40%,var(--color-gold)_60%)]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]",
     extra,
   );

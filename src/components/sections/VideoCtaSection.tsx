@@ -16,7 +16,8 @@ type VideoCtaSectionProps = {
 
 /** Min-height = volledige viewport onder de nav (`svh` = betrouwbaar op iOS). Geen inner strip-wrapper die kan collapsen. */
 const videoCtaShellClassName = cn(
-  "relative isolate z-[1] -mb-3 w-full overflow-hidden border-t-0 bg-[#2a2523]",
+  /* Stay below Services (z-[5]) so cards are never covered if layers touch. */
+  "relative isolate z-0 -mb-3 w-full overflow-hidden border-t-0 bg-[#231a18]",
   "scroll-mt-[var(--nav-stack-height,7rem)]",
   "min-h-[calc(100svh_-_var(--nav-stack-height,7rem))]",
   "sm:min-h-[min(94svh,100rem)]",
@@ -48,11 +49,11 @@ export function VideoCtaSection({
         />
       </div>
       <div
-        className="pointer-events-none absolute inset-0 z-[1] bg-[var(--color-primary)]/[0.28]"
+        className="pointer-events-none absolute inset-0 z-[1] bg-[#2a1512]/[0.26]"
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[var(--color-background)]/50 via-[var(--color-background)]/20 to-transparent"
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-[var(--color-background)]/34 via-[var(--color-background)]/10 to-transparent"
         aria-hidden
       />
 

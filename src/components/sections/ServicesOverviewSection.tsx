@@ -24,10 +24,14 @@ export function ServicesOverviewSection({
 }: ServicesOverviewSectionProps) {
   return (
     <section
-      className={`relative isolate flex w-full items-center ${oakSectionBorderClassName} min-h-0 bg-[var(--color-background)] md:min-h-[calc(100svh-var(--nav-stack-height,7rem))] lg:min-h-0`}
+      className={`relative isolate z-[5] flex w-full flex-col ${oakSectionBorderClassName} min-h-0 bg-[var(--color-background)]`}
     >
-      <div className="mx-auto flex min-h-0 w-full max-w-[min(100%,96rem)] flex-col justify-start px-6 max-sm:pt-14 max-sm:pb-14 sm:max-md:pt-16 sm:max-md:pb-16 sm:px-10 md:min-h-[calc(100svh-var(--nav-stack-height,7rem))] md:justify-center md:pt-16 md:pb-16 lg:px-12 lg:pt-20 lg:pb-20">
-        <ScrollReveal className="flex flex-col items-center gap-8 text-center sm:gap-7 lg:gap-8">
+      {/*
+        Same shell as Latest content: padding only, no full-viewport min-height + vertical center
+        (Services used `items-center` + min-h which floated the block mid-air with huge gaps).
+      */}
+      <div className="mx-auto flex w-full max-w-[min(100%,96rem)] flex-1 flex-col justify-start px-6 pt-12 pb-12 sm:px-10 sm:max-md:pt-14 sm:max-md:pb-14 md:px-10 md:pt-16 md:pb-16 lg:px-12 lg:pt-20 lg:pb-20">
+        <ScrollReveal className="flex w-full flex-col items-center gap-8 text-center">
           <SectionHeading
             align="center"
             eyebrow={eyebrow}
