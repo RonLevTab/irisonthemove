@@ -192,7 +192,7 @@ function CountryMarqueeStrip({
   return (
     <div
       className={cn(
-        "relative flex min-h-[2.65rem] w-full min-w-0 items-center overflow-hidden py-1 sm:min-h-[2.85rem] md:min-h-[3rem]",
+        "relative flex min-h-[2.65rem] w-full min-w-0 items-center overflow-hidden py-0 sm:min-h-[2.85rem] md:min-h-[3rem]",
         className,
       )}
       dir="ltr"
@@ -202,32 +202,36 @@ function CountryMarqueeStrip({
     >
       {reduceMotion ? (
         <div className="flex w-full min-h-[2.65rem] items-center justify-center overflow-x-auto overflow-y-hidden sm:min-h-[2.85rem]">
-          <div
-            className={cn(
-              countryMarqueeTypographyClassName,
-              "flex w-max items-center gap-0 px-1 text-[var(--color-primary)]/[0.78]",
-            )}
-          >
-            <CountryListRow loopKey="static" />
+          <div className="translate-y-1 sm:translate-y-1.5">
+            <div
+              className={cn(
+                countryMarqueeTypographyClassName,
+                "flex w-max items-center gap-0 px-1 text-[var(--color-primary)]/[0.78]",
+              )}
+            >
+              <CountryListRow loopKey="static" />
+            </div>
           </div>
         </div>
       ) : (
         <div className="relative w-full min-w-0">
           <style dangerouslySetInnerHTML={{ __html: keyframesBlock }} />
           <div className="relative flex min-h-[2.65rem] items-center justify-start overflow-hidden sm:min-h-[2.85rem] md:min-h-[3rem]">
-            <div
-              className={cn(
-                MARQUEE_CLASS,
-                countryMarqueeTypographyClassName,
-                "flex w-max items-center gap-0 px-1 text-[var(--color-primary)]/[0.78]",
-              )}
-            >
-              {Array.from({ length: MARQUEE_LOOP_SEGMENTS }, (_, i) => (
-                <React.Fragment key={`marquee-seg-${i}`}>
-                  <CountryListRow loopKey={`s${i}`} />
-                  <SeparatorDot />
-                </React.Fragment>
-              ))}
+            <div className="translate-y-1 sm:translate-y-1.5">
+              <div
+                className={cn(
+                  MARQUEE_CLASS,
+                  countryMarqueeTypographyClassName,
+                  "flex w-max items-center gap-0 px-1 text-[var(--color-primary)]/[0.78]",
+                )}
+              >
+                {Array.from({ length: MARQUEE_LOOP_SEGMENTS }, (_, i) => (
+                  <React.Fragment key={`marquee-seg-${i}`}>
+                    <CountryListRow loopKey={`s${i}`} />
+                    <SeparatorDot />
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
           </div>
         </div>
