@@ -103,7 +103,7 @@ function CountriesVisitedPanel() {
       </span>
       <p
         className={cn(
-          "mb-0 max-w-[10rem] text-center text-[var(--color-primary)]",
+          "mb-0 max-w-none whitespace-nowrap text-center text-[var(--color-primary)]",
           countriesVisitedLabelClassName,
         )}
       >
