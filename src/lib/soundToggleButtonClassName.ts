@@ -1,15 +1,19 @@
-import { brandSubtitleClassName } from "@/lib/brandFonts";
 import { cn } from "@/lib/utils";
 
 /**
- * Shared “Sound on / Sound off” pill: Castoro + small caps, centered label, warm oak border on hover
- * (secondary + gold — avoids hover reading as black primary).
+ * Same control as hero “View portfolio” (`secondary-button` + DM Sans / uppercase / tracking),
+ * scaled down. Oak-toned label (warm brown, not full primary).
  */
 export function soundToggleButtonClassName(extra?: string) {
   return cn(
-    "inline-flex shrink-0 min-h-[2rem] min-w-[7rem] select-none items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--color-secondary)_26%,var(--color-border))] bg-[var(--color-surface)] px-3 py-0 font-normal uppercase tracking-[0.18em] text-[var(--color-primary)] shadow-[0_5px_16px_rgba(90,45,50,0.09)] outline-none transition-[color,background-color,border-color,box-shadow] hover:border-[color-mix(in_srgb,var(--color-secondary)_50%,var(--color-gold)_50%)] hover:bg-[var(--color-background)] hover:shadow-[0_8px_22px_rgba(166,93,72,0.11)] focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--color-secondary)_45%,var(--color-gold)_55%)]/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)] sm:min-h-[2.125rem] sm:min-w-[7.35rem]",
-    brandSubtitleClassName,
-    "text-[0.54rem] sm:text-[0.58rem] leading-none",
+    "secondary-button !inline-flex !items-center !justify-center !gap-0",
+    "!px-3.5 !py-1.5 sm:!px-4 sm:!py-1.5 lg:!px-4 lg:!py-1.5",
+    "!text-[0.7rem] !tracking-[0.13em] sm:!text-[0.66rem] sm:!tracking-[0.14em] lg:!text-[0.72rem] lg:!tracking-[0.15em]",
+    "!font-semibold !uppercase",
+    "!text-[color-mix(in_srgb,var(--color-foreground-muted)_90%,var(--color-secondary)_10%)]",
+    "!shadow-none",
+    "min-w-[6.85rem] sm:min-w-[7.1rem]",
+    "select-none outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_srgb,var(--color-secondary)_40%,var(--color-gold)_60%)]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]",
     extra,
   );
 }
