@@ -260,7 +260,7 @@ export function DestinationsCountryMarquee({
       )}
     >
       <div
-        className="relative isolate z-0 -mb-1 w-full -translate-y-[3rem] overflow-visible sm:-mb-1 sm:-translate-y-[3.5rem] md:-translate-y-[4rem]"
+        className="relative isolate z-0 w-full overflow-visible"
         role="presentation"
       >
         {/*
