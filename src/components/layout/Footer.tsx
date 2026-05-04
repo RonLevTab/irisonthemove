@@ -32,6 +32,7 @@ const exploreConnectBlockClassName =
 
 export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
   const pathname = usePathname();
+  const isHome = pathname === "/";
   const hideUntilScrollAbout = pathname === "/about";
   const [visible, setVisible] = useState(!hideUntilScrollAbout);
 
@@ -50,6 +51,8 @@ export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
     <footer
       className={cn(
         "site-footer relative z-10",
+        isHome &&
+          "max-md:snap-start max-md:scroll-mt-[var(--nav-stack-height,7rem)]",
         hideUntilScrollAbout &&
           "transition-[max-height,opacity] duration-500 ease-out motion-reduce:transition-none",
         hideUntilScrollAbout &&

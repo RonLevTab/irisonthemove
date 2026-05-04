@@ -96,10 +96,11 @@ html {
   background-color: var(--color-surface-strong);
 }
 
-/* Homepage only: class toggled by `HomeMobileScrollSnap` — één “scherm” per sectie op smalle viewports */
+/* Homepage only: class toggled by `HomeMobileScrollSnap` — één “scherm” per sectie op smalle viewports.
+   Use `proximity` (not `mandatory`) so visitors can still scroll past the last snap section to the footer. */
 @media (max-width: 767px) {
   html.home-mobile-snap {
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
     scroll-padding-top: var(--nav-stack-height, 7rem);
   }
 }
