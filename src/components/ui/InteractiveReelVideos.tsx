@@ -21,6 +21,16 @@ function getMobileStripMode() {
   return window.matchMedia("(max-width: 767px)").matches;
 }
 
+function subscribeFinePointerHover(cb: () => void) {
+  const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+}
+
+function getFinePointerHover() {
+  return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+}
+
 export type ReelVideoItem = {
   /** Public URL under `/public`, e.g. `/videos/social/reel-1.mp4` */
   videoSrc: string;
@@ -77,6 +87,12 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
   const playStripPreviews = useSyncExternalStore(
     subscribeMobileStripMode,
     getMobileStripMode,
+    () => false,
+  );
+  /** Desktop (Mac / Windows + mouse): switch active reel on hover; phones / touch stay tap-only. */
+  const reelHoverSwitchEnabled = useSyncExternalStore(
+    subscribeFinePointerHover,
+    getFinePointerHover,
     () => false,
   );
   /** Scroll happened (ignore autoplay-audio when block is visible on first paint). */
@@ -264,6 +280,13 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                   zIndex: isActive ? 10 : 1,
                 }}
                 onClick={() => {
+                  setReelTapEngaged(true);
+                  if (activeIndex !== index) {
+                    setActiveIndex(index);
+                  }
+                }}
+                onMouseEnter={() => {
+                  if (!reelHoverSwitchEnabled) return;
                   setReelTapEngaged(true);
                   if (activeIndex !== index) {
                     setActiveIndex(index);
