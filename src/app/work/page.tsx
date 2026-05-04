@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 
 import { WorkPageVideoAudioProvider } from "@/components/work/WorkPageVideoAudioContext";
 import { WorkDualGridsWithTripleVideos } from "@/components/work/WorkDualGridsWithTripleVideos";
@@ -6,8 +7,6 @@ import { WorkExpandingImageGrid } from "@/components/work/WorkExpandingImageGrid
 import { WorkHotelMediaWithVideos } from "@/components/work/WorkHotelMediaWithVideos";
 import { WorkTravelInstagramReels } from "@/components/work/WorkTravelInstagramReels";
 import { WorkTravelVideoGrid } from "@/components/work/WorkTravelVideoGrid";
-import { ResultsSection } from "@/components/sections/ResultsSection";
-import { WorkCtaSection } from "@/components/sections/WorkCtaSection";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getWorkPageContent } from "@/lib/content";
@@ -17,6 +16,15 @@ import {
   oakSectionBorderClassName,
   oakSectionBorderTopClassName,
 } from "@/lib/sectionOakTheme";
+
+export const revalidate = 120;
+
+const ResultsSection = dynamic(() =>
+  import("@/components/sections/ResultsSection").then((m) => m.ResultsSection),
+);
+const WorkCtaSection = dynamic(() =>
+  import("@/components/sections/WorkCtaSection").then((m) => m.WorkCtaSection),
+);
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSiteConfig();
@@ -120,19 +128,20 @@ export default async function WorkPage() {
                         stripAriaLabel={`${category.title}: two 3 by 3 grids`}
                         items={category.items}
                         tripleVideos={category.tripleVideos}
-                        priorityFirstImages={index === 0 ? 6 : 0}
+                        priorityFirstImages={index === 0 ? 9 : 0}
+                        prioritySecondGridImages={index === 0 ? 6 : 0}
                       />
                     ) : isHotels ? (
                       <WorkHotelMediaWithVideos
                         stripAriaLabel={`${category.title}: six by two photo grid and reels`}
                         items={category.items}
                         tripleVideos={category.tripleVideos}
-                        priorityFirstImages={index === 0 ? 6 : 0}
+                        priorityFirstImages={index === 0 ? 9 : 0}
                       />
                     ) : (
                       <WorkExpandingImageGrid
                         items={category.items}
-                        priorityFirstImages={index === 0 ? 6 : 0}
+                        priorityFirstImages={index === 0 ? 9 : 0}
                       />
                     )}
                   </div>

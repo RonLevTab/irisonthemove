@@ -120,7 +120,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     }
   }, [sectionInView]);
 
-  /** Start fetching every reel MP4 as soon as the home page mounts (before the block scrolls into view). */
+  /** `<link rel=preload>` voor elke unieke reel zodat alle strips meteen kunnen bewegen (desktop + mobiel). */
   const reelPreloadKey = items.map((i) => i.videoSrc).join("|");
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -211,25 +211,20 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     }
   }, [activeIndex]);
 
+  /** Alle strips blijven gelijktijdig spelen (muted), zodat geen “stilstaande” smalle kolommen op desktop. */
   useEffect(() => {
-    videoRefs.current.forEach((vid, i) => {
+    videoRefs.current.forEach((vid) => {
       if (!vid) return;
-      if (playStripPreviews || i === activeIndex) {
-        void vid.play().catch(() => {});
-      } else {
-        vid.pause();
-        requestAnimationFrame(() => paintPreviewFrame(vid));
-      }
+      void vid.play().catch(() => {});
     });
   }, [activeIndex, playStripPreviews, reelsAudioActive]);
 
-  /** First paint for all reels once refs exist (desktop strips load paused). */
+  /** Eerste frame / seek-hint na mount wanneer nodig. */
   useLayoutEffect(() => {
     const id = window.requestAnimationFrame(() => {
-      videoRefs.current.forEach((vid, i) => {
+      videoRefs.current.forEach((vid) => {
         if (!vid) return;
-        const shouldPlayStrip = playStripPreviews || i === activeIndex;
-        if (!shouldPlayStrip) {
+        if (vid.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
           paintPreviewFrame(vid);
         }
       });
@@ -255,7 +250,6 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
             const posterUrl = item.poster?.trim()
               ? withAssetPath(item.poster.trim())
               : undefined;
-            const shouldPlayThisStrip = playStripPreviews || isActive;
             const shouldPlayAudio = reelsAudioActive && isActive;
             /** All reels preload fully so switching strips / first paint never waits on cold buffer. */
             const preloadStrategy = "auto";
@@ -325,33 +319,25 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                       {...inlineLoopingVideoProps}
                       muted={!shouldPlayAudio}
                       loop
-                      autoPlay={playStripPreviews || isActive}
+                      autoPlay
                       preload={preloadStrategy}
                       aria-label={item.title}
                       onLoadedMetadata={(e) => {
                         const v = e.currentTarget;
-                        if (!shouldPlayThisStrip) {
-                          paintPreviewFrame(v);
-                          return;
-                        }
                         if (playStripPreviews) {
                           requestAnimationFrame(() => paintPreviewFrame(v));
                         }
+                        void v.play().catch(() => {});
                       }}
                       onLoadedData={(e) => {
                         const v = e.currentTarget;
-                        if (!shouldPlayThisStrip) {
-                          paintPreviewFrame(v);
-                          return;
-                        }
                         if (playStripPreviews) {
                           requestAnimationFrame(() => paintPreviewFrame(v));
                         }
+                        void v.play().catch(() => {});
                       }}
                       onCanPlay={(e) => {
-                        if (!shouldPlayThisStrip) {
-                          paintPreviewFrame(e.currentTarget);
-                        }
+                        void e.currentTarget.play().catch(() => {});
                       }}
                     />
                   </div>

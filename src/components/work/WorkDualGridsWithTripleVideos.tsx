@@ -12,6 +12,8 @@ type WorkDualGridsWithTripleVideosProps = {
   items: WorkGalleryItem[];
   tripleVideos?: WorkCategoryTripleVideo[];
   priorityFirstImages?: number;
+  /** Eerste N tegels van het tweede 3×3-raster (items 9–17) met priority — sneller zichtbaar na scroll. */
+  prioritySecondGridImages?: number;
 };
 
 /**
@@ -24,6 +26,7 @@ export function WorkDualGridsWithTripleVideos({
   items,
   tripleVideos,
   priorityFirstImages = 0,
+  prioritySecondGridImages = 0,
 }: WorkDualGridsWithTripleVideosProps) {
   const stripRef = useRef<HTMLDivElement>(null);
   const [stripWidthPx, setStripWidthPx] = useState<number | undefined>(undefined);
@@ -65,7 +68,11 @@ export function WorkDualGridsWithTripleVideos({
             />
           </div>
           <div className="w-full min-[900px]:[aspect-ratio:3/4] lg:w-[calc((100%_-_2rem)/2)] xl:w-[calc((100%_-_2.5rem)/2)]">
-            <WorkExpandingImageGrid gridSlot="half" items={items.slice(9, 18)} />
+            <WorkExpandingImageGrid
+              gridSlot="half"
+              items={items.slice(9, 18)}
+              priorityFirstImages={prioritySecondGridImages}
+            />
           </div>
         </div>
         {showVideos && tripleVideos ? (

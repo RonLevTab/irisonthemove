@@ -26,8 +26,11 @@ type WorkExpandingImageGridProps = {
  * not square. Desktop: size from the section height (width = 3/4 of height)
  * so flex layout does not override aspect and read as 1:1.
  */
-const SIZES_SINGLE = "(max-width: 899px) 33vw, (max-width: 900px) 100vw, 33vw";
-const SIZES_HALF = "(max-width: 899px) 33vw, (max-width: 1199px) 100vw, 20vw";
+/* Scherpere hints = kleinere WebP/AVIF-keuze, sneller — tegel past ~⅓ kolom of ~½ pagina. */
+const SIZES_SINGLE =
+  "(max-width: 899px) 34vw, (max-width: 1199px) 42vw, (max-width: 1439px) 28vw, 360px";
+const SIZES_HALF =
+  "(max-width: 899px) 34vw, (max-width: 1199px) 30vw, (max-width: 1439px) 22vw, 280px";
 
 /** Same radius as `InteractiveReelVideos` — 3×3 corner cells only (indices 0,2,6,8 / 1,3,7,9). */
 const OUTER_CORNER_AT_INDEX: Record<number, string> = {

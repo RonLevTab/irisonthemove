@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans } from "next/font/google";
-import { unstable_noStore as noStore } from "next/cache";
 import "./globals.css";
 
 import { Footer } from "@/components/layout/Footer";
@@ -85,8 +84,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  /** Voorkom dat edge een gecachte `<html>` serveert met verkeerde context — layout moet overal gelijk zijn. */
-  noStore();
   const site = await getSiteConfig();
 
   // Font variable classes live on <body>. suppressHydrationWarning on the roots covers

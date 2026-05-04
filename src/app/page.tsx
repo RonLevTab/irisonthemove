@@ -1,12 +1,19 @@
-import { ServicesOverviewSection } from "@/components/sections/ServicesOverviewSection";
-import { SocialProofSection } from "@/components/sections/SocialProofSection";
-import { VideoCtaSection } from "@/components/sections/VideoCtaSection";
+import dynamic from "next/dynamic";
+
 import { HeroSection } from "@/components/ui/HeroSection";
+import { SocialProofSection } from "@/components/sections/SocialProofSection";
 import { getHomepageContent } from "@/lib/homepageContent";
 import { getSiteConfig } from "@/lib/siteContent";
 
-/** Avoid serving a stale prerendered homepage when production deploys update. */
-export const dynamic = "force-dynamic";
+/** Statisch + ISR: snelle HTML vanaf edge; JSON-wijzigingen binnen enkele minuten live. */
+export const revalidate = 120;
+
+const ServicesOverviewSection = dynamic(() =>
+  import("@/components/sections/ServicesOverviewSection").then((m) => m.ServicesOverviewSection),
+);
+const VideoCtaSection = dynamic(() =>
+  import("@/components/sections/VideoCtaSection").then((m) => m.VideoCtaSection),
+);
 
 export default async function Home() {
   const [site, homepage] = await Promise.all([

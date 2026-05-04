@@ -115,10 +115,11 @@ export function WorkGalleryImageTile({
           imageCornerClass ?? "rounded-none",
         )}
         sizes={sizes}
-        quality={isPriorityImage ? 90 : 82}
+        quality={isPriorityImage ? 82 : 72}
         priority={isPriorityImage}
         loading={isPriorityImage ? "eager" : "lazy"}
         fetchPriority={isPriorityImage ? "high" : "auto"}
+        decoding={isPriorityImage ? "sync" : "async"}
         draggable={false}
       />
       {hasCaption ? (
