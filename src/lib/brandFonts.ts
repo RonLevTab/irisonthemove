@@ -9,7 +9,7 @@ export const fontLogoScript = Monsieur_La_Doulaise({
 
 /**
  * Cormorant — display headings site-wide and hero tagline tier (`.font-text-3`).
- * Single instance shares `--font-text-3` with `layout.tsx` on `<html>`.
+ * Single instance shares `--font-text-3` with `layout.tsx` on `<body>`.
  */
 export const fontCormorant = Cormorant({
   subsets: ["latin"],

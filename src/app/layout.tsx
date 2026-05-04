@@ -79,13 +79,11 @@ export default async function RootLayout({
 }>) {
   const site = await getSiteConfig();
 
+  // Font variable classes live on <body> so next/font hashes don’t hydration-warn on <html>.
   return (
-    <html
-      lang="en"
-      className={`${dmSans.variable} ${fontCormorant.variable} ${fontLogoScript.variable} ${fontBrandSubtitle.variable} h-full antialiased`}
-    >
+    <html lang="en" className="h-full">
       <body
-        className="flex min-h-full flex-col font-sans"
+        className={`${dmSans.variable} ${fontCormorant.variable} ${fontLogoScript.variable} ${fontBrandSubtitle.variable} flex min-h-full flex-col font-sans antialiased`}
         data-deploy-sha={process.env.VERCEL_GIT_COMMIT_SHA ?? "local"}
       >
         <Script
