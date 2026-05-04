@@ -194,9 +194,13 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
       ref={blockRef}
       className="flex h-full min-h-0 w-full flex-1 flex-col overflow-x-hidden"
     >
-      <div className="mx-auto flex h-full min-h-0 w-full max-w-6xl flex-1 flex-col gap-2 md:gap-0">
+      {/*
+        Middenweg: niet zo breed als oude max-w-6xl (live), niet zo smal als max-w-3xl (localhost).
+        Iets lagere active flex dan 6 → actieve strook neemt iets minder van de rij in.
+      */}
+      <div className="mx-auto flex h-full min-h-0 w-full max-w-5xl flex-1 flex-col gap-2 md:gap-0">
         <div
-          className={`flex min-h-[18rem] flex-1 flex-row rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:12_1_0%] [--reel-inactive-flex:1.05_1_0%] max-md:overflow-hidden md:min-h-[26rem] md:[--reel-active-flex:6_1_0%] md:[--reel-inactive-flex:1.15_1_0%] ${
+          className={`flex min-h-[19rem] flex-1 flex-row rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:11_1_0%] [--reel-inactive-flex:1.05_1_0%] max-md:overflow-hidden md:min-h-[29rem] md:[--reel-active-flex:5_1_0%] md:[--reel-inactive-flex:1.18_1_0%] ${
             playStripPreviews
               ? "max-md:[scrollbar-width:thin] md:overflow-hidden"
               : "overflow-hidden"
