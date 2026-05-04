@@ -37,14 +37,15 @@ const TICKER_MASK_EDGES =
   "linear-gradient(90deg, transparent 0%, black 2%, black 98%, transparent 100%)";
 
 /**
- * Symmetrisch midden-“gat”; korte randvervaging + compacte feather naar het gat
- * (minder “mist” rond CANADA / POLAND e.d.).
+ * Smal transparant gat (tekst weg achter stat); spiegelsymmetrisch rond 50% voor gelijke
+ * witruimte links/rechts. Smallere 43–57%-band = woorden langer zichtbaar dichter bij 20/label.
  */
 const TICKER_MASK_EDGES_AND_CENTER =
-  "linear-gradient(90deg, transparent 0%, black 1.5%, black 26%, rgba(0,0,0,0.42) 30%, rgba(0,0,0,0.09) 32.5%, transparent 34%, transparent 66%, rgba(0,0,0,0.09) 67.5%, rgba(0,0,0,0.42) 70%, black 74%, black 98.5%, transparent 100%)";
+  "linear-gradient(90deg, transparent 0%, black 1.5%, black 34%, rgba(0,0,0,0.38) 39%, rgba(0,0,0,0.07) 41.5%, transparent 43%, transparent 57%, rgba(0,0,0,0.07) 58.5%, rgba(0,0,0,0.38) 61%, black 66%, black 98.5%, transparent 100%)";
 
+/** Zelfde verhoudingen als desktop — % is t.o.v. volle strip; voorkomt te breed gat op telefoon. */
 const TICKER_MASK_EDGES_AND_CENTER_MOBILE =
-  "linear-gradient(90deg, transparent 0%, black 1.5%, black 12%, rgba(0,0,0,0.42) 16%, rgba(0,0,0,0.09) 19%, transparent 22%, transparent 78%, rgba(0,0,0,0.09) 81%, rgba(0,0,0,0.42) 84%, black 88%, black 98.5%, transparent 100%)";
+  "linear-gradient(90deg, transparent 0%, black 1.5%, black 34%, rgba(0,0,0,0.38) 39%, rgba(0,0,0,0.07) 41.5%, transparent 43%, transparent 57%, rgba(0,0,0,0.07) 58.5%, rgba(0,0,0,0.38) 61%, black 66%, black 98.5%, transparent 100%)";
 
 function SeparatorDot() {
   /* Subtle middle dots — same spacing as country labels, lower contrast so landen leidend blijven */
