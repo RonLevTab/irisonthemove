@@ -7,7 +7,6 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import { FaVolumeHigh, FaVolumeXmark } from "react-icons/fa6";
 
 import { withAssetPath } from "@/lib/assetPath";
 
@@ -95,35 +94,25 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
     getFinePointerHover,
     () => false,
   );
-  /** Scroll happened (ignore autoplay-audio when block is visible on first paint). */
-  const [userHasScrolled, setUserHasScrolled] = useState(false);
   /** True while the reels block intersects the viewport; false when scrolled past or above. */
   const [sectionInView, setSectionInView] = useState(false);
-  /** User turned sound off via the Mute control (stays until they choose Sound on). */
-  const [reelsMutedByUser, setReelsMutedByUser] = useState(false);
-  /** User tapped a reel (allows sound in-section without waiting for scroll, e.g. huge screen). */
-  const [reelTapEngaged, setReelTapEngaged] = useState(false);
+  /**
+   * Sound only after an explicit tap on “Sound on” — never from scrolling or from choosing a reel.
+   * Resets when the block leaves the viewport.
+   */
+  const [reelsSoundOn, setReelsSoundOn] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const blockRef = useRef<HTMLDivElement>(null);
   /** Tracks last `sectionInView` so we detect “left block, then came back”. */
   const prevSectionInView = useRef<boolean | null>(null);
 
-  /** Sound only inside “What I have been creating lately” — not on home load, not after scrolling away. */
-  const reelsAudioEnabled = sectionInView && (userHasScrolled || reelTapEngaged);
-  const reelsAudioActive = reelsAudioEnabled && !reelsMutedByUser;
+  const reelsAudioActive = sectionInView && reelsSoundOn;
 
-  /** Don’t treat “already visible on first paint” as arrival — wait until the visitor actually scrolls. */
   useEffect(() => {
-    const mark = () => setUserHasScrolled(true);
-    window.addEventListener("scroll", mark, { passive: true });
-    window.addEventListener("wheel", mark, { passive: true });
-    window.addEventListener("touchmove", mark, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", mark);
-      window.removeEventListener("wheel", mark);
-      window.removeEventListener("touchmove", mark);
-    };
-  }, []);
+    if (!sectionInView) {
+      setReelsSoundOn(false);
+    }
+  }, [sectionInView]);
 
   /** Start fetching every reel MP4 as soon as the home page mounts (before the block scrolls into view). */
   const reelPreloadKey = items.map((i) => i.videoSrc).join("|");
@@ -280,14 +269,12 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                   zIndex: isActive ? 10 : 1,
                 }}
                 onClick={() => {
-                  setReelTapEngaged(true);
                   if (activeIndex !== index) {
                     setActiveIndex(index);
                   }
                 }}
                 onMouseEnter={() => {
                   if (!reelHoverSwitchEnabled) return;
-                  setReelTapEngaged(true);
                   if (activeIndex !== index) {
                     setActiveIndex(index);
                   }
@@ -304,7 +291,6 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
                       isActive
                         ? (e) => {
                             e.stopPropagation();
-                            setReelTapEngaged(true);
                             const v = videoRefs.current[index];
                             if (!v) return;
                             if (v.paused) void v.play();
@@ -379,27 +365,16 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
           <div className="flex shrink-0 justify-start pt-1 pl-3 sm:pl-6 md:pl-8 md:pt-3">
             <button
               type="button"
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--color-primary)_35%,var(--color-border))] bg-[var(--color-surface)] text-[var(--color-primary)] shadow-[0_8px_24px_rgba(90,45,50,0.12)] transition-[color,background-color,border-color,box-shadow] hover:border-[var(--color-primary)] hover:bg-[var(--color-background)] hover:shadow-[0_12px_28px_rgba(90,45,50,0.18)] sm:h-11 sm:w-11"
-              aria-pressed={reelsMutedByUser}
+              className="inline-flex shrink-0 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--color-primary)_35%,var(--color-border))] bg-[var(--color-surface)] px-3 py-2 font-sans text-[0.65rem] font-medium uppercase tracking-[0.14em] text-[var(--color-primary)] shadow-[0_8px_24px_rgba(90,45,50,0.12)] transition-[color,background-color,border-color,box-shadow] hover:border-[var(--color-primary)] hover:bg-[var(--color-background)] hover:shadow-[0_12px_28px_rgba(90,45,50,0.18)] sm:px-4 sm:py-2.5 sm:text-xs sm:tracking-[0.16em]"
+              aria-pressed={reelsSoundOn}
               aria-label={
-                reelsMutedByUser ? "Turn sound on for reels" : "Mute reel audio"
+                reelsSoundOn ? "Sound off — mute reel audio" : "Sound on — play reel audio"
               }
               onClick={() => {
-                setReelsMutedByUser((m) => !m);
-                setReelTapEngaged(true);
+                setReelsSoundOn((v) => !v);
               }}
             >
-              {reelsMutedByUser ? (
-                <FaVolumeHigh
-                  className="h-[1.05rem] w-[1.05rem] sm:h-[1.15rem] sm:w-[1.15rem]"
-                  aria-hidden
-                />
-              ) : (
-                <FaVolumeXmark
-                  className="h-[1.05rem] w-[1.05rem] sm:h-[1.15rem] sm:w-[1.15rem]"
-                  aria-hidden
-                />
-              )}
+              {reelsSoundOn ? "Sound off" : "Sound on"}
             </button>
           </div>
         ) : null}
