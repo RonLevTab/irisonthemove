@@ -37,14 +37,14 @@ const TICKER_MASK_EDGES =
   "linear-gradient(90deg, transparent 0%, black 3%, black 97%, transparent 100%)";
 
 /**
- * Same edge fades + soft “hole” in the middle so labels vanish at the vertical rules
- * and reappear past them (nothing reads through the stat).
+ * Same edge fades + soft “hole” in the middle; wide semi-transparent ramps so
+ * country names feather in before “visited” and after “countries” (no hard edge).
  */
 const TICKER_MASK_EDGES_AND_CENTER =
-  "linear-gradient(90deg, transparent 0%, black 3%, black 38%, transparent 42%, transparent 58%, black 62%, black 97%, transparent 100%)";
+  "linear-gradient(90deg, transparent 0%, black 4%, black 26%, rgba(0,0,0,0.55) 32%, rgba(0,0,0,0.2) 38%, transparent 46%, transparent 54%, rgba(0,0,0,0.2) 62%, rgba(0,0,0,0.55) 68%, black 74%, black 96%, transparent 100%)";
 
 const TICKER_MASK_EDGES_AND_CENTER_MOBILE =
-  "linear-gradient(90deg, transparent 0%, black 3%, black 8%, rgba(0,0,0,0.45) 16%, transparent 30%, transparent 70%, rgba(0,0,0,0.45) 84%, black 92%, black 97%, transparent 100%)";
+  "linear-gradient(90deg, transparent 0%, black 4%, black 12%, rgba(0,0,0,0.5) 18%, rgba(0,0,0,0.18) 26%, transparent 32%, transparent 68%, rgba(0,0,0,0.18) 74%, rgba(0,0,0,0.5) 82%, black 88%, black 96%, transparent 100%)";
 
 function SeparatorDot() {
   /* Subtle middle dots — same spacing as country labels, lower contrast so landen leidend blijven */
@@ -70,9 +70,9 @@ function usePrefersReducedMotion(): boolean {
   return reduced;
 }
 
-function CountriesVisitedPanel() {
+/** Number + full-bleed ticker row + label — ticker sits strictly between count and “countries visited”. */
+function CountriesVisitedStatBlock({ reduceMotion }: { reduceMotion: boolean }) {
   const [displayCount, setDisplayCount] = React.useState(0);
-  const reduceMotion = usePrefersReducedMotion();
 
   React.useEffect(() => {
     const max = VISITED_COUNTRY_COUNT;
@@ -93,17 +93,26 @@ function CountriesVisitedPanel() {
 
   return (
     <div
-      className="inline-flex shrink-0 flex-col items-center justify-center gap-1 text-center sm:gap-1.5 sm:px-1 [&_span]:[text-shadow:0_1px_0_rgba(255,255,255,0.92),0_0_6px_rgba(244,239,233,0.65)] [&_p]:[text-shadow:0_1px_0_rgba(255,255,255,0.88),0_0_4px_rgba(244,239,233,0.6)]"
+      className="inline-flex max-w-full min-w-0 flex-col items-center gap-1 text-center sm:gap-1.5 sm:px-1 [&_span]:[text-shadow:0_1px_0_rgba(255,255,255,0.92),0_0_6px_rgba(244,239,233,0.65)] [&_p]:[text-shadow:0_1px_0_rgba(255,255,255,0.88),0_0_4px_rgba(244,239,233,0.6)]"
       role="status"
       aria-live="polite"
       aria-label={`${VISITED_COUNTRY_COUNT} countries visited`}
     >
-      <span className="inline-block min-w-[2.75ch] text-center font-text-3 text-4xl font-bold tabular-nums leading-none tracking-normal text-[var(--color-primary)] sm:text-5xl md:text-6xl">
+      <span className="relative z-[2] inline-block min-w-[2.75ch] text-center font-text-3 text-4xl font-bold tabular-nums leading-none tracking-normal text-[var(--color-primary)] sm:text-5xl md:text-6xl">
         {displayCount}
       </span>
+      <div className="relative z-[1] h-[2.65rem] w-full min-w-0 shrink-0 sm:h-[2.85rem] md:h-[3rem]">
+        <div className="absolute top-1/2 left-1/2 w-screen max-w-[100vw] -translate-x-1/2 -translate-y-1/2">
+          <CountryMarqueeStrip
+            reduceMotion={reduceMotion}
+            className="w-full py-0"
+            clearTickerInCenter
+          />
+        </div>
+      </div>
       <p
         className={cn(
-          "mb-0 max-w-none whitespace-nowrap text-center text-[var(--color-primary)]",
+          "relative z-[2] mb-0 max-w-none whitespace-nowrap text-center text-[var(--color-primary)]",
           countriesVisitedLabelClassName,
         )}
       >
@@ -250,25 +259,9 @@ export function DestinationsCountryMarquee({
         className,
       )}
     >
-      <div
-        className="relative isolate z-0 -mb-5 w-full min-h-[5.75rem] -translate-y-[1.375rem] overflow-visible sm:-mb-5 sm:min-h-[6.25rem] sm:-translate-y-[1.625rem] md:min-h-[6.85rem] md:-translate-y-[1.875rem]"
-        role="presentation"
-      >
-        {/*
-          Ticker uitlijnen in de band tussen het grote cijfer en het label — niet
-          verticaal centreren op het hele statblok (dat liet de landen midden in de "20" vallen).
-        */}
-        <div className="pointer-events-none absolute inset-0 z-[1] flex items-end justify-center pb-[1.7rem] sm:pb-[2rem] md:pb-[2.15rem]">
-          <CountryMarqueeStrip
-            reduceMotion={reduceMotion}
-            className="w-full py-0"
-            clearTickerInCenter
-          />
-        </div>
-        <div className="pointer-events-none absolute inset-0 z-[2] flex min-h-[5.75rem] items-center justify-center py-3 sm:min-h-[6.25rem] sm:py-4 md:min-h-[6.85rem]">
-          <div className="pointer-events-auto flex items-center justify-center gap-2.5 px-5 sm:gap-4 sm:px-7 md:gap-5 md:px-8">
-            <CountriesVisitedPanel />
-          </div>
+      <div className="relative z-0 -mb-5 w-full overflow-visible sm:-mb-5">
+        <div className="flex justify-center px-5 sm:px-6 md:px-8">
+          <CountriesVisitedStatBlock reduceMotion={reduceMotion} />
         </div>
       </div>
 
