@@ -34,7 +34,7 @@ export function WorkPortfolioVideoSoundButton({
       }
       onClick={onPress}
     >
-      <span className="block w-full text-center leading-none">
+      <span className="block w-full px-px text-center leading-[1.35]">
         {muted ? "Sound on" : "Sound off"}
       </span>
     </button>

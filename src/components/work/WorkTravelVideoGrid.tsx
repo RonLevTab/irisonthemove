@@ -1,10 +1,11 @@
 "use client";
 
-import { useId, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 import { useWorkPageVideoAudioOptional } from "@/components/work/WorkPageVideoAudioContext";
 import { WorkPortfolioVideoSoundButton } from "@/components/work/WorkPortfolioVideoSoundButton";
+import { inlineLoopingVideoProps } from "@/lib/inlineVideoHtmlProps";
 import { cn } from "@/lib/utils";
 
 type WorkTravelClip = { videoSrc: string; title?: string };
@@ -16,7 +17,8 @@ type WorkTravelVideoGridProps = {
 };
 
 /**
- * One cell: MP4 starts loading as soon as the Work page mounts (`preload="auto"` + immediate `src`).
+ * One cell: first three clips use `preload="auto"` (top row on desktop, first scroll on phone);
+ * the other three start as `metadata` and switch to `auto` when ~320px from the viewport — less data and CPU on small devices.
  * Playback is driven from the **card** intersection + explicit `play()` — observing `<video>` was unreliable (ref / ratio timing).
  */
 function TravelGridVideoCell({
@@ -31,6 +33,10 @@ function TravelGridVideoCell({
   const cellRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [muted, setMuted] = useState(true);
+  /** First row (3-up desktop / first cell mobile): eager buffer; rest upgrade when near viewport — saves data + CPU on phones. */
+  const [preloadLevel, setPreloadLevel] = useState<"auto" | "metadata">(() =>
+    index < 3 ? "auto" : "metadata",
+  );
   const instanceId = useId();
   const audio = useWorkPageVideoAudioOptional();
 
@@ -38,6 +44,22 @@ function TravelGridVideoCell({
     videoRef.current = el;
     videoRefs.current[index] = el;
   };
+
+  useEffect(() => {
+    if (preloadLevel === "auto") return;
+    const cell = cellRef.current;
+    if (!cell) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e?.isIntersecting) {
+          setPreloadLevel("auto");
+        }
+      },
+      { rootMargin: "320px 0px", threshold: 0 },
+    );
+    io.observe(cell);
+    return () => io.disconnect();
+  }, [preloadLevel]);
 
   useLayoutEffect(() => {
     const vid = videoRef.current;
@@ -115,12 +137,12 @@ function TravelGridVideoCell({
         <video
           ref={setVideoRef}
           src={item.videoSrc}
-          className="h-full w-full object-cover object-bottom"
+          className="h-full w-full object-cover object-bottom transform-gpu"
+          {...inlineLoopingVideoProps}
           muted={muted}
           loop
-          playsInline
           autoPlay
-          preload="auto"
+          preload={preloadLevel}
           aria-label={item.title?.trim() || "Travel portfolio video clip"}
         />
       </div>

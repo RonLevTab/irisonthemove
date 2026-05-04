@@ -5,6 +5,7 @@ import { flushSync } from "react-dom";
 
 import { useWorkPageVideoAudioOptional } from "@/components/work/WorkPageVideoAudioContext";
 import { WorkPortfolioVideoSoundButton } from "@/components/work/WorkPortfolioVideoSoundButton";
+import { inlineLoopingVideoProps } from "@/lib/inlineVideoHtmlProps";
 import { cn } from "@/lib/utils";
 
 export type WorkCategoryTripleVideo =
@@ -119,10 +120,10 @@ function TripleRowVideoCell({
         <video
           ref={setVideoRef}
           src={clip.videoSrc}
-          className="h-full w-full object-cover object-bottom"
+          className="h-full w-full object-cover object-bottom transform-gpu"
+          {...inlineLoopingVideoProps}
           muted={muted}
           loop
-          playsInline
           autoPlay
           preload="auto"
           aria-label={clip.title?.trim() || "Portfolio video clip"}

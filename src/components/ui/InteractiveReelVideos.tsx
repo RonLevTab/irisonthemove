@@ -11,6 +11,7 @@ import {
 
 import { withAssetPath } from "@/lib/assetPath";
 import { brandSubtitleClassName } from "@/lib/brandFonts";
+import { inlineLoopingVideoProps } from "@/lib/inlineVideoHtmlProps";
 import { soundToggleButtonClassName } from "@/lib/soundToggleButtonClassName";
 
 function subscribeMobileStripMode(cb: () => void) {
@@ -247,11 +248,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
         className="mx-auto flex w-full max-w-6xl flex-col gap-4 max-md:w-full max-md:flex-none max-md:gap-4 md:h-auto md:min-h-0 md:flex-none md:gap-6 md:justify-start lg:max-w-7xl xl:max-w-[min(100%,90rem)]"
       >
         <div
-          className={`mx-auto flex min-h-0 w-full max-w-full max-md:flex-1 flex-row rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:5.6_1_0%] [--reel-inactive-flex:0.72_1_0%] max-md:h-[min(48dvh,28rem)] max-md:min-h-[11.5rem] max-md:max-h-[48dvh] max-md:flex-none max-md:overflow-hidden max-md:self-center md:h-[min(46rem,calc(100svh-11rem))] md:min-h-0 md:flex-none md:[--reel-active-flex:3.1_1_0%] md:[--reel-inactive-flex:1.1_1_0%] ${
-            playStripPreviews
-              ? "max-md:[scrollbar-width:thin] md:overflow-hidden"
-              : "overflow-hidden"
-          }`}
+          className="mx-auto flex min-h-0 w-full max-w-full max-md:flex-1 flex-row overflow-hidden rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:5.6_1_0%] [--reel-inactive-flex:0.72_1_0%] max-md:h-[min(48dvh,28rem)] max-md:min-h-[11.5rem] max-md:max-h-[48dvh] max-md:flex-none max-md:self-center md:h-[min(46rem,calc(100svh-11rem))] md:min-h-0 md:flex-none md:[--reel-active-flex:3.1_1_0%] md:[--reel-inactive-flex:1.1_1_0%]"
         >
           {items.map((item, index) => {
             const isActive = activeIndex === index;
@@ -322,15 +319,14 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                       ref={(el) => {
                         videoRefs.current[index] = el;
                       }}
-                      className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+                      className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center transform-gpu"
                       src={videoSrcWithStartHint(item.videoSrc)}
                       poster={posterUrl}
-                      playsInline
+                      {...inlineLoopingVideoProps}
                       muted={!shouldPlayAudio}
                       loop
                       autoPlay={playStripPreviews || isActive}
                       preload={preloadStrategy}
-                      disablePictureInPicture
                       aria-label={item.title}
                       onLoadedMetadata={(e) => {
                         const v = e.currentTarget;
@@ -395,7 +391,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                 setReelsSoundOn((v) => !v);
               }}
             >
-              <span className="block w-full text-center leading-none">
+              <span className="block w-full px-px text-center leading-[1.35]">
                 {reelsSoundOn ? "Sound off" : "Sound on"}
               </span>
             </button>

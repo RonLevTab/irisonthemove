@@ -129,7 +129,9 @@ export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
           className="flex w-full min-w-0 items-center justify-center px-1"
           aria-label="Roles and focus"
         >
-          <div className={`${tagsRowClassName} max-w-full overflow-x-auto lg:overflow-visible`}>
+          <div
+            className={`${tagsRowClassName} scrollbar-hide max-w-full overflow-x-auto lg:overflow-visible`}
+          >
             {TAGS.map((label, index) => (
               <span key={label} className="inline-flex shrink-0 items-center">
                 {index > 0 ? (

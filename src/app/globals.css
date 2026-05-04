@@ -92,6 +92,15 @@
 html {
   scroll-behavior: smooth;
   overflow-x: clip;
+  /*
+   * Reserve space for the vertical scrollbar so layout width stays the same on Windows (classic
+   * scrollbar always visible) vs macOS overlay scrollbars — avoids “jumping” content and tames
+   * `100vw`-style overflow glitches next to the gutter.
+   */
+  scrollbar-gutter: stable;
+  /* Thin, consistent thumb across Chromium / Firefox / Safari 17+ */
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-primary) 38%, transparent) transparent;
   /* Same as page bottom / footer so gaps and Safari subpixels never show browser white */
   background-color: var(--color-surface-strong);
   /*
@@ -115,6 +124,20 @@ html {
 .destinations-marquee-reduced-strip::-webkit-scrollbar {
   display: none;
   height: 0;
+}
+
+/*
+ * Horizontal overflow regions (footer tag row, etc.): keep wheel / touch scroll but hide the
+ * track so “always show scrollbars” on Windows doesn’t look like a second layout vs Mac.
+ */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  height: 0;
+  width: 0;
 }
 
 /*
@@ -707,6 +730,72 @@ textarea {
   transform: translateY(-2px);
 }
 
+/*
+ * Sound on / off — zelfde bouwstenen als `.primary-button` (Work With Me): gradient, wit label,
+ * schaduw, transition, DM Sans + uppercase + tracking-schaal als hero — alleen kleiner ingeschalen.
+ */
+.sound-toggle-button {
+  @apply inline-flex items-center justify-center gap-0 rounded-full font-semibold uppercase transition duration-300;
+  border: none;
+  cursor: pointer;
+  /* Licht transparant — zelfde hoeken als primary, iets luchtiger op de achtergrond */
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-primary) 86%, transparent) 0%,
+    color-mix(in srgb, #6a373d 86%, transparent) 54%,
+    color-mix(in srgb, var(--color-primary-mid) 86%, transparent) 100%
+  );
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 13px 32px rgba(90, 45, 50, 0.16);
+  /*
+   * Extra ruimte links/rechts vóór de halve cirkels + verticaal zodat letters niet knippen.
+   * line-height > 1 i.p.v. leading-none op het label.
+   */
+  line-height: 1.35;
+  padding-block: 0.28rem;
+  padding-inline: 0.75rem;
+  font-size: 0.54rem;
+  letter-spacing: 0.14em;
+  min-height: 2.05rem;
+  min-width: 4.05rem;
+}
+
+@media (min-width: 640px) {
+  .sound-toggle-button {
+    padding-block: 0.34rem;
+    padding-inline: 0.92rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    min-height: 2.18rem;
+    min-width: 4.85rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sound-toggle-button {
+    padding-block: 0.38rem;
+    padding-inline: 1.02rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    min-height: 2.26rem;
+    min-width: 5.15rem;
+  }
+}
+
+.sound-toggle-button:hover {
+  transform: translateY(-2px);
+}
+
+.sound-toggle-button[aria-pressed="true"] {
+  background: color-mix(in srgb, #ffffff 88%, transparent);
+  color: var(--color-primary);
+  box-shadow: 0 11px 28px rgba(90, 45, 50, 0.125);
+}
+
+.sound-toggle-button[aria-pressed="true"]:hover {
+  transform: translateY(-2px);
+}
+
 .secondary-button {
   border-top: none;
   border-bottom: none;
@@ -767,8 +856,16 @@ textarea {
   @apply ml-5 list-disc space-y-2;
 }
 
+/* Fluid min-height so blog/travel embeds don’t force a tall strip on small phones */
 .video-embed iframe {
-  @apply min-h-[420px] w-full rounded-[1.5rem] border-0;
+  @apply w-full max-w-full rounded-[1.5rem] border-0;
+  min-height: max(12.5rem, min(56.25vw, 26.25rem));
+}
+
+@media (min-width: 640px) {
+  .video-embed iframe {
+    min-height: min(70vh, 26.25rem);
+  }
 }
 
 .section-grid-shell {

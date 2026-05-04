@@ -43,7 +43,7 @@ export function ServicesOverviewSection({
             stackGapClassName="gap-3 sm:gap-4"
           />
 
-          <div className="mx-auto grid w-[92%] max-w-[29rem] grid-cols-1 auto-rows-fr items-stretch gap-8 sm:w-full sm:max-w-none sm:gap-8 lg:grid-cols-3 lg:gap-10">
+          <div className="mx-auto grid w-[92%] max-w-[29rem] grid-cols-1 auto-rows-fr items-stretch gap-5 sm:w-full sm:max-w-none sm:gap-8 lg:grid-cols-3 lg:gap-10">
             {items.map((item, index) => (
               <PricingCard
                 key={item.title}
