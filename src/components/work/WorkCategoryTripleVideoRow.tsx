@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 import { useWorkPageVideoAudioOptional } from "@/components/work/WorkPageVideoAudioContext";
@@ -20,7 +20,7 @@ type WorkCategoryTripleVideoRowProps = {
   variant?: "default" | "embedded";
 };
 
-const NEAR_VIEW_ROOT_MARGIN = "260px 0px";
+const NEAR_VIEW_ROOT_MARGIN = "520px 0px";
 
 function TripleRowVideoCell({
   clip,
@@ -57,10 +57,32 @@ function TripleRowVideoCell({
           io.disconnect();
         }
       },
-      { rootMargin: NEAR_VIEW_ROOT_MARGIN, threshold: 0.01 },
+      { rootMargin: NEAR_VIEW_ROOT_MARGIN, threshold: 0 },
     );
     io.observe(cell);
     return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const cell = cellRef.current;
+    if (!cell) return;
+    const bump = () => {
+      const r = cell.getBoundingClientRect();
+      const vh =
+        typeof window !== "undefined"
+          ? window.innerHeight || document.documentElement.clientHeight
+          : 0;
+      if (r.bottom > -160 && r.top < vh + 520) {
+        setShouldLoad(true);
+      }
+    };
+    bump();
+    const t = window.setTimeout(bump, 80);
+    const t2 = window.setTimeout(bump, 400);
+    return () => {
+      window.clearTimeout(t);
+      window.clearTimeout(t2);
+    };
   }, []);
 
   useLayoutEffect(() => {
@@ -83,7 +105,7 @@ function TripleRowVideoCell({
           vid.pause();
         }
       },
-      { rootMargin: "80px 0px", threshold: 0.01 },
+      { rootMargin: "120px 0px", threshold: 0 },
     );
     io.observe(cell);
 

@@ -96,6 +96,40 @@ html {
   background-color: var(--color-surface-strong);
 }
 
+/*
+ * Destinations — reduced-motion country strip: still scrollable, but don’t show a horizontal
+ * scrollbar track (Windows "always show scrollbars" made it look broken vs Mac overlay scrollbars).
+ */
+.destinations-marquee-reduced-strip {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.destinations-marquee-reduced-strip::-webkit-scrollbar {
+  display: none;
+  height: 0;
+}
+
+/*
+ * Destinations hero masonry: city/country labels + gradient only on hover for mouse desktops;
+ * phones / touch: always visible (no hover). Matches Mac expectation; avoids Windows looking
+ * "pre-highlighted" when fine-pointer hover is mis-detected.
+ */
+@media (hover: hover) and (pointer: fine) {
+  .dest-hero-tile-caption {
+    opacity: 0;
+    transition: opacity 0.22s ease;
+  }
+  .dest-hero-tile:hover .dest-hero-tile-caption,
+  .dest-hero-tile:focus-within .dest-hero-tile-caption {
+    opacity: 1;
+  }
+}
+@media (hover: none), (pointer: coarse) {
+  .dest-hero-tile-caption {
+    opacity: 1;
+  }
+}
+
 /* Homepage only: class toggled by `HomeMobileScrollSnap` — één “scherm” per sectie op smalle viewports.
    Use `proximity` (not `mandatory`) so visitors can still scroll past the last snap section to the footer. */
 @media (max-width: 767px) {

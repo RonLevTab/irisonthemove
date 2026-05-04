@@ -188,8 +188,9 @@ function GalleryTile({ item, priority }: GalleryTileProps) {
   return (
     <div className="relative w-full">
       <div
-        className="group block w-full"
+        className="dest-hero-tile group block w-full outline-none focus-visible:outline-none"
         aria-label={captionLabel ? `Destination photo: ${captionLabel}` : undefined}
+        tabIndex={0}
       >
         <AspectRatio
           ratio={displayAspectRatio(item)}
@@ -211,20 +212,22 @@ function GalleryTile({ item, priority }: GalleryTileProps) {
             onError={handleError}
           />
           <div
-            className="pointer-events-none absolute inset-0 z-[1] rounded-[inherit] bg-gradient-to-t from-[rgba(50,43,39,0.82)] via-[rgba(50,43,39,0.15)] to-transparent"
+            className="dest-hero-tile-caption pointer-events-none absolute inset-0 z-[1] rounded-[inherit]"
             aria-hidden
-          />
-          <div className="pointer-events-none absolute inset-x-0 bottom-2.5 z-[2] px-3 pb-2 pt-8 text-center sm:bottom-4 sm:px-4 sm:pb-2.5 sm:pt-9 md:bottom-5 md:pb-3">
-            <p className="font-text-3 text-[0.86rem] font-semibold leading-tight tracking-wide text-[#fffbf7] drop-shadow-sm sm:text-lg md:text-[1.125rem]">
-              {item.caption}
-            </p>
-            {item.captionLine2 ? (
-              <p
-                className={`${brandSubtitleClassName} mt-0.5 text-[0.62rem] font-normal uppercase leading-snug tracking-[0.14em] text-[#fffbf7]/90 sm:text-[0.875rem] sm:leading-normal sm:tracking-[0.16em] md:text-[0.95rem]`}
-              >
-                {item.captionLine2}
+          >
+            <div className="absolute inset-0 rounded-[inherit] bg-gradient-to-t from-[rgba(50,43,39,0.82)] via-[rgba(50,43,39,0.15)] to-transparent" />
+            <div className="absolute inset-x-0 bottom-2.5 px-3 pb-2 pt-8 text-center sm:bottom-4 sm:px-4 sm:pb-2.5 sm:pt-9 md:bottom-5 md:pb-3">
+              <p className="font-text-3 text-[0.86rem] font-semibold leading-tight tracking-wide text-[#fffbf7] drop-shadow-sm sm:text-lg md:text-[1.125rem]">
+                {item.caption}
               </p>
-            ) : null}
+              {item.captionLine2 ? (
+                <p
+                  className={`${brandSubtitleClassName} mt-0.5 text-[0.62rem] font-normal uppercase leading-snug tracking-[0.14em] text-[#fffbf7]/90 sm:text-[0.875rem] sm:leading-normal sm:tracking-[0.16em] md:text-[0.95rem]`}
+                >
+                  {item.captionLine2}
+                </p>
+              ) : null}
+            </div>
           </div>
         </AspectRatio>
       </div>

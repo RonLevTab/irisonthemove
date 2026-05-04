@@ -201,7 +201,7 @@ function CountryMarqueeStrip({
       aria-label="Countries visited list"
     >
       {reduceMotion ? (
-        <div className="flex w-full min-h-[2.65rem] items-center justify-center overflow-x-auto overflow-y-hidden sm:min-h-[2.85rem]">
+        <div className="destinations-marquee-reduced-strip flex w-full min-h-[2.65rem] items-center justify-center overflow-x-auto overflow-y-hidden sm:min-h-[2.85rem]">
           <div className="translate-y-1 sm:translate-y-1.5">
             <div
               className={cn(

@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 import { useWorkPageVideoAudioOptional } from "@/components/work/WorkPageVideoAudioContext";
@@ -15,7 +15,7 @@ type WorkTravelVideoGridProps = {
   className?: string;
 };
 
-const NEAR_VIEW_ROOT_MARGIN = "260px 0px";
+const NEAR_VIEW_ROOT_MARGIN = "520px 0px";
 
 /**
  * One cell: defer `src` until the tile is near the viewport so six MP4s don’t all download at once.
@@ -54,10 +54,33 @@ function TravelGridVideoCell({
           io.disconnect();
         }
       },
-      { rootMargin: NEAR_VIEW_ROOT_MARGIN, threshold: 0.01 },
+      { rootMargin: NEAR_VIEW_ROOT_MARGIN, threshold: 0 },
     );
     io.observe(cell);
     return () => io.disconnect();
+  }, []);
+
+  /** Windows / grote monitors: extra check als IntersectionObserver net mist op eerste paint. */
+  useEffect(() => {
+    const cell = cellRef.current;
+    if (!cell) return;
+    const bump = () => {
+      const r = cell.getBoundingClientRect();
+      const vh =
+        typeof window !== "undefined"
+          ? window.innerHeight || document.documentElement.clientHeight
+          : 0;
+      if (r.bottom > -160 && r.top < vh + 520) {
+        setShouldLoad(true);
+      }
+    };
+    bump();
+    const t = window.setTimeout(bump, 80);
+    const t2 = window.setTimeout(bump, 400);
+    return () => {
+      window.clearTimeout(t);
+      window.clearTimeout(t2);
+    };
   }, []);
 
   useLayoutEffect(() => {
@@ -80,7 +103,7 @@ function TravelGridVideoCell({
           vid.pause();
         }
       },
-      { rootMargin: "100px 0px", threshold: 0.01 },
+      { rootMargin: "120px 0px", threshold: 0 },
     );
     io.observe(cell);
 
