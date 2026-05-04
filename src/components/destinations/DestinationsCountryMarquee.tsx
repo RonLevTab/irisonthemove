@@ -260,7 +260,7 @@ export function DestinationsCountryMarquee({
       )}
     >
       <div
-        className="relative isolate z-0 -mb-5 w-full -translate-y-[1.375rem] overflow-visible sm:-mb-5 sm:-translate-y-[1.625rem] md:-translate-y-[1.875rem]"
+        className="relative isolate z-0 -mb-9 w-full -translate-y-[2.75rem] overflow-visible sm:-mb-10 sm:-translate-y-[3.25rem] md:-mb-11 md:-translate-y-[3.75rem]"
         role="presentation"
       >
         {/*
@@ -273,7 +273,7 @@ export function DestinationsCountryMarquee({
             dezelfde box → landenlijst op het midden van 20 + label samen (niet het smalle
             top-50% kader alleen rond de cijfers).
           */}
-          <div className="relative flex w-full max-w-none min-h-[5.75rem] items-center justify-center py-4 sm:min-h-[6.35rem] sm:py-5 md:min-h-[6.95rem] md:py-6">
+          <div className="relative flex w-full max-w-none min-h-[5rem] items-center justify-center py-2.5 sm:min-h-[5.5rem] sm:py-3 md:min-h-[6rem] md:py-4">
             {/*
               Geen w-screen: 100vw + scrollbar verschuift het masker-midden t.o.v. het statblok
               (meer lucht links dan rechts). Strip = bandbreedte = zelfde basis als 20/label.
