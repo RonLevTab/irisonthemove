@@ -32,19 +32,19 @@ const MARQUEE_LOOP_SEGMENTS = 4;
 const SEPARATOR_FADE =
   "linear-gradient(to bottom, transparent 0%, transparent 10%, rgba(90,45,50,0.05) 28%, rgba(90,45,50,0.34) 50%, rgba(90,45,50,0.05) 72%, transparent 90%, transparent 100%)";
 
-/** Narrow edge fade — wide fades read as empty margin on Safari; keep soft feather only. */
+/** Horizontale zachte rand — dicht bij ref. (15%–85% leesbaar). */
 const TICKER_MASK_EDGES =
-  "linear-gradient(90deg, transparent 0%, black 3%, black 97%, transparent 100%)";
+  "linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%)";
 
 /**
- * Same edge fades + soft “hole” in the middle so labels vanish at the vertical rules
- * and reappear past them (nothing reads through the stat).
+ * Symmetrisch midden-“gat”: even veler tranities links/rechts zodat witruimte rond het
+ * statblok in balans is (mask-% = breedte van de w-screen strip; gat gecentreerd).
  */
 const TICKER_MASK_EDGES_AND_CENTER =
-  "linear-gradient(90deg, transparent 0%, black 3%, black 38%, transparent 42%, transparent 58%, black 62%, black 97%, transparent 100%)";
+  "linear-gradient(90deg, transparent 0%, black 4%, black 24%, rgba(0,0,0,0.5) 28%, rgba(0,0,0,0.14) 32%, transparent 34%, transparent 66%, rgba(0,0,0,0.14) 68%, rgba(0,0,0,0.5) 72%, black 76%, black 96%, transparent 100%)";
 
 const TICKER_MASK_EDGES_AND_CENTER_MOBILE =
-  "linear-gradient(90deg, transparent 0%, black 3%, black 8%, rgba(0,0,0,0.45) 16%, transparent 30%, transparent 70%, rgba(0,0,0,0.45) 84%, black 92%, black 97%, transparent 100%)";
+  "linear-gradient(90deg, transparent 0%, black 4%, black 10%, rgba(0,0,0,0.48) 14%, rgba(0,0,0,0.14) 18%, transparent 22%, transparent 78%, rgba(0,0,0,0.14) 82%, rgba(0,0,0,0.48) 86%, black 90%, black 96%, transparent 100%)";
 
 function SeparatorDot() {
   /* Subtle middle dots — same spacing as country labels, lower contrast so landen leidend blijven */
@@ -93,7 +93,7 @@ function CountriesVisitedPanel() {
 
   return (
     <div
-      className="inline-flex shrink-0 flex-col items-center justify-center gap-1 text-center sm:gap-1.5 sm:px-1 [&_span]:[text-shadow:0_1px_0_rgba(255,255,255,0.92),0_0_6px_rgba(244,239,233,0.65)] [&_p]:[text-shadow:0_1px_0_rgba(255,255,255,0.88),0_0_4px_rgba(244,239,233,0.6)]"
+      className="inline-flex shrink-0 flex-col items-center justify-center gap-2 text-center sm:gap-2.5 sm:px-1 [&_span]:[text-shadow:0_1px_0_rgba(255,255,255,0.92),0_0_6px_rgba(244,239,233,0.65)] [&_p]:[text-shadow:0_1px_0_rgba(255,255,255,0.88),0_0_4px_rgba(244,239,233,0.6)]"
       role="status"
       aria-live="polite"
       aria-label={`${VISITED_COUNTRY_COUNT} countries visited`}
@@ -191,6 +191,7 @@ function CountryMarqueeStrip({
         "relative flex min-h-[2.65rem] w-full min-w-0 items-center overflow-hidden py-1 sm:min-h-[2.85rem] md:min-h-[3rem]",
         className,
       )}
+      dir="ltr"
       style={maskStyle}
       role="region"
       aria-label="Countries visited list"
@@ -200,7 +201,7 @@ function CountryMarqueeStrip({
           <div
             className={cn(
               countryMarqueeTypographyClassName,
-              "flex w-max items-center gap-0 px-1 text-[var(--color-primary)]/90",
+              "flex w-max items-center gap-0 px-1 text-[var(--color-primary)]/[0.78]",
             )}
           >
             <CountryListRow loopKey="static" />
@@ -214,7 +215,7 @@ function CountryMarqueeStrip({
               className={cn(
                 MARQUEE_CLASS,
                 countryMarqueeTypographyClassName,
-                "flex w-max items-center gap-0 px-1 text-[var(--color-primary)]/90",
+                "flex w-max items-center gap-0 px-1 text-[var(--color-primary)]/[0.78]",
               )}
             >
               {Array.from({ length: MARQUEE_LOOP_SEGMENTS }, (_, i) => (
@@ -254,21 +255,28 @@ export function DestinationsCountryMarquee({
         className="relative isolate z-0 -mb-5 w-full -translate-y-[1.375rem] overflow-visible sm:-mb-5 sm:-translate-y-[1.625rem] md:-translate-y-[1.875rem]"
         role="presentation"
       >
-        <div className="flex justify-center px-5 sm:px-6 md:px-8">
+        {/*
+          Geen extra px hier: sectie heeft al gelijke zij-padding; voorkomt dat het midden
+          van de band en het midden van de w-screen strip visueel uit elkaar drijven.
+        */}
+        <div className="flex w-full justify-center px-0">
           {/*
-            Statblok = 20 + “countries visited” als één geheel. Marquee op 50%/50%
-            van díé wrapper (niet van de oude min-h overlay of midden van alleen de 20).
+            Ref. layout: één hoge band; marquee + stat beiden verticaal gecentreerd in
+            dezelfde box → landenlijst op het midden van 20 + label samen (niet het smalle
+            top-50% kader alleen rond de cijfers).
           */}
-          <div className="relative inline-flex flex-col items-center">
-            <div className="relative z-[2]">
-              <CountriesVisitedPanel />
+          <div className="relative flex w-full max-w-none min-h-[5.75rem] items-center justify-center py-4 sm:min-h-[6.35rem] sm:py-5 md:min-h-[6.95rem] md:py-6">
+            <div className="pointer-events-none absolute inset-0 z-[1] flex items-center justify-center overflow-visible">
+              <div className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2">
+                <CountryMarqueeStrip
+                  reduceMotion={reduceMotion}
+                  className="w-full py-0"
+                  clearTickerInCenter
+                />
+              </div>
             </div>
-            <div className="pointer-events-none absolute top-1/2 left-1/2 z-[1] w-screen max-w-[100vw] -translate-x-1/2 -translate-y-1/2">
-              <CountryMarqueeStrip
-                reduceMotion={reduceMotion}
-                className="w-full py-0"
-                clearTickerInCenter
-              />
+            <div className="relative z-[2] flex items-center justify-center">
+              <CountriesVisitedPanel />
             </div>
           </div>
         </div>
