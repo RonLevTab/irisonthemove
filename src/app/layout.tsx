@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans } from "next/font/google";
-import { headers } from "next/headers";
+import { unstable_noStore as noStore } from "next/cache";
 import "./globals.css";
 
 import { Footer } from "@/components/layout/Footer";
@@ -8,7 +8,6 @@ import { Navbar } from "@/components/layout/Navbar";
 import { ScrollToTopOnRoute } from "@/components/layout/ScrollToTopOnRoute";
 import { PhotoLightboxProvider } from "@/components/ui/PhotoLightbox";
 import { getSiteConfig } from "@/lib/siteContent";
-import { getPlatformOsHtmlClassFromUserAgent } from "@/lib/platformOsScript";
 import {
   fontBrandSubtitle,
   fontCormorant,
@@ -80,14 +79,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  /** Voorkom dat edge een gecachte `<html>` serveert met verkeerde context — layout moet overal gelijk zijn. */
+  noStore();
   const site = await getSiteConfig();
-  const hdrs = await headers();
-  const osClass = getPlatformOsHtmlClassFromUserAgent(hdrs.get("user-agent"));
 
   // Font variable classes live on <body>. suppressHydrationWarning on the roots covers
   // extensions that touch the document before React loads and rare next/font dev drift.
   return (
-    <html lang="en" className={`h-full ${osClass}`} suppressHydrationWarning>
+    <html lang="en" className="h-full" suppressHydrationWarning>
       <body
         className={`${dmSans.variable} ${fontCormorant.variable} ${fontLogoScript.variable} ${fontBrandSubtitle.variable} flex min-h-full flex-col font-sans antialiased`}
         data-deploy-sha={process.env.VERCEL_GIT_COMMIT_SHA ?? "local"}

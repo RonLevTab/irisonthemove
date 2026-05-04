@@ -191,9 +191,8 @@ textarea {
 }
 
 /*
- * Homepage hero — Mac (reference): design clamps. Windows: iets kleiner zodat breedte/terugloop
- * visueel overeenkomt (DirectWrite / metrics ogen vaak groter); `getPlatformOsHtmlClassFromUserAgent`
- * zet `os-windows` / `os-mac` op `<html>` tijdens SSR.
+ * Homepage hero — één vaste schaal (zelfde als localhost). Geen `os-mac` / `os-windows`
+ * branches meer: edge-cache met verkeerde User-Agent gaf live soms andere layout/typen.
  */
 .hero-home-headline {
   font-size: clamp(1.14rem, 3.85vw, 2.52rem);
@@ -211,69 +210,56 @@ textarea {
     line-height: 1.62;
   }
 }
-html.os-windows .hero-home-headline {
-  font-size: clamp(1.04rem, 3.35vw, 2.18rem);
-}
-html.os-windows .hero-home-subhead {
-  font-size: clamp(1.06rem, calc(1.88vw + 0.58rem), 1.2rem);
-}
 
-/*
- * About page photo strip: tile sizes in `PhotoGallery.tsx`; Mac (`os-mac`) gets another step up.
- */
-html.os-mac .about-photo-gallery-shell {
+/* About photo strip — grotere tegels voor iedereen (was alleen `html.os-mac`). */
+.about-photo-gallery-shell {
   min-height: 13.5rem;
 }
 @media (min-width: 640px) {
-  html.os-mac .about-photo-gallery-shell {
+  .about-photo-gallery-shell {
     min-height: 15.75rem;
   }
 }
 @media (min-width: 768px) {
-  html.os-mac .about-photo-gallery-shell {
+  .about-photo-gallery-shell {
     min-height: 18rem;
   }
 }
 @media (min-width: 1024px) {
-  html.os-mac .about-photo-gallery-shell {
+  .about-photo-gallery-shell {
     min-height: 20.5rem;
   }
 }
 
-html.os-mac .about-photo-gallery-tile {
+.about-photo-gallery-tile {
   width: 11.75rem !important;
   height: 11.75rem !important;
   max-width: 11.75rem !important;
 }
 @media (min-width: 640px) {
-  html.os-mac .about-photo-gallery-tile {
+  .about-photo-gallery-tile {
     width: 14rem !important;
     height: 14rem !important;
     max-width: 14rem !important;
   }
 }
 @media (min-width: 768px) {
-  html.os-mac .about-photo-gallery-tile {
+  .about-photo-gallery-tile {
     width: 16.25rem !important;
     height: 16.25rem !important;
     max-width: 16.25rem !important;
   }
 }
 @media (min-width: 1024px) {
-  html.os-mac .about-photo-gallery-tile {
+  .about-photo-gallery-tile {
     width: 18.5rem !important;
     height: 18.5rem !important;
     max-width: 18.5rem !important;
   }
 }
 
-/* Pull-quote: single loaded weight is light on ClearType — nudge without changing Mac */
-html.os-windows .about-bordeaux-story .about-philosophy-quote {
-  font-weight: 500;
-}
-
 /*
- * Navbar row: centered strip when <html> has no OS class yet; mac/windows override below.
+ * Navbar + footer: full-bleed + zij‑insets (localhost-referentie) — altijd, zonder UA.
  */
 .nav-bar-row {
   position: relative;
@@ -282,270 +268,84 @@ html.os-windows .about-bordeaux-story .about-philosophy-quote {
   min-height: 4.25rem;
   align-items: center;
   gap: 0.5rem;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: min(100%, 96rem);
-  padding: 1rem 2.5rem;
-}
-@media (min-width: 640px) {
-  .nav-bar-row {
-    padding-left: 3.75rem;
-    padding-right: 3.75rem;
-  }
-}
-@media (min-width: 1024px) {
-  .nav-bar-row {
-    padding-left: 4.25rem;
-    padding-right: 4.25rem;
-  }
-}
-html.os-mac .nav-bar-row {
   margin-left: 0;
   margin-right: 0;
   max-width: none;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding: 1rem 2rem;
 }
 @media (min-width: 640px) {
-  html.os-mac .nav-bar-row {
+  .nav-bar-row {
     gap: 0.75rem;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
   }
 }
 @media (min-width: 768px) {
-  html.os-mac .nav-bar-row {
+  .nav-bar-row {
     padding-left: 3rem;
     padding-right: 3rem;
   }
 }
 @media (min-width: 1024px) {
-  html.os-mac .nav-bar-row {
+  .nav-bar-row {
     padding-left: 3.75rem;
     padding-right: 3.75rem;
   }
 }
 @media (min-width: 1280px) {
-  html.os-mac .nav-bar-row {
+  .nav-bar-row {
     padding-left: 4.25rem;
     padding-right: 4.25rem;
   }
 }
 
 .nav-mobile-menu {
-  padding: 0 1.5rem 0.7rem;
+  padding: 0 2rem 0.7rem;
 }
 @media (min-width: 640px) {
   .nav-mobile-menu {
-    padding-left: 3.25rem;
-    padding-right: 3.25rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
     padding-bottom: 0.8rem;
   }
 }
-html.os-mac .nav-mobile-menu {
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-@media (min-width: 640px) {
-  html.os-mac .nav-mobile-menu {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-  }
-}
 @media (min-width: 768px) {
-  html.os-mac .nav-mobile-menu {
+  .nav-mobile-menu {
     padding-left: 3rem;
     padding-right: 3rem;
   }
 }
 
-/*
- * Footer inner — centered strip fallback; mac/windows = full-bleed + matched insets.
- */
 .footer-align {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: min(100%, 96rem);
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
+  margin-left: 0;
+  margin-right: 0;
+  max-width: none;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 @media (min-width: 640px) {
+  .footer-align {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+@media (min-width: 768px) {
+  .footer-align {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+@media (min-width: 1024px) {
   .footer-align {
     padding-left: 3.75rem;
     padding-right: 3.75rem;
   }
 }
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   .footer-align {
     padding-left: 4.25rem;
     padding-right: 4.25rem;
   }
-}
-html.os-mac .footer-align {
-  margin-left: 0;
-  margin-right: 0;
-  max-width: none;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-@media (min-width: 640px) {
-  html.os-mac .footer-align {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-  }
-}
-@media (min-width: 768px) {
-  html.os-mac .footer-align {
-    padding-left: 3rem;
-    padding-right: 3rem;
-  }
-}
-@media (min-width: 1024px) {
-  html.os-mac .footer-align {
-    padding-left: 3.75rem;
-    padding-right: 3.75rem;
-  }
-}
-@media (min-width: 1280px) {
-  html.os-mac .footer-align {
-    padding-left: 4.25rem;
-    padding-right: 4.25rem;
-  }
-}
-
-/* Windows: zelfde full-bleed + zij-insets als Mac — menu gebruikt dan dezelfde Tailwind-gaps als op Mac. */
-html.os-windows .nav-bar-row {
-  margin-left: 0;
-  margin-right: 0;
-  max-width: none;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-@media (min-width: 640px) {
-  html.os-windows .nav-bar-row {
-    gap: 0.75rem;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-  }
-}
-@media (min-width: 768px) {
-  html.os-windows .nav-bar-row {
-    padding-left: 3rem;
-    padding-right: 3rem;
-  }
-}
-@media (min-width: 1024px) {
-  html.os-windows .nav-bar-row {
-    padding-left: 3.75rem;
-    padding-right: 3.75rem;
-  }
-}
-@media (min-width: 1280px) {
-  html.os-windows .nav-bar-row {
-    padding-left: 4.25rem;
-    padding-right: 4.25rem;
-  }
-}
-
-html.os-windows .nav-mobile-menu {
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-@media (min-width: 640px) {
-  html.os-windows .nav-mobile-menu {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-  }
-}
-@media (min-width: 768px) {
-  html.os-windows .nav-mobile-menu {
-    padding-left: 3rem;
-    padding-right: 3rem;
-  }
-}
-
-html.os-windows .footer-align {
-  margin-left: 0;
-  margin-right: 0;
-  max-width: none;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-@media (min-width: 640px) {
-  html.os-windows .footer-align {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-  }
-}
-@media (min-width: 768px) {
-  html.os-windows .footer-align {
-    padding-left: 3rem;
-    padding-right: 3rem;
-  }
-}
-@media (min-width: 1024px) {
-  html.os-windows .footer-align {
-    padding-left: 3.75rem;
-    padding-right: 3.75rem;
-  }
-}
-@media (min-width: 1280px) {
-  html.os-windows .footer-align {
-    padding-left: 4.25rem;
-    padding-right: 4.25rem;
-  }
-}
-
-/*
- * Navbar — Windows: kleinere logo / links / iconen zodat het visueel aansluit bij Mac (fonts renderen anders).
- */
-html.os-windows .nav-bar-brand .brand-wordmark > span:nth-child(1) {
-  font-size: 2.25rem !important;
-  line-height: 0.88 !important;
-}
-@media (min-width: 640px) {
-  html.os-windows .nav-bar-brand .brand-wordmark > span:nth-child(1) {
-    font-size: 2.875rem !important;
-  }
-}
-html.os-windows .nav-bar-brand .brand-wordmark > span:nth-child(2) {
-  font-size: 0.6875rem !important;
-}
-@media (min-width: 640px) {
-  html.os-windows .nav-bar-brand .brand-wordmark > span:nth-child(2) {
-    font-size: 0.75rem !important;
-  }
-}
-
-html.os-windows .nav-pill-link {
-  font-size: 0.8125rem !important;
-}
-@media (min-width: 640px) {
-  html.os-windows .nav-pill-link {
-    font-size: 0.875rem !important;
-  }
-}
-@media (min-width: 1024px) {
-  html.os-windows .nav-pill-link {
-    font-size: 0.9375rem !important;
-    padding-top: 0.625rem !important;
-    padding-bottom: 0.625rem !important;
-  }
-}
-
-html.os-windows .nav-social-link {
-  width: 2.5rem !important;
-  height: 2.5rem !important;
-}
-@media (min-width: 640px) {
-  html.os-windows .nav-social-link {
-    width: 2.75rem !important;
-    height: 2.75rem !important;
-  }
-}
-html.os-windows .nav-social-link svg {
-  width: 1.18rem !important;
-  height: 1.18rem !important;
 }
 
 .section-shell {
