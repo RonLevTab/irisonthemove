@@ -371,9 +371,9 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
             <button
               type="button"
               className={cn(
-                "inline-flex shrink-0 items-center justify-center border-0 bg-transparent p-0 font-normal uppercase tracking-[0.18em] text-[var(--color-primary)] shadow-none outline-none transition-opacity hover:opacity-75 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]",
+                "inline-flex shrink-0 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--color-primary)_35%,var(--color-border))] bg-[var(--color-surface)] px-2.5 py-1.5 font-normal uppercase tracking-[0.18em] text-[var(--color-primary)] shadow-[0_5px_16px_rgba(90,45,50,0.09)] outline-none transition-[color,background-color,border-color,box-shadow] hover:border-[var(--color-primary)] hover:bg-[var(--color-background)] hover:shadow-[0_8px_22px_rgba(90,45,50,0.14)] focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)] sm:px-3 sm:py-1.5",
                 brandSubtitleClassName,
-                brandWordmarkNavSubtitleTextSizeClassName,
+                "text-[0.54rem] sm:text-[0.58rem]",
               )}
               aria-pressed={reelsSoundOn}
               aria-label={
