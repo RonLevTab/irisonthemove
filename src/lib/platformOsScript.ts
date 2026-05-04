@@ -1,16 +1,26 @@
 /**
- * Runs before React hydrates. Adds `os-mac` or `os-windows` on `<html>` so CSS can
- * diverge (e.g. navbar) without affecting the other platform.
+ * Platform-specific tweaks (see `globals.css`: `html.os-mac` / `html.os-windows`).
+ * The class must be present in the **server HTML** for `<html>` — do not inject it
+ * only in a pre-hydration script, or React will see a different `class` than it
+ * rendered and throw a hydration error.
  */
-export const platformOsScript = `
-(function(){
-  var h=document.documentElement;
-  try{
-    var u=navigator.userAgent||'';
-    var p=navigator.platform||'';
-    if(/Win/.test(u)||/Windows/i.test(u)){ h.classList.add('os-windows'); return; }
-    if(/Mac|iPhone|iPad|iPod/i.test(p)||/Mac OS X/.test(u)){ h.classList.add('os-mac'); return; }
-  }catch(e){}
-  h.classList.add('os-windows');
-})();
-`.trim();
+export type PlatformOsHtmlClass = "os-mac" | "os-windows";
+
+/**
+ * Mirrors the old client-side detection using `navigator.userAgent` /
+ * `navigator.platform`, but runs on the request `User-Agent` header.
+ */
+export function getPlatformOsHtmlClassFromUserAgent(
+  userAgent: string | null | undefined,
+): PlatformOsHtmlClass {
+  const u = userAgent ?? "";
+  if (/Win/.test(u) || /Windows/i.test(u)) return "os-windows";
+  if (
+    /Mac OS X/i.test(u) ||
+    /iPhone|iPad|iPod/i.test(u) ||
+    /Macintosh/i.test(u)
+  ) {
+    return "os-mac";
+  }
+  return "os-windows";
+}

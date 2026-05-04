@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import { DM_Sans } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
 
 import { Footer } from "@/components/layout/Footer";
@@ -8,7 +8,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { ScrollToTopOnRoute } from "@/components/layout/ScrollToTopOnRoute";
 import { PhotoLightboxProvider } from "@/components/ui/PhotoLightbox";
 import { getSiteConfig } from "@/lib/content";
-import { platformOsScript } from "@/lib/platformOsScript";
+import { getPlatformOsHtmlClassFromUserAgent } from "@/lib/platformOsScript";
 import {
   fontBrandSubtitle,
   fontCormorant,
@@ -78,19 +78,18 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const site = await getSiteConfig();
+  const hdrs = await headers();
+  const osClass = getPlatformOsHtmlClassFromUserAgent(hdrs.get("user-agent"));
 
-  // Font variable classes live on <body> so next/font hashes don’t hydration-warn on <html>.
+  // Font variable classes live on <body>. suppressHydrationWarning on the roots covers
+  // extensions that touch the document before React loads and rare next/font dev drift.
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className={`h-full ${osClass}`} suppressHydrationWarning>
       <body
         className={`${dmSans.variable} ${fontCormorant.variable} ${fontLogoScript.variable} ${fontBrandSubtitle.variable} flex min-h-full flex-col font-sans antialiased`}
         data-deploy-sha={process.env.VERCEL_GIT_COMMIT_SHA ?? "local"}
+        suppressHydrationWarning
       >
-        <Script
-          id="platform-os"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: platformOsScript }}
-        />
         <PhotoLightboxProvider>
           <Navbar
             instagramUrl={site.socialLinks.instagram}

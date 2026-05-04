@@ -191,7 +191,8 @@ textarea {
 
 /*
  * Homepage hero — Mac (reference): design clamps. Windows: iets kleiner zodat breedte/terugloop
- * visueel overeenkomt (DirectWrite / metrics ogen vaak groter); platformOsScript zet os-windows op <html>.
+ * visueel overeenkomt (DirectWrite / metrics ogen vaak groter); `getPlatformOsHtmlClassFromUserAgent`
+ * zet `os-windows` / `os-mac` op `<html>` tijdens SSR.
  */
 .hero-home-headline {
   font-size: clamp(1.14rem, 3.85vw, 2.52rem);
