@@ -8,7 +8,12 @@ import {
   useSyncExternalStore,
 } from "react";
 
+import {
+  brandSubtitleClassName,
+  brandWordmarkNavSubtitleTextSizeClassName,
+} from "@/lib/brandFonts";
 import { withAssetPath } from "@/lib/assetPath";
+import { cn } from "@/lib/utils";
 
 function subscribeMobileStripMode(cb: () => void) {
   const mq = window.matchMedia("(max-width: 767px)");
@@ -365,7 +370,11 @@ export function InteractiveReelVideos({ items }: InteractiveReelVideosProps) {
           <div className="flex shrink-0 justify-start pt-1 pl-3 sm:pl-6 md:pl-8 md:pt-3">
             <button
               type="button"
-              className="inline-flex shrink-0 items-center justify-center rounded-full border border-[color-mix(in_srgb,var(--color-primary)_35%,var(--color-border))] bg-[var(--color-surface)] px-3 py-2 font-sans text-[0.65rem] font-medium uppercase tracking-[0.14em] text-[var(--color-primary)] shadow-[0_8px_24px_rgba(90,45,50,0.12)] transition-[color,background-color,border-color,box-shadow] hover:border-[var(--color-primary)] hover:bg-[var(--color-background)] hover:shadow-[0_12px_28px_rgba(90,45,50,0.18)] sm:px-4 sm:py-2.5 sm:text-xs sm:tracking-[0.16em]"
+              className={cn(
+                "inline-flex shrink-0 items-center justify-center border-0 bg-transparent p-0 font-normal uppercase tracking-[0.18em] text-[var(--color-primary)] shadow-none outline-none transition-opacity hover:opacity-75 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]/35 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-background)]",
+                brandSubtitleClassName,
+                brandWordmarkNavSubtitleTextSizeClassName,
+              )}
               aria-pressed={reelsSoundOn}
               aria-label={
                 reelsSoundOn ? "Sound off — mute reel audio" : "Sound on — play reel audio"
