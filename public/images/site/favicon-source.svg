@@ -6,37 +6,38 @@
     </linearGradient>
   </defs>
   <rect
-    x="10"
-    y="10"
-    width="236"
-    height="236"
-    rx="54"
-    ry="54"
+    x="0"
+    y="0"
+    width="256"
+    height="256"
+    rx="50"
+    ry="50"
     fill="url(#iom-bg)"
     stroke="#d4c4b8"
-    stroke-width="2.5"
+    stroke-width="3"
   />
   <text
     x="128"
-    y="120"
+    y="122"
     text-anchor="middle"
     fill="#5a2d32"
-    font-family="Georgia, 'Palatino Linotype', 'Times New Roman', serif"
-    font-size="82"
+    font-family="'Monsieur La Doulaise', 'Snell Roundhand', 'Brush Script MT', cursive"
+    font-size="90"
     font-style="italic"
-    font-weight="500"
+    font-weight="400"
   >
     Iris
   </text>
   <text
     x="128"
-    y="170"
+    y="174"
     text-anchor="middle"
     fill="#5a2d32"
-    font-family="system-ui, -apple-system, 'Segoe UI', sans-serif"
-    font-size="13"
-    font-weight="600"
-    letter-spacing="0.2em"
+    font-family="'Castoro Titling', 'Trajan Pro', 'Times New Roman', serif"
+    font-size="15"
+    font-weight="500"
+    letter-spacing="0.19em"
+    text-transform="uppercase"
   >
     ON THE MOVE
   </text>

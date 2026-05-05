@@ -21,7 +21,7 @@ const dmSans = DM_Sans({
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSiteConfig();
-  const iconVersion = "20260505b";
+  const iconVersion = "20260505c";
   const socialImage = "/opengraph-image";
 
   return {
@@ -73,7 +73,7 @@ export async function generateMetadata(): Promise<Metadata> {
         { url: `/favicon.svg?v=${iconVersion}`, type: "image/svg+xml" },
         { url: `/icon.svg?v=${iconVersion}`, type: "image/svg+xml" },
       ],
-      shortcut: `/favicon-32x32.png?v=${iconVersion}`,
+      shortcut: `/favicon.ico?v=${iconVersion}`,
       apple: [{ url: `/apple-touch-icon.png?v=${iconVersion}`, sizes: "180x180", type: "image/png" }],
       other: [{ rel: "mask-icon", url: `/favicon.svg?v=${iconVersion}`, color: "#5a2d32" }],
     },
