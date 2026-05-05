@@ -111,6 +111,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
   const [reelsSoundOn, setReelsSoundOn] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const blockRef = useRef<HTMLDivElement>(null);
+  const primedVideoIndicesRef = useRef<Set<number>>(new Set());
   /** Tracks last `sectionInView` so we detect “left block, then came back”. */
   const prevSectionInView = useRef<boolean | null>(null);
 
@@ -142,24 +143,49 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
       ([entry]) => {
         setSectionNearView(!!entry?.isIntersecting);
       },
-      { threshold: 0, rootMargin: "1200px 0px 1200px 0px" },
+      { threshold: 0, rootMargin: "1800px 0px 1800px 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
-  /** Prioritize only the active reel first; load others lighter to avoid iPhone network spikes. */
   useEffect(() => {
-    for (const [index, vid] of videoRefs.current.entries()) {
-      if (!vid) continue;
-      const isPriority = index === activeIndex || index === activeIndex + 1;
-      vid.preload = sectionNearView && isPriority ? "auto" : "metadata";
-      try {
-        vid.load();
-      } catch {
-        /* ignore */
-      }
-    }
+    primedVideoIndicesRef.current.clear();
+  }, [items]);
+
+  /** Prime reels in sequence: active first, then neighbors, then remaining metadata. */
+  useEffect(() => {
+    if (!sectionNearView || items.length === 0) return;
+    const nextIndex = (activeIndex + 1) % items.length;
+    const orderedIndices = [
+      activeIndex,
+      nextIndex,
+      ...items
+        .map((_, idx) => idx)
+        .filter((idx) => idx !== activeIndex && idx !== nextIndex),
+    ];
+    const timers: number[] = [];
+
+    orderedIndices.forEach((index, order) => {
+      const timer = window.setTimeout(() => {
+        const vid = videoRefs.current[index];
+        if (!vid) return;
+        const shouldPrioritize = order < 2;
+        vid.preload = shouldPrioritize ? "auto" : "metadata";
+        if (primedVideoIndicesRef.current.has(index)) return;
+        try {
+          vid.load();
+          primedVideoIndicesRef.current.add(index);
+        } catch {
+          /* ignore */
+        }
+      }, order * 180);
+      timers.push(timer);
+    });
+
+    return () => {
+      timers.forEach((timer) => window.clearTimeout(timer));
+    };
   }, [items.length, sectionNearView, activeIndex]);
 
   /**
@@ -269,11 +295,14 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
              * Home strips should paint real color frames immediately (no white columns on first load).
              * Keep preload eager here; non-active reels are still paused right after first frame.
              */
-            const isPriorityReel = index === activeIndex || index === activeIndex + 1;
+            const isPriorityReel =
+              index === activeIndex || index === (activeIndex + 1) % items.length;
             const preloadStrategy =
               sectionNearView && isPriorityReel
                 ? "auto"
-                : "metadata";
+                : sectionNearView
+                  ? "metadata"
+                  : "none";
             const locationLabel = item.description.replace(/^reel\s*[—-]\s*/i, "ON LOCATION — ");
             const locationBreak = locationLabel.match(/^(.*?[—-])\s*(.*)$/);
 
