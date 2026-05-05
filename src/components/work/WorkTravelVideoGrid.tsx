@@ -233,7 +233,7 @@ export function WorkTravelVideoGrid({
       ([entry]) => {
         setGridNearView(!!entry?.isIntersecting);
       },
-      { threshold: 0, rootMargin: "1200px 0px 1200px 0px" },
+      { threshold: 0, rootMargin: "1800px 0px 1800px 0px" },
     );
     io.observe(el);
     return () => io.disconnect();

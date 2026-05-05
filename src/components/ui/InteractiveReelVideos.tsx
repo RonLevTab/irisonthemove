@@ -137,6 +137,31 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
   }, []);
 
   useEffect(() => {
+    if (typeof document === "undefined") return;
+    const links: HTMLLinkElement[] = [];
+    const seen = new Set<string>();
+
+    for (const [index, item] of items.entries()) {
+      const trimmed = item.videoSrc.trim();
+      const hashIdx = trimmed.indexOf("#");
+      const href = withAssetPath(hashIdx >= 0 ? trimmed.slice(0, hashIdx) : trimmed);
+      if (seen.has(href)) continue;
+      seen.add(href);
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "video";
+      link.href = href;
+      if (index < 2) link.setAttribute("fetchpriority", "high");
+      document.head.appendChild(link);
+      links.push(link);
+    }
+
+    return () => {
+      for (const link of links) link.remove();
+    };
+  }, [items]);
+
+  useEffect(() => {
     const el = blockRef.current;
     if (!el) return;
     const io = new IntersectionObserver(

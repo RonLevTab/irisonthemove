@@ -137,7 +137,7 @@ export function HeroSection({
               <span className="sr-only">{title}. </span>
               <HeroTaglineContent tagline={tagline} />
             </motion.h1>
-            <p className="hero-home-subhead font-text-3 w-full max-w-none text-balance text-center font-medium leading-relaxed tracking-[0.02em] text-pretty text-[var(--color-primary)]">
+            <p className="hero-home-subhead font-text-3 my-4 w-full max-w-none text-balance text-center font-medium leading-relaxed tracking-[0.02em] text-pretty text-[var(--color-primary)] sm:my-5">
               {(() => {
                 const sep = " ~ ";
                 const i = description.lastIndexOf(sep);
@@ -181,7 +181,7 @@ export function HeroSection({
               })()}
             </p>
 
-            <div className="mt-9 flex w-full flex-col items-center justify-center gap-3 sm:mt-5 sm:flex-row sm:gap-4">
+            <div className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
               <Link
                 className="primary-button text-[0.88rem] tracking-[0.14em] sm:text-[0.82rem] sm:tracking-[0.16em] lg:text-[0.9rem] lg:tracking-[0.18em]"
                 href={primaryCta.href}
