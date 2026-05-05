@@ -110,7 +110,8 @@ export function ContactPageView({
 
                 <a
                   href="#contact-form"
-                  className="absolute bottom-20 left-1/2 inline-flex -translate-x-1/2 flex-col items-center gap-4 whitespace-nowrap font-sans text-[0.62rem] font-medium uppercase tracking-[0.18em] text-[var(--color-primary)]/75 transition-colors hover:text-[var(--color-primary)] lg:hidden"
+                  className="absolute left-1/2 inline-flex -translate-x-1/2 flex-col items-center gap-3 whitespace-nowrap font-sans text-[0.62rem] font-medium uppercase tracking-[0.18em] text-[var(--color-primary)]/75 transition-colors hover:text-[var(--color-primary)] sm:bottom-20 lg:hidden"
+                  style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}
                 >
                   <span>Or scroll down for contact form</span>
                   {reduceMotion ? (
