@@ -5,6 +5,7 @@ import "./globals.css";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ScrollToTopOnRoute } from "@/components/layout/ScrollToTopOnRoute";
+import { VisitCounterPing } from "@/components/layout/VisitCounterPing";
 import { PhotoLightboxProvider } from "@/components/ui/PhotoLightbox";
 import { getSiteConfig } from "@/lib/siteContent";
 import {
@@ -119,6 +120,7 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <PhotoLightboxProvider>
+          <VisitCounterPing />
           <Navbar
             instagramUrl={site.socialLinks.instagram}
             tiktokUrl={site.socialLinks.tiktok}
