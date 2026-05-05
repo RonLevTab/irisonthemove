@@ -5,7 +5,6 @@ import { flushSync } from "react-dom";
 
 import { useWorkPageVideoAudioOptional } from "@/components/work/WorkPageVideoAudioContext";
 import { WorkPortfolioVideoSoundButton } from "@/components/work/WorkPortfolioVideoSoundButton";
-import { withAssetPath } from "@/lib/assetPath";
 import { inlineLoopingVideoProps } from "@/lib/inlineVideoHtmlProps";
 import { cn } from "@/lib/utils";
 
@@ -139,7 +138,7 @@ function TravelGridVideoCell({
           muted={muted}
           loop
           autoPlay
-          preload="auto"
+          preload="metadata"
           aria-label={item.title?.trim() || "Travel portfolio video clip"}
           onLoadedMetadata={(e) => {
             const v = e.currentTarget;
@@ -180,7 +179,6 @@ export function WorkTravelVideoGrid({
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [gridInView, setGridInView] = useState(false);
-  const [gridNearView, setGridNearView] = useState(false);
   const six = videos.slice(0, 6);
 
   if (six.length !== 6) {
@@ -188,30 +186,6 @@ export function WorkTravelVideoGrid({
   }
 
   const preloadKey = six.map((v) => v.videoSrc).join("|");
-
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-    const links: HTMLLinkElement[] = [];
-    const seen = new Set<string>();
-
-    for (const item of six) {
-      const trimmed = item.videoSrc.trim();
-      const hashIdx = trimmed.indexOf("#");
-      const href = withAssetPath(hashIdx >= 0 ? trimmed.slice(0, hashIdx) : trimmed);
-      if (seen.has(href)) continue;
-      seen.add(href);
-      const link = document.createElement("link");
-      link.rel = "preload";
-      link.as = "video";
-      link.href = href;
-      document.head.appendChild(link);
-      links.push(link);
-    }
-
-    return () => {
-      for (const l of links) l.remove();
-    };
-  }, [preloadKey, six]);
 
   useEffect(() => {
     const el = gridRef.current;
@@ -225,32 +199,6 @@ export function WorkTravelVideoGrid({
     io.observe(el);
     return () => io.disconnect();
   }, []);
-
-  useEffect(() => {
-    const el = gridRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        setGridNearView(!!entry?.isIntersecting);
-      },
-      { threshold: 0, rootMargin: "1800px 0px 1800px 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!gridNearView) return;
-    for (const vid of videoRefs.current) {
-      if (!vid) continue;
-      vid.preload = "auto";
-      try {
-        vid.load();
-      } catch {
-        /* ignore */
-      }
-    }
-  }, [gridNearView, preloadKey]);
 
   useEffect(() => {
     if (!gridInView) return;
