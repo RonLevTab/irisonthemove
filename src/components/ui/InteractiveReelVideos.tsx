@@ -236,8 +236,11 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
               ? withAssetPath(item.poster.trim())
               : undefined;
             const shouldPlayAudio = reelsAudioActive && isActive;
-            /** Active reel gets metadata; inactive strips avoid background network pressure. */
-            const preloadStrategy = isActive ? "metadata" : "none";
+            /**
+             * Home strips should paint real color frames immediately (no white columns on first load).
+             * Keep preload eager here; non-active reels are still paused right after first frame.
+             */
+            const preloadStrategy = "auto";
             const locationLabel = item.description.replace(/^reel\s*[—-]\s*/i, "ON LOCATION — ");
             const locationBreak = locationLabel.match(/^(.*?[—-])\s*(.*)$/);
 
@@ -306,7 +309,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                       {...inlineLoopingVideoProps}
                       muted={!shouldPlayAudio}
                       loop
-                      autoPlay={isActive}
+                      autoPlay
                       preload={preloadStrategy}
                       aria-label={item.title}
                       onLoadedMetadata={(e) => {
@@ -321,7 +324,11 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                         if (playStripPreviews) {
                           requestAnimationFrame(() => paintPreviewFrame(v));
                         }
-                        void v.play().catch(() => {});
+                        void v.play()
+                          .then(() => {
+                            if (!isActive) v.pause();
+                          })
+                          .catch(() => {});
                       }}
                       onCanPlay={(e) => {
                         void e.currentTarget.play().catch(() => {});
