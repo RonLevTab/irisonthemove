@@ -143,14 +143,22 @@ export function HeroSection({
                 const i = description.lastIndexOf(sep);
                 if (i === -1) return description;
                 const copy = description.slice(0, i);
-                const breakAt = ", UGC";
-                const breakIndex = copy.indexOf(breakAt);
+                const breakCandidates = [", authentic digital creativity", ", UGC", " and UGC"];
+                const breakToken = breakCandidates.find((token) => copy.includes(token)) ?? null;
+                const breakIndex = breakToken ? copy.indexOf(breakToken) : -1;
                 if (breakIndex !== -1) {
+                  const includeCommaInFirstLine = breakToken?.startsWith(",") ?? false;
+                  const firstLine = includeCommaInFirstLine
+                    ? copy.slice(0, breakIndex + 1)
+                    : copy.slice(0, breakIndex);
+                  const secondLine = includeCommaInFirstLine
+                    ? copy.slice(breakIndex + 2)
+                    : copy.slice(breakIndex + 1);
                   return (
                     <span className="flex w-full max-w-full flex-col gap-1 text-center">
-                      <span className="block w-full text-center">{copy.slice(0, breakIndex + 1)}</span>
+                      <span className="block w-full text-center">{firstLine}</span>
                       <span className="block w-full text-center">
-                        {copy.slice(breakIndex + 2)}
+                        {secondLine}
                         {sep}
                         <strong className="font-bold text-[var(--color-primary)]">
                           {description.slice(i + sep.length)}

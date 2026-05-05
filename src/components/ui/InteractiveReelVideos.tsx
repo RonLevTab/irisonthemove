@@ -120,32 +120,6 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     }
   }, [sectionInView]);
 
-  /** `<link rel=preload>` voor elke unieke reel zodat alle strips meteen kunnen bewegen (desktop + mobiel). */
-  const reelPreloadKey = items.map((i) => i.videoSrc).join("|");
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-    const links: HTMLLinkElement[] = [];
-    const seen = new Set<string>();
-    for (const item of items) {
-      const trimmed = item.videoSrc.trim();
-      const hashIdx = trimmed.indexOf("#");
-      const href = withAssetPath(hashIdx >= 0 ? trimmed.slice(0, hashIdx) : trimmed);
-      if (seen.has(href)) continue;
-      seen.add(href);
-      const link = document.createElement("link");
-      link.rel = "preload";
-      link.as = "video";
-      link.href = href;
-      document.head.appendChild(link);
-      links.push(link);
-    }
-    return () => {
-      for (const l of links) {
-        l.remove();
-      }
-    };
-  }, [reelPreloadKey]);
-
   useEffect(() => {
     const el = blockRef.current;
     if (!el) return;
@@ -211,13 +185,24 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     }
   }, [activeIndex]);
 
-  /** Alle strips blijven gelijktijdig spelen (muted), zodat geen “stilstaande” smalle kolommen op desktop. */
+  /** Keep only the active reel decoding; pause others to reduce mobile buffering pressure. */
   useEffect(() => {
-    videoRefs.current.forEach((vid) => {
+    videoRefs.current.forEach((vid, i) => {
       if (!vid) return;
-      void vid.play().catch(() => {});
+      if (!sectionInView) {
+        vid.pause();
+        vid.muted = true;
+        return;
+      }
+      if (i === activeIndex) {
+        vid.muted = !reelsAudioActive;
+        void vid.play().catch(() => {});
+        return;
+      }
+      vid.pause();
+      vid.muted = true;
     });
-  }, [activeIndex, playStripPreviews, reelsAudioActive]);
+  }, [activeIndex, sectionInView, reelsAudioActive]);
 
   /** Eerste frame / seek-hint na mount wanneer nodig. */
   useLayoutEffect(() => {
@@ -251,8 +236,8 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
               ? withAssetPath(item.poster.trim())
               : undefined;
             const shouldPlayAudio = reelsAudioActive && isActive;
-            /** All reels preload fully so switching strips / first paint never waits on cold buffer. */
-            const preloadStrategy = "auto";
+            /** Active reel gets metadata; inactive strips avoid background network pressure. */
+            const preloadStrategy = isActive ? "metadata" : "none";
             const locationLabel = item.description.replace(/^reel\s*[—-]\s*/i, "ON LOCATION — ");
             const locationBreak = locationLabel.match(/^(.*?[—-])\s*(.*)$/);
 
@@ -321,7 +306,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                       {...inlineLoopingVideoProps}
                       muted={!shouldPlayAudio}
                       loop
-                      autoPlay
+                      autoPlay={isActive}
                       preload={preloadStrategy}
                       aria-label={item.title}
                       onLoadedMetadata={(e) => {

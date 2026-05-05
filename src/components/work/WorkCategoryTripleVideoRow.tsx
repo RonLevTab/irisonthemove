@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 import { useWorkPageVideoAudioOptional } from "@/components/work/WorkPageVideoAudioContext";
@@ -33,6 +33,7 @@ function TripleRowVideoCell({
   embedded: boolean;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const cardRef = useRef<HTMLDivElement | null>(null);
   const [muted, setMuted] = useState(true);
   const instanceId = useId();
   const audio = useWorkPageVideoAudioOptional();
@@ -42,18 +43,26 @@ function TripleRowVideoCell({
     videoRefs.current[index] = el;
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    const card = cardRef.current;
     const vid = videoRef.current;
-    if (!vid) return;
+    if (!card || !vid) return;
 
-    const tryPlay = () => void vid.play().catch(() => {});
-    vid.addEventListener("loadeddata", tryPlay, { once: true });
-    vid.addEventListener("canplay", tryPlay, { once: true });
-    tryPlay();
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) {
+          vid.pause();
+          return;
+        }
+        void vid.play().catch(() => {});
+      },
+      { threshold: 0.2, rootMargin: "120px 0px 120px 0px" },
+    );
+    io.observe(card);
 
     return () => {
-      vid.removeEventListener("loadeddata", tryPlay);
-      vid.removeEventListener("canplay", tryPlay);
+      io.disconnect();
+      vid.pause();
     };
   }, [clip.videoSrc]);
 
@@ -91,6 +100,7 @@ function TripleRowVideoCell({
   return (
     <div className="flex min-w-0 w-full">
       <div
+        ref={cardRef}
         className={cn(
           "relative aspect-[3/4] min-h-0 w-full min-w-0 overflow-hidden",
           embedded
@@ -105,8 +115,7 @@ function TripleRowVideoCell({
           {...inlineLoopingVideoProps}
           muted={muted}
           loop
-          autoPlay
-          preload="auto"
+          preload="metadata"
           aria-label={clip.title?.trim() || "Portfolio video clip"}
         />
         <WorkPortfolioVideoSoundButton
