@@ -21,7 +21,7 @@ const dmSans = DM_Sans({
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSiteConfig();
-  const iconVersion = "20260505f";
+  const iconVersion = "20260505g";
   const socialImage = "/opengraph-image";
 
   return {
@@ -68,14 +68,14 @@ export async function generateMetadata(): Promise<Metadata> {
     icons: {
       /** PNG first — some Safari versions pick the first `icon` for the tab; SVG is a sharp fallback. */
       icon: [
-        { url: `/favicon-32x32.png?v=${iconVersion}`, sizes: "32x32", type: "image/png" },
-        { url: `/favicon-16x16.png?v=${iconVersion}`, sizes: "16x16", type: "image/png" },
-        { url: `/favicon.svg?v=${iconVersion}`, type: "image/svg+xml" },
+        { url: `/logo-icon-32x32.png?v=${iconVersion}`, sizes: "32x32", type: "image/png" },
+        { url: `/logo-icon-16x16.png?v=${iconVersion}`, sizes: "16x16", type: "image/png" },
+        { url: `/logo-icon.svg?v=${iconVersion}`, type: "image/svg+xml" },
         { url: `/icon.svg?v=${iconVersion}`, type: "image/svg+xml" },
       ],
-      shortcut: `/favicon.ico?v=${iconVersion}`,
-      apple: [{ url: `/apple-touch-icon.png?v=${iconVersion}`, sizes: "180x180", type: "image/png" }],
-      other: [{ rel: "mask-icon", url: `/favicon.svg?v=${iconVersion}`, color: "#5a2d32" }],
+      shortcut: `/logo-icon.ico?v=${iconVersion}`,
+      apple: [{ url: `/logo-apple-touch-icon.png?v=${iconVersion}`, sizes: "180x180", type: "image/png" }],
+      other: [{ rel: "mask-icon", url: `/logo-icon.svg?v=${iconVersion}`, color: "#5a2d32" }],
     },
     manifest: `/site.webmanifest?v=${iconVersion}`,
     appleWebApp: {
