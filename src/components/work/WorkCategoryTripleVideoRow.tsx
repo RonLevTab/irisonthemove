@@ -89,7 +89,7 @@ function TripleRowVideoCell({
   };
 
   return (
-    <div className="flex min-w-0 w-full flex-col items-center">
+    <div className="flex min-w-0 w-full">
       <div
         className={cn(
           "relative aspect-[3/4] min-h-0 w-full min-w-0 overflow-hidden",
@@ -109,8 +109,12 @@ function TripleRowVideoCell({
           preload="auto"
           aria-label={clip.title?.trim() || "Portfolio video clip"}
         />
+        <WorkPortfolioVideoSoundButton
+          muted={muted}
+          onPress={handleSoundPress}
+          className="absolute bottom-4 left-1/2 -translate-x-1/2"
+        />
       </div>
-      <WorkPortfolioVideoSoundButton muted={muted} onPress={handleSoundPress} />
     </div>
   );
 }

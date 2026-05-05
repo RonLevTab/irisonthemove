@@ -1,6 +1,5 @@
 import { FaInstagram, FaTiktok } from "react-icons/fa6";
 
-import { BrandWordmark } from "@/components/ui/BrandWordmark";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import type { WorkPageResultsContent } from "@/types/content";
@@ -66,13 +65,9 @@ const platformIconOakChipClass =
 const resultsProfileLinkColorClass =
   "text-[color-mix(in_srgb,var(--color-primary)_68%,#90353d)]";
 
-/**
- * Alleen het Iris On The Move-woordmerk: beige chip + rode tekst (omgekeerd t.o.v. Instagram/TikTok).
- */
-const siteBrandIconChipClass = cn(
-  "flex shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[color-mix(in_srgb,var(--color-accent-peach)_58%,var(--color-border))] bg-[var(--color-surface-strong)] px-1 shadow-sm",
-  "[&_span]:!text-[color-mix(in_srgb,var(--color-primary)_68%,#90353d)]",
-);
+/** Website chip: show the exact logo asset without extra frame styling. */
+const siteBrandIconChipClass =
+  "flex shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-transparent p-0 shadow-none";
 
 /** Profile / URL links — bordeaux text, beige underline */
 const resultsProfileLinkClass = cn(
@@ -92,15 +87,11 @@ const resultHeaderLogoIconClass = "h-7 w-7 sm:h-8 sm:w-8";
 function ResultsBrandHeaderChip() {
   return (
     <div className={cn(siteBrandIconChipClass, resultHeaderLogoChipClass)} aria-hidden>
-      <span className="flex max-h-[3.25rem] max-w-[4.5rem] items-center justify-center sm:max-h-[3.5rem] sm:max-w-[5rem]">
-        <span className="block origin-center scale-[0.58] sm:scale-[0.66]">
-          <BrandWordmark
-            size="sm"
-            align="center"
-            scriptTranslateClassName="-translate-x-[0.05em] sm:-translate-x-[0.06em]"
-          />
-        </span>
-      </span>
+      <img
+        src="/images/site/favicon-source.svg?v=20260505f"
+        alt=""
+        className="h-[2.7rem] w-[2.7rem] object-contain sm:h-[3rem] sm:w-[3rem]"
+      />
     </div>
   );
 }

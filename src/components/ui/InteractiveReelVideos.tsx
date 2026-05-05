@@ -368,7 +368,9 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
           <div className="flex w-full shrink-0 justify-center px-1">
             <button
               type="button"
-              className={soundToggleButtonClassName()}
+              className={soundToggleButtonClassName(
+                "sound-toggle-button--home sound-toggle-button--home-text",
+              )}
               aria-pressed={reelsSoundOn}
               aria-label={
                 reelsSoundOn ? "Sound off — mute reel audio" : "Sound on — play reel audio"
