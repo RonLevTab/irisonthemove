@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { FaCamera, FaEarthAmericas, FaPlane } from "react-icons/fa6";
 
+import { ForceScrollTopOnMount } from "@/components/layout/ForceScrollTopOnMount";
 import { PhotoGallery } from "@/components/ui/PhotoGallery";
 import { PhilosophyOakBorderCard } from "@/components/ui/PhilosophyOakBorderCard";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
@@ -163,11 +164,12 @@ export default async function AboutPage() {
 
   return (
     <div className="flex w-full min-h-[calc(100dvh-var(--nav-stack-height))] flex-col">
+      <ForceScrollTopOnMount />
       <PhotoGallery className="mx-auto w-full mt-2 mb-3 shrink-0 sm:mt-3 sm:mb-4 lg:mt-4 lg:mb-5" />
       <section className="relative isolate z-10 mt-0 flex min-h-0 flex-1 flex-col justify-center w-full scroll-mt-20 bg-transparent pb-3 sm:scroll-mt-24 sm:pb-4 lg:pb-5">
         <div className={aboutPageInnerClassName}>
           <ScrollReveal className="w-full overflow-visible">
-            <article
+            <section
               lang="en"
               className={`card-shell about-main-card-flush-top about-bordeaux-story relative z-10 mx-auto mb-0 w-full max-w-none -translate-y-1 overflow-visible pt-10 pb-10 sm:-translate-y-2 sm:pt-12 sm:pb-12 lg:-translate-y-3 lg:pt-16 lg:pb-16 ${cardPadX}`}
             >
@@ -295,7 +297,7 @@ export default async function AboutPage() {
                 </div>
               </div>
             </div>
-            </article>
+            </section>
           </ScrollReveal>
         </div>
       </section>

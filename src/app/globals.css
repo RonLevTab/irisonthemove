@@ -92,6 +92,7 @@
 html {
   scroll-behavior: smooth;
   overflow-x: clip;
+  overscroll-behavior-y: none;
   /*
    * Reserve space for the vertical scrollbar so layout width stays the same on Windows (classic
    * scrollbar always visible) vs macOS overlay scrollbars — avoids “jumping” content and tames
@@ -207,6 +208,7 @@ body {
   /* Prevent mobile browsers from inflating text and shifting the layout (iOS/Android). */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  overscroll-behavior-y: none;
   min-height: 100vh;
   overflow-x: clip;
   background:
