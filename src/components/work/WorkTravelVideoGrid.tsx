@@ -8,7 +8,7 @@ import { WorkPortfolioVideoSoundButton } from "@/components/work/WorkPortfolioVi
 import { inlineLoopingVideoProps } from "@/lib/inlineVideoHtmlProps";
 import { cn } from "@/lib/utils";
 
-type WorkTravelClip = { videoSrc: string; title?: string };
+type WorkTravelClip = { videoSrc: string; title?: string; poster?: string };
 
 type WorkTravelVideoGridProps = {
   videos: WorkTravelClip[];
@@ -40,6 +40,7 @@ function TravelGridVideoCell({
     const base = hashIdx >= 0 ? trimmed.slice(0, hashIdx) : trimmed;
     return `${base}#t=0.06`;
   })();
+  const posterUrl = item.poster?.trim() ? item.poster.trim() : undefined;
 
   const setVideoRef = (el: HTMLVideoElement | null) => {
     videoRef.current = el;
@@ -104,6 +105,7 @@ function TravelGridVideoCell({
         <video
           ref={setVideoRef}
           src={videoSrcWithStartHint}
+          poster={posterUrl}
           className="h-full w-full object-cover object-bottom transform-gpu"
           {...inlineLoopingVideoProps}
           muted={muted}

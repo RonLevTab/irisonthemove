@@ -9,7 +9,7 @@ import { inlineLoopingVideoProps } from "@/lib/inlineVideoHtmlProps";
 import { cn } from "@/lib/utils";
 
 export type WorkCategoryTripleVideo =
-  | { videoSrc: string; title?: string }
+  | { videoSrc: string; title?: string; poster?: string }
   | { placeholder: true; title?: string };
 
 type WorkCategoryTripleVideoRowProps = {
@@ -27,7 +27,7 @@ function TripleRowVideoCell({
   videoRefs,
   embedded,
 }: {
-  clip: { videoSrc: string; title?: string };
+  clip: { videoSrc: string; title?: string; poster?: string };
   index: number;
   videoRefs: React.MutableRefObject<(HTMLVideoElement | null)[]>;
   embedded: boolean;
@@ -43,6 +43,7 @@ function TripleRowVideoCell({
     const base = hashIdx >= 0 ? trimmed.slice(0, hashIdx) : trimmed;
     return `${base}#t=0.06`;
   })();
+  const posterUrl = clip.poster?.trim() ? clip.poster.trim() : undefined;
 
   const setVideoRef = (el: HTMLVideoElement | null) => {
     videoRef.current = el;
@@ -108,6 +109,7 @@ function TripleRowVideoCell({
         <video
           ref={setVideoRef}
           src={videoSrcWithStartHint}
+          poster={posterUrl}
           className="h-full w-full object-cover object-bottom transform-gpu"
           {...inlineLoopingVideoProps}
           muted={muted}

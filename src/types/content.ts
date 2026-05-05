@@ -288,7 +288,7 @@ export type WorkPageContent = {
      * coming-soon card (hotels often use one real clip + two placeholders while more files are produced).
      */
     tripleVideos?: Array<
-      | { videoSrc: string; title?: string }
+      | { videoSrc: string; title?: string; poster?: string }
       | { placeholder: true; title?: string }
     >;
     /**
@@ -303,6 +303,7 @@ export type WorkPageContent = {
     travelGridVideos?: Array<{
       videoSrc: string;
       title?: string;
+      poster?: string;
     }>;
   }>;
   cta: {

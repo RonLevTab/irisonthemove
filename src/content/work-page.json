@@ -65,12 +65,12 @@
       "description": "Travel reels — on-location and destination-first storytelling.",
       "items": [],
       "travelGridVideos": [
-        { "videoSrc": "/videos/work/travel/travel-02.mp4", "title": "Travel reel two" },
-        { "videoSrc": "/videos/work/travel/travel-05.mp4", "title": "Travel reel five" },
-        { "videoSrc": "/videos/work/travel/travel-06.mp4", "title": "Travel reel six" },
-        { "videoSrc": "/videos/work/travel/travel-01.mp4", "title": "Travel reel one" },
-        { "videoSrc": "/videos/work/travel/travel-03.mp4", "title": "Travel reel three" },
-        { "videoSrc": "/videos/work/travel/travel-04.mp4", "title": "Travel reel four" }
+        { "videoSrc": "/videos/work/travel/travel-02.mp4", "title": "Travel reel two", "poster": "/images/hero/hero-foreground.jpg" },
+        { "videoSrc": "/videos/work/travel/travel-05.mp4", "title": "Travel reel five", "poster": "/images/hero/hero-background.jpg" },
+        { "videoSrc": "/videos/work/travel/travel-06.mp4", "title": "Travel reel six", "poster": "/images/work/work-cta-2026-04-24-003556.jpeg" },
+        { "videoSrc": "/videos/work/travel/travel-01.mp4", "title": "Travel reel one", "poster": "/images/hero/hero-foreground.jpg" },
+        { "videoSrc": "/videos/work/travel/travel-03.mp4", "title": "Travel reel three", "poster": "/images/hero/hero-background.jpg" },
+        { "videoSrc": "/videos/work/travel/travel-04.mp4", "title": "Travel reel four", "poster": "/images/work/work-cta-2026-04-24-003556.jpeg" }
       ]
     }
   ],
