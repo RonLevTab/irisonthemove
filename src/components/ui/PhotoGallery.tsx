@@ -102,10 +102,10 @@ export function PhotoGallery({ layout = "strip", className }: PhotoGalleryProps)
                   fill
                   className="object-cover"
                   sizes="(max-width: 640px) 18vw, (max-width: 1024px) 15vw, 12vw"
-                  loading={index < GALLERY_IMAGES.length ? "eager" : "lazy"}
-                  priority={index < GALLERY_IMAGES.length}
-                  fetchPriority={index < GALLERY_IMAGES.length ? "high" : "auto"}
-                  quality={index < GALLERY_IMAGES.length ? 88 : 80}
+                  loading={index < 3 ? "eager" : "lazy"}
+                  priority={index < 3}
+                  fetchPriority={index < 3 ? "high" : "low"}
+                  quality={index < 3 ? 88 : 80}
                   draggable={false}
                 />
               </div>
@@ -150,10 +150,10 @@ export function PhotoGallery({ layout = "strip", className }: PhotoGalleryProps)
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 224px, (max-width: 1024px) 240px, 272px"
-                  loading={isFirstPass ? "eager" : "lazy"}
-                  priority={isFirstPass}
-                  fetchPriority={isFirstPass ? "high" : "auto"}
-                  quality={isFirstPass ? 88 : 80}
+                  loading={isFirstPass && index < 3 ? "eager" : "lazy"}
+                  priority={isFirstPass && index < 3}
+                  fetchPriority={isFirstPass && index < 3 ? "high" : "low"}
+                  quality={isFirstPass && index < 3 ? 88 : 80}
                   draggable={false}
                 />
                 <div

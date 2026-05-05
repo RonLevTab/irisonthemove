@@ -253,6 +253,8 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
             const shouldPlayAudio = reelsAudioActive && isActive;
             /** All reels preload fully so switching strips / first paint never waits on cold buffer. */
             const preloadStrategy = "auto";
+            const locationLabel = item.description.replace(/^reel\s*[—-]\s*/i, "ON LOCATION — ");
+            const locationBreak = locationLabel.match(/^(.*?[—-])\s*(.*)$/);
 
             const stripFlexStyle = {
               flex: isActive
@@ -351,11 +353,21 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                   <div className="relative z-[2] flex w-full items-end justify-start px-3 py-4 md:px-5 md:py-5">
                     <div className="min-w-0 max-w-full text-left text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)]">
                       <p
-                        className={`${brandSubtitleClassName} truncate text-[0.8rem] uppercase tracking-[0.16em] leading-tight md:text-lg`}
+                        className={`${brandSubtitleClassName} text-[0.54rem] font-semibold uppercase tracking-[0.1em] text-white/90 max-md:line-clamp-2 max-md:break-words max-md:leading-[1.34] md:truncate md:whitespace-nowrap md:text-[0.72rem] md:tracking-[0.12em] md:leading-[1.15]`}
                       >
-                        {item.title}
+                        {locationBreak ? (
+                          <>
+                            <span className="md:hidden">
+                              {locationBreak[1]}
+                              <br />
+                              {locationBreak[2]}
+                            </span>
+                            <span className="hidden md:inline">{locationLabel}</span>
+                          </>
+                        ) : (
+                          locationLabel
+                        )}
                       </p>
-                      <p className="text-sm text-white/80">{item.description}</p>
                     </div>
                   </div>
                 ) : null}

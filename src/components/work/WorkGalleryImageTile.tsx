@@ -118,7 +118,7 @@ export function WorkGalleryImageTile({
         quality={isPriorityImage ? 82 : 72}
         priority={isPriorityImage}
         loading={isPriorityImage ? "eager" : "lazy"}
-        fetchPriority={isPriorityImage ? "high" : "auto"}
+        fetchPriority={isPriorityImage ? "high" : "low"}
         decoding={isPriorityImage ? "sync" : "async"}
         draggable={false}
       />

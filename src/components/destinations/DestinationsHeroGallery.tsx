@@ -127,7 +127,7 @@ export function DestinationsHeroGallery({
   );
 
   const priorityKeys = React.useMemo(
-    () => new Set(orderedItems.slice(0, 9).map((it) => it.stableKey ?? it.src)),
+    () => new Set(orderedItems.slice(0, 6).map((it) => it.stableKey ?? it.src)),
     [orderedItems],
   );
 
@@ -205,10 +205,10 @@ function GalleryTile({ item, priority }: GalleryTileProps) {
               "transition-transform duration-500 ease-out",
               "group-hover:scale-[1.08] motion-reduce:group-hover:scale-100",
             )}
-            sizes="(max-width: 419px) 100vw, (max-width: 659px) 33vw, 20vw"
+            sizes="(max-width: 719px) 33vw, (max-width: 1199px) 20vw, 18vw"
             quality={100}
             priority={priority}
-            fetchPriority={priority ? "high" : "auto"}
+            fetchPriority={priority ? "high" : "low"}
             onError={handleError}
           />
           <div
