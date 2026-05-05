@@ -32,7 +32,6 @@ function TripleRowVideoCell({
   videoRefs: React.MutableRefObject<(HTMLVideoElement | null)[]>;
   embedded: boolean;
 }) {
-  const cellRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [muted, setMuted] = useState(true);
   const instanceId = useId();
@@ -45,31 +44,14 @@ function TripleRowVideoCell({
 
   useLayoutEffect(() => {
     const vid = videoRef.current;
-    const cell = cellRef.current;
-    if (!vid || !cell) {
-      return;
-    }
+    if (!vid) return;
 
     const tryPlay = () => void vid.play().catch(() => {});
-
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e?.isIntersecting) {
-          tryPlay();
-        } else {
-          vid.pause();
-        }
-      },
-      { rootMargin: "120px 0px", threshold: 0 },
-    );
-    io.observe(cell);
-
     vid.addEventListener("loadeddata", tryPlay, { once: true });
     vid.addEventListener("canplay", tryPlay, { once: true });
     tryPlay();
 
     return () => {
-      io.disconnect();
       vid.removeEventListener("loadeddata", tryPlay);
       vid.removeEventListener("canplay", tryPlay);
     };
@@ -109,7 +91,6 @@ function TripleRowVideoCell({
   return (
     <div className="flex min-w-0 w-full flex-col items-center">
       <div
-        ref={cellRef}
         className={cn(
           "relative aspect-[3/4] min-h-0 w-full min-w-0 overflow-hidden",
           embedded

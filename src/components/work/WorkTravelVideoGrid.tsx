@@ -29,7 +29,6 @@ function TravelGridVideoCell({
   index: number;
   videoRefs: React.MutableRefObject<(HTMLVideoElement | null)[]>;
 }) {
-  const cellRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [muted, setMuted] = useState(true);
   const instanceId = useId();
@@ -42,31 +41,14 @@ function TravelGridVideoCell({
 
   useLayoutEffect(() => {
     const vid = videoRef.current;
-    const cell = cellRef.current;
-    if (!vid || !cell) {
-      return;
-    }
+    if (!vid) return;
 
     const tryPlay = () => void vid.play().catch(() => {});
-
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e?.isIntersecting) {
-          tryPlay();
-        } else {
-          vid.pause();
-        }
-      },
-      { rootMargin: "120px 0px", threshold: 0 },
-    );
-    io.observe(cell);
-
     vid.addEventListener("loadeddata", tryPlay, { once: true });
     vid.addEventListener("canplay", tryPlay, { once: true });
     tryPlay();
 
     return () => {
-      io.disconnect();
       vid.removeEventListener("loadeddata", tryPlay);
       vid.removeEventListener("canplay", tryPlay);
     };
@@ -106,7 +88,6 @@ function TravelGridVideoCell({
   return (
     <div className="flex min-w-0 w-full flex-col items-center">
       <div
-        ref={cellRef}
         className={cn(
           "relative aspect-[3/4] min-h-0 w-full min-w-0 overflow-hidden",
           "rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-transparent",
