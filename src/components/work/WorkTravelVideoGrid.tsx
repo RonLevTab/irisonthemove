@@ -1,10 +1,11 @@
 "use client";
 
-import { useId, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 import { useWorkPageVideoAudioOptional } from "@/components/work/WorkPageVideoAudioContext";
 import { WorkPortfolioVideoSoundButton } from "@/components/work/WorkPortfolioVideoSoundButton";
+import { withAssetPath } from "@/lib/assetPath";
 import { inlineLoopingVideoProps } from "@/lib/inlineVideoHtmlProps";
 import { cn } from "@/lib/utils";
 
@@ -141,6 +142,32 @@ export function WorkTravelVideoGrid({
   if (six.length !== 6) {
     return null;
   }
+
+  const preloadKey = six.map((v) => v.videoSrc).join("|");
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const links: HTMLLinkElement[] = [];
+    const seen = new Set<string>();
+
+    for (const item of six) {
+      const trimmed = item.videoSrc.trim();
+      const hashIdx = trimmed.indexOf("#");
+      const href = withAssetPath(hashIdx >= 0 ? trimmed.slice(0, hashIdx) : trimmed);
+      if (seen.has(href)) continue;
+      seen.add(href);
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "video";
+      link.href = href;
+      document.head.appendChild(link);
+      links.push(link);
+    }
+
+    return () => {
+      for (const l of links) l.remove();
+    };
+  }, [preloadKey, six]);
 
   return (
     <div className="flex w-full justify-center">
