@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { useId, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 import { useWorkPageVideoAudioOptional } from "@/components/work/WorkPageVideoAudioContext";
@@ -30,36 +30,34 @@ function TravelGridVideoCell({
   videoRefs: React.MutableRefObject<(HTMLVideoElement | null)[]>;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const cardRef = useRef<HTMLDivElement | null>(null);
   const [muted, setMuted] = useState(true);
   const instanceId = useId();
   const audio = useWorkPageVideoAudioOptional();
+
+  const videoSrcWithStartHint = (() => {
+    const trimmed = item.videoSrc.trim();
+    const hashIdx = trimmed.indexOf("#");
+    const base = hashIdx >= 0 ? trimmed.slice(0, hashIdx) : trimmed;
+    return `${base}#t=0.06`;
+  })();
 
   const setVideoRef = (el: HTMLVideoElement | null) => {
     videoRef.current = el;
     videoRefs.current[index] = el;
   };
 
-  useEffect(() => {
-    const card = cardRef.current;
+  useLayoutEffect(() => {
     const vid = videoRef.current;
-    if (!card || !vid) return;
+    if (!vid) return;
 
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) {
-          vid.pause();
-          return;
-        }
-        void vid.play().catch(() => {});
-      },
-      { threshold: 0.2, rootMargin: "120px 0px 120px 0px" },
-    );
-    io.observe(card);
+    const tryPlay = () => void vid.play().catch(() => {});
+    vid.addEventListener("loadeddata", tryPlay, { once: true });
+    vid.addEventListener("canplay", tryPlay, { once: true });
+    tryPlay();
 
     return () => {
-      io.disconnect();
-      vid.pause();
+      vid.removeEventListener("loadeddata", tryPlay);
+      vid.removeEventListener("canplay", tryPlay);
     };
   }, [item.videoSrc]);
 
@@ -97,7 +95,6 @@ function TravelGridVideoCell({
   return (
     <div className="flex min-w-0 w-full">
       <div
-        ref={cardRef}
         className={cn(
           "relative aspect-[3/4] min-h-0 w-full min-w-0 overflow-hidden",
           "rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-transparent",
@@ -106,12 +103,13 @@ function TravelGridVideoCell({
       >
         <video
           ref={setVideoRef}
-          src={item.videoSrc}
+          src={videoSrcWithStartHint}
           className="h-full w-full object-cover object-bottom transform-gpu"
           {...inlineLoopingVideoProps}
           muted={muted}
           loop
-          preload="metadata"
+          autoPlay
+          preload="auto"
           aria-label={item.title?.trim() || "Travel portfolio video clip"}
         />
         <WorkPortfolioVideoSoundButton

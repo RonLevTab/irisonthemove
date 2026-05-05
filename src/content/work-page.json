@@ -30,8 +30,8 @@
         { "image": "/images/work/restaurants/18.jpeg", "imageAlt": "Grotta Palazzese, Polignano a Mare", "location": "Grotta Palazzese, Polignano a Mare, Italy" }
       ],
       "tripleVideos": [
-        { "videoSrc": "/videos/work/restaurants/restaurant-reel-1.mp4", "title": "Restaurant work — reel one" },
-        { "videoSrc": "/videos/work/restaurants/restaurant-reel-2.mp4", "title": "Restaurant work — reel two" },
+        { "videoSrc": "/videos/social/reel-1.mp4", "title": "Restaurant work — reel one" },
+        { "videoSrc": "/videos/social/reel-2.mp4", "title": "Restaurant work — reel two" },
         { "videoSrc": "/videos/work/restaurants/restaurant-reel-3.mp4", "title": "Restaurant work — reel three" }
       ]
     },
@@ -54,9 +54,9 @@
         { "image": "/images/work/hotels/mywok/IMG_4909.jpeg", "imageAlt": "Hotel stay — signature moment", "location": "Barcelo Ponent Beach hotel, Spain" }
       ],
       "tripleVideos": [
-        { "videoSrc": "/videos/work/hotels/hotel-reel-2.mp4", "title": "Hotel work — reel two" },
-        { "videoSrc": "/videos/work/hotels/hotel-reel-3.mp4", "title": "Hotel work — reel three" },
-        { "videoSrc": "/videos/work/hotels/hotel-reel-1.mp4", "title": "Hotel work — reel one" }
+        { "videoSrc": "/videos/social/reel-4.mp4", "title": "Hotel work — reel two" },
+        { "videoSrc": "/videos/social/reel-5.mp4", "title": "Hotel work — reel three" },
+        { "videoSrc": "/videos/social/reel-6.mp4", "title": "Hotel work — reel one" }
       ]
     },
     {
