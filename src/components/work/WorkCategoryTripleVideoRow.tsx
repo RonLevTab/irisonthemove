@@ -143,6 +143,7 @@ export function WorkCategoryTripleVideoRow({
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const rowRef = useRef<HTMLDivElement | null>(null);
   const [rowInView, setRowInView] = useState(false);
+  const [rowNearView, setRowNearView] = useState(false);
 
   if (!videos || videos.length !== 3) {
     return null;
@@ -190,6 +191,32 @@ export function WorkCategoryTripleVideoRow({
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  useEffect(() => {
+    const el = rowRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setRowNearView(!!entry?.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "1200px 0px 1200px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!rowNearView) return;
+    for (const vid of videoRefs.current) {
+      if (!vid) continue;
+      vid.preload = "auto";
+      try {
+        vid.load();
+      } catch {
+        /* ignore */
+      }
+    }
+  }, [rowNearView, preloadKey]);
 
   useEffect(() => {
     if (!rowInView) return;

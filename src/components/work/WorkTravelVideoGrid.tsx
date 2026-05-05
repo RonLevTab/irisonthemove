@@ -139,6 +139,7 @@ export function WorkTravelVideoGrid({
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [gridInView, setGridInView] = useState(false);
+  const [gridNearView, setGridNearView] = useState(false);
   const six = videos.slice(0, 6);
 
   if (six.length !== 6) {
@@ -183,6 +184,32 @@ export function WorkTravelVideoGrid({
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setGridNearView(!!entry?.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "1200px 0px 1200px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!gridNearView) return;
+    for (const vid of videoRefs.current) {
+      if (!vid) continue;
+      vid.preload = "auto";
+      try {
+        vid.load();
+      } catch {
+        /* ignore */
+      }
+    }
+  }, [gridNearView, preloadKey]);
 
   useEffect(() => {
     if (!gridInView) return;

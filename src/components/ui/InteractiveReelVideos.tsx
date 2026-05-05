@@ -102,6 +102,8 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
   );
   /** True while the reels block intersects the viewport; false when scrolled past or above. */
   const [sectionInView, setSectionInView] = useState(false);
+  /** True slightly before section enters viewport, to prebuffer clips early. */
+  const [sectionNearView, setSectionNearView] = useState(false);
   /**
    * Sound only after an explicit tap on “Sound on” — never from scrolling or from choosing a reel.
    * Resets when the block leaves the viewport.
@@ -132,6 +134,33 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  useEffect(() => {
+    const el = blockRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setSectionNearView(!!entry?.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "1200px 0px 1200px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  /** Start fetching reel bytes before the section is actually visible. */
+  useEffect(() => {
+    if (!sectionNearView) return;
+    for (const vid of videoRefs.current) {
+      if (!vid) continue;
+      vid.preload = "auto";
+      try {
+        vid.load();
+      } catch {
+        /* ignore */
+      }
+    }
+  }, [sectionNearView, items.length]);
 
   /**
    * After scrolling past the block and returning, reel 1 (and its audio) starts from the beginning again.
