@@ -138,13 +138,27 @@ function TripleRowVideoCell({
           ref={setVideoRef}
           src={videoSrcWithStartHint}
           poster={posterUrl}
-          className="h-full w-full object-cover object-bottom transform-gpu"
+          className="h-full w-full bg-[color-mix(in_srgb,var(--color-primary)_24%,#201512)] object-cover object-bottom transform-gpu"
           {...inlineLoopingVideoProps}
           muted={muted}
           loop
           autoPlay
           preload="auto"
           aria-label={clip.title?.trim() || "Portfolio video clip"}
+          onLoadedMetadata={(e) => {
+            const v = e.currentTarget;
+            try {
+              if (v.readyState >= HTMLMediaElement.HAVE_METADATA && v.currentTime < 0.08) {
+                v.currentTime = 0.08;
+              }
+            } catch {
+              /* ignore */
+            }
+            void v.play().catch(() => {});
+          }}
+          onLoadedData={(e) => {
+            void e.currentTarget.play().catch(() => {});
+          }}
         />
         <WorkPortfolioVideoSoundButton
           muted={muted}
@@ -242,15 +256,40 @@ export function WorkCategoryTripleVideoRow({
       } catch {
         /* ignore */
       }
+      vid.muted = true;
+      void vid.play().catch(() => {});
     }
   }, [rowNearView, preloadKey]);
 
   useEffect(() => {
     if (!rowInView) return;
-    for (const vid of videoRefs.current) {
-      if (!vid) continue;
-      void vid.play().catch(() => {});
-    }
+    const vids = videoRefs.current.filter((v): v is HTMLVideoElement => !!v);
+    if (vids.length === 0) return;
+    let cancelled = false;
+
+    const waitForFirstFrame = (vid: HTMLVideoElement) =>
+      new Promise<void>((resolve) => {
+        if (vid.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+          resolve();
+          return;
+        }
+        const onReady = () => resolve();
+        vid.addEventListener("loadeddata", onReady, { once: true });
+        vid.addEventListener("canplay", onReady, { once: true });
+      });
+
+    const startInSync = async () => {
+      await Promise.all(vids.map(waitForFirstFrame));
+      if (cancelled) return;
+      vids.forEach((vid) => {
+        void vid.play().catch(() => {});
+      });
+    };
+
+    void startInSync();
+    return () => {
+      cancelled = true;
+    };
   }, [rowInView, preloadKey]);
 
   return (

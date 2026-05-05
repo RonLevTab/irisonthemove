@@ -240,7 +240,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     }
   }, [activeIndex]);
 
-  /** Keep only the active reel playing; others stay paused on a preview frame for faster startup. */
+  /** Keep visible reels alive in-view to avoid white flashes when switching strips. */
   useEffect(() => {
     videoRefs.current.forEach((vid, i) => {
       if (!vid) return;
@@ -250,14 +250,23 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
         return;
       }
       const isActive = i === activeIndex;
+      if (!sectionInView) {
+        vid.muted = true;
+        if (isActive) {
+          void vid.play().catch(() => {});
+        } else {
+          vid.pause();
+        }
+        return;
+      }
       vid.muted = !(reelsAudioActive && isActive);
-      if (isActive) {
+      if (isActive || !playStripPreviews) {
         void vid.play().catch(() => {});
       } else {
-        vid.pause();
+        void vid.play().catch(() => {});
       }
     });
-  }, [activeIndex, sectionNearView, reelsAudioActive]);
+  }, [activeIndex, sectionNearView, sectionInView, reelsAudioActive, playStripPreviews]);
 
   /** Eerste frame / seek-hint na mount wanneer nodig. */
   useLayoutEffect(() => {
@@ -331,6 +340,20 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                   zIndex: isActive ? 10 : 1,
                 }}
                 onClick={() => {
+                  const target = videoRefs.current[index];
+                  if (target) {
+                    target.preload = "auto";
+                    if (!primedVideoIndicesRef.current.has(index)) {
+                      try {
+                        target.load();
+                        primedVideoIndicesRef.current.add(index);
+                      } catch {
+                        /* ignore */
+                      }
+                    }
+                    target.muted = true;
+                    void target.play().catch(() => {});
+                  }
                   if (activeIndex !== index) {
                     setActiveIndex(index);
                   }
