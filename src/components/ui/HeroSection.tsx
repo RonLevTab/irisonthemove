@@ -181,7 +181,7 @@ export function HeroSection({
               })()}
             </p>
 
-            <div className="mt-4 flex w-full flex-col items-center justify-center gap-3 sm:mt-5 sm:flex-row sm:gap-4">
+            <div className="mt-6 flex w-full flex-col items-center justify-center gap-3 sm:mt-5 sm:flex-row sm:gap-4">
               <Link
                 className="primary-button text-[0.88rem] tracking-[0.14em] sm:text-[0.82rem] sm:tracking-[0.16em] lg:text-[0.9rem] lg:tracking-[0.18em]"
                 href={primaryCta.href}
