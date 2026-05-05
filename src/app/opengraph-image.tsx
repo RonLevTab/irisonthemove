@@ -2,9 +2,8 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 import { ImageResponse } from "next/og";
+import { getSiteConfig } from "@/lib/siteContent";
 
-/** Match globals.css --color-primary */
-const PRIMARY = "#5a2d32";
 const HEADER_BG = "#faf4ed";
 
 export const runtime = "nodejs";
@@ -55,31 +54,17 @@ export default async function OpenGraphImage() {
           background: HEADER_BG,
         }}
       >
-        <div
+        <img
+          src={logoDataUrl}
+          alt="Iris On The Move logo"
+          width={420}
+          height={420}
           style={{
-            display: "flex",
-            width: 360,
-            height: 360,
-            borderRadius: 72,
-            backgroundColor: "#ffffff",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0 16px 56px rgba(58,36,32,0.12)",
-            border: `1px solid ${PRIMARY}1f`,
+            width: 420,
+            height: 420,
+            objectFit: "contain",
           }}
-        >
-          <img
-            src={logoDataUrl}
-            alt="Iris On The Move logo"
-            width={240}
-            height={240}
-            style={{
-              width: 240,
-              height: 240,
-              objectFit: "contain",
-            }}
-          />
-        </div>
+        />
       </div>
     ),
     size,
