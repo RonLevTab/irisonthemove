@@ -102,6 +102,8 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
   );
   /** True while the reels block intersects the viewport; false when scrolled past or above. */
   const [sectionInView, setSectionInView] = useState(false);
+  /** True before the section enters viewport, so videos can already render frames. */
+  const [sectionNearView, setSectionNearView] = useState(false);
   /**
    * Sound only after an explicit tap on “Sound on” — never from scrolling or from choosing a reel.
    * Resets when the block leaves the viewport.
@@ -128,6 +130,19 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
         setSectionInView(!!entry?.isIntersecting);
       },
       { threshold: 0, rootMargin: "300px 0px 300px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const el = blockRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setSectionNearView(!!entry?.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "1200px 0px 1200px 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -198,11 +213,11 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     }
   }, [activeIndex]);
 
-  /** When reels block is in view, keep all strips moving; sound remains active-strip only. */
+  /** Start muted playback before the section appears, so first visible frames are ready. */
   useEffect(() => {
     videoRefs.current.forEach((vid, i) => {
       if (!vid) return;
-      if (!sectionInView) {
+      if (!sectionNearView) {
         vid.pause();
         vid.muted = true;
         return;
@@ -210,7 +225,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
       vid.muted = !(reelsAudioActive && i === activeIndex);
       void vid.play().catch(() => {});
     });
-  }, [activeIndex, sectionInView, reelsAudioActive]);
+  }, [activeIndex, sectionNearView, reelsAudioActive]);
 
   /** Eerste frame / seek-hint na mount wanneer nodig. */
   useLayoutEffect(() => {

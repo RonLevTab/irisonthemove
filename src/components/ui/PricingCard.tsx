@@ -94,7 +94,7 @@ function CardSurface({
         ) : null}
 
         <div className="flex w-full flex-col items-center gap-2 sm:gap-2.5">
-          <h3 className="font-text-3 max-w-full text-balance text-[0.92rem] font-medium uppercase leading-snug tracking-[0.16em] text-[var(--color-primary)] underline decoration-[color-mix(in_srgb,var(--color-primary)_38%,transparent)] decoration-[0.5px] underline-offset-[0.35em] sm:text-lg lg:text-xl">
+          <h3 className="font-text-3 max-w-full whitespace-nowrap text-[0.82rem] font-medium uppercase leading-snug tracking-[0.14em] text-[var(--color-primary)] underline decoration-[color-mix(in_srgb,var(--color-primary)_38%,transparent)] decoration-[0.5px] underline-offset-[0.35em] sm:text-[0.98rem] lg:text-[1.06rem]">
             {title}
           </h3>
           {price ? (
