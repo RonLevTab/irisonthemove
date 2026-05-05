@@ -3,22 +3,9 @@ import path from "node:path";
 
 import { ImageResponse } from "next/og";
 
-import { getHomepageContent } from "@/lib/homepageContent";
-import { getSiteConfig } from "@/lib/siteContent";
-
 /** Match globals.css --color-primary */
 const PRIMARY = "#5a2d32";
 const HEADER_BG = "#faf4ed";
-
-/** Same families as `src/lib/brandFonts.ts` (Google Fonts, TTF). */
-const FONT_URLS = {
-  castoro:
-    "https://fonts.gstatic.com/s/castorotitling/v10/buEupouwccj03leTfjUAhEZWlrNqYg.ttf",
-  cormorantItalic500:
-    "https://fonts.gstatic.com/s/cormorant/v24/H4c0BXOCl9bbnla_nHIq6oGzilJm9otsA9kQmfdq6A.ttf",
-  monsieur:
-    "https://fonts.gstatic.com/s/monsieurladoulaise/v20/_Xmz-GY4rjmCbQfc-aPRaa4pqV340p7EZl5e.ttf",
-} as const;
 
 export const runtime = "nodejs";
 
@@ -53,25 +40,8 @@ async function loadPublicImageBytes(publicRelPath: string): Promise<Buffer> {
 }
 
 export default async function OpenGraphImage() {
-  const [site, home] = await Promise.all([getSiteConfig(), getHomepageContent()]);
-
-  const bgBuf = await loadPublicImageBytes(home.hero.backgroundImage);
-  const bgDataUrl = `data:image/jpeg;base64,${bgBuf.toString("base64")}`;
-
-  const [castoro, cormorantItalic, monsieur] = await Promise.all([
-    fetch(FONT_URLS.castoro).then((r) => r.arrayBuffer()),
-    fetch(FONT_URLS.cormorantItalic500).then((r) => r.arrayBuffer()),
-    fetch(FONT_URLS.monsieur).then((r) => r.arrayBuffer()),
-  ]);
-
-  const taglineLines = home.hero.tagline
-    .split(/\n+/)
-    .map((s) => s.trim())
-    .filter(Boolean);
-  const taglineShort =
-    taglineLines.length >= 2
-      ? `${taglineLines[0]} ${taglineLines[1]}`
-      : (taglineLines[0] ?? site.tagline.replace(/\n/g, " "));
+  const logoBuf = await loadPublicImageBytes("/logo-icon.svg");
+  const logoDataUrl = `data:image/svg+xml;base64,${logoBuf.toString("base64")}`;
 
   return new ImageResponse(
     (
@@ -80,138 +50,38 @@ export default async function OpenGraphImage() {
           width: "100%",
           height: "100%",
           display: "flex",
-          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
           background: HEADER_BG,
         }}
       >
-        {/* Top bar — same feel as nav / wordmark row */}
         <div
           style={{
-            width: "100%",
-            height: 132,
             display: "flex",
-            flexDirection: "row",
+            width: 360,
+            height: 360,
+            borderRadius: 72,
+            backgroundColor: "#ffffff",
             alignItems: "center",
-            justifyContent: "space-between",
-            paddingLeft: 44,
-            paddingRight: 44,
-            backgroundColor: HEADER_BG,
-            borderBottom: `1px solid rgba(90, 45, 50, 0.1)`,
+            justifyContent: "center",
+            boxShadow: "0 16px 56px rgba(58,36,32,0.12)",
+            border: `1px solid ${PRIMARY}1f`,
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <span
-              style={{
-                fontFamily: "Monsieur La Doulaise",
-                fontSize: 58,
-                color: PRIMARY,
-                lineHeight: 0.88,
-                letterSpacing: "-0.02em",
-              }}
-            >
-              Iris
-            </span>
-            <span
-              style={{
-                fontFamily: "Castoro Titling",
-                fontSize: 13,
-                fontWeight: 400,
-                color: PRIMARY,
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                marginTop: 4,
-                opacity: 0.95,
-              }}
-            >
-              ON THE MOVE
-            </span>
-          </div>
-          <span
-            style={{
-              fontFamily: "Cormorant",
-              fontSize: 22,
-              fontStyle: "italic",
-              fontWeight: 500,
-              color: PRIMARY,
-              maxWidth: 520,
-              textAlign: "right",
-              lineHeight: 1.25,
-              opacity: 0.9,
-            }}
-          >
-            {home.hero.eyebrow}
-          </span>
-        </div>
-
-        {/* Hero photo — same asset as homepage hero background */}
-        <div
-          style={{
-            flex: 1,
-            position: "relative",
-            display: "flex",
-            width: "100%",
-            minHeight: 0,
-          }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={bgDataUrl}
-            alt=""
-            width={1200}
-            height={498}
+            src={logoDataUrl}
+            alt="Iris On The Move logo"
+            width={240}
+            height={240}
             style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "30% center",
+              width: 240,
+              height: 240,
+              objectFit: "contain",
             }}
           />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(180deg, rgba(250,244,237,0.42) 0%, transparent 32%, transparent 58%, rgba(58,36,32,0.12) 100%)",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              left: "50%",
-              bottom: 36,
-              transform: "translateX(-50%)",
-              display: "flex",
-              maxWidth: 920,
-              padding: "18px 28px",
-              backgroundColor: "rgba(255,255,255,0.94)",
-              borderRadius: 14,
-              boxShadow: "0 12px 40px rgba(58,36,32,0.12)",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "Cormorant",
-                fontSize: 26,
-                fontStyle: "italic",
-                fontWeight: 500,
-                color: PRIMARY,
-                textAlign: "center",
-                lineHeight: 1.2,
-              }}
-            >
-              &#x201C;{taglineShort}&#x201D;
-            </span>
-          </div>
         </div>
       </div>
     ),
-    {
-      ...size,
-      fonts: [
-        { name: "Castoro Titling", data: castoro, weight: 400, style: "normal" },
-        { name: "Cormorant", data: cormorantItalic, weight: 500, style: "italic" },
-        { name: "Monsieur La Doulaise", data: monsieur, weight: 400, style: "normal" },
-      ],
-    },
+    size,
   );
 }
