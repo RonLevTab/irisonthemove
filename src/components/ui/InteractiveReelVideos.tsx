@@ -185,7 +185,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     }
   }, [activeIndex]);
 
-  /** Keep only the active reel decoding; pause others to reduce mobile buffering pressure. */
+  /** When reels block is in view, keep all strips moving; sound remains active-strip only. */
   useEffect(() => {
     videoRefs.current.forEach((vid, i) => {
       if (!vid) return;
@@ -194,13 +194,8 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
         vid.muted = true;
         return;
       }
-      if (i === activeIndex) {
-        vid.muted = !reelsAudioActive;
-        void vid.play().catch(() => {});
-        return;
-      }
-      vid.pause();
-      vid.muted = true;
+      vid.muted = !(reelsAudioActive && i === activeIndex);
+      void vid.play().catch(() => {});
     });
   }, [activeIndex, sectionInView, reelsAudioActive]);
 

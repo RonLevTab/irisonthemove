@@ -137,6 +137,8 @@ export function WorkTravelVideoGrid({
   className,
 }: WorkTravelVideoGridProps) {
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  const [gridInView, setGridInView] = useState(false);
   const six = videos.slice(0, 6);
 
   if (six.length !== 6) {
@@ -169,8 +171,29 @@ export function WorkTravelVideoGrid({
     };
   }, [preloadKey, six]);
 
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setGridInView(!!entry?.isIntersecting);
+      },
+      { threshold: 0.2, rootMargin: "120px 0px 120px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!gridInView) return;
+    for (const vid of videoRefs.current) {
+      if (!vid) continue;
+      void vid.play().catch(() => {});
+    }
+  }, [gridInView, preloadKey]);
+
   return (
-    <div className="flex w-full justify-center">
+    <div ref={gridRef} className="flex w-full justify-center">
       <div
         className={cn(
           "grid min-w-0 w-full max-w-full grid-cols-1 gap-x-4 gap-y-6 sm:gap-y-10",

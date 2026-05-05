@@ -141,6 +141,8 @@ export function WorkCategoryTripleVideoRow({
   variant = "default",
 }: WorkCategoryTripleVideoRowProps) {
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const rowRef = useRef<HTMLDivElement | null>(null);
+  const [rowInView, setRowInView] = useState(false);
 
   if (!videos || videos.length !== 3) {
     return null;
@@ -176,8 +178,30 @@ export function WorkCategoryTripleVideoRow({
     };
   }, [preloadKey, videos]);
 
+  useEffect(() => {
+    const el = rowRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setRowInView(!!entry?.isIntersecting);
+      },
+      { threshold: 0.2, rootMargin: "120px 0px 120px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!rowInView) return;
+    for (const vid of videoRefs.current) {
+      if (!vid) continue;
+      void vid.play().catch(() => {});
+    }
+  }, [rowInView, preloadKey]);
+
   return (
     <div
+      ref={rowRef}
       className={cn(
         "grid min-w-0 w-full max-w-full",
         embedded
