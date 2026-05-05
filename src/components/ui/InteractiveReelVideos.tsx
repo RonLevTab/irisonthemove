@@ -129,7 +129,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
       ([entry]) => {
         setSectionInView(!!entry?.isIntersecting);
       },
-      { threshold: 0.22, rootMargin: "0px 0px -6% 0px" },
+      { threshold: 0, rootMargin: "300px 0px 300px 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -348,11 +348,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                         if (playStripPreviews) {
                           requestAnimationFrame(() => paintPreviewFrame(v));
                         }
-                        void v.play()
-                          .then(() => {
-                            if (!isActive) v.pause();
-                          })
-                          .catch(() => {});
+                        void v.play().catch(() => {});
                       }}
                       onCanPlay={(e) => {
                         void e.currentTarget.play().catch(() => {});

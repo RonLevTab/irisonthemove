@@ -51,6 +51,10 @@ function TravelGridVideoCell({
   useLayoutEffect(() => {
     const vid = videoRef.current;
     if (!vid) return;
+    vid.defaultMuted = true;
+    vid.muted = muted;
+    vid.setAttribute("muted", "");
+    vid.setAttribute("playsinline", "");
 
     const tryPlay = () => void vid.play().catch(() => {});
     vid.addEventListener("loadeddata", tryPlay, { once: true });
@@ -60,6 +64,29 @@ function TravelGridVideoCell({
     return () => {
       vid.removeEventListener("loadeddata", tryPlay);
       vid.removeEventListener("canplay", tryPlay);
+    };
+  }, [item.videoSrc, muted]);
+
+  useEffect(() => {
+    const vid = videoRef.current;
+    if (!vid) return;
+    let tries = 0;
+    const maxTries = 24;
+    const timer = window.setInterval(() => {
+      if (!videoRef.current) return;
+      if (!videoRef.current.paused) {
+        window.clearInterval(timer);
+        return;
+      }
+      void videoRef.current.play().catch(() => {});
+      tries += 1;
+      if (tries >= maxTries) {
+        window.clearInterval(timer);
+      }
+    }, 250);
+
+    return () => {
+      window.clearInterval(timer);
     };
   }, [item.videoSrc]);
 
@@ -179,7 +206,7 @@ export function WorkTravelVideoGrid({
       ([entry]) => {
         setGridInView(!!entry?.isIntersecting);
       },
-      { threshold: 0.2, rootMargin: "120px 0px 120px 0px" },
+      { threshold: 0, rootMargin: "500px 0px 500px 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
