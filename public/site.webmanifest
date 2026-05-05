@@ -7,17 +7,17 @@
   "theme_color": "#5a2d32",
   "icons": [
     {
-      "src": "/logo-icon-32x32.png?v=20260505g",
+      "src": "/logo-icon-32x32.png?v=20260505h",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/logo-icon-16x16.png?v=20260505g",
+      "src": "/logo-icon-16x16.png?v=20260505h",
       "sizes": "16x16",
       "type": "image/png"
     },
     {
-      "src": "/logo-apple-touch-icon.png?v=20260505g",
+      "src": "/logo-apple-touch-icon.png?v=20260505h",
       "sizes": "180x180",
       "type": "image/png"
     }

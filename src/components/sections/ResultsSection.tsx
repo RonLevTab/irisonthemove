@@ -88,7 +88,7 @@ function ResultsBrandHeaderChip() {
   return (
     <div className={cn(siteBrandIconChipClass, resultHeaderLogoChipClass)} aria-hidden>
       <img
-        src="/images/site/favicon-source.svg?v=20260505g"
+        src="/images/site/favicon-source.svg?v=20260505h"
         alt=""
         className="h-[2.7rem] w-[2.7rem] object-contain sm:h-[3rem] sm:w-[3rem]"
       />
