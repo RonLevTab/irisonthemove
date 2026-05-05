@@ -21,6 +21,8 @@ const dmSans = DM_Sans({
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSiteConfig();
+  const iconVersion = "20260505b";
+  const socialImage = "/opengraph-image";
 
   return {
     metadataBase: new URL(site.seo.siteUrl),
@@ -44,11 +46,20 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: site.title,
       locale: "en_US",
       type: "website",
+      images: [
+        {
+          url: socialImage,
+          width: 1200,
+          height: 630,
+          alt: "Iris On The Move — cinematic travel storytelling",
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: site.title,
       description: site.description,
+      images: [socialImage],
     },
     /**
      * Explicit favicon links so tabs, bookmarks, and “Add to Home Screen” match the brand mark
@@ -57,13 +68,16 @@ export async function generateMetadata(): Promise<Metadata> {
     icons: {
       /** PNG first — some Safari versions pick the first `icon` for the tab; SVG is a sharp fallback. */
       icon: [
-        { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-        { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-        { url: "/favicon.svg", type: "image/svg+xml" },
+        { url: `/favicon-32x32.png?v=${iconVersion}`, sizes: "32x32", type: "image/png" },
+        { url: `/favicon-16x16.png?v=${iconVersion}`, sizes: "16x16", type: "image/png" },
+        { url: `/favicon.svg?v=${iconVersion}`, type: "image/svg+xml" },
+        { url: `/icon.svg?v=${iconVersion}`, type: "image/svg+xml" },
       ],
-      shortcut: "/favicon-32x32.png",
-      apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+      shortcut: `/favicon-32x32.png?v=${iconVersion}`,
+      apple: [{ url: `/apple-touch-icon.png?v=${iconVersion}`, sizes: "180x180", type: "image/png" }],
+      other: [{ rel: "mask-icon", url: `/favicon.svg?v=${iconVersion}`, color: "#5a2d32" }],
     },
+    manifest: `/site.webmanifest?v=${iconVersion}`,
     appleWebApp: {
       title: site.title,
     },
