@@ -5,7 +5,6 @@ import { flushSync } from "react-dom";
 
 import { useWorkPageVideoAudioOptional } from "@/components/work/WorkPageVideoAudioContext";
 import { WorkPortfolioVideoSoundButton } from "@/components/work/WorkPortfolioVideoSoundButton";
-import { withAssetPath } from "@/lib/assetPath";
 import { inlineLoopingVideoProps } from "@/lib/inlineVideoHtmlProps";
 import { cn } from "@/lib/utils";
 
@@ -143,7 +142,7 @@ function TripleRowVideoCell({
           muted={muted}
           loop
           autoPlay
-          preload="auto"
+          preload="metadata"
           aria-label={clip.title?.trim() || "Portfolio video clip"}
           onLoadedMetadata={(e) => {
             const v = e.currentTarget;
@@ -184,7 +183,6 @@ export function WorkCategoryTripleVideoRow({
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const rowRef = useRef<HTMLDivElement | null>(null);
   const [rowInView, setRowInView] = useState(false);
-  const [rowNearView, setRowNearView] = useState(false);
 
   if (!videos || videos.length !== 3) {
     return null;
@@ -194,31 +192,6 @@ export function WorkCategoryTripleVideoRow({
   const preloadKey = videos
     .map((v) => ("videoSrc" in v ? v.videoSrc : "placeholder"))
     .join("|");
-
-  useEffect(() => {
-    if (typeof document === "undefined") return;
-    const links: HTMLLinkElement[] = [];
-    const seen = new Set<string>();
-
-    for (const item of videos) {
-      if (!("videoSrc" in item)) continue;
-      const trimmed = item.videoSrc.trim();
-      const hashIdx = trimmed.indexOf("#");
-      const href = withAssetPath(hashIdx >= 0 ? trimmed.slice(0, hashIdx) : trimmed);
-      if (seen.has(href)) continue;
-      seen.add(href);
-      const link = document.createElement("link");
-      link.rel = "preload";
-      link.as = "video";
-      link.href = href;
-      document.head.appendChild(link);
-      links.push(link);
-    }
-
-    return () => {
-      for (const l of links) l.remove();
-    };
-  }, [preloadKey, videos]);
 
   useEffect(() => {
     const el = rowRef.current;
@@ -232,34 +205,6 @@ export function WorkCategoryTripleVideoRow({
     io.observe(el);
     return () => io.disconnect();
   }, []);
-
-  useEffect(() => {
-    const el = rowRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        setRowNearView(!!entry?.isIntersecting);
-      },
-      { threshold: 0, rootMargin: "1800px 0px 1800px 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!rowNearView) return;
-    for (const vid of videoRefs.current) {
-      if (!vid) continue;
-      vid.preload = "auto";
-      try {
-        vid.load();
-      } catch {
-        /* ignore */
-      }
-      vid.muted = true;
-      void vid.play().catch(() => {});
-    }
-  }, [rowNearView, preloadKey]);
 
   useEffect(() => {
     if (!rowInView) return;
