@@ -21,7 +21,7 @@ const dmSans = DM_Sans({
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSiteConfig();
-  const iconVersion = "20260505c";
+  const iconVersion = "20260505d";
   const socialImage = "/opengraph-image";
 
   return {
