@@ -148,18 +148,19 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     return () => io.disconnect();
   }, []);
 
-  /** Start fetching reel bytes as soon as the section mounts. */
+  /** Prioritize only the active reel first; load others lighter to avoid iPhone network spikes. */
   useEffect(() => {
-    for (const vid of videoRefs.current) {
+    for (const [index, vid] of videoRefs.current.entries()) {
       if (!vid) continue;
-      vid.preload = "auto";
+      const isPriority = index === activeIndex || index === activeIndex + 1;
+      vid.preload = sectionNearView && isPriority ? "auto" : "metadata";
       try {
         vid.load();
       } catch {
         /* ignore */
       }
     }
-  }, [items.length]);
+  }, [items.length, sectionNearView, activeIndex]);
 
   /**
    * After scrolling past the block and returning, reel 1 (and its audio) starts from the beginning again.
@@ -213,7 +214,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     }
   }, [activeIndex]);
 
-  /** Start muted playback before the section appears, so first visible frames are ready. */
+  /** Keep only the active reel playing; others stay paused on a preview frame for faster startup. */
   useEffect(() => {
     videoRefs.current.forEach((vid, i) => {
       if (!vid) return;
@@ -222,8 +223,13 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
         vid.muted = true;
         return;
       }
-      vid.muted = !(reelsAudioActive && i === activeIndex);
-      void vid.play().catch(() => {});
+      const isActive = i === activeIndex;
+      vid.muted = !(reelsAudioActive && isActive);
+      if (isActive) {
+        void vid.play().catch(() => {});
+      } else {
+        vid.pause();
+      }
     });
   }, [activeIndex, sectionNearView, reelsAudioActive]);
 
@@ -263,7 +269,11 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
              * Home strips should paint real color frames immediately (no white columns on first load).
              * Keep preload eager here; non-active reels are still paused right after first frame.
              */
-            const preloadStrategy = "auto";
+            const isPriorityReel = index === activeIndex || index === activeIndex + 1;
+            const preloadStrategy =
+              sectionNearView && isPriorityReel
+                ? "auto"
+                : "metadata";
             const locationLabel = item.description.replace(/^reel\s*[—-]\s*/i, "ON LOCATION — ");
             const locationBreak = locationLabel.match(/^(.*?[—-])\s*(.*)$/);
 
