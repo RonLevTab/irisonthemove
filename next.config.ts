@@ -26,6 +26,35 @@ const nextConfig: NextConfig = {
   outputFileTracingExcludes: {
     "*": ["public/videos/**/*", "public/images/**/*"],
   },
+  /**
+   * Live (Vercel): agressieve cache op het CDN voor `public/videos` en `public/images`.
+   * Eerste bezoek blijft netwerk-limited; tweede bezoek en edge-hits zijn veel sneller — dichter bij localhost.
+   * Nieuwe MP4 zonder andere URL: bump `?v=` in JSON zodat browsers/CDN het juiste bestand halen.
+   */
+  async headers() {
+    return [
+      {
+        source: "/videos/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value:
+              "public, max-age=604800, s-maxage=31536000, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      {
+        source: "/images/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value:
+              "public, max-age=2592000, s-maxage=31536000, stale-while-revalidate=604800",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

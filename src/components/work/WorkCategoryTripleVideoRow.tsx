@@ -1,12 +1,19 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { useId, useLayoutEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
 import { useWorkPageVideoAudioOptional } from "@/components/work/WorkPageVideoAudioContext";
 import { WorkPortfolioVideoSoundButton } from "@/components/work/WorkPortfolioVideoSoundButton";
+import { usePlayPortfolioVideoOnVisible } from "@/components/work/usePlayPortfolioVideoOnVisible";
+import { withAssetPath } from "@/lib/assetPath";
 import { inlineLoopingVideoProps } from "@/lib/inlineVideoHtmlProps";
+import { stripVideoMediaFragment } from "@/lib/stripVideoMediaFragment";
 import { cn } from "@/lib/utils";
+
+/** Onder bewegende beelden: warm donker tijdens decode. */
+const WORK_VIDEO_OBJECT_CLASS =
+  "h-full w-full bg-[#231a18] object-cover object-bottom transform-gpu";
 
 export type WorkCategoryTripleVideo =
   | { videoSrc: string; title?: string; poster?: string }
@@ -23,32 +30,23 @@ type WorkCategoryTripleVideoRowProps = {
 
 function TripleRowVideoCell({
   clip,
-  index,
-  videoRefs,
   embedded,
 }: {
   clip: { videoSrc: string; title?: string; poster?: string };
-  index: number;
-  videoRefs: React.MutableRefObject<(HTMLVideoElement | null)[]>;
   embedded: boolean;
 }) {
+  const shellRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [muted, setMuted] = useState(true);
   const instanceId = useId();
   const audio = useWorkPageVideoAudioOptional();
 
-  const videoSrcWithStartHint = (() => {
-    const trimmed = clip.videoSrc.trim();
-    const hashIdx = trimmed.indexOf("#");
-    const base = hashIdx >= 0 ? trimmed.slice(0, hashIdx) : trimmed;
-    return `${base}#t=0.06`;
-  })();
-  const posterUrl = clip.poster?.trim() ? clip.poster.trim() : undefined;
+  const videoSrc = withAssetPath(stripVideoMediaFragment(clip.videoSrc));
+  const posterResolved = clip.poster?.trim()
+    ? withAssetPath(clip.poster.trim())
+    : undefined;
 
-  const setVideoRef = (el: HTMLVideoElement | null) => {
-    videoRef.current = el;
-    videoRefs.current[index] = el;
-  };
+  usePlayPortfolioVideoOnVisible(shellRef, videoRef, videoSrc);
 
   useLayoutEffect(() => {
     const vid = videoRef.current;
@@ -57,40 +55,7 @@ function TripleRowVideoCell({
     vid.muted = muted;
     vid.setAttribute("muted", "");
     vid.setAttribute("playsinline", "");
-
-    const tryPlay = () => void vid.play().catch(() => {});
-    vid.addEventListener("loadeddata", tryPlay, { once: true });
-    vid.addEventListener("canplay", tryPlay, { once: true });
-    tryPlay();
-
-    return () => {
-      vid.removeEventListener("loadeddata", tryPlay);
-      vid.removeEventListener("canplay", tryPlay);
-    };
   }, [clip.videoSrc, muted]);
-
-  useEffect(() => {
-    const vid = videoRef.current;
-    if (!vid) return;
-    let tries = 0;
-    const maxTries = 24;
-    const timer = window.setInterval(() => {
-      if (!videoRef.current) return;
-      if (!videoRef.current.paused) {
-        window.clearInterval(timer);
-        return;
-      }
-      void videoRef.current.play().catch(() => {});
-      tries += 1;
-      if (tries >= maxTries) {
-        window.clearInterval(timer);
-      }
-    }, 250);
-
-    return () => {
-      window.clearInterval(timer);
-    };
-  }, [clip.videoSrc]);
 
   useLayoutEffect(() => {
     if (!audio) return;
@@ -123,41 +88,26 @@ function TripleRowVideoCell({
     setMuted(nextMuted);
   };
 
+  const shellClass = cn(
+    "relative aspect-[3/4] min-h-0 w-full min-w-0 overflow-hidden",
+    embedded
+      ? "rounded-none border-0 bg-transparent shadow-none"
+      : "rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-transparent shadow-[0_16px_44px_rgba(75,64,56,0.07)]",
+  );
+
   return (
     <div className="flex min-w-0 w-full">
-      <div
-        className={cn(
-          "relative aspect-[3/4] min-h-0 w-full min-w-0 overflow-hidden",
-          embedded
-            ? "rounded-none border-0 bg-transparent shadow-none"
-            : "rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-transparent shadow-[0_16px_44px_rgba(75,64,56,0.07)]",
-        )}
-      >
+      <div ref={shellRef} className={shellClass}>
         <video
-          ref={setVideoRef}
-          src={videoSrcWithStartHint}
-          poster={posterUrl}
-          className="h-full w-full bg-[color-mix(in_srgb,var(--color-primary)_24%,#201512)] object-cover object-bottom transform-gpu"
+          ref={videoRef}
+          src={videoSrc}
+          poster={posterResolved}
+          className={WORK_VIDEO_OBJECT_CLASS}
           {...inlineLoopingVideoProps}
           muted={muted}
           loop
-          autoPlay
-          preload="metadata"
+          preload="auto"
           aria-label={clip.title?.trim() || "Portfolio video clip"}
-          onLoadedMetadata={(e) => {
-            const v = e.currentTarget;
-            try {
-              if (v.readyState >= HTMLMediaElement.HAVE_METADATA && v.currentTime < 0.08) {
-                v.currentTime = 0.08;
-              }
-            } catch {
-              /* ignore */
-            }
-            void v.play().catch(() => {});
-          }}
-          onLoadedData={(e) => {
-            void e.currentTarget.play().catch(() => {});
-          }}
         />
         <WorkPortfolioVideoSoundButton
           muted={muted}
@@ -170,82 +120,26 @@ function TripleRowVideoCell({
 }
 
 /**
- * Three reel-style slots (MP4 or placeholder). Shown only when `videos.length === 3`.
- * Placeholder slots keep the same frame for “coming soon” until a file is ready.
- * — Muted + loop + `playsInline` for real clips; play/pause follows viewport visibility.
- * Real clips load eagerly so the strip is ready as soon as visitors open My Work.
+ * Three reel-style slots (MP4 of placeholder). Afspelen start bij scroll-in vanaf frame 0.
  */
 export function WorkCategoryTripleVideoRow({
   videos,
   className,
   variant = "default",
 }: WorkCategoryTripleVideoRowProps) {
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
-  const rowRef = useRef<HTMLDivElement | null>(null);
-  const [rowInView, setRowInView] = useState(false);
-
   if (!videos || videos.length !== 3) {
     return null;
   }
 
   const embedded = variant === "embedded";
-  const preloadKey = videos
-    .map((v) => ("videoSrc" in v ? v.videoSrc : "placeholder"))
-    .join("|");
-
-  useEffect(() => {
-    const el = rowRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        setRowInView(!!entry?.isIntersecting);
-      },
-      { threshold: 0, rootMargin: "500px 0px 500px 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!rowInView) return;
-    const vids = videoRefs.current.filter((v): v is HTMLVideoElement => !!v);
-    if (vids.length === 0) return;
-    let cancelled = false;
-
-    const waitForFirstFrame = (vid: HTMLVideoElement) =>
-      new Promise<void>((resolve) => {
-        if (vid.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
-          resolve();
-          return;
-        }
-        const onReady = () => resolve();
-        vid.addEventListener("loadeddata", onReady, { once: true });
-        vid.addEventListener("canplay", onReady, { once: true });
-      });
-
-    const startInSync = async () => {
-      await Promise.all(vids.map(waitForFirstFrame));
-      if (cancelled) return;
-      vids.forEach((vid) => {
-        void vid.play().catch(() => {});
-      });
-    };
-
-    void startInSync();
-    return () => {
-      cancelled = true;
-    };
-  }, [rowInView, preloadKey]);
 
   return (
     <div
-      ref={rowRef}
       className={cn(
         "grid min-w-0 w-full max-w-full",
         embedded
           ? "grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-1 min-[1200px]:gap-1"
-          : // One column (phone): vertical step matches WorkTravelVideoGrid (`gap-y-6` base); 3 cols = horizontal gaps only.
-            "grid-cols-1 gap-x-0 gap-y-6 sm:grid-cols-3 sm:gap-x-5 sm:gap-y-0 min-[1200px]:gap-x-6",
+          : "grid-cols-1 gap-x-0 gap-y-6 sm:grid-cols-3 sm:gap-x-5 sm:gap-y-0 min-[1200px]:gap-x-6",
         className,
       )}
     >
@@ -280,13 +174,7 @@ export function WorkCategoryTripleVideoRow({
 
         if (clip) {
           return (
-            <TripleRowVideoCell
-              key={key}
-              clip={clip}
-              index={index}
-              videoRefs={videoRefs}
-              embedded={embedded}
-            />
+            <TripleRowVideoCell key={key} clip={clip} embedded={embedded} />
           );
         }
 

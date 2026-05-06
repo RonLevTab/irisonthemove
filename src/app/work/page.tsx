@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 
 import { WorkPageVideoAudioProvider } from "@/components/work/WorkPageVideoAudioContext";
+import { WorkRouteVideoPreload } from "@/components/work/WorkRouteVideoPreload";
 import { WorkDualGridsWithTripleVideos } from "@/components/work/WorkDualGridsWithTripleVideos";
 import { WorkExpandingImageGrid } from "@/components/work/WorkExpandingImageGrid";
 import { WorkHotelMediaWithVideos } from "@/components/work/WorkHotelMediaWithVideos";
@@ -44,6 +45,7 @@ export default async function WorkPage() {
 
   return (
     <WorkPageVideoAudioProvider>
+      <WorkRouteVideoPreload />
       <div className="relative min-h-0">
       <h1 className="sr-only">{work.intro.title}</h1>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { ReactNode, VideoHTMLAttributes } from "react";
 import {
   useEffect,
   useLayoutEffect,
@@ -12,6 +12,7 @@ import {
 import { withAssetPath } from "@/lib/assetPath";
 import { brandSubtitleClassName } from "@/lib/brandFonts";
 import { inlineLoopingVideoProps } from "@/lib/inlineVideoHtmlProps";
+import { stripVideoMediaFragment } from "@/lib/stripVideoMediaFragment";
 import { soundToggleButtonClassName } from "@/lib/soundToggleButtonClassName";
 
 function subscribeMobileStripMode(cb: () => void) {
@@ -49,31 +50,17 @@ type InteractiveReelVideosProps = {
   footer?: ReactNode;
 };
 
-/** Prefer starting near a keyframe so the first painted frame is in-color (not black). */
-function videoSrcWithStartHint(src: string): string {
-  const trimmed = src.trim();
-  const hashIdx = trimmed.indexOf("#");
-  const base = hashIdx >= 0 ? trimmed.slice(0, hashIdx) : trimmed;
-  return `${base}#t=0.06`;
+/** Eerste frame van de clip (geen `#t=`-offset). */
+function reelVideoSrc(src: string): string {
+  return withAssetPath(stripVideoMediaFragment(src));
 }
 
-/**
- * Seek to an early frame so paused / narrow strips show real pixels (not decoder black).
- */
+/** Stilstaand voorbeeld in smalle strips: eerste shot. */
 function paintPreviewFrame(video: HTMLVideoElement) {
   const applySeek = () => {
     if (video.readyState < HTMLMediaElement.HAVE_METADATA) return;
-    const dur = video.duration;
-    const t =
-      Number.isFinite(dur) && dur > 0
-        ? Math.min(0.22, Math.max(0.04, dur * 0.02))
-        : 0.08;
-    const onSeeked = () => {
-      video.removeEventListener("seeked", onSeeked);
-    };
-    video.addEventListener("seeked", onSeeked, { once: true });
     try {
-      video.currentTime = t;
+      video.currentTime = 0;
     } catch {
       /* ignore */
     }
@@ -102,8 +89,6 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
   );
   /** True while the reels block intersects the viewport; false when scrolled past or above. */
   const [sectionInView, setSectionInView] = useState(false);
-  /** True before the section enters viewport, so videos can already render frames. */
-  const [sectionNearView, setSectionNearView] = useState(false);
   /**
    * Sound only after an explicit tap on “Sound on” — never from scrolling or from choosing a reel.
    * Resets when the block leaves the viewport.
@@ -130,7 +115,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
       ([entry]) => {
         setSectionInView(!!entry?.isIntersecting);
       },
-      { threshold: 0, rootMargin: "300px 0px 300px 0px" },
+      { threshold: 0, rootMargin: "900px 0px 900px 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -151,7 +136,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
       link.rel = "preload";
       link.as = "video";
       link.href = href;
-      if (index < 2) link.setAttribute("fetchpriority", "high");
+      if (index < 6) link.setAttribute("fetchpriority", "high");
       document.head.appendChild(link);
       links.push(link);
     }
@@ -162,25 +147,12 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
   }, [items]);
 
   useEffect(() => {
-    const el = blockRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        setSectionNearView(!!entry?.isIntersecting);
-      },
-      { threshold: 0, rootMargin: "1800px 0px 1800px 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
     primedVideoIndicesRef.current.clear();
   }, [items]);
 
-  /** Prime reels in sequence: active first, then neighbors, then remaining metadata. */
+  /** Prime reels snel na mount (eerste tik op de site triggert ook extra head-preloads via layout). */
   useEffect(() => {
-    if (!sectionNearView || items.length === 0) return;
+    if (items.length === 0) return;
     const nextIndex = (activeIndex + 1) % items.length;
     const orderedIndices = [
       activeIndex,
@@ -191,12 +163,11 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     ];
     const timers: number[] = [];
 
-    orderedIndices.forEach((index, order) => {
+    orderedIndices.forEach((index) => {
       const timer = window.setTimeout(() => {
         const vid = videoRefs.current[index];
         if (!vid) return;
-        const shouldPrioritize = order < 2;
-        vid.preload = shouldPrioritize ? "auto" : "metadata";
+        vid.preload = "auto";
         if (primedVideoIndicesRef.current.has(index)) return;
         try {
           vid.load();
@@ -204,14 +175,14 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
         } catch {
           /* ignore */
         }
-      }, order * 180);
+      }, 0);
       timers.push(timer);
     });
 
     return () => {
       timers.forEach((timer) => window.clearTimeout(timer));
     };
-  }, [items.length, sectionNearView, activeIndex]);
+  }, [items.length, activeIndex]);
 
   /**
    * After scrolling past the block and returning, reel 1 (and its audio) starts from the beginning again.
@@ -265,15 +236,10 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     }
   }, [activeIndex]);
 
-  /** Keep visible reels alive in-view to avoid white flashes when switching strips. */
+  /** Afspelen zodra referenties bestaan; op mobiel lopen alle strips gelijktijdig (smal/breed). */
   useEffect(() => {
     videoRefs.current.forEach((vid, i) => {
       if (!vid) return;
-      if (!sectionNearView) {
-        vid.pause();
-        vid.muted = true;
-        return;
-      }
       const isActive = i === activeIndex;
       if (!sectionInView) {
         vid.muted = true;
@@ -285,13 +251,9 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
         return;
       }
       vid.muted = !(reelsAudioActive && isActive);
-      if (isActive || !playStripPreviews) {
-        void vid.play().catch(() => {});
-      } else {
-        void vid.play().catch(() => {});
-      }
+      void vid.play().catch(() => {});
     });
-  }, [activeIndex, sectionNearView, sectionInView, reelsAudioActive, playStripPreviews]);
+  }, [activeIndex, sectionInView, reelsAudioActive, playStripPreviews]);
 
   /** Eerste frame / seek-hint na mount wanneer nodig. */
   useLayoutEffect(() => {
@@ -317,7 +279,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
         className="mx-auto flex w-full max-w-6xl flex-col gap-4 max-md:w-full max-md:flex-none max-md:gap-4 md:h-auto md:min-h-0 md:flex-none md:gap-6 md:justify-start lg:max-w-7xl xl:max-w-[min(100%,90rem)]"
       >
         <div
-          className="mx-auto flex min-h-0 w-full max-w-full max-md:w-[min(90vw,24rem)] max-md:aspect-[9/13] max-md:h-auto max-md:flex-1 flex-row overflow-hidden rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[var(--color-surface)] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:5.6_1_0%] [--reel-inactive-flex:0.72_1_0%] max-md:max-h-none max-md:flex-none max-md:self-center md:h-[min(46rem,calc(100svh-11rem))] md:min-h-0 md:flex-none md:[--reel-active-flex:3.1_1_0%] md:[--reel-inactive-flex:1.1_1_0%]"
+          className="mx-auto flex min-h-0 w-full max-w-full max-md:w-[min(90vw,24rem)] max-md:aspect-[9/13] max-md:h-auto max-md:flex-1 flex-row overflow-hidden rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[#231a18] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:5.6_1_0%] [--reel-inactive-flex:0.72_1_0%] max-md:[--reel-active-flex:3.8_1_0%] max-md:[--reel-inactive-flex:1.4_1_0%] max-md:max-h-none max-md:flex-none max-md:self-center md:h-[min(46rem,calc(100svh-11rem))] md:min-h-0 md:flex-none md:bg-[var(--color-surface)] md:[--reel-active-flex:3.1_1_0%] md:[--reel-inactive-flex:1.1_1_0%]"
         >
           {items.map((item, index) => {
             const isActive = activeIndex === index;
@@ -325,18 +287,6 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
               ? withAssetPath(item.poster.trim())
               : undefined;
             const shouldPlayAudio = reelsAudioActive && isActive;
-            /**
-             * Home strips should paint real color frames immediately (no white columns on first load).
-             * Keep preload eager here; non-active reels are still paused right after first frame.
-             */
-            const isPriorityReel =
-              index === activeIndex || index === (activeIndex + 1) % items.length;
-            const preloadStrategy =
-              sectionNearView && isPriorityReel
-                ? "auto"
-                : sectionNearView
-                  ? "metadata"
-                  : "none";
             const locationLabel = item.description.replace(/^reel\s*[—-]\s*/i, "ON LOCATION — ");
             const locationBreak = locationLabel.match(/^(.*?[—-])\s*(.*)$/);
 
@@ -354,7 +304,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                 aria-expanded={isActive}
                 aria-controls={`reel-panel-${index}`}
                 id={`reel-tab-${index}`}
-                className={`group relative flex min-h-0 flex-1 flex-col justify-end overflow-hidden border-r border-[var(--color-border)] text-left transition-[flex,box-shadow] duration-700 ease-in-out last:border-r-0 first:rounded-l-[1.5rem] last:rounded-r-[1.5rem] max-md:flex-1 md:flex-1 md:rounded-none md:border-r md:border-b-0 md:last:border-r-0 md:first:rounded-l-[1.5rem] md:first:rounded-tr-none md:last:rounded-r-[1.5rem] md:last:rounded-bl-none ${
+                className={`group relative flex min-h-0 flex-1 flex-col justify-end overflow-hidden border-r border-[var(--color-border)] text-left transition-[flex,box-shadow] duration-700 ease-in-out last:border-r-0 first:rounded-l-[1.5rem] last:rounded-r-[1.5rem] max-md:border-r-0 max-md:flex-1 md:flex-1 md:rounded-none md:border-r md:border-b-0 md:last:border-r-0 md:first:rounded-l-[1.5rem] md:first:rounded-tr-none md:last:rounded-r-[1.5rem] md:last:rounded-bl-none ${
                   isActive ? "min-w-[2.35rem] max-md:min-w-0" : "min-w-[1.2rem] max-md:min-w-0"
                 } md:min-w-[2.5rem]`}
                 style={{
@@ -392,7 +342,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
               >
                 <div
                   id={`reel-panel-${index}`}
-                  className="absolute inset-0 bg-[var(--color-surface)]"
+                  className="absolute inset-0 bg-[#231a18]"
                   aria-hidden={!isActive}
                 >
                   <div
@@ -413,14 +363,17 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                       ref={(el) => {
                         videoRefs.current[index] = el;
                       }}
-                      className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center transform-gpu"
-                      src={videoSrcWithStartHint(item.videoSrc)}
+                      className="pointer-events-none absolute inset-0 h-full w-full bg-[#231a18] object-cover object-center transform-gpu"
+                      src={reelVideoSrc(item.videoSrc)}
                       poster={posterUrl}
                       {...inlineLoopingVideoProps}
                       muted={!shouldPlayAudio}
                       loop
                       autoPlay
-                      preload={preloadStrategy}
+                      preload="auto"
+                      {...(index < 6
+                        ? ({ fetchPriority: "high" } as VideoHTMLAttributes<HTMLVideoElement>)
+                        : ({ fetchPriority: "low" } as VideoHTMLAttributes<HTMLVideoElement>))}
                       aria-label={item.title}
                       onLoadedMetadata={(e) => {
                         const v = e.currentTarget;
