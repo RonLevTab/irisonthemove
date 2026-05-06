@@ -1,6 +1,40 @@
 # Portfolio-video’s voor web (hoge kwaliteit)
 
-## Standaard (“beste” instelling in het script)
+## Home + My Work catalogus — **compact maar scherp**
+
+Alle MP4‑paden uit `homepage.json` en `work-page.json` in één keer hercoderen naar een klein maar heel net web‑resultaat:
+
+| Onderdeel | `encode-home-work-catalog.sh` | Waarom |
+|-----------|---------------------------------|--------|
+| Video | H.264 **CRF 22**, preset **slower** | Kleiner dan CRF‑18‑workflow; op telefoons/laptops nog steeds ijzersterk. |
+| Resolutie | Max **1080×1920** | Standaard reels‑maat (geen gigantische bron meer). |
+| Geluid | **AAC 160k** stereo | Ruim voor “Sound on”; compacter dan 192k. |
+| Stream | **faststart** | Startsnelheid zoals nu. |
+
+```bash
+brew install ffmpeg
+cd "/pad/naar/irisonthemove"
+./scripts/encode-home-work-catalog.sh
+NEW_V=YYYYMMDD ./scripts/bump-video-version-in-json.sh   # bv. NEW_V=20260507 — daarna committen én pushen
+```
+
+Het script slaat elk origineel op als `*.pre-web-reencode.bak`; verwijder die pas als je akkoord bent.
+
+Ontbreken er bestanden onder `public/…`, dan print het script daar een waarschuwing voor (plaats die MP4’s eerst, of werk JSON bij).
+
+Wil je nog iets meer compressie tegen licht hoger risico?
+
+```bash
+CRF=23 PRESET=slow ./scripts/encode-home-work-catalog.sh
+```
+
+Wil je hogere maximale pixels (minder compressie bij grote desktops):
+
+```bash
+MAX_W=1440 MAX_H=2560 CRF=22 ./scripts/encode-home-work-catalog.sh
+```
+
+## Standaard (“beste” instelling — hele boom `public/videos`)
 
 `encode-web-reels.sh` staat nu op **zeer hoge kwaliteit**:
 
