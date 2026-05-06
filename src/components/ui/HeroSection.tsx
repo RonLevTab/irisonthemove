@@ -105,7 +105,7 @@ export function HeroSection({
           alt=""
           fill
           className="object-cover object-[30%_center]"
-          sizes="100vw"
+          sizes="(max-width: 1024px) 100vw, min(100vw, 1280px)"
           priority
           fetchPriority="high"
           aria-hidden
@@ -235,7 +235,7 @@ export function HeroSection({
               alt={imageAlt}
               fill
               className="object-cover saturate-[0.92] max-lg:origin-bottom max-lg:object-bottom max-lg:object-[48%_88%] max-lg:scale-[1.14] max-lg:translate-y-0 lg:min-h-0 lg:scale-[1.02] lg:object-[48%_44%]"
-              sizes="(max-width: 1024px) 100vw, 54vw"
+              sizes="(max-width: 1024px) 100vw, min(54vw, 720px)"
               priority
               fetchPriority="high"
             />

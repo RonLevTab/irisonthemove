@@ -230,11 +230,20 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     }
   }, [activeIndex]);
 
-  /** Afspelen zodra referenties bestaan; op mobiel lopen alle strips gelijktijdig (smal/breed). */
+  /**
+   * Smal scherm (telefoon): alle strips bewegen tegelijk.
+   * Breed scherm (laptop/tablet breed): alleen actieve + volgende clip speelt —
+   * idem als onze preload-limiet, veel minder bandbrete/decoding dan 6 streams tegelijk.
+   */
   useEffect(() => {
+    const nextIndex = items.length === 0 ? 0 : (activeIndex + 1) % items.length;
+    const wideLayout = !playStripPreviews;
+
     videoRefs.current.forEach((vid, i) => {
       if (!vid) return;
       const isActive = i === activeIndex;
+      const isNext = i === nextIndex;
+
       if (!sectionInView) {
         vid.muted = true;
         if (isActive) {
@@ -244,10 +253,17 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
         }
         return;
       }
+
+      if (wideLayout && !(isActive || isNext)) {
+        vid.muted = true;
+        vid.pause();
+        return;
+      }
+
       vid.muted = !(reelsAudioActive && isActive);
       void vid.play().catch(() => {});
     });
-  }, [activeIndex, sectionInView, reelsAudioActive, playStripPreviews]);
+  }, [activeIndex, sectionInView, reelsAudioActive, playStripPreviews, items.length]);
 
   /** Eerste frame / seek-hint na mount wanneer nodig. */
   useLayoutEffect(() => {
