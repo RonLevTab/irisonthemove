@@ -4,7 +4,6 @@ import { useLayoutEffect } from "react";
 
 import homepage from "@/content/homepage.json";
 import { withAssetPath } from "@/lib/assetPath";
-import { getWorkPortfolioVideoPreloadHrefs } from "@/lib/workPortfolioVideoPreloadHrefs";
 import { stripVideoMediaFragment } from "@/lib/stripVideoMediaFragment";
 
 const PREFETCH_ROUTES = ["/work", "/contact"] as const;
@@ -24,7 +23,6 @@ function injectVideoPreloadLinks() {
   if (typeof document === "undefined") return;
 
   const hrefs = new Set<string>();
-  for (const h of getWorkPortfolioVideoPreloadHrefs()) hrefs.add(h);
   for (const r of homepage.socialProof.reels) {
     const href = withAssetPath(stripVideoMediaFragment(r.videoSrc));
     if (href) hrefs.add(href);
@@ -36,7 +34,7 @@ function injectVideoPreloadLinks() {
     link.rel = "preload";
     link.as = "video";
     link.href = href;
-    if (i < 12) link.setAttribute("fetchpriority", "high");
+    if (i < 2) link.setAttribute("fetchpriority", "high");
     document.head.appendChild(link);
     i += 1;
   }

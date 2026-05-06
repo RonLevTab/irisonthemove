@@ -115,7 +115,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
       ([entry]) => {
         setSectionInView(!!entry?.isIntersecting);
       },
-      { threshold: 0, rootMargin: "900px 0px 900px 0px" },
+      { threshold: 0, rootMargin: "120px 0px 120px 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -136,7 +136,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
       link.rel = "preload";
       link.as = "video";
       link.href = href;
-      if (index < 6) link.setAttribute("fetchpriority", "high");
+      if (index < 2) link.setAttribute("fetchpriority", "high");
       document.head.appendChild(link);
       links.push(link);
     }
@@ -150,20 +150,14 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     primedVideoIndicesRef.current.clear();
   }, [items]);
 
-  /** Prime reels snel na mount (eerste tik op de site triggert ook extra head-preloads via layout). */
+  /** Prime alleen rond de actieve reel zodra de sectie in beeld is. */
   useEffect(() => {
-    if (items.length === 0) return;
+    if (items.length === 0 || !sectionInView) return;
     const nextIndex = (activeIndex + 1) % items.length;
-    const orderedIndices = [
-      activeIndex,
-      nextIndex,
-      ...items
-        .map((_, idx) => idx)
-        .filter((idx) => idx !== activeIndex && idx !== nextIndex),
-    ];
+    const orderedIndices = [activeIndex, nextIndex];
     const timers: number[] = [];
 
-    orderedIndices.forEach((index) => {
+    orderedIndices.forEach((index, order) => {
       const timer = window.setTimeout(() => {
         const vid = videoRefs.current[index];
         if (!vid) return;
@@ -175,14 +169,14 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
         } catch {
           /* ignore */
         }
-      }, 0);
+      }, order * 120);
       timers.push(timer);
     });
 
     return () => {
       timers.forEach((timer) => window.clearTimeout(timer));
     };
-  }, [items.length, activeIndex]);
+  }, [items.length, activeIndex, sectionInView]);
 
   /**
    * After scrolling past the block and returning, reel 1 (and its audio) starts from the beginning again.
@@ -370,8 +364,10 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                       muted={!shouldPlayAudio}
                       loop
                       autoPlay
-                      preload="auto"
-                      {...(index < 6
+                      preload={sectionInView && (isActive || index === (activeIndex + 1) % items.length)
+                        ? "auto"
+                        : "metadata"}
+                      {...(index < 2
                         ? ({ fetchPriority: "high" } as VideoHTMLAttributes<HTMLVideoElement>)
                         : ({ fetchPriority: "low" } as VideoHTMLAttributes<HTMLVideoElement>))}
                       aria-label={item.title}
