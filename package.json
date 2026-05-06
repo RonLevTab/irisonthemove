@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "import-travel-grid": "node scripts/run-travel-grid-import.mjs",
     "optimize:destinations": "node scripts/optimize-destination-images.mjs",
     "generate:favicons": "node scripts/generate-favicons-from-svg.mjs"
   },

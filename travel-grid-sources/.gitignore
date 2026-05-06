@@ -1,0 +1,4 @@
+# Alleen placeholders in git; echte uploads blijven lokaal.
+*
+!.gitignore
+!README.txt
