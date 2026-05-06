@@ -115,11 +115,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
       ([entry]) => {
         setSectionInView(!!entry?.isIntersecting);
       },
-      /**
-       * Geen enorme marge: anders worden alle stroken meteen `preload=auto` + `play()` en
-       * concurreren ze op bandbreedte (voelt “véél trager” dan sequentieel/gericht laden).
-       */
-      { threshold: 0, rootMargin: "96px 0px 96px 0px" },
+      { threshold: 0, rootMargin: "900px 0px 900px 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -140,7 +136,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
       link.rel = "preload";
       link.as = "video";
       link.href = href;
-      if (index < 2) link.setAttribute("fetchpriority", "high");
+      if (index < 6) link.setAttribute("fetchpriority", "high");
       document.head.appendChild(link);
       links.push(link);
     }
@@ -154,12 +150,9 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     primedVideoIndicesRef.current.clear();
   }, [items]);
 
-  /**
-   * Prime pas als de sectie echt dichtbij/in beeld is — anders `load()` op alle clips tegelijk.
-   * Lichte stagger zodat de actieve reel + buren eerst bandbreedte krijgen.
-   */
+  /** Prime reels snel na mount (eerste tik op de site triggert ook extra head-preloads via layout). */
   useEffect(() => {
-    if (items.length === 0 || !sectionInView) return;
+    if (items.length === 0) return;
     const nextIndex = (activeIndex + 1) % items.length;
     const orderedIndices = [
       activeIndex,
@@ -170,26 +163,26 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     ];
     const timers: number[] = [];
 
-    orderedIndices.forEach((order, i) => {
+    orderedIndices.forEach((index) => {
       const timer = window.setTimeout(() => {
-        const vid = videoRefs.current[order];
+        const vid = videoRefs.current[index];
         if (!vid) return;
         vid.preload = "auto";
-        if (primedVideoIndicesRef.current.has(order)) return;
+        if (primedVideoIndicesRef.current.has(index)) return;
         try {
           vid.load();
-          primedVideoIndicesRef.current.add(order);
+          primedVideoIndicesRef.current.add(index);
         } catch {
           /* ignore */
         }
-      }, i * 85);
+      }, 0);
       timers.push(timer);
     });
 
     return () => {
       timers.forEach((timer) => window.clearTimeout(timer));
     };
-  }, [items.length, activeIndex, sectionInView]);
+  }, [items.length, activeIndex]);
 
   /**
    * After scrolling past the block and returning, reel 1 (and its audio) starts from the beginning again.
@@ -377,8 +370,8 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                       muted={!shouldPlayAudio}
                       loop
                       autoPlay
-                      preload={sectionInView ? "auto" : "metadata"}
-                      {...(index < 2
+                      preload="auto"
+                      {...(index < 6
                         ? ({ fetchPriority: "high" } as VideoHTMLAttributes<HTMLVideoElement>)
                         : ({ fetchPriority: "low" } as VideoHTMLAttributes<HTMLVideoElement>))}
                       aria-label={item.title}
