@@ -93,7 +93,7 @@ function TravelGridVideoCell({ item }: { item: WorkTravelClip }) {
           {...inlineLoopingVideoProps}
           muted={muted}
           loop
-          preload="auto"
+          preload="metadata"
           aria-label={item.title?.trim() || "Travel portfolio video clip"}
         />
         <WorkPortfolioVideoSoundButton

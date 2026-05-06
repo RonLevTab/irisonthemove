@@ -21,6 +21,7 @@ export function usePlayPortfolioVideoOnVisible(
         const v = videoRef.current;
         if (!v) return;
         if (entry.isIntersecting) {
+          v.preload = "auto";
           try {
             v.currentTime = 0;
           } catch {

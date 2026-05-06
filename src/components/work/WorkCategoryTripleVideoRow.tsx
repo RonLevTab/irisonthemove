@@ -106,7 +106,7 @@ function TripleRowVideoCell({
           {...inlineLoopingVideoProps}
           muted={muted}
           loop
-          preload="auto"
+          preload="metadata"
           aria-label={clip.title?.trim() || "Portfolio video clip"}
         />
         <WorkPortfolioVideoSoundButton
