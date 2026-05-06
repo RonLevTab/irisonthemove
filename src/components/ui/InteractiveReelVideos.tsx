@@ -136,7 +136,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
       link.rel = "preload";
       link.as = "video";
       link.href = href;
-      if (index < 2) link.setAttribute("fetchpriority", "high");
+      if (index < 6) link.setAttribute("fetchpriority", "high");
       document.head.appendChild(link);
       links.push(link);
     }
@@ -150,11 +150,20 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     primedVideoIndicesRef.current.clear();
   }, [items]);
 
-  /** Prime alleen rond de actieve reel zodra de sectie in beeld is. */
+  /**
+   * Sectie in beeld: alle stroken een buffer geven voor het desktop-raster zes-in-rij.
+   * Lichte staggering (vs. allemaal t=0) om de eerste paint rustiger te laten zijn.
+   */
   useEffect(() => {
     if (items.length === 0 || !sectionInView) return;
     const nextIndex = (activeIndex + 1) % items.length;
-    const orderedIndices = [activeIndex, nextIndex];
+    const orderedIndices = [
+      activeIndex,
+      nextIndex,
+      ...items
+        .map((_, idx) => idx)
+        .filter((idx) => idx !== activeIndex && idx !== nextIndex),
+    ];
     const timers: number[] = [];
 
     orderedIndices.forEach((index, order) => {
@@ -230,20 +239,11 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     }
   }, [activeIndex]);
 
-  /**
-   * Smal scherm (telefoon): alle strips bewegen tegelijk.
-   * Breed scherm (laptop/tablet breed): alleen actieve + volgende clip speelt —
-   * idem als onze preload-limiet, veel minder bandbrete/decoding dan 6 streams tegelijk.
-   */
+  /** Raster: onder de strook actief + geluid zoals ingesteld; bij `sectionInView` bewegen alle zes stroken (desktop + telefoon). */
   useEffect(() => {
-    const nextIndex = items.length === 0 ? 0 : (activeIndex + 1) % items.length;
-    const wideLayout = !playStripPreviews;
-
     videoRefs.current.forEach((vid, i) => {
       if (!vid) return;
       const isActive = i === activeIndex;
-      const isNext = i === nextIndex;
-
       if (!sectionInView) {
         vid.muted = true;
         if (isActive) {
@@ -253,17 +253,10 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
         }
         return;
       }
-
-      if (wideLayout && !(isActive || isNext)) {
-        vid.muted = true;
-        vid.pause();
-        return;
-      }
-
       vid.muted = !(reelsAudioActive && isActive);
       void vid.play().catch(() => {});
     });
-  }, [activeIndex, sectionInView, reelsAudioActive, playStripPreviews, items.length]);
+  }, [activeIndex, sectionInView, reelsAudioActive, playStripPreviews]);
 
   /** Eerste frame / seek-hint na mount wanneer nodig. */
   useLayoutEffect(() => {
@@ -380,10 +373,8 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                       muted={!shouldPlayAudio}
                       loop
                       autoPlay
-                      preload={sectionInView && (isActive || index === (activeIndex + 1) % items.length)
-                        ? "auto"
-                        : "metadata"}
-                      {...(index < 2
+                      preload={sectionInView ? "auto" : "metadata"}
+                      {...(index < 6
                         ? ({ fetchPriority: "high" } as VideoHTMLAttributes<HTMLVideoElement>)
                         : ({ fetchPriority: "low" } as VideoHTMLAttributes<HTMLVideoElement>))}
                       aria-label={item.title}
