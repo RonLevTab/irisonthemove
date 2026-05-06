@@ -3,20 +3,35 @@
 import { useEffect } from "react";
 
 import { isDesktopFinePointerMinMd } from "@/lib/desktopVideoBandwidthMode";
-import { getWorkPortfolioVideoPreloadHrefs } from "@/lib/workPortfolioVideoPreloadHrefs";
+import {
+  getFirstTravelGridVideoPreloadHref,
+  getWorkPortfolioVideoPreloadHrefs,
+} from "@/lib/workPortfolioVideoPreloadHrefs";
 
 /**
  * My Work opent: preload hints voor de eerste zichtbare set; de rest laadt pas op scroll.
- * Laptop: max 1 hint zodat bandbreedte niet meteen zes routes deelt met portfolio-clips.
+ * Laptop: 1 × eerste portfolio-reel + 1 × eerste travel guide (anders blijven die 6 zwaar onderaan koud starten).
+ * Mobiel: max 3 hints zoals eerder.
  */
 export function WorkRouteVideoPreload() {
   useEffect(() => {
     const links: HTMLLinkElement[] = [];
-    const hrefs = getWorkPortfolioVideoPreloadHrefs();
-    const maxHints = isDesktopFinePointerMinMd() ? 1 : 3;
+    const allHrefs = getWorkPortfolioVideoPreloadHrefs();
+    const saveDesktop = isDesktopFinePointerMinMd();
 
-    hrefs.forEach((href, i) => {
-      if (i >= maxHints) return;
+    const hrefsToHint: string[] = [];
+    if (saveDesktop) {
+      const first = allHrefs[0];
+      const travelLead = getFirstTravelGridVideoPreloadHref();
+      if (first) hrefsToHint.push(first);
+      if (travelLead && travelLead !== first) hrefsToHint.push(travelLead);
+    } else {
+      for (let i = 0; i < Math.min(3, allHrefs.length); i++) {
+        hrefsToHint.push(allHrefs[i]);
+      }
+    }
+
+    hrefsToHint.forEach((href) => {
       const link = document.createElement("link");
       link.rel = "preload";
       link.as = "video";

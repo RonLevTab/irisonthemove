@@ -34,7 +34,9 @@ function TravelGridVideoCell({ item }: { item: WorkTravelClip }) {
     ? withAssetPath(item.poster.trim())
     : undefined;
 
-  usePlayPortfolioVideoOnVisible(shellRef, videoRef, videoSrc);
+  usePlayPortfolioVideoOnVisible(shellRef, videoRef, videoSrc, {
+    layout: "travelGrid",
+  });
 
   useLayoutEffect(() => {
     const vid = videoRef.current;

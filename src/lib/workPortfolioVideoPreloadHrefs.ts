@@ -34,3 +34,15 @@ export function getWorkPortfolioVideoPreloadHrefs(): string[] {
 
   return Array.from(urls);
 }
+
+/** Eerste travel-grid clip (/work Travel guides), voor gerichte preload op desktop. */
+export function getFirstTravelGridVideoPreloadHref(): string | null {
+  for (const cat of workPage.categories) {
+    const grid = cat.travelGridVideos;
+    if (!Array.isArray(grid) || grid.length === 0) continue;
+    const raw = grid[0]?.videoSrc;
+    if (typeof raw !== "string" || !raw.trim()) continue;
+    return withAssetPath(stripVideoMediaFragment(raw.trim()));
+  }
+  return null;
+}
