@@ -2,22 +2,22 @@
 
 import { useEffect } from "react";
 
-import { getWorkOnlyVideoWarmupPreloadHrefs } from "@/lib/videoWarmupPreloadHrefs";
+import { getWorkPortfolioVideoPreloadHrefs } from "@/lib/workPortfolioVideoPreloadHrefs";
 
 /**
- * My Work opent: preload hints in vaste volgorde — restaurants, hotels, travel rij 1, rij 2.
+ * My Work opent: preload hints voor alle portfolio-MP4’s (naast `preload="auto"` op de tags).
  */
 export function WorkRouteVideoPreload() {
   useEffect(() => {
     const links: HTMLLinkElement[] = [];
-    const hrefs = getWorkOnlyVideoWarmupPreloadHrefs();
+    const hrefs = getWorkPortfolioVideoPreloadHrefs();
 
     hrefs.forEach((href, i) => {
       const link = document.createElement("link");
       link.rel = "preload";
       link.as = "video";
       link.href = href;
-      if (i < 6) link.setAttribute("fetchpriority", "high");
+      if (i < 4) link.setAttribute("fetchpriority", "high");
       document.head.appendChild(link);
       links.push(link);
     });

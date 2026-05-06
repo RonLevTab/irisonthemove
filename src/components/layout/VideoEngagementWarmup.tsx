@@ -2,8 +2,10 @@
 
 import { useLayoutEffect } from "react";
 
-import { getFullSiteVideoWarmupPreloadHrefs } from "@/lib/videoWarmupPreloadHrefs";
+import homepage from "@/content/homepage.json";
 import { withAssetPath } from "@/lib/assetPath";
+import { getWorkPortfolioVideoPreloadHrefs } from "@/lib/workPortfolioVideoPreloadHrefs";
+import { stripVideoMediaFragment } from "@/lib/stripVideoMediaFragment";
 
 const PREFETCH_ROUTES = ["/work", "/contact"] as const;
 
@@ -21,20 +23,23 @@ function injectRoutePrefetchLinks() {
 function injectVideoPreloadLinks() {
   if (typeof document === "undefined") return;
 
-  /**
-   * Volgorde: 6× homepage reels → 3 restaurants → 3 hotels → 3 travel (boven) → 3 travel (onder).
-   * Eerste zes hints krijgen `fetchpriority=high` zodat die MP4’s voorrang krijgen op de rest.
-   */
-  const hrefs = getFullSiteVideoWarmupPreloadHrefs();
+  const hrefs = new Set<string>();
+  for (const h of getWorkPortfolioVideoPreloadHrefs()) hrefs.add(h);
+  for (const r of homepage.socialProof.reels) {
+    const href = withAssetPath(stripVideoMediaFragment(r.videoSrc));
+    if (href) hrefs.add(href);
+  }
 
-  hrefs.forEach((href, i) => {
+  let i = 0;
+  for (const href of hrefs) {
     const link = document.createElement("link");
     link.rel = "preload";
     link.as = "video";
     link.href = href;
-    if (i < 6) link.setAttribute("fetchpriority", "high");
+    if (i < 12) link.setAttribute("fetchpriority", "high");
     document.head.appendChild(link);
-  });
+    i += 1;
+  }
 }
 
 /**
