@@ -282,7 +282,7 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
         className="mx-auto flex w-full max-w-6xl flex-col gap-4 max-md:w-full max-md:flex-none max-md:gap-4 md:h-auto md:min-h-0 md:flex-none md:gap-6 md:justify-start lg:max-w-7xl xl:max-w-[min(100%,90rem)]"
       >
         <div
-          className="mx-auto flex min-h-0 w-full max-w-full max-md:w-[min(90vw,24rem)] max-md:aspect-[9/13] max-md:h-auto max-md:flex-1 flex-row overflow-hidden rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[#231a18] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:5.6_1_0%] [--reel-inactive-flex:0.72_1_0%] max-md:[--reel-active-flex:3.8_1_0%] max-md:[--reel-inactive-flex:1.4_1_0%] max-md:max-h-none max-md:flex-none max-md:self-center md:h-[min(46rem,calc(100svh-11rem))] md:min-h-0 md:flex-none md:bg-[var(--color-surface)] md:[--reel-active-flex:3.1_1_0%] md:[--reel-inactive-flex:1.1_1_0%]"
+          className="mx-auto flex min-h-0 w-full max-w-full max-md:w-[min(90vw,24rem)] max-md:aspect-[9/13] max-md:h-auto max-md:flex-1 flex-row overflow-hidden rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-[#231a18] shadow-[0_16px_44px_rgba(75,64,56,0.07)] [--reel-active-flex:5.6_1_0%] [--reel-inactive-flex:0.72_1_0%] max-md:[--reel-active-flex:5.35_1_0%] max-md:[--reel-inactive-flex:1_1_0%] max-md:max-h-none max-md:flex-none max-md:self-center md:h-[min(46rem,calc(100svh-11rem))] md:min-h-0 md:flex-none md:bg-[var(--color-surface)] md:[--reel-active-flex:3.1_1_0%] md:[--reel-inactive-flex:1.1_1_0%]"
         >
           {items.map((item, index) => {
             const isActive = activeIndex === index;
