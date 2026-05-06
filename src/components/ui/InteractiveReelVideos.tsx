@@ -9,6 +9,7 @@ import {
   useSyncExternalStore,
 } from "react";
 
+import { isDesktopFinePointerMinMd } from "@/lib/desktopVideoBandwidthMode";
 import { withAssetPath } from "@/lib/assetPath";
 import { brandSubtitleClassName } from "@/lib/brandFonts";
 import { inlineLoopingVideoProps } from "@/lib/inlineVideoHtmlProps";
@@ -123,6 +124,10 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
 
   useEffect(() => {
     if (typeof document === "undefined") return;
+    const saveDesktop = isDesktopFinePointerMinMd();
+    /** Laptop: niet alle zes reels tegelijk forceren in de priorityqueue. */
+    const maxHeadPreloads = saveDesktop ? 2 : items.length;
+
     const links: HTMLLinkElement[] = [];
     const seen = new Set<string>();
 
@@ -132,11 +137,16 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
       const href = withAssetPath(hashIdx >= 0 ? trimmed.slice(0, hashIdx) : trimmed);
       if (seen.has(href)) continue;
       seen.add(href);
+
+      let headCount = links.length;
+      if (saveDesktop && headCount >= maxHeadPreloads) break;
+
       const link = document.createElement("link");
       link.rel = "preload";
       link.as = "video";
       link.href = href;
-      if (index < 6) link.setAttribute("fetchpriority", "high");
+      const hi = saveDesktop ? index < 2 : index < 6;
+      if (hi) link.setAttribute("fetchpriority", "high");
       document.head.appendChild(link);
       links.push(link);
     }
@@ -151,19 +161,22 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
   }, [items]);
 
   /**
-   * Sectie in beeld: alle stroken een buffer geven voor het desktop-raster zes-in-rij.
-   * Lichte staggering (vs. allemaal t=0) om de eerste paint rustiger te laten zijn.
+   * Sectie in beeld: buffer geven. Telefoon: alle stroken (klein viewport). Laptop: alleen actieve reel
+   * + volgende strook — minder tegelijkertijd laden.
    */
   useEffect(() => {
     if (items.length === 0 || !sectionInView) return;
+    const saveDesktop = reelHoverSwitchEnabled && !playStripPreviews;
     const nextIndex = (activeIndex + 1) % items.length;
-    const orderedIndices = [
-      activeIndex,
-      nextIndex,
-      ...items
-        .map((_, idx) => idx)
-        .filter((idx) => idx !== activeIndex && idx !== nextIndex),
-    ];
+    const orderedIndices = saveDesktop
+      ? [activeIndex, nextIndex]
+      : [
+          activeIndex,
+          nextIndex,
+          ...items
+            .map((_, idx) => idx)
+            .filter((idx) => idx !== activeIndex && idx !== nextIndex),
+        ];
     const timers: number[] = [];
 
     orderedIndices.forEach((index, order) => {
@@ -178,14 +191,14 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
         } catch {
           /* ignore */
         }
-      }, order * 120);
+      }, order * (saveDesktop ? 200 : 120));
       timers.push(timer);
     });
 
     return () => {
       timers.forEach((timer) => window.clearTimeout(timer));
     };
-  }, [items.length, activeIndex, sectionInView]);
+  }, [items.length, activeIndex, sectionInView, reelHoverSwitchEnabled, playStripPreviews]);
 
   /**
    * After scrolling past the block and returning, reel 1 (and its audio) starts from the beginning again.
@@ -239,8 +252,12 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     }
   }, [activeIndex]);
 
-  /** Raster: onder de strook actief + geluid zoals ingesteld; bij `sectionInView` bewegen alle zes stroken (desktop + telefoon). */
+  /**
+   * Raster: actieve strook speelt altijd. Telefoon: alle stroken bewegen in beeld. Laptop+muis:
+   * alleen de actieve reel speelt; andere blijven op eerste frame → veel minder data tegelijk.
+   */
   useEffect(() => {
+    const saveDesktop = reelHoverSwitchEnabled && !playStripPreviews;
     videoRefs.current.forEach((vid, i) => {
       if (!vid) return;
       const isActive = i === activeIndex;
@@ -253,10 +270,27 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
         }
         return;
       }
+      if (saveDesktop) {
+        vid.muted = !(reelsAudioActive && isActive);
+        vid.preload = isActive ? "auto" : "metadata";
+        if (isActive) {
+          void vid.play().catch(() => {});
+        } else {
+          vid.pause();
+          requestAnimationFrame(() => paintPreviewFrame(vid));
+        }
+        return;
+      }
       vid.muted = !(reelsAudioActive && isActive);
       void vid.play().catch(() => {});
     });
-  }, [activeIndex, sectionInView, reelsAudioActive, playStripPreviews]);
+  }, [
+    activeIndex,
+    sectionInView,
+    reelsAudioActive,
+    playStripPreviews,
+    reelHoverSwitchEnabled,
+  ]);
 
   /** Eerste frame / seek-hint na mount wanneer nodig. */
   useLayoutEffect(() => {
@@ -270,6 +304,10 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
     });
     return () => window.cancelAnimationFrame(id);
   }, [items.length, playStripPreviews, activeIndex, reelsAudioActive]);
+
+  /** Laptop+muis + brede raster: één echte playback; smalle viewport blijft “alle stroken bewegen”. */
+  const saveDesktopBandwidth =
+    reelHoverSwitchEnabled && !playStripPreviews;
 
   return (
     <div
@@ -372,11 +410,23 @@ export function InteractiveReelVideos({ items, footer }: InteractiveReelVideosPr
                       {...inlineLoopingVideoProps}
                       muted={!shouldPlayAudio}
                       loop
-                      autoPlay
-                      preload={sectionInView ? "auto" : "metadata"}
-                      {...(index < 6
-                        ? ({ fetchPriority: "high" } as VideoHTMLAttributes<HTMLVideoElement>)
-                        : ({ fetchPriority: "low" } as VideoHTMLAttributes<HTMLVideoElement>))}
+                      autoPlay={saveDesktopBandwidth ? isActive : true}
+                      preload={
+                        !sectionInView
+                          ? "metadata"
+                          : saveDesktopBandwidth
+                            ? isActive
+                              ? "auto"
+                              : "metadata"
+                            : "auto"
+                      }
+                      {...(saveDesktopBandwidth
+                        ? isActive
+                          ? ({ fetchPriority: "high" } as VideoHTMLAttributes<HTMLVideoElement>)
+                          : ({ fetchPriority: "low" } as VideoHTMLAttributes<HTMLVideoElement>)
+                        : index < 6
+                          ? ({ fetchPriority: "high" } as VideoHTMLAttributes<HTMLVideoElement>)
+                          : ({ fetchPriority: "low" } as VideoHTMLAttributes<HTMLVideoElement>))}
                       aria-label={item.title}
                       onLoadedMetadata={(e) => {
                         const v = e.currentTarget;

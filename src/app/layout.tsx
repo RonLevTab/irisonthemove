@@ -6,7 +6,6 @@ import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ScrollToTopOnRoute } from "@/components/layout/ScrollToTopOnRoute";
 import { VideoEngagementWarmup } from "@/components/layout/VideoEngagementWarmup";
-import { VisitCounterPing } from "@/components/layout/VisitCounterPing";
 import { PhotoLightboxProvider } from "@/components/ui/PhotoLightbox";
 import { getSiteConfig } from "@/lib/siteContent";
 import {
@@ -122,7 +121,6 @@ export default async function RootLayout({
       >
         <PhotoLightboxProvider>
           <VideoEngagementWarmup />
-          <VisitCounterPing />
           <Navbar
             instagramUrl={site.socialLinks.instagram}
             tiktokUrl={site.socialLinks.tiktok}

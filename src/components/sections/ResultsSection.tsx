@@ -2,7 +2,6 @@ import { FaInstagram, FaTiktok } from "react-icons/fa6";
 
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { WebsiteVisitsValue } from "@/components/sections/WebsiteVisitsValue";
 import type { WorkPageResultsContent } from "@/types/content";
 import {
   oakSectionBorderClassName,
@@ -404,7 +403,7 @@ export function ResultsSection(data: ResultsSectionProps) {
                     {website.visitsCaption?.trim() || "Total website visits"}
                   </p>
                   <p className="font-sans text-3xl font-semibold tabular-nums text-[var(--color-foreground)] sm:text-4xl">
-                    <WebsiteVisitsValue fallback={website.totalVisits} />
+                    {formatInt(website.totalVisits)}
                   </p>
                 </div>
               </div>

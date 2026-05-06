@@ -186,7 +186,7 @@ export type WorkPageResultsContent = {
       changePercent: number;
     }>;
   };
-  /** Optional — website visit total since launch (manual / analytics); shown under the TikTok block. */
+  /** Website visit total (handmatig bij te werken in `work-page.json`, bv. uit Vercel Analytics). Live tellen via oude externe API is verwijderd (onbetrouwbaar). */
   website?: {
     platformLabel: string;
     siteDisplayUrl: string;
