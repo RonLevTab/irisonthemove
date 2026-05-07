@@ -308,7 +308,7 @@ export function ResultsSection(data: ResultsSectionProps) {
                   { k: "Views", v: formatInt(ig.singleReel.views) },
                   { k: "Reach", v: formatInt(ig.singleReel.accountsReached) },
                   { k: "Watch", v: `${ig.singleReel.avgWatchSeconds}s` },
-                  { k: "New f.", v: formatInt(ig.singleReel.followersFromReel) },
+                  { k: "New followers", v: formatInt(ig.singleReel.followersFromReel) },
                   { k: "Likes", v: formatInt(ig.singleReel.likes) },
                   { k: "Comments", v: formatInt(ig.singleReel.comments) },
                   { k: "Saves", v: formatInt(ig.singleReel.saves) },
