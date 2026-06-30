@@ -15,6 +15,8 @@ export type VisitedCountryId =
   | "luxembourg"
   | "portugal"
   | "belgium"
+  | "sweden"
+  | "denmark"
   | "dominican-republic"
   | "thailand"
   | "philippines"
@@ -41,6 +43,8 @@ export const VISITED_COUNTRIES: readonly {
   { id: "luxembourg", label: "Luxembourg" },
   { id: "portugal", label: "Portugal" },
   { id: "belgium", label: "Belgium" },
+  { id: "sweden", label: "Sweden" },
+  { id: "denmark", label: "Denmark" },
   { id: "dominican-republic", label: "Dominican Republic" },
   { id: "thailand", label: "Thailand" },
   { id: "philippines", label: "Philippines" },
