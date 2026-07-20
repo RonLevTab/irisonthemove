@@ -30,9 +30,9 @@
         { "image": "/images/work/restaurants/18.jpeg", "imageAlt": "Grotta Palazzese, Polignano a Mare", "location": "Grotta Palazzese, Polignano a Mare, Italy" }
       ],
       "tripleVideos": [
-        { "videoSrc": "/videos/work/restaurants/restaurant-reel-1.mp4?v=20260720c", "title": "Restaurant work — reel one" },
-        { "videoSrc": "/videos/work/restaurants/restaurant-reel-2.mp4?v=20260720c", "title": "Restaurant work — reel two" },
-        { "videoSrc": "/videos/work/restaurants/restaurant-reel-3.mp4?v=20260720c", "title": "Restaurant work — reel three" }
+        { "videoSrc": "/videos/work/restaurants/restaurant-reel-1.mp4?v=20260720d", "title": "Restaurant work — reel one" },
+        { "videoSrc": "/videos/work/restaurants/restaurant-reel-2.mp4?v=20260720d", "title": "Restaurant work — reel two" },
+        { "videoSrc": "/videos/work/restaurants/restaurant-reel-3.mp4?v=20260720d", "title": "Restaurant work — reel three" }
       ]
     },
     {
@@ -54,9 +54,9 @@
         { "image": "/images/work/hotels/mywok/IMG_4909.jpeg", "imageAlt": "Hotel stay — signature moment", "location": "Barcelo Ponent Beach hotel, Spain" }
       ],
       "tripleVideos": [
-        { "videoSrc": "/videos/work/hotels/hotel-reel-2.mp4?v=20260720c", "title": "Hotel work — reel two" },
-        { "videoSrc": "/videos/work/hotels/hotel-reel-3.mp4?v=20260720c", "title": "Hotel work — reel three" },
-        { "videoSrc": "/videos/work/hotels/hotel-reel-1.mp4?v=20260720c", "title": "Hotel work — reel one" }
+        { "videoSrc": "/videos/work/hotels/hotel-reel-2.mp4?v=20260720d", "title": "Hotel work — reel two" },
+        { "videoSrc": "/videos/work/hotels/hotel-reel-3.mp4?v=20260720d", "title": "Hotel work — reel three" },
+        { "videoSrc": "/videos/work/hotels/hotel-reel-1.mp4?v=20260720d", "title": "Hotel work — reel one" }
       ]
     },
     {
@@ -65,12 +65,12 @@
       "description": "Travel reels — on-location and destination-first storytelling.",
       "items": [],
       "travelGridVideos": [
-        { "videoSrc": "/videos/work/travel/travel-grid-reel-03.mp4?v=20260720c", "title": "Travel reel one" },
-        { "videoSrc": "/videos/work/travel/travel-grid-reel-01.mp4?v=20260720c", "title": "Travel reel two" },
-        { "videoSrc": "/videos/work/travel/travel-grid-reel-02.mp4?v=20260720c", "title": "Travel reel three" },
-        { "videoSrc": "/videos/work/travel/travel-02.mp4?v=20260720c", "title": "Travel reel four" },
-        { "videoSrc": "/videos/work/travel/travel-guide-home-reel-05.mp4?v=20260720c", "title": "Travel reel five" },
-        { "videoSrc": "/videos/work/travel/home-reel-3.mp4?v=20260720c", "title": "Travel reel six" }
+        { "videoSrc": "/videos/work/travel/travel-grid-reel-03.mp4?v=20260720d", "title": "Travel reel one" },
+        { "videoSrc": "/videos/work/travel/travel-grid-reel-01.mp4?v=20260720d", "title": "Travel reel two" },
+        { "videoSrc": "/videos/work/travel/travel-grid-reel-02.mp4?v=20260720d", "title": "Travel reel three" },
+        { "videoSrc": "/videos/work/travel/travel-02.mp4?v=20260720d", "title": "Travel reel four" },
+        { "videoSrc": "/videos/work/travel/travel-guide-home-reel-05.mp4?v=20260720d", "title": "Travel reel five" },
+        { "videoSrc": "/videos/work/travel/home-reel-3.mp4?v=20260720d", "title": "Travel reel six" }
       ]
     }
   ],
