@@ -24,7 +24,9 @@ type WorkTravelVideoGridProps = {
   className?: string;
 };
 
-function TravelGridVideoCell({ item }: { item: WorkTravelClip }) {
+type WorkTravelVideoClip = { videoSrc: string; title?: string; poster?: string };
+
+function TravelGridVideoCell({ item }: { item: WorkTravelVideoClip }) {
   const shellRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [muted, setMuted] = useState(true);

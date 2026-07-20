@@ -12,12 +12,13 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getWorkPageContent } from "@/lib/content";
 import { getSiteConfig } from "@/lib/siteContent";
-import { getWebsiteVisitCount } from "@/lib/websiteVisits";
 import { cn } from "@/lib/utils";
 import {
   oakSectionBorderClassName,
   oakSectionBorderTopClassName,
 } from "@/lib/sectionOakTheme";
+
+export const revalidate = 120;
 
 const ResultsSection = dynamic(() =>
   import("@/components/sections/ResultsSection").then((m) => m.ResultsSection),
@@ -41,15 +42,6 @@ export async function generateMetadata(): Promise<Metadata> {
  */
 export default async function WorkPage() {
   const work = await getWorkPageContent();
-  const visitCount = await getWebsiteVisitCount();
-  const results = work.results
-    ? {
-        ...work.results,
-        website: work.results.website
-          ? { ...work.results.website, totalVisits: visitCount }
-          : undefined,
-      }
-    : undefined;
 
   return (
     <WorkPageVideoAudioProvider>
@@ -162,7 +154,7 @@ export default async function WorkPage() {
         );
       })}
 
-      {results ? <ResultsSection {...results} /> : null}
+      {work.results ? <ResultsSection {...work.results} /> : null}
 
       <WorkCtaSection
         title={work.cta.title}
