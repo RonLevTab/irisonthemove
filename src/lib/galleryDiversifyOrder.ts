@@ -43,27 +43,16 @@ function shuffleInPlace<T>(arr: T[], rng: () => number): void {
 
 /**
  * Reorders gallery items so places and aspect “sizes” are interleaved instead of JSON runs
- * (e.g. many Antwerp shots in a row). Order is deterministic for a given set of stable item keys
- * values so SSR and client match.
+ * (e.g. many Antwerp shots in a row). Prefers tall ↔ wide alternation so the masonry
+ * reads as mixed large/small tiles. Order is deterministic for a given set of stable
+ * item keys so SSR and client match.
  */
-export function orderGalleryItemsForMasonry(
-  items: DestinationGalleryItem[],
-): DestinationGalleryItem[] {
-  if (items.length <= 1) {
-    return items.slice();
+function diversifyTaggedPool(pool: Tagged[], seed: number): Tagged[] {
+  if (pool.length <= 1) {
+    return pool.slice();
   }
 
-  const seed = stableHash(
-    items.map((item) => item.stableKey ?? item.src).sort().join("\0"),
-  );
   const rng = mulberry32(seed);
-
-  const pool: Tagged[] = items.map((item) => ({
-    item,
-    place: `${item.caption}\0${item.captionLine2 ?? ""}`,
-    bucket: aspectBucketForItem(item),
-  }));
-
   shuffleInPlace(pool, rng);
 
   const out: Tagged[] = [];
@@ -79,14 +68,27 @@ export function orderGalleryItemsForMasonry(
       candidates = pool.slice();
     }
 
-    let candidates2 = candidates.filter((t) => {
-      if (out.length < 2) return true;
+    // Prefer a different size than the previous tile (tall ↔ wide/mid).
+    const previousBucket = out.length > 0 ? out[out.length - 1]!.bucket : null;
+    let sizePrefer = candidates;
+    if (previousBucket !== null) {
+      const different = candidates.filter((t) => t.bucket !== previousBucket);
+      if (different.length > 0) {
+        sizePrefer = different;
+      }
+    }
+
+    // Soften mid-only runs: if last two were mid, prefer tall or wide.
+    let candidates2 = sizePrefer;
+    if (out.length >= 2) {
       const b1 = out[out.length - 1]!.bucket;
       const b2 = out[out.length - 2]!.bucket;
-      return !(b1 === b2 && t.bucket === b1);
-    });
-    if (candidates2.length === 0) {
-      candidates2 = candidates.slice();
+      if (b1 === b2) {
+        const breakRun = sizePrefer.filter((t) => t.bucket !== b1);
+        if (breakRun.length > 0) {
+          candidates2 = breakRun;
+        }
+      }
     }
 
     const pick = candidates2[Math.floor(rng() * candidates2.length)]!;
@@ -95,5 +97,37 @@ export function orderGalleryItemsForMasonry(
     out.push(pick);
   }
 
-  return out.map((t) => t.item);
+  return out;
+}
+
+export function orderGalleryItemsForMasonry(
+  items: DestinationGalleryItem[],
+): DestinationGalleryItem[] {
+  if (items.length <= 1) {
+    return items.slice();
+  }
+
+  const seed = stableHash(
+    items.map((item) => item.stableKey ?? item.src).sort().join("\0"),
+  );
+
+  const toTagged = (item: DestinationGalleryItem): Tagged => ({
+    item,
+    place: `${item.caption}\0${item.captionLine2 ?? ""}`,
+    bucket: aspectBucketForItem(item),
+  });
+
+  const featured = items.filter((item) => item.featured);
+  const rest = items.filter((item) => !item.featured);
+
+  const featuredOrdered = diversifyTaggedPool(
+    featured.map(toTagged),
+    seed ^ 0x9e3779b9,
+  );
+  const restOrdered = diversifyTaggedPool(
+    rest.map(toTagged),
+    seed ^ 0x85ebca6b,
+  );
+
+  return [...featuredOrdered, ...restOrdered].map((t) => t.item);
 }

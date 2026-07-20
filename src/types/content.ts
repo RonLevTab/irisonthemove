@@ -79,6 +79,8 @@ export type DestinationGalleryItem = {
   tileScale?: DestinationTileScale;
   caption: string;
   captionLine2?: string;
+  /** When true, this tile is ordered before the rest of the gallery (hero / vivid shots). */
+  featured?: boolean;
   placeholder?: string;
   href?: string;
 };
