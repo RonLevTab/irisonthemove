@@ -50,7 +50,13 @@ public/            — Static assets (images, videos, fonts)
 - AGENTS.md and `.cursor/rules/iris-workflow.mdc` exist so Cursor's AI agent assists Iris with edits + git in plain English.
 - This is **Next.js 16** — APIs differ from older versions. Consult `node_modules/next/dist/docs/01-app/` before writing code (this is documented in `AGENTS.md`).
 
-### Contact form (Formspree)
+### Website visit counter (My Work → Results)
+The “Total website visits” number is **live**, not the static value in `work-page.json` (that file only sets the **starting count**, currently 51).
+
+- Each real browser session on **irisonthemove.nl** adds one visit via `/api/visits`.
+- **Production** needs a Vercel **KV** database connected to the project (Storage → Create KV → Connect). Vercel injects `KV_REST_API_URL` and `KV_REST_API_TOKEN` automatically.
+- **Local dev** stores counts in `.data/website-visits.json` (gitignored) when KV is not configured.
+
 Notification email is configured in Formspree for the project form ID in `src/content/site.json` (`formspreeId`), not inferred from `"email"` alone. Link and verify **`info@irisonthemove.nl`** under your Formspree account, then open that form → **Workflow** → **Email** (or **Form Settings** on legacy) and set the target address to **`info@irisonthemove.nl`**. Docs: [Changing a form email address](https://help.formspree.io/articles/form-and-project-settings/changing-a-form-email-address).
 
 To point the site at a different Formspree form ID (without a code change), add **`NEXT_PUBLIC_FORMSPREE_FORM_ID`** in Vercel (Production + Preview): it overrides `site.json` at build time (`resolveFormspreeFormId` in `src/lib/siteContent.ts`).

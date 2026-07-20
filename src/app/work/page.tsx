@@ -12,6 +12,7 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { getWorkPageContent } from "@/lib/content";
 import { getSiteConfig } from "@/lib/siteContent";
+import { getWebsiteVisitCount } from "@/lib/websiteVisits";
 import { cn } from "@/lib/utils";
 import {
   oakSectionBorderClassName,
@@ -42,6 +43,15 @@ export async function generateMetadata(): Promise<Metadata> {
  */
 export default async function WorkPage() {
   const work = await getWorkPageContent();
+  const visitCount = await getWebsiteVisitCount();
+  const results = work.results
+    ? {
+        ...work.results,
+        website: work.results.website
+          ? { ...work.results.website, totalVisits: visitCount }
+          : undefined,
+      }
+    : undefined;
 
   return (
     <WorkPageVideoAudioProvider>
@@ -75,7 +85,7 @@ export default async function WorkPage() {
             )}
           >
             <div
-              className="mx-auto flex w-full max-w-[min(100%,118rem)] flex-col gap-3 sm:gap-6 lg:gap-7 px-7 pt-10 pb-12 sm:px-10 lg:px-14 lg:pt-12 lg:pb-16 xl:px-16 2xl:px-18"
+              className="mx-auto flex w-full max-w-[min(100%,118rem)] flex-col gap-8 sm:gap-12 lg:gap-14 px-7 pt-10 pb-12 sm:px-10 lg:px-14 lg:pt-12 lg:pb-16 xl:px-16 2xl:px-18"
             >
               <ScrollReveal className="flex w-full flex-col items-center text-center">
                 <SectionHeading
@@ -154,7 +164,7 @@ export default async function WorkPage() {
         );
       })}
 
-      {work.results ? <ResultsSection {...work.results} /> : null}
+      {results ? <ResultsSection {...results} /> : null}
 
       <WorkCtaSection
         title={work.cta.title}

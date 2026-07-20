@@ -25,9 +25,18 @@ export function getWorkPortfolioVideoPreloadHrefs(): string[] {
     }
     const grid = cat.travelGridVideos;
     if (Array.isArray(grid)) {
-      for (const v of grid) {
-        const href = withAssetPath(stripVideoMediaFragment(v.videoSrc));
-        if (href) urls.add(href);
+      for (const entry of grid) {
+        if (
+          entry &&
+          typeof entry === "object" &&
+          "videoSrc" in entry &&
+          typeof (entry as { videoSrc: string }).videoSrc === "string"
+        ) {
+          const href = withAssetPath(
+            stripVideoMediaFragment((entry as { videoSrc: string }).videoSrc),
+          );
+          if (href) urls.add(href);
+        }
       }
     }
   }
@@ -40,9 +49,18 @@ export function getFirstTravelGridVideoPreloadHref(): string | null {
   for (const cat of workPage.categories) {
     const grid = cat.travelGridVideos;
     if (!Array.isArray(grid) || grid.length === 0) continue;
-    const raw = grid[0]?.videoSrc;
-    if (typeof raw !== "string" || !raw.trim()) continue;
-    return withAssetPath(stripVideoMediaFragment(raw.trim()));
+    for (const entry of grid) {
+      if (
+        entry &&
+        typeof entry === "object" &&
+        "videoSrc" in entry &&
+        typeof (entry as { videoSrc: string }).videoSrc === "string"
+      ) {
+        const raw = (entry as { videoSrc: string }).videoSrc.trim();
+        if (!raw) continue;
+        return withAssetPath(stripVideoMediaFragment(raw));
+      }
+    }
   }
   return null;
 }

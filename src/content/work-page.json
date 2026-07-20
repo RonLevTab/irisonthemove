@@ -31,7 +31,7 @@
       ],
       "tripleVideos": [
         { "videoSrc": "/videos/work/restaurants/restaurant-reel-1.mp4?v=20260506b", "title": "Restaurant work — reel one" },
-        { "videoSrc": "/videos/work/restaurants/restaurant-reel-2.mp4?v=20260506b", "title": "Restaurant work — reel two" },
+        { "videoSrc": "/videos/work/restaurants/restaurant-reel-2.mp4?v=20260720a", "title": "Restaurant work — reel two" },
         { "videoSrc": "/videos/work/restaurants/restaurant-reel-3.mp4?v=20260506c", "title": "Restaurant work — reel three" }
       ]
     },
@@ -65,12 +65,12 @@
       "description": "Travel reels — on-location and destination-first storytelling.",
       "items": [],
       "travelGridVideos": [
-        { "videoSrc": "/videos/work/travel/travel-02.mp4?v=20260506b", "title": "Travel reel two" },
+        { "videoSrc": "/videos/work/travel/travel-grid-reel-03.mp4?v=20260720b", "title": "Travel reel one" },
+        { "videoSrc": "/videos/work/travel/travel-grid-reel-01.mp4?v=20260720b", "title": "Travel reel two" },
+        { "videoSrc": "/videos/work/travel/travel-grid-reel-02.mp4?v=20260720b", "title": "Travel reel three" },
+        { "videoSrc": "/videos/work/travel/travel-02.mp4?v=20260506b", "title": "Travel reel four" },
         { "videoSrc": "/videos/work/travel/travel-guide-home-reel-05.mp4?v=20260506b", "title": "Travel reel five" },
-        { "videoSrc": "/videos/work/travel/home-reel-3.mp4?v=20260506b", "title": "Travel reel six" },
-        { "videoSrc": "/videos/work/travel/travel-01.mp4?v=20260506b", "title": "Travel reel one" },
-        { "videoSrc": "/videos/work/travel/travel-03.mp4?v=20260506b", "title": "Travel reel three" },
-        { "videoSrc": "/videos/work/travel/travel-04.mp4?v=20260506b", "title": "Travel reel four" }
+        { "videoSrc": "/videos/work/travel/home-reel-3.mp4?v=20260506b", "title": "Travel reel six" }
       ]
     }
   ],
@@ -97,14 +97,14 @@
         "reelName": "Rocco",
         "context": "Lisbon, Portugal (single-reel performance).",
         "reelUrl": "https://www.instagram.com/reel/DWeNWODjSC6/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-        "views": 158027,
-        "accountsReached": 127235,
+        "views": 262970,
+        "accountsReached": 206996,
         "avgWatchSeconds": 5,
-        "followersFromReel": 574,
-        "likes": 7300,
-        "comments": 268,
-        "shares": 116,
-        "saves": 3800
+        "followersFromReel": 1114,
+        "likes": 14000,
+        "comments": 338,
+        "shares": 332,
+        "saves": 6700
       }
     },
     "tiktok": {

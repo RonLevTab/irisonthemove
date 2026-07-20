@@ -14,7 +14,9 @@ import { cn } from "@/lib/utils";
 const WORK_VIDEO_OBJECT_CLASS =
   "h-full w-full bg-[#231a18] object-cover object-bottom transform-gpu";
 
-type WorkTravelClip = { videoSrc: string; title?: string; poster?: string };
+type WorkTravelClip =
+  | { videoSrc: string; title?: string; poster?: string }
+  | { placeholder: true; title?: string };
 
 type WorkTravelVideoGridProps = {
   videos: WorkTravelClip[];
@@ -130,9 +132,39 @@ export function WorkTravelVideoGrid({
         )}
         aria-label={stripAriaLabel}
       >
-        {six.map((item, index) => (
-          <TravelGridVideoCell key={`${item.videoSrc}-${index}`} item={item} />
-        ))}
+        {six.map((item, index) => {
+          const isPlaceholder = "placeholder" in item && item.placeholder;
+          const clip = !isPlaceholder && "videoSrc" in item ? item : null;
+          const key = clip ? `${clip.videoSrc}-${index}` : `placeholder-${index}`;
+
+          if (isPlaceholder) {
+            return (
+              <div key={key} className="flex min-w-0 w-full">
+                <div
+                  className={cn(
+                    "relative aspect-[3/4] min-h-0 w-full min-w-0 overflow-hidden",
+                    "rounded-[1.5rem] border border-[color-mix(in_srgb,var(--color-border)_85%,#d4c4b8)] bg-transparent",
+                    "shadow-[0_16px_44px_rgba(75,64,56,0.07)]",
+                  )}
+                >
+                  <div
+                    className="flex h-full w-full items-center justify-center bg-[color-mix(in_srgb,var(--color-surface)_92%,transparent)] px-4 text-center"
+                    role="status"
+                    aria-label={item.title?.trim() || "Coming soon"}
+                  >
+                    <span className="font-sans text-[0.65rem] font-medium uppercase tracking-[0.2em] text-[var(--color-primary)] sm:text-xs">
+                      Coming soon
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (!clip) return null;
+
+          return <TravelGridVideoCell key={key} item={clip} />;
+        })}
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ScrollToTopOnRoute } from "@/components/layout/ScrollToTopOnRoute";
 import { VideoEngagementWarmup } from "@/components/layout/VideoEngagementWarmup";
+import { WebsiteVisitTracker } from "@/components/layout/WebsiteVisitTracker";
 import { PhotoLightboxProvider } from "@/components/ui/PhotoLightbox";
 import { getSiteConfig } from "@/lib/siteContent";
 import {
@@ -120,6 +121,7 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <PhotoLightboxProvider>
+          <WebsiteVisitTracker />
           <VideoEngagementWarmup />
           <Navbar
             instagramUrl={site.socialLinks.instagram}

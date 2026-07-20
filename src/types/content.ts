@@ -300,11 +300,10 @@ export type WorkPageContent = {
      * Exactly six self-hosted MP4s — 2×3 grid, same card + autoplay behavior as portfolio reel rows.
      * Takes precedence over `instagramReels` for Travel.
      */
-    travelGridVideos?: Array<{
-      videoSrc: string;
-      title?: string;
-      poster?: string;
-    }>;
+    travelGridVideos?: Array<
+      | { videoSrc: string; title?: string; poster?: string }
+      | { placeholder: true; title?: string }
+    >;
   }>;
   cta: {
     title: string;
