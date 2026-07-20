@@ -19,8 +19,6 @@ import {
   oakSectionBorderTopClassName,
 } from "@/lib/sectionOakTheme";
 
-export const revalidate = 120;
-
 const ResultsSection = dynamic(() =>
   import("@/components/sections/ResultsSection").then((m) => m.ResultsSection),
 );

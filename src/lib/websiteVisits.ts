@@ -38,21 +38,37 @@ async function kvCommand<T>(command: (string | number)[]): Promise<T | null> {
   }
 }
 
+function isLocalDevStore(): boolean {
+  return process.env.NODE_ENV === "development";
+}
+
 async function readDevCount(baseline: number): Promise<number> {
+  if (!isLocalDevStore()) return baseline;
+
   try {
     const raw = await fs.readFile(DEV_STORE_PATH, "utf8");
     const parsed = JSON.parse(raw) as { count?: unknown };
     return typeof parsed.count === "number" ? parsed.count : baseline;
   } catch {
-    await fs.mkdir(path.dirname(DEV_STORE_PATH), { recursive: true });
-    await fs.writeFile(DEV_STORE_PATH, JSON.stringify({ count: baseline }));
+    try {
+      await fs.mkdir(path.dirname(DEV_STORE_PATH), { recursive: true });
+      await fs.writeFile(DEV_STORE_PATH, JSON.stringify({ count: baseline }));
+    } catch {
+      return baseline;
+    }
     return baseline;
   }
 }
 
 async function writeDevCount(count: number): Promise<void> {
-  await fs.mkdir(path.dirname(DEV_STORE_PATH), { recursive: true });
-  await fs.writeFile(DEV_STORE_PATH, JSON.stringify({ count }));
+  if (!isLocalDevStore()) return;
+
+  try {
+    await fs.mkdir(path.dirname(DEV_STORE_PATH), { recursive: true });
+    await fs.writeFile(DEV_STORE_PATH, JSON.stringify({ count }));
+  } catch {
+    // Read-only or unavailable — ignore.
+  }
 }
 
 async function ensureKvBaseline(baseline: number): Promise<void> {
@@ -64,29 +80,37 @@ export async function getWebsiteVisitCount(): Promise<number> {
   noStore();
   const baseline = getWebsiteVisitsBaseline();
 
-  if (hasKv()) {
-    await ensureKvBaseline(baseline);
-    const count = await kvCommand<number>(["GET", VISITS_KEY]);
-    if (typeof count === "number") return count;
-  }
+  try {
+    if (hasKv()) {
+      await ensureKvBaseline(baseline);
+      const count = await kvCommand<number>(["GET", VISITS_KEY]);
+      if (typeof count === "number") return count;
+    }
 
-  return readDevCount(baseline);
+    return await readDevCount(baseline);
+  } catch {
+    return baseline;
+  }
 }
 
 /** Record one visit (once per browser session from the client tracker). */
 export async function incrementWebsiteVisitCount(): Promise<number> {
   const baseline = getWebsiteVisitsBaseline();
 
-  if (hasKv()) {
-    await ensureKvBaseline(baseline);
-    const count = await kvCommand<number>(["INCR", VISITS_KEY]);
-    if (typeof count === "number") return count;
-  }
+  try {
+    if (hasKv()) {
+      await ensureKvBaseline(baseline);
+      const count = await kvCommand<number>(["INCR", VISITS_KEY]);
+      if (typeof count === "number") return count;
+    }
 
-  const current = await readDevCount(baseline);
-  const next = current + 1;
-  await writeDevCount(next);
-  return next;
+    const current = await readDevCount(baseline);
+    const next = current + 1;
+    await writeDevCount(next);
+    return next;
+  } catch {
+    return baseline;
+  }
 }
 
 export function shouldCountWebsiteVisit(request: Request): boolean {
