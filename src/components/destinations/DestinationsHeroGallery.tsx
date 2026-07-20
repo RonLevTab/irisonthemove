@@ -121,7 +121,8 @@ export function DestinationsHeroGallery({
         tileHeightWeight(displayAspectRatio(it)),
       );
 
-      return columnCount === 3 ? balanced.map(rhythmColumnEntries) : balanced;
+      // Alternate tall / wide / mid within each column so the grid doesn’t stack same-size tiles.
+      return balanced.map(rhythmColumnEntries);
     },
     [entries, columnCount],
   );

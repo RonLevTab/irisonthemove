@@ -49,14 +49,16 @@
       "captionLine2": "Belgium",
       "alt": "Terhills — travel photo",
       "aspectRatio": 0.5906,
-      "src": "/images/destinations/belgium/terhills/IMG_5138.jpg"
+      "src": "/images/destinations/belgium/terhills/IMG_5138.jpg",
+      "featured": true
     },
     {
       "caption": "Terhills",
       "captionLine2": "Belgium",
       "alt": "Terhills — travel photo",
       "aspectRatio": 0.5641,
-      "src": "/images/destinations/belgium/terhills/IMG_5139.jpg"
+      "src": "/images/destinations/belgium/terhills/IMG_5139.jpg",
+      "featured": true
     },
     {
       "caption": "Vancouver",
@@ -70,7 +72,8 @@
       "captionLine2": "Canada",
       "alt": "Vancouver — travel photo",
       "aspectRatio": 0.6667,
-      "src": "/images/destinations/canada/vancouver/509474873_24419917017610466_6136350173185491344_n.jpg"
+      "src": "/images/destinations/canada/vancouver/509474873_24419917017610466_6136350173185491344_n.jpg",
+      "featured": true
     },
     {
       "caption": "Paris",
@@ -84,7 +87,8 @@
       "captionLine2": "France",
       "alt": "Paris — travel photo",
       "aspectRatio": 0.7499,
-      "src": "/images/destinations/france/paris/IMG_3797.jpeg"
+      "src": "/images/destinations/france/paris/IMG_3797.jpeg",
+      "featured": true
     },
     {
       "caption": "Paris",
@@ -142,21 +146,24 @@
       "captionLine2": "Italy",
       "alt": "Lake Garda — travel photo",
       "aspectRatio": 0.7502,
-      "src": "/images/destinations/italy/garda-lake/IMG_6252.jpeg"
+      "src": "/images/destinations/italy/garda-lake/IMG_6252.jpeg",
+      "featured": true
     },
     {
       "caption": "Lake Garda",
       "captionLine2": "Italy",
       "alt": "Lake Garda — travel photo",
       "aspectRatio": 0.75,
-      "src": "/images/destinations/italy/garda-lake/IMG_6450.jpeg"
+      "src": "/images/destinations/italy/garda-lake/IMG_6450.jpeg",
+      "featured": true
     },
     {
       "caption": "Lake Garda",
       "captionLine2": "Italy",
       "alt": "Lake Garda — travel photo",
       "aspectRatio": 1.176,
-      "src": "/images/destinations/italy/garda-lake/IMG_6553.jpeg"
+      "src": "/images/destinations/italy/garda-lake/IMG_6553.jpeg",
+      "featured": true
     },
     {
       "caption": "Milan",
@@ -184,7 +191,8 @@
       "captionLine2": "Italy",
       "alt": "Puglia — travel photo",
       "aspectRatio": 1.3333,
-      "src": "/images/destinations/italy/puglia/IMG_1820.jpeg"
+      "src": "/images/destinations/italy/puglia/IMG_1820.jpeg",
+      "featured": true
     },
     {
       "caption": "Puglia",
@@ -198,49 +206,56 @@
       "captionLine2": "Italy",
       "alt": "Puglia — travel photo",
       "aspectRatio": 1.3333,
-      "src": "/images/destinations/italy/puglia/IMG_9583.jpeg"
+      "src": "/images/destinations/italy/puglia/IMG_9583.jpeg",
+      "featured": true
     },
     {
       "caption": "Sardinia",
       "captionLine2": "Italy",
       "alt": "Sardinia — travel photo",
       "aspectRatio": 0.75,
-      "src": "/images/destinations/italy/sardinia/IMG_4229.jpeg"
+      "src": "/images/destinations/italy/sardinia/IMG_4229.jpeg",
+      "featured": true
     },
     {
       "caption": "Sardinia",
       "captionLine2": "Italy",
       "alt": "Sardinia — travel photo",
       "aspectRatio": 1.3333,
-      "src": "/images/destinations/italy/sardinia/IMG_4230-2.jpeg"
+      "src": "/images/destinations/italy/sardinia/IMG_4230-2.jpeg",
+      "featured": true
     },
     {
       "caption": "Sardinia",
       "captionLine2": "Italy",
       "alt": "Sardinia — travel photo",
       "aspectRatio": 1.3333,
-      "src": "/images/destinations/italy/sardinia/IMG_4793.jpeg"
+      "src": "/images/destinations/italy/sardinia/IMG_4793.jpeg",
+      "featured": true
     },
     {
       "caption": "Sardinia",
       "captionLine2": "Italy",
       "alt": "Sardinia — travel photo",
       "aspectRatio": 0.7464,
-      "src": "/images/destinations/italy/sardinia/IMG_4980.jpeg"
+      "src": "/images/destinations/italy/sardinia/IMG_4980.jpeg",
+      "featured": true
     },
     {
       "caption": "Sardinia",
       "captionLine2": "Italy",
       "alt": "Sardinia — travel photo",
       "aspectRatio": 1.3333,
-      "src": "/images/destinations/italy/sardinia/IMG_5010.jpeg"
+      "src": "/images/destinations/italy/sardinia/IMG_5010.jpeg",
+      "featured": true
     },
     {
       "caption": "Sardinia",
       "captionLine2": "Italy",
       "alt": "Sardinia — travel photo",
       "aspectRatio": 0.7498,
-      "src": "/images/destinations/italy/sardinia/IMG_5522.jpeg"
+      "src": "/images/destinations/italy/sardinia/IMG_5522.jpeg",
+      "featured": true
     },
     {
       "caption": "Luxembourg",
@@ -276,7 +291,8 @@
       "alt": "Mullerthal — travel photo",
       "aspectRatio": 0.75,
       "largeTile": true,
-      "src": "/images/destinations/luxembourg/mullerthal/IMG_6581.jpeg"
+      "src": "/images/destinations/luxembourg/mullerthal/IMG_6581.jpeg",
+      "featured": true
     },
     {
       "caption": "Vianden",
@@ -320,7 +336,8 @@
       "captionLine2": "Netherlands",
       "alt": "Kijkduin — travel photo",
       "aspectRatio": 1.3333,
-      "src": "/images/destinations/netherlands/kijkduin/IMG_9358.jpeg"
+      "src": "/images/destinations/netherlands/kijkduin/IMG_9358.jpeg",
+      "featured": true
     },
     {
       "caption": "Kijkduin",
@@ -341,14 +358,16 @@
       "captionLine2": "Netherlands",
       "alt": "Utrecht — travel photo",
       "aspectRatio": 1.3333,
-      "src": "/images/destinations/netherlands/utrecht/Utrecht-2.jpeg"
+      "src": "/images/destinations/netherlands/utrecht/Utrecht-2.jpeg",
+      "featured": true
     },
     {
       "caption": "Utrecht",
       "captionLine2": "Netherlands",
       "alt": "Utrecht — travel photo",
       "aspectRatio": 1.3333,
-      "src": "/images/destinations/netherlands/utrecht/Utrecht.jpeg"
+      "src": "/images/destinations/netherlands/utrecht/Utrecht.jpeg",
+      "featured": true
     },
     {
       "caption": "Düsseldorf",
@@ -377,14 +396,16 @@
       "captionLine2": "Portugal",
       "alt": "Lisbon — travel photo",
       "aspectRatio": 1.3333,
-      "src": "/images/destinations/portugal/lisbon/IMG_3335.jpeg"
+      "src": "/images/destinations/portugal/lisbon/IMG_3335.jpeg",
+      "featured": true
     },
     {
       "caption": "Lisbon",
       "captionLine2": "Portugal",
       "alt": "Lisbon — travel photo",
       "aspectRatio": 1.3333,
-      "src": "/images/destinations/portugal/lisbon/IMG_3947.jpeg"
+      "src": "/images/destinations/portugal/lisbon/IMG_3947.jpeg",
+      "featured": true
     },
     {
       "caption": "Lisbon",
@@ -392,14 +413,16 @@
       "alt": "Lisbon — travel photo",
       "aspectRatio": 0.75,
       "largeTile": true,
-      "src": "/images/destinations/portugal/lisbon/IMG_4411.jpeg"
+      "src": "/images/destinations/portugal/lisbon/IMG_4411.jpeg",
+      "featured": true
     },
     {
       "caption": "Sintra",
       "captionLine2": "Portugal",
       "alt": "Sintra — travel photo",
       "aspectRatio": 0.75,
-      "src": "/images/destinations/portugal/sintra/IMG_3400.jpeg"
+      "src": "/images/destinations/portugal/sintra/IMG_3400.jpeg",
+      "featured": true
     },
     {
       "caption": "Sintra",
@@ -420,49 +443,56 @@
       "captionLine2": "Portugal",
       "alt": "Sintra — travel photo",
       "aspectRatio": 1.3333,
-      "src": "/images/destinations/portugal/sintra/IMG_3636.jpeg"
+      "src": "/images/destinations/portugal/sintra/IMG_3636.jpeg",
+      "featured": true
     },
     {
       "caption": "Sintra",
       "captionLine2": "Portugal",
       "alt": "Sintra — travel photo",
       "aspectRatio": 1.3333,
-      "src": "/images/destinations/portugal/sintra/IMG_3675.jpeg"
+      "src": "/images/destinations/portugal/sintra/IMG_3675.jpeg",
+      "featured": true
     },
     {
       "caption": "Mallorca",
       "captionLine2": "Spain",
       "alt": "Mallorca — travel photo",
       "aspectRatio": 1.3333,
-      "src": "/images/destinations/spain/mallorca/IMG_5050.jpeg"
+      "src": "/images/destinations/spain/mallorca/IMG_5050.jpeg",
+      "featured": true
     },
     {
       "caption": "Mallorca",
       "captionLine2": "Spain",
       "alt": "Mallorca — travel photo",
       "aspectRatio": 0.57,
-      "src": "/images/destinations/spain/mallorca/IMG_5168.jpg"
+      "src": "/images/destinations/spain/mallorca/IMG_5168.jpg",
+      "featured": true
     },
     {
       "caption": "Mallorca",
       "captionLine2": "Spain",
       "alt": "Mallorca — travel photo",
       "aspectRatio": 0.5675,
-      "src": "/images/destinations/spain/mallorca/IMG_5170.jpg"
+      "src": "/images/destinations/spain/mallorca/IMG_5170.jpg",
+      "featured": true
     },
     {
       "caption": "Mallorca",
       "captionLine2": "Spain",
       "alt": "Mallorca — travel photo",
       "aspectRatio": 0.5683,
-      "src": "/images/destinations/spain/mallorca/IMG_5171.jpg"
+      "src": "/images/destinations/spain/mallorca/IMG_5171.jpg",
+      "featured": true
     },
     {
       "caption": "Mallorca",
       "captionLine2": "Spain",
       "alt": "Mallorca — travel photo",
       "aspectRatio": 0.6135,
-      "src": "/images/destinations/spain/mallorca/IMG_5172.jpg"
+      "src": "/images/destinations/spain/mallorca/IMG_5172.jpg",
+      "featured": true
     },
     {
       "caption": "London",
@@ -546,14 +576,16 @@
       "captionLine2": "Thailand",
       "alt": "Phuket — travel photo",
       "aspectRatio": 1.3333,
-      "src": "/images/destinations/thailand/phuket/514407239_24462961849972649_5991222560361864058_n.jpg"
+      "src": "/images/destinations/thailand/phuket/514407239_24462961849972649_5991222560361864058_n.jpg",
+      "featured": true
     },
     {
       "caption": "Phuket",
       "captionLine2": "Thailand",
       "alt": "Phuket — travel photo",
       "aspectRatio": 1.4288,
-      "src": "/images/destinations/thailand/phuket/phuket-screenshot-2026-04-12.png"
+      "src": "/images/destinations/thailand/phuket/phuket-screenshot-2026-04-12.png",
+      "featured": true
     },
     {
       "caption": "Seattle",
@@ -591,7 +623,8 @@
       "alt": "Noordwijk aan Zee — travel photo",
       "aspectRatio": 1.3333,
       "tileScale": "natural",
-      "src": "/images/destinations/netherlands/noordwijk/NOORDWIJK_AANZ-EE-NETHERLANDS.jpeg"
+      "src": "/images/destinations/netherlands/noordwijk/NOORDWIJK_AANZ-EE-NETHERLANDS.jpeg",
+      "featured": true
     }
   ]
 }
