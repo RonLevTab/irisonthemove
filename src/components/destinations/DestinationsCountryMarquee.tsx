@@ -8,15 +8,18 @@ import { cn } from "@/lib/utils";
 const VISITED_COUNTRY_COUNT = VISITED_COUNTRIES.length;
 
 /**
- * Country ticker achter het statblok — zelfde schaal/gewicht/tracking als vroeger
- * (Castoro-era layout), maar met Cormorant (`font-text-3`) zoals nu gewenst.
+ * Same Cormorant face + letter-spacing as My Work section titles, but `font-normal`
+ * so the small marquee names don’t read heavier than the Work headings.
  */
 const countryMarqueeTypographyClassName =
-  "font-text-3 text-xs font-normal uppercase leading-none tracking-[0.17em] sm:text-sm md:text-[0.95rem]";
+  "font-text-3 font-normal uppercase leading-[1.12] tracking-[0.1em] max-[420px]:tracking-[0.055em] sm:tracking-[0.14em] md:tracking-[0.18em] text-xs sm:text-sm md:text-[0.95rem]";
 
-/** Same scale as portfolio eyebrow but bold — “countries visited” label. */
+/**
+ * Exact same face / weight / letter-spacing as My Work “Portfolio” eyebrow
+ * (SectionHeading editorialDual + work page size override).
+ */
 const countriesVisitedLabelClassName =
-  "font-text-3 font-bold uppercase leading-none tracking-[0.28em] text-[0.64rem] sm:tracking-[0.26em] sm:text-[0.74rem] md:text-[0.84rem] lg:text-[0.94rem]";
+  "font-text-3 font-medium uppercase leading-none tracking-[0.28em] text-[0.64rem] sm:tracking-[0.26em] sm:text-[0.74rem] md:text-[0.84rem] lg:text-[0.94rem]";
 
 const MARQUEE_CLASS = "destinations-country-marquee-h-track";
 
@@ -97,12 +100,12 @@ function CountriesVisitedPanel() {
 
   return (
     <div
-      className="inline-flex shrink-0 flex-col items-center justify-center gap-2 text-center sm:gap-2.5 sm:px-1 [&_span]:[text-shadow:0_1px_0_rgba(255,255,255,0.92),0_0_6px_rgba(244,239,233,0.65)] [&_p]:[text-shadow:0_1px_0_rgba(255,255,255,0.88),0_0_4px_rgba(244,239,233,0.6)]"
+      className="inline-flex shrink-0 flex-col items-center justify-center gap-2 text-center sm:gap-2.5 sm:px-1"
       role="status"
       aria-live="polite"
       aria-label={`${VISITED_COUNTRY_COUNT} countries visited`}
     >
-      <span className="inline-block min-w-[2.75ch] text-center font-text-3 text-4xl font-bold tabular-nums leading-none tracking-normal text-[var(--color-primary)] sm:text-5xl md:text-6xl">
+      <span className="inline-block min-w-[2.75ch] text-center font-text-3 text-4xl font-medium tabular-nums leading-none tracking-normal text-[var(--color-primary)] sm:text-5xl md:text-6xl">
         {displayCount}
       </span>
       <p
@@ -206,7 +209,7 @@ function CountryMarqueeStrip({
             <div
               className={cn(
                 countryMarqueeTypographyClassName,
-                "flex w-max items-center gap-0 px-1 text-[var(--color-primary)]/[0.78]",
+                "flex w-max items-center gap-0 px-1 text-[var(--color-primary)]",
               )}
             >
               <CountryListRow loopKey="static" />
@@ -222,7 +225,7 @@ function CountryMarqueeStrip({
                 className={cn(
                   MARQUEE_CLASS,
                   countryMarqueeTypographyClassName,
-                  "flex w-max items-center gap-0 px-1 text-[var(--color-primary)]/[0.78]",
+                  "flex w-max items-center gap-0 px-1 text-[var(--color-primary)]",
                 )}
               >
                 {Array.from({ length: MARQUEE_LOOP_SEGMENTS }, (_, i) => (
