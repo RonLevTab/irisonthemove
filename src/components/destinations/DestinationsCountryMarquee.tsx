@@ -8,18 +8,14 @@ import { cn } from "@/lib/utils";
 const VISITED_COUNTRY_COUNT = VISITED_COUNTRIES.length;
 
 /**
- * Same Cormorant face + letter-spacing as My Work section titles, but `font-normal`
- * so the small marquee names don’t read heavier than the Work headings.
+ * Shared type for country names in the ticker AND the “countries visited” label —
+ * same size, weight, and letter-spacing.
  */
-const countryMarqueeTypographyClassName =
-  "font-text-3 font-normal uppercase leading-[1.12] tracking-[0.1em] max-[420px]:tracking-[0.055em] sm:tracking-[0.14em] md:tracking-[0.18em] text-xs sm:text-sm md:text-[0.95rem]";
+const destinationsBannerLabelClassName =
+  "font-text-3 font-normal uppercase leading-none tracking-[0.18em] text-xs sm:text-sm md:text-[0.95rem]";
 
-/**
- * Exact same face / weight / letter-spacing as My Work “Portfolio” eyebrow
- * (SectionHeading editorialDual + work page size override).
- */
-const countriesVisitedLabelClassName =
-  "font-text-3 font-medium uppercase leading-none tracking-[0.28em] text-[0.64rem] sm:tracking-[0.26em] sm:text-[0.74rem] md:text-[0.84rem] lg:text-[0.94rem]";
+const countryMarqueeTypographyClassName = destinationsBannerLabelClassName;
+const countriesVisitedLabelClassName = destinationsBannerLabelClassName;
 
 const MARQUEE_CLASS = "destinations-country-marquee-h-track";
 
