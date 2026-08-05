@@ -110,7 +110,7 @@
       "platformLabel": "TikTok",
       "accountName": "Iris On The Move",
       "profileUrl": "https://www.tiktok.com/@irisonthemove",
-      "period8w": "Last 8 weeks (Feb 15 – Apr 11, 2026)",
+      "period8w": "Last 30 days (Jul 6 – Aug 5, 2026)",
       "metrics": [
         { "label": "Video views", "value": 27591, "changePercent": 75.09 },
         { "label": "Reached audience", "value": 26003, "changePercent": 76.99 },
