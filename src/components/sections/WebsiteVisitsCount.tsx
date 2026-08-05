@@ -14,7 +14,7 @@ export function WebsiteVisitsCount({ fallback }: { fallback: number }) {
       .then((response) => (response.ok ? response.json() : null))
       .then((data: { count?: number } | null) => {
         if (typeof data?.count === "number" && Number.isFinite(data.count)) {
-          setValue(data.count);
+          setValue(Math.max(data.count, fallback));
         }
       })
       .catch(() => {});

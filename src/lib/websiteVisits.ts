@@ -48,7 +48,12 @@ async function readDevCount(baseline: number): Promise<number> {
   try {
     const raw = await fs.readFile(DEV_STORE_PATH, "utf8");
     const parsed = JSON.parse(raw) as { count?: unknown };
-    return typeof parsed.count === "number" ? parsed.count : baseline;
+    const stored = typeof parsed.count === "number" ? parsed.count : baseline;
+    if (stored < baseline) {
+      await writeDevCount(baseline);
+      return baseline;
+    }
+    return stored;
   } catch {
     try {
       await fs.mkdir(path.dirname(DEV_STORE_PATH), { recursive: true });
@@ -73,6 +78,10 @@ async function writeDevCount(count: number): Promise<void> {
 
 async function ensureKvBaseline(baseline: number): Promise<void> {
   await kvCommand(["SET", VISITS_KEY, baseline, "NX"]);
+  const current = await kvCommand<number>(["GET", VISITS_KEY]);
+  if (typeof current === "number" && baseline > current) {
+    await kvCommand(["SET", VISITS_KEY, baseline]);
+  }
 }
 
 /** Live total for the Results “website visits” card. */
@@ -84,7 +93,7 @@ export async function getWebsiteVisitCount(): Promise<number> {
     if (hasKv()) {
       await ensureKvBaseline(baseline);
       const count = await kvCommand<number>(["GET", VISITS_KEY]);
-      if (typeof count === "number") return count;
+      if (typeof count === "number") return Math.max(count, baseline);
     }
 
     return await readDevCount(baseline);
