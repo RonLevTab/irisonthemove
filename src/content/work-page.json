@@ -30,9 +30,9 @@
         { "image": "/images/work/restaurants/18.jpeg", "imageAlt": "Grotta Palazzese, Polignano a Mare", "location": "Grotta Palazzese, Polignano a Mare, Italy" }
       ],
       "tripleVideos": [
-        { "videoSrc": "/videos/work/restaurants/restaurant-reel-1.mp4?v=20260720d", "title": "Restaurant work — reel one" },
-        { "videoSrc": "/videos/work/restaurants/restaurant-reel-2.mp4?v=20260720d", "title": "Restaurant work — reel two" },
-        { "videoSrc": "/videos/work/restaurants/restaurant-reel-3.mp4?v=20260720d", "title": "Restaurant work — reel three" }
+        { "videoSrc": "/videos/work/restaurants/restaurant-reel-1.mp4?v=20260805a", "title": "Restaurant work — reel one" },
+        { "videoSrc": "/videos/work/restaurants/restaurant-reel-2.mp4?v=20260805a", "title": "Restaurant work — reel two" },
+        { "videoSrc": "/videos/work/restaurants/restaurant-reel-3.mp4?v=20260805a", "title": "Restaurant work — reel three" }
       ]
     },
     {
@@ -54,9 +54,9 @@
         { "image": "/images/work/hotels/mywok/IMG_4909.jpeg", "imageAlt": "Hotel stay — signature moment", "location": "Barcelo Ponent Beach hotel, Spain" }
       ],
       "tripleVideos": [
-        { "videoSrc": "/videos/work/hotels/hotel-reel-my-work-1.mp4?v=20260720e", "title": "Hotel work — reel two" },
-        { "videoSrc": "/videos/work/hotels/hotel-reel-3.mp4?v=20260720d", "title": "Hotel work — reel three" },
-        { "videoSrc": "/videos/work/hotels/hotel-reel-1.mp4?v=20260720d", "title": "Hotel work — reel one" }
+        { "videoSrc": "/videos/work/hotels/hotel-reel-my-work-1.mp4?v=20260805a", "title": "Hotel work — reel two" },
+        { "videoSrc": "/videos/work/hotels/hotel-reel-3.mp4?v=20260805a", "title": "Hotel work — reel three" },
+        { "videoSrc": "/videos/work/hotels/hotel-reel-1.mp4?v=20260805a", "title": "Hotel work — reel one" }
       ]
     },
     {
@@ -65,12 +65,12 @@
       "description": "Travel reels — on-location and destination-first storytelling.",
       "items": [],
       "travelGridVideos": [
-        { "videoSrc": "/videos/work/travel/travel-grid-reel-03.mp4?v=20260720d", "title": "Travel reel one" },
-        { "videoSrc": "/videos/work/travel/travel-grid-reel-01.mp4?v=20260720d", "title": "Travel reel two" },
-        { "videoSrc": "/videos/work/travel/travel-grid-reel-02.mp4?v=20260720d", "title": "Travel reel three" },
-        { "videoSrc": "/videos/work/travel/travel-02.mp4?v=20260720d", "title": "Travel reel four" },
-        { "videoSrc": "/videos/work/travel/travel-guide-home-reel-05.mp4?v=20260720d", "title": "Travel reel five" },
-        { "videoSrc": "/videos/work/travel/home-reel-3.mp4?v=20260720d", "title": "Travel reel six" }
+        { "videoSrc": "/videos/work/travel/travel-grid-reel-03.mp4?v=20260805a", "title": "Travel reel one" },
+        { "videoSrc": "/videos/work/travel/travel-grid-reel-01.mp4?v=20260805a", "title": "Travel reel two" },
+        { "videoSrc": "/videos/work/travel/travel-grid-reel-02.mp4?v=20260805a", "title": "Travel reel three" },
+        { "videoSrc": "/videos/work/travel/travel-02.mp4?v=20260805a", "title": "Travel reel four" },
+        { "videoSrc": "/videos/work/travel/travel-guide-home-reel-05.mp4?v=20260805a", "title": "Travel reel five" },
+        { "videoSrc": "/videos/work/travel/home-reel-3.mp4?v=20260805a", "title": "Travel reel six" }
       ]
     }
   ],
@@ -80,31 +80,30 @@
     "instagram": {
       "profileHandle": "@irisonthemove",
       "platformLabel": "Instagram",
-      "period30d": "Last month (Apr 1 – Apr 30, 2026)",
-      "totalViews30d": 300450,
-      "accountsReached": 158383,
+      "period30d": "Last 30 days (Jul 6 – Aug 5, 2026)",
+      "totalViews30d": 539118,
+      "accountsReached": 403568,
       "reachChangePercent": 618.1,
-      "totalViewsLabel": "300.5K",
-      "statsPillLabel": "158K",
-      "viewsFromFollowersPercent": 22.7,
-      "viewsFromNonFollowersPercent": 77.3,
+      "totalViewsLabel": "539.1K",
+      "statsPillLabel": "404K",
+      "viewsFromFollowersPercent": 8.4,
+      "viewsFromNonFollowersPercent": 91.6,
       "contentMix": [
-        { "label": "Reels", "percent": 74.7 },
-        { "label": "Stories", "percent": 16.7 },
-        { "label": "Posts", "percent": 8.6 }
+        { "label": "Reels", "percent": 90.9 },
+        { "label": "Stories", "percent": 8.2 },
+        { "label": "Posts", "percent": 1.0 }
       ],
       "singleReel": {
-        "reelName": "Rocco",
-        "context": "Lisbon, Portugal (single-reel performance).",
-        "reelUrl": "https://www.instagram.com/reel/DWeNWODjSC6/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-        "views": 262970,
-        "accountsReached": 206996,
+        "reelName": "Caminito del Rey",
+        "context": "Malaga, Spain (single-reel performance).",
+        "views": 446471,
+        "accountsReached": 380134,
         "avgWatchSeconds": 5,
-        "followersFromReel": 1114,
-        "likes": 14000,
-        "comments": 338,
-        "shares": 332,
-        "saves": 6700
+        "followersFromReel": 371,
+        "likes": 20700,
+        "comments": 522,
+        "shares": 387,
+        "saves": 7200
       }
     },
     "tiktok": {
