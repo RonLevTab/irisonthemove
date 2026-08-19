@@ -33,7 +33,7 @@ export function SocialProofSection({
       style={latestContentSectionStyle}
     >
       <div
-        className="mx-auto flex w-full max-w-[min(100%,96rem)] flex-col justify-start px-6 pb-8 pt-16 sm:px-10 sm:max-md:pb-10 sm:max-md:pt-[4.25rem] md:px-10 md:pb-8 md:pt-20 lg:px-12 lg:pb-10 lg:pt-24"
+        className="mx-auto flex w-full max-w-[min(100%,96rem)] flex-col justify-start px-6 pb-6 pt-12 sm:px-10 sm:max-md:pb-6 sm:max-md:pt-12 md:px-10 md:pb-8 md:pt-14 lg:px-12 lg:pb-10 lg:pt-16"
       >
         {/*
           Heading → reels block: ScrollReveal gap. Reels + Sound + social share one column inside
@@ -45,7 +45,7 @@ export function SocialProofSection({
             eyebrow={eyebrow}
             title={title}
             titleVariant="editorialDual"
-            stackGapClassName="gap-3 sm:gap-4"
+            stackGapClassName="gap-4 sm:gap-5"
           />
 
           <div className="relative w-full min-w-0 max-w-6xl max-md:shrink-0 md:min-h-0 lg:max-w-7xl xl:max-w-[min(100%,90rem)]">

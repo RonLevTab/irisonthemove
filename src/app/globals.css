@@ -274,17 +274,11 @@ textarea {
 }
 
 .site-footer {
-  background:
-    linear-gradient(
-      180deg,
-      var(--color-background) 0%,
-      #f7efe7 18%,
-      #f5ece3 100%
-    );
+  background: #faf4ed;
 }
 
 .page-shell {
-  @apply flex-1;
+  @apply flex flex-1 flex-col;
 }
 
 /*

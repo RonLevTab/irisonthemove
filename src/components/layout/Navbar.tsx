@@ -18,10 +18,10 @@ const socialIconClass =
 
 const navigation = [
   { href: "/", label: "Home" },
-  { href: "/work", label: "Edits" },
+  { href: "/work", label: "Creations" },
   { href: "/destinations", label: "Destinations" },
   { href: "/about", label: "About me" },
-  { href: "/contact", label: "Socials" },
+  { href: "/contact", label: "Connect" },
 ];
 
 export function Navbar({ instagramUrl, tiktokUrl, email }: NavbarProps) {

@@ -33,6 +33,7 @@ const exploreConnectBlockClassName =
 export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const isConnect = pathname === "/contact";
   const hideUntilScrollAbout = pathname === "/about";
   const [visible, setVisible] = useState(!hideUntilScrollAbout);
 
@@ -51,6 +52,7 @@ export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
     <footer
       className={cn(
         "site-footer relative z-10",
+        isConnect && "!border-none !shadow-none",
         isHome && "max-md:scroll-mt-[var(--nav-stack-height,7rem)]",
         hideUntilScrollAbout &&
           "transition-[max-height,opacity] duration-500 ease-out motion-reduce:transition-none",
@@ -60,6 +62,7 @@ export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
             : "pointer-events-none max-h-0 overflow-hidden opacity-0"),
       )}
       aria-hidden={hideUntilScrollAbout && !visible ? true : undefined}
+      style={isConnect ? { background: "#faf4ed" } : undefined}
     >
       <div className="footer-align grid w-full grid-cols-3 items-center justify-items-stretch gap-x-4 gap-y-0 py-5 sm:gap-x-4 sm:py-6 lg:gap-x-4 lg:py-6">
         <div className="flex w-full min-w-0 flex-col flex-nowrap justify-start gap-y-4 sm:flex-row sm:gap-x-8 sm:gap-y-0 lg:gap-x-7">
@@ -73,7 +76,7 @@ export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
                 Home
               </Link>
               <Link className="transition-colors hover:text-[var(--color-foreground)]" href="/work">
-                Edits
+                Creations
               </Link>
               <Link
                 className="transition-colors hover:text-[var(--color-foreground)]"
@@ -91,7 +94,7 @@ export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
                 className="transition-colors hover:text-[var(--color-foreground)]"
                 href="/contact"
               >
-                Socials
+                Connect
               </Link>
             </nav>
           </div>
