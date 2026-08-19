@@ -140,6 +140,36 @@ export function HeroSection({
             <p className="hero-home-subhead font-text-3 my-4 w-full max-w-none text-balance text-center font-medium leading-relaxed tracking-[0.02em] text-pretty text-[var(--color-primary)] sm:my-5">
               {(() => {
                 const sep = " ~ ";
+                const lines = description
+                  .split(/\r?\n/)
+                  .map((line) => line.trim())
+                  .filter(Boolean);
+
+                if (lines.length > 1) {
+                  const lastLine = lines[lines.length - 1] ?? "";
+                  const irisIndex = lastLine.lastIndexOf(sep);
+                  return (
+                    <span className="flex w-full max-w-full flex-col gap-1 text-center">
+                      {lines.slice(0, -1).map((line) => (
+                        <span key={line} className="block w-full text-center">
+                          {line}
+                        </span>
+                      ))}
+                      {irisIndex === -1 ? (
+                        <span className="block w-full text-center">{lastLine}</span>
+                      ) : (
+                        <span className="block w-full text-center">
+                          {lastLine.slice(0, irisIndex)}
+                          {sep}
+                          <strong className="font-bold text-[var(--color-primary)]">
+                            {lastLine.slice(irisIndex + sep.length)}
+                          </strong>
+                        </span>
+                      )}
+                    </span>
+                  );
+                }
+
                 const i = description.lastIndexOf(sep);
                 if (i === -1) return description;
                 const copy = description.slice(0, i);
