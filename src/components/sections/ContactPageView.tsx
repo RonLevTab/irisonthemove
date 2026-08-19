@@ -38,15 +38,10 @@ export function ContactPageView({
             className="mx-auto flex w-full min-h-[calc(100svh-var(--nav-stack-height,6rem))] flex-col items-center justify-center py-12 text-center sm:py-14 lg:min-h-0 lg:py-0"
           >
             <div className="flex w-full max-w-xl flex-col items-center gap-8 text-center sm:max-w-2xl sm:gap-10 xl:max-w-3xl">
-              <h1 className={contactFindMeTitleClassName}>Contact &amp; my socials</h1>
+              <h1 className={contactFindMeTitleClassName}>My socials &amp; contact</h1>
               <GradientSocialMenu
                 size="lg"
                 items={[
-                  {
-                    href: `mailto:${email}`,
-                    title: "Email",
-                    icon: <FaEnvelope />,
-                  },
                   {
                     href: instagramUrl,
                     title: "Instagram",
@@ -56,6 +51,11 @@ export function ContactPageView({
                     href: tiktokUrl,
                     title: "TikTok",
                     icon: <FaTiktok />,
+                  },
+                  {
+                    href: `mailto:${email}`,
+                    title: "Email",
+                    icon: <FaEnvelope />,
                   },
                 ]}
               />
