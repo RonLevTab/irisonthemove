@@ -1,6 +1,6 @@
 {
   "intro": {
-    "eyebrow": "Portfolio",
+    "eyebrow": "Edits",
     "title": "My work",
     "body": "A curated mix of UGC-style photos and short-form video for restaurants, hotels, Airbnbs, and travel moments. Placeholder tiles below — swap in your real projects anytime."
   },
@@ -75,42 +75,42 @@
     }
   ],
   "results": {
-    "eyebrow": "Results",
+    "eyebrow": "Statistics",
     "title": "Driven by Data",
     "instagram": {
       "profileHandle": "@irisonthemove",
       "platformLabel": "Instagram",
-      "period30d": "Last 30 days (Jul 6 – Aug 5, 2026)",
-      "totalViews30d": 539118,
-      "accountsReached": 403568,
+      "period30d": "Last 30 days (Jul 20 – Aug 18, 2026)",
+      "totalViews30d": 693431,
+      "accountsReached": 541492,
       "reachChangePercent": 618.1,
-      "totalViewsLabel": "539.1K",
-      "statsPillLabel": "404K",
-      "viewsFromFollowersPercent": 8.4,
-      "viewsFromNonFollowersPercent": 91.6,
+      "totalViewsLabel": "693.4K",
+      "statsPillLabel": "541K",
+      "viewsFromFollowersPercent": 3.8,
+      "viewsFromNonFollowersPercent": 96.2,
       "contentMix": [
-        { "label": "Reels", "percent": 90.9 },
-        { "label": "Stories", "percent": 8.2 },
-        { "label": "Posts", "percent": 1.0 }
+        { "label": "Reels", "percent": 95.9 },
+        { "label": "Stories", "percent": 3.5 },
+        { "label": "Posts", "percent": 0.6 }
       ],
       "singleReel": {
         "reelName": "Caminito del Rey",
         "context": "Malaga, Spain (single-reel performance).",
-        "views": 446471,
-        "accountsReached": 380134,
-        "avgWatchSeconds": 5,
-        "followersFromReel": 371,
-        "likes": 20700,
-        "comments": 522,
-        "shares": 387,
-        "saves": 7200
+        "views": 626284,
+        "accountsReached": 518111,
+        "avgWatchSeconds": 6,
+        "followersFromReel": 585,
+        "likes": 27800,
+        "comments": 585,
+        "shares": 534,
+        "saves": 10500
       }
     },
     "tiktok": {
       "platformLabel": "TikTok",
       "accountName": "Iris On The Move",
       "profileUrl": "https://www.tiktok.com/@irisonthemove",
-      "period8w": "Last 30 days (Jul 6 – Aug 5, 2026)",
+      "period8w": "Last 30 days (Jul 20 – Aug 18, 2026)",
       "metrics": [
         { "label": "Video views", "value": 27591, "changePercent": 75.09 },
         { "label": "Reached audience", "value": 26003, "changePercent": 76.99 },
@@ -127,9 +127,9 @@
     }
   },
   "cta": {
-    "title": "Let's create\nin your location",
-    "buttonLabel": "Work with me",
-    "buttonHref": "/contact",
+    "title": "Did I create\nin your location yet?",
+    "buttonLabel": "My edits",
+    "buttonHref": "/work",
     "backgroundImage": "/images/home/home-video-cta-2026-04-24-001720.jpeg"
   }
 }

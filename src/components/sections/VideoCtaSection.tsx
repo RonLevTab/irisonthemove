@@ -5,6 +5,11 @@ import { useState } from "react";
 
 import { ContactFormModal } from "@/components/ui/ContactFormModal";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import {
+  closingCtaButtonClassName,
+  closingCtaCardClassName,
+  closingCtaTitleClassName,
+} from "@/lib/closingCtaCardTheme";
 import { cn } from "@/lib/utils";
 
 type VideoCtaSectionProps = {
@@ -23,6 +28,26 @@ const videoCtaShellClassName = cn(
   "sm:min-h-[min(94svh,100rem)]",
 );
 
+/** Bold "memories" in the homepage CTA quote (same style as "create" on Edits). */
+function boldMemoriesInLine(text: string) {
+  const parts = text.split(/(\bmemories\b)/i);
+  if (parts.length === 1) return <>{text}</>;
+
+  return (
+    <>
+      {parts.map((part, index) =>
+        /^memories$/i.test(part) ? (
+          <strong key={`memories-${index}`} className="font-bold not-italic">
+            {part}
+          </strong>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  );
+}
+
 /**
  * Full-bleed visual block with poster image (placeholder for background video).
  */
@@ -33,6 +58,8 @@ export function VideoCtaSection({
   formId,
 }: VideoCtaSectionProps) {
   const [contactOpen, setContactOpen] = useState(false);
+
+  const quoteLines = quote.split("\n").filter((line) => line.trim().length > 0);
 
   return (
     <section className={videoCtaShellClassName}>
@@ -59,21 +86,27 @@ export function VideoCtaSection({
 
       <div className="absolute inset-0 z-10 flex items-center justify-center px-4 py-4 min-[400px]:px-6 sm:px-8 sm:py-8 lg:px-10">
         <ScrollReveal className="flex w-full justify-center">
-          <div
-            className="relative flex w-max max-w-[min(100%,26rem)] flex-col items-center gap-6 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)]/95 px-7 py-8 text-center shadow-sm sm:max-w-[min(100%,28rem)] sm:rounded-3xl sm:px-9 sm:py-9"
-          >
-            <p className="font-text-3 mx-auto w-max max-w-full whitespace-pre-line text-[clamp(1.05rem,2.85vw,2.15rem)] font-medium italic leading-[1.12] tracking-[0.04em] text-[var(--color-primary)]">
-              <span aria-hidden className="select-none">
-                {"\u201c"}
-              </span>
-              {quote}
-              <span aria-hidden className="select-none">
-                {"\u201d"}
-              </span>
+          <div className={closingCtaCardClassName}>
+            <p className={closingCtaTitleClassName}>
+              {quoteLines.map((line, index) => (
+                <span key={line} className="block whitespace-nowrap">
+                  {index === 0 ? (
+                    <span aria-hidden className="select-none">
+                      {"\u201c"}
+                    </span>
+                  ) : null}
+                  {boldMemoriesInLine(line)}
+                  {index === quoteLines.length - 1 ? (
+                    <span aria-hidden className="select-none">
+                      {"\u201d"}
+                    </span>
+                  ) : null}
+                </span>
+              ))}
             </p>
             <button
               type="button"
-              className="primary-button w-full min-w-0 justify-center sm:w-auto"
+              className={closingCtaButtonClassName}
               onClick={() => setContactOpen(true)}
             >
               {ctaLabel}

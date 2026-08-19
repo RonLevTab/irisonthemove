@@ -73,7 +73,7 @@ export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
                 Home
               </Link>
               <Link className="transition-colors hover:text-[var(--color-foreground)]" href="/work">
-                My work
+                Edits
               </Link>
               <Link
                 className="transition-colors hover:text-[var(--color-foreground)]"
@@ -91,7 +91,7 @@ export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
                 className="transition-colors hover:text-[var(--color-foreground)]"
                 href="/contact"
               >
-                Contact
+                Socials
               </Link>
             </nav>
           </div>
@@ -119,7 +119,7 @@ export function Footer({ instagramUrl, tiktokUrl, email }: FooterProps) {
                 className="break-all transition-colors hover:text-[var(--color-foreground)] sm:break-normal"
                 href={`mailto:${email}`}
               >
-                {email.toLowerCase()}
+                {email.charAt(0).toUpperCase() + email.slice(1).toLowerCase()}
               </a>
             </div>
           </div>

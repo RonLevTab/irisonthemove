@@ -2,6 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import {
+  closingCtaButtonClassName,
+  closingCtaCardClassName,
+  closingCtaTitleClassName,
+} from "@/lib/closingCtaCardTheme";
 import { cn } from "@/lib/utils";
 
 /** Full-viewport-ish strip: min-height on section so the image layer has real height (no cream gap). */
@@ -17,11 +22,29 @@ type WorkCtaSectionProps = {
   backgroundImage: string;
 };
 
-const workCtaTitleClassName = cn(
-  "font-text-3 text-balance text-center text-[clamp(1.4rem,3.6vw+0.2rem,2.35rem)] font-medium italic leading-[1.12] tracking-[0.04em] text-[var(--color-primary)]",
-);
+const workCtaTitleClassName = closingCtaTitleClassName;
 
-/** One line: word after "Let's " is bold; optional remainder after that word stays italic. */
+/** Bold "create" in the CTA line (same emphasis as the old "Let's create" title). */
+function boldCreateInLine(text: string) {
+  const parts = text.split(/(\bcreate\b)/i);
+  if (parts.length === 1) return <>{text}</>;
+
+  return (
+    <>
+      {parts.map((part, index) =>
+        /^create$/i.test(part) ? (
+          <strong key={`create-${index}`} className="font-bold not-italic">
+            {part}
+          </strong>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  );
+}
+
+/** One line: word after "Let's " is bold; otherwise emphasize "create" when present. */
 function WorkCtaTitleLine({ line }: { line: string }) {
   const restOfLine = line.match(/^(Let's\s+)(\S+)(\s+.+)$/i);
   if (restOfLine) {
@@ -42,7 +65,7 @@ function WorkCtaTitleLine({ line }: { line: string }) {
       </>
     );
   }
-  return <>{line}</>;
+  return boldCreateInLine(line);
 }
 
 /**
@@ -60,25 +83,21 @@ function WorkCtaTitle({ title }: { title: string }) {
     const last = lines.length - 1;
     return (
       <h2 aria-label={ariaLabel} className={workCtaTitleClassName}>
-        <span className="flex flex-col items-center gap-1 sm:gap-1.5">
-          <span className="block text-pretty">
-            <span aria-hidden className="select-none">
-              {"\u201c"}
-            </span>
-            <WorkCtaTitleLine line={lines[0]} />
+        {lines.map((line, index) => (
+          <span key={line} className="block whitespace-nowrap">
+            {index === 0 ? (
+              <span aria-hidden className="select-none">
+                {"\u201c"}
+              </span>
+            ) : null}
+            <WorkCtaTitleLine line={line} />
+            {index === last ? (
+              <span aria-hidden className="select-none">
+                {"\u201d"}
+              </span>
+            ) : null}
           </span>
-          {lines.slice(1, last).map((line, i) => (
-            <span key={`cta-title-mid-${i}`} className="block text-pretty">
-              <WorkCtaTitleLine line={line} />
-            </span>
-          ))}
-          <span className="block text-pretty">
-            <WorkCtaTitleLine line={lines[last]} />
-            <span aria-hidden className="select-none">
-              {"\u201d"}
-            </span>
-          </span>
-        </span>
+        ))}
       </h2>
     );
   }
@@ -146,17 +165,11 @@ export function WorkCtaSection({
         aria-hidden
       />
 
-      <div className="absolute inset-0 z-10 flex items-center justify-center px-6 py-6 min-[400px]:px-8 sm:px-10 sm:py-8 lg:px-12">
-        <ScrollReveal className="flex w-full max-w-md justify-center sm:max-w-lg">
-          <div
-            className={cn(
-              "mx-auto flex w-full flex-col items-center justify-center gap-4 rounded-2xl border border-[var(--color-border)] px-5 py-6 text-center",
-              "bg-[var(--color-surface)] text-[var(--color-foreground)] shadow-sm",
-              "sm:gap-5 sm:rounded-2xl sm:px-7 sm:py-7",
-            )}
-          >
+      <div className="absolute inset-0 z-10 flex items-center justify-center px-4 py-4 min-[400px]:px-6 sm:px-8 sm:py-8 lg:px-10">
+        <ScrollReveal className="flex w-full justify-center">
+          <div className={closingCtaCardClassName}>
             <WorkCtaTitle title={title} />
-            <Link href={buttonHref} className="primary-button inline-flex">
+            <Link href={buttonHref} className={closingCtaButtonClassName}>
               {buttonLabel}
             </Link>
           </div>

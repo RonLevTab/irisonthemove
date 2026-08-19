@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { ContactPageView } from "@/components/sections/ContactPageView";
-import { getSiteConfig, resolveFormspreeFormId } from "@/lib/siteContent";
+import { getSiteConfig } from "@/lib/siteContent";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -13,7 +13,6 @@ export default async function ContactPage() {
 
   return (
     <ContactPageView
-      formId={resolveFormspreeFormId(site.formspreeId)}
       email={site.email}
       instagramUrl={site.socialLinks.instagram}
       tiktokUrl={site.socialLinks.tiktok}

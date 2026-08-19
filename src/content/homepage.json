@@ -3,13 +3,13 @@
     "eyebrow": "Luxury adventure travel",
     "title": "Iris On The Move",
     "tagline": "Cinematic storytelling\nthrough video and photography",
-    "description": "Bringing your brand to life through content creation, authentic digital creativity and UGC ~ Iris",
+    "description": "Where my love for travel, photography & creativity comes to life. ~ Iris",
     "primaryCta": {
-      "label": "Work With Me",
+      "label": "My socials",
       "href": "/contact"
     },
     "secondaryCta": {
-      "label": "View portfolio",
+      "label": "My edits",
       "href": "/work"
     },
     "backgroundImage": "/images/hero/hero-background.jpg",
@@ -67,8 +67,8 @@
     ]
   },
   "services": {
-    "eyebrow": "Services",
-    "title": "Here is what I offer",
+    "eyebrow": "Creations",
+    "title": "What I love to do",
     "items": [
       {
         "title": "Short-Form Video",
@@ -86,7 +86,7 @@
   },
   "videoCta": {
     "posterImage": "/images/work/work-cta-2026-04-24-003556.jpeg",
-    "quote": "Let's make your brand\nimpossible to scroll past",
-    "ctaLabel": "Contact me"
+    "quote": "Too busy shaping memories\ninto cinematic edits",
+    "ctaLabel": "My socials"
   }
 }
