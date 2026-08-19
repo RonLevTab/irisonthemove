@@ -7,7 +7,7 @@ import { GradientSocialMenu } from "@/components/ui/GradientSocialMenu";
 
 /** Subheading above contact social icons. */
 const contactFindMeTitleClassName =
-  "font-text-3 max-w-full text-center font-medium uppercase leading-none tracking-[0.26em] text-[var(--color-primary)] text-[0.92rem] sm:text-[1rem] md:text-[1.06rem] sm:tracking-[0.24em]";
+  "font-text-3 max-w-full text-center font-medium uppercase leading-none tracking-[0.26em] text-[var(--color-primary)] text-[1.1rem] sm:text-[1.25rem] md:text-[1.35rem] sm:tracking-[0.24em]";
 
 /** Bottom padding kept moderate so the footer follows soon after content (no long same-section scroll). */
 const contactSectionInnerClassName =
@@ -26,29 +26,21 @@ export function ContactPageView({
 }: ContactPageViewProps) {
   useEffect(() => {
     const prev = document.body.style.background;
-    const prevH = document.body.style.height;
-    const prevO = document.body.style.overflow;
     document.body.style.background = "#faf4ed";
-    document.body.style.height = "100svh";
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.background = prev;
-      document.body.style.height = prevH;
-      document.body.style.overflow = prevO;
-    };
+    return () => { document.body.style.background = prev; };
   }, []);
 
   return (
     <section
-      className="relative isolate flex w-full flex-col items-center justify-center"
-      style={{ height: "calc(100svh - var(--nav-stack-height, 6rem) - 13rem)" }}
+      className="relative isolate flex w-full flex-col items-center justify-center pb-16"
+      style={{ height: "calc(100svh - var(--nav-stack-height, 6rem))" }}
     >
       <div
         role="region"
         aria-label="Contact"
         className="flex flex-col items-center gap-8 text-center sm:gap-10"
       >
-        <h1 className={contactFindMeTitleClassName}>My socials &amp; email</h1>
+        <h1 className={contactFindMeTitleClassName}>My socials &amp; contact</h1>
         <GradientSocialMenu
           size="lg"
           items={[

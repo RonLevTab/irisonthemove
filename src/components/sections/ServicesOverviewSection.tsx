@@ -27,7 +27,7 @@ export function ServicesOverviewSection({
 }: ServicesOverviewSectionProps) {
   return (
     <section
-      className="relative isolate z-[5] flex w-full flex-col min-h-0 bg-[var(--color-background)]"
+      className={`relative isolate z-[5] flex w-full flex-col ${oakSectionBorderTopClassName} ${oakSectionBorderClassName} min-h-0 bg-[var(--color-background)]`}
     >
       {/*
         Same shell as Latest content: padding only, no full-viewport min-height + vertical center
