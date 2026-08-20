@@ -137,7 +137,7 @@ export function HeroSection({
               <span className="sr-only">{title}. </span>
               <HeroTaglineContent tagline={tagline} />
             </motion.h1>
-            <p className="hero-home-subhead font-text-3 my-4 w-full max-w-none text-balance text-center font-medium leading-snug tracking-[0.02em] text-pretty text-[var(--color-primary)] sm:my-5">
+            <p className="hero-home-subhead font-text-3 my-4 w-full max-w-none text-balance text-center font-medium leading-[1.35] tracking-[0.02em] text-pretty text-[var(--color-primary)] sm:my-5">
               {(() => {
                 const sep = " ~ ";
                 const lines = description
@@ -149,7 +149,7 @@ export function HeroSection({
                   const lastLine = lines[lines.length - 1] ?? "";
                   const irisIndex = lastLine.lastIndexOf(sep);
                   return (
-                    <span className="flex w-full max-w-full flex-col gap-0 text-center leading-snug">
+                    <span className="flex w-full max-w-full flex-col gap-0.5 text-center leading-[1.35]">
                       {lines.slice(0, -1).map((line) => (
                         <span key={line} className="block w-full text-center">
                           {line}
@@ -185,7 +185,7 @@ export function HeroSection({
                     ? copy.slice(breakIndex + 2)
                     : copy.slice(breakIndex + 1);
                   return (
-                    <span className="flex w-full max-w-full flex-col gap-0 text-center leading-snug">
+                    <span className="flex w-full max-w-full flex-col gap-0.5 text-center leading-[1.35]">
                       <span className="block w-full text-center">{firstLine}</span>
                       <span className="block w-full text-center">
                         {secondLine}
@@ -198,7 +198,7 @@ export function HeroSection({
                   );
                 }
                 return (
-                  <span className="flex w-full max-w-full flex-col gap-0 text-center leading-snug">
+                  <span className="flex w-full max-w-full flex-col gap-0.5 text-center leading-[1.35]">
                     <span className="block w-full text-center">{copy}</span>
                     <span className="block w-full text-center">
                       {sep}

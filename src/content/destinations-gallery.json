@@ -403,7 +403,9 @@
       "caption": "Lisbon",
       "captionLine2": "Portugal",
       "alt": "Lisbon — travel photo",
-      "aspectRatio": 1.3333,
+      "aspectRatio": 0.72,
+      "tileScale": "tall",
+      "largeTile": true,
       "src": "/images/destinations/portugal/lisbon/IMG_3947.jpeg",
       "featured": true
     },

@@ -1,9 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import Link from "next/link";
 
-import { ContactFormModal } from "@/components/ui/ContactFormModal";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import {
   closingCtaButtonClassName,
@@ -16,7 +15,6 @@ type VideoCtaSectionProps = {
   posterImage: string;
   quote: string;
   ctaLabel: string;
-  formId: string;
 };
 
 /** Min-height = volledige viewport onder de nav (`svh` = betrouwbaar op iOS). Geen inner strip-wrapper die kan collapsen. */
@@ -55,10 +53,7 @@ export function VideoCtaSection({
   posterImage,
   quote,
   ctaLabel,
-  formId,
 }: VideoCtaSectionProps) {
-  const [contactOpen, setContactOpen] = useState(false);
-
   const quoteLines = quote.split("\n").filter((line) => line.trim().length > 0);
 
   return (
@@ -104,22 +99,12 @@ export function VideoCtaSection({
                 </span>
               ))}
             </p>
-            <button
-              type="button"
-              className={closingCtaButtonClassName}
-              onClick={() => setContactOpen(true)}
-            >
+            <Link href="/contact" className={closingCtaButtonClassName}>
               {ctaLabel}
-            </button>
+            </Link>
           </div>
         </ScrollReveal>
       </div>
-
-      <ContactFormModal
-        open={contactOpen}
-        onClose={() => setContactOpen(false)}
-        formId={formId}
-      />
     </section>
   );
 }

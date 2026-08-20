@@ -81,6 +81,8 @@ export type DestinationGalleryItem = {
   captionLine2?: string;
   /** When true, this tile is ordered before the rest of the gallery (hero / vivid shots). */
   featured?: boolean;
+  /** Extra top space (rem) to nudge a tile down in its masonry column. */
+  offsetTopRem?: number;
   placeholder?: string;
   href?: string;
 };

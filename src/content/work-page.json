@@ -128,8 +128,8 @@
   },
   "cta": {
     "title": "Did I create\nin your location yet?",
-    "buttonLabel": "My edits",
-    "buttonHref": "/work",
+    "buttonLabel": "Destinations",
+    "buttonHref": "/destinations",
     "backgroundImage": "/images/home/home-video-cta-2026-04-24-001720.jpeg"
   }
 }

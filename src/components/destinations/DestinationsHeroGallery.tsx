@@ -187,7 +187,14 @@ function GalleryTile({ item, priority }: GalleryTileProps) {
   const captionLabel = [item.caption, item.captionLine2].filter(Boolean).join(", ");
 
   return (
-    <div className="relative w-full">
+    <div
+      className="relative w-full"
+      style={
+        item.offsetTopRem
+          ? { marginTop: `${item.offsetTopRem}rem` }
+          : undefined
+      }
+    >
       <div
         className="dest-hero-tile group block w-full outline-none focus-visible:outline-none"
         aria-label={captionLabel ? `Destination photo: ${captionLabel}` : undefined}
